@@ -1,0 +1,35 @@
+﻿<Page x:Class="FrontEndWPF.MenuPrincipal"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FrontEndWPF"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MenuPrincipal"
+      SizeChanged="Page_SizeChanged">
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    <Grid Background="Black" Margin="0,10,0,10">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Rectangle x:Name="rect1" Height="101" Stroke="#FF171717" VerticalAlignment="Top" Fill="#FF171717" HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=page}"/>
+        <Image Height="144" Margin="0,-20,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.499,0.499" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" HorizontalAlignment="Left"/>
+        <Label Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,18,0,0" VerticalAlignment="Top" FontFamily="Roboto Black" FontSize="16" Foreground="White" HorizontalContentAlignment="Right" Padding="5,5,15,5"/>
+        <Label x:Name="fecha" Content="" HorizontalAlignment="Right" Margin="0,47,0,0" VerticalAlignment="Top" FontFamily="Roboto Black" FontSize="16" Foreground="White" Padding="5,5,15,5"/>
+        <Rectangle Stroke="Black" Fill="#FF171717" RadiusX="10" RadiusY="10" Margin="10,124,10,90"/>
+        <Button Content="Punto de Venta" Margin="28,144,499,0" VerticalAlignment="Top" Height="62" Background="#FF80A851" BorderBrush="#FF80A851" FontFamily="Roboto Light" FontSize="36"/>
+    </Grid>
+</Page>
