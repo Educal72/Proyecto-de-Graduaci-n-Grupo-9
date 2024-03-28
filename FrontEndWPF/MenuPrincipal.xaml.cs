@@ -37,11 +37,16 @@ namespace FrontEndWPF
 		
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			rect1.Width = e.NewSize.Width;
+			//rect1.Width = e.NewSize.Width;
 		}
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			NavigationService.Navigate(new Uri("Login.xaml", UriKind.Relative));
 		}
 	}
 }

@@ -9,11 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="1564534_customer_man_user_account_profile_icon.png" />
     <None Remove="323715758_861857158399502_6847062045596271805_n-removebg-preview.png" />
+    <None Remove="5402435_account_profile_user_avatar_man_icon.png" />
+    <None Remove="person-fill.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="1564534_customer_man_user_account_profile_icon.png" />
     <Resource Include="323715758_861857158399502_6847062045596271805_n-removebg-preview.png" />
+    <Resource Include="5402435_account_profile_user_avatar_man_icon.png" />
+    <Resource Include="person-fill.png" />
   </ItemGroup>
 
 </Project>

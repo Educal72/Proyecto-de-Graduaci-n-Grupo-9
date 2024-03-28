@@ -4,32 +4,51 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FrontEndWPF"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      mc:Ignorable="d"
       Title="MenuPrincipal"
-      SizeChanged="Page_SizeChanged">
+      SizeChanged="Page_SizeChanged" Background="Black" Width="1920" Height="1080">
     <Page.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
     </Page.Resources>
-    <Grid Background="Black" Margin="0,10,0,10">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Rectangle x:Name="rect1" Height="101" Stroke="#FF171717" VerticalAlignment="Top" Fill="#FF171717" HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=page}"/>
-        <Image Height="144" Margin="0,-20,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.499,0.499" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" HorizontalAlignment="Left"/>
-        <Label Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,18,0,0" VerticalAlignment="Top" FontFamily="Roboto Black" FontSize="16" Foreground="White" HorizontalContentAlignment="Right" Padding="5,5,15,5"/>
-        <Label x:Name="fecha" Content="" HorizontalAlignment="Right" Margin="0,47,0,0" VerticalAlignment="Top" FontFamily="Roboto Black" FontSize="16" Foreground="White" Padding="5,5,15,5"/>
-        <Rectangle Stroke="Black" Fill="#FF171717" RadiusX="10" RadiusY="10" Margin="10,124,10,90"/>
-        <Button Content="Punto de Venta" Margin="28,144,499,0" VerticalAlignment="Top" Height="62" Background="#FF80A851" BorderBrush="#FF80A851" FontFamily="Roboto Light" FontSize="36"/>
+    <Grid Width="1920" Height="1080" VerticalAlignment="Center" Background="Black">
+        <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727" d:IsLocked="True"/>
+        <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
+        <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="280" RenderTransformOrigin="0.5,1.289"/>
+        <Label x:Name="user" Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="175" RenderTransformOrigin="0.514,0.567"/>
+        <Grid Margin="1525,106,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="380">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition Width="380"/>
+            </Grid.ColumnDefinitions>
+            <Button
+                HorizontalAlignment="Left" Width="90" VerticalAlignment="Center" Margin="290,0,0,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Salir" Grid.ColumnSpan="2" Background="#FFABD904" Click="Button_Click"/>
+            <Button
+                HorizontalAlignment="Center" Width="190" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Configuración" Grid.Column="1" Background="#FFABD904"/>
+            <Button
+                HorizontalAlignment="Left" Width="90" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Perfil" Grid.ColumnSpan="2" Background="#FFABD904"/>
+        </Grid>
+        <Grid HorizontalAlignment="Center" Margin="0,254,0,0" Height="716" VerticalAlignment="Top">
+            <Button Content="Punto de Venta" HorizontalAlignment="Center" Height="175" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603"/>
+            <Button Content="Empleados" HorizontalAlignment="Center" Height="176" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603" Margin="0,180,0,0"/>
+            <Button Content="Administración" HorizontalAlignment="Center" Height="175" Margin="0,361,0,0" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603"/>
+            <Button Content="Reportería" HorizontalAlignment="Center" Height="175" Margin="0,541,0,0" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603"/>
+        </Grid>
+        <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" HorizontalAlignment="Center" Foreground="White" Width="870" Margin="0,1000,0,40" FontFamily="Roboto" FontSize="24"/>
     </Grid>
 </Page>
