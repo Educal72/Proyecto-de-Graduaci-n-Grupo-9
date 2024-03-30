@@ -27,7 +27,7 @@
         </Style>
     </Page.Resources>
     <Grid Width="1920" Height="1080" VerticalAlignment="Center" Background="Black">
-        <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727" d:IsLocked="True"/>
+        <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727"/>
         <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
         <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="280" RenderTransformOrigin="0.5,1.289"/>
         <Label x:Name="user" Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="175" RenderTransformOrigin="0.514,0.567"/>
@@ -44,7 +44,7 @@
                 HorizontalAlignment="Left" Width="90" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Perfil" Grid.ColumnSpan="2" Background="#FFABD904"/>
         </Grid>
         <Grid HorizontalAlignment="Center" Margin="0,254,0,0" Height="716" VerticalAlignment="Top">
-            <Button Content="Punto de Venta" HorizontalAlignment="Center" Height="175" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603"/>
+            <Button Content="Punto de Venta" HorizontalAlignment="Center" Height="175" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603" Click="Button_Click_1"/>
             <Button Content="Empleados" HorizontalAlignment="Center" Height="176" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603" Margin="0,180,0,0"/>
             <Button Content="Administración" HorizontalAlignment="Center" Height="175" Margin="0,361,0,0" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603"/>
             <Button Content="Reportería" HorizontalAlignment="Center" Height="175" Margin="0,541,0,0" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603"/>
