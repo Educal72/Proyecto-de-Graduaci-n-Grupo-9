@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="FrontEndWPF.PuntoVenta"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FrontEndWPF"
+             mc:Ignorable="d" Width="1920" Height="1080" Background="White">
+    <UserControl.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="CustomButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="200"/>
+        </Style>
+        <Style x:Key="ProductButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="100"/>
+        </Style>
+
+    </UserControl.Resources>
+    <Grid Width="1920" Height="1080" VerticalAlignment="Center" Background="White">
+        <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727" d:IsLocked="True"/>
+        <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
+        <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="280" RenderTransformOrigin="0.5,1.289"/>
+        <Label x:Name="user" Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="175" RenderTransformOrigin="0.514,0.567"/>
+        <Grid Margin="1525,106,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="380">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition Width="380"/>
+            </Grid.ColumnDefinitions>
+            <Button
+                HorizontalAlignment="Left" Width="90" VerticalAlignment="Bottom" Margin="290,0,0,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Grid.ColumnSpan="2" Background="#FFABD904" Click="Button_Click"/>
+            <Button
+                HorizontalAlignment="Center" Width="190" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Ordenes" Grid.Column="1" Background="#FFABD904"/>
+            <Button
+                HorizontalAlignment="Left" Width="90" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Perfil" Grid.ColumnSpan="2" Background="#FFABD904"/>
+        </Grid>
+        
+        <DataGrid x:Name="carrito" AutoGenerateColumns="false" Margin="10,210,1353,155">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Cantidad" Binding="{Binding Cantidad}" IsReadOnly="False" Width="120"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" IsReadOnly="False" Width="335"/>
+                <DataGridTextColumn Header="Precio" Binding="{Binding Precio}" IsReadOnly="False" Width="90"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+        <Button Content="+" HorizontalAlignment="Left" Height="200" Margin="572,210,0,0" VerticalAlignment="Top" Width="150" FontSize="72" FontFamily="Roboto Medium" Click="Button_Click_1" Foreground="Black"/>
+        <Button HorizontalAlignment="Left" Height="200" Margin="572,415,0,0" VerticalAlignment="Top" Width="150" FontSize="72" Content="-" FontFamily="Roboto Medium" Click="Button_Click_2"/>
+        <Button Content="✖" HorizontalAlignment="Left" Height="200" Margin="572,620,0,0" VerticalAlignment="Top" Width="150" FontFamily="Roboto Medium" FontSize="36" Foreground="Black" Click="Button_Click_3"/>
+        <Button Content="Producto Unico" HorizontalAlignment="Left" Height="200" Margin="572,825,0,0" VerticalAlignment="Top" Width="150" FontFamily="Roboto Medium" FontSize="20" Click="Button_Click_4"/>
+        <Label Content="Categorias" Margin="1694,199,0,0" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" HorizontalAlignment="Left" Width="192" RenderTransformOrigin="0.37,0.564"/>
+        
+        <ListBox x:Name="CategoryListBox" Margin="1660,259,0,0" Height="766" VerticalAlignment="Top" HorizontalAlignment="Center" Width="225">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <ListBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <Button Content="{Binding}" Click="CategoryButton_Click" Style="{StaticResource CustomButtonStyle}"/>
+                    </ListBoxItem>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button Content="Orden Lista" HorizontalAlignment="Left" Height="95" Margin="10,930,0,0" VerticalAlignment="Top" Width="557" FontFamily="Roboto Medium" FontSize="24" Background="#FFABD904"/>
+        <ScrollViewer Margin="745,259,265,55">
+            <WrapPanel x:Name="ProductWrapPanel" VerticalAlignment="Top" HorizontalAlignment="Center">
+
+            </WrapPanel>
+        </ScrollViewer>
+        <Label Content="Productos" Margin="1110,199,0,0" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" HorizontalAlignment="Left" Width="180"/>
+
+    </Grid>
+</UserControl>

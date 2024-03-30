@@ -48,7 +48,7 @@
         </Style>
     </Page.Resources>
     <Grid Background="Black" Height="1080" VerticalAlignment="Center">
-        <Grid Margin="737,211,737,305">
+        <Grid Margin="737,126,737,390">
             <Rectangle Height="356" Stroke="Black" VerticalAlignment="Top" Width="418" Fill="#FF171717" RadiusX="10" RadiusY="10" HorizontalAlignment="Center" Margin="0,155,0,0"/>
             <Label Content="Bienvenido" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Roboto Black" FontSize="36" Foreground="White" Margin="32,179,0,0" Height="48" Width="191"/>
             <Label Content="Correo Electrónico" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto Medium" FontSize="16" Margin="32,243,0,0" Height="30" Width="143"/>
