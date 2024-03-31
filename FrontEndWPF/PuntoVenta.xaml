@@ -47,6 +47,9 @@
             <Setter Property="Width" Value="200"/>
             <Setter Property="Height" Value="100"/>
         </Style>
+        <Style TargetType="DataGridCell">
+            <Setter Property="FontSize" Value="32"/>
+        </Style>
 
     </UserControl.Resources>
     <Grid Width="1920" Height="1080" VerticalAlignment="Center" Background="White">
@@ -62,16 +65,16 @@
             <Button
                 HorizontalAlignment="Left" Width="90" VerticalAlignment="Bottom" Margin="290,0,0,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Grid.ColumnSpan="2" Background="#FFABD904" Click="Button_Click"/>
             <Button
-                HorizontalAlignment="Center" Width="190" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Ordenes" Grid.Column="1" Background="#FFABD904"/>
+                HorizontalAlignment="Center" Width="190" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Ordenes" Grid.Column="1" Background="#FFABD904" Click="Button_Click_6"/>
             <Button
                 HorizontalAlignment="Left" Width="90" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Perfil" Grid.ColumnSpan="2" Background="#FFABD904"/>
         </Grid>
         
-        <DataGrid x:Name="carrito" AutoGenerateColumns="false" Margin="10,210,1353,155">
+        <DataGrid x:Name="carrito" AutoGenerateColumns="false" Margin="10,259,1353,155">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Cantidad" Binding="{Binding Cantidad}" IsReadOnly="False" Width="120"/>
                 <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" IsReadOnly="False" Width="335"/>
-                <DataGridTextColumn Header="Precio" Binding="{Binding Precio}" IsReadOnly="False" Width="90"/>
+                <DataGridTextColumn Header="Precio /u" Binding="{Binding Precio}" IsReadOnly="False" Width="90"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -92,13 +95,14 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button Content="Orden Lista" HorizontalAlignment="Left" Height="95" Margin="10,930,0,0" VerticalAlignment="Top" Width="557" FontFamily="Roboto Medium" FontSize="24" Background="#FFABD904"/>
+        <Button Content="Orden Lista" HorizontalAlignment="Left" Height="95" Margin="10,930,0,0" VerticalAlignment="Top" Width="557" FontFamily="Roboto Medium" FontSize="24" Background="#FFABD904" Click="Button_Click_5"/>
         <ScrollViewer Margin="745,259,265,55">
             <WrapPanel x:Name="ProductWrapPanel" VerticalAlignment="Top" HorizontalAlignment="Center">
 
             </WrapPanel>
         </ScrollViewer>
         <Label Content="Productos" Margin="1110,199,0,0" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" HorizontalAlignment="Left" Width="180"/>
+        <TextBox x:Name="buscar" HorizontalAlignment="Left" Margin="10,209,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="557" Height="45" FontFamily="Roboto" FontSize="36" PreviewKeyDown="ProductIdTextBox_PreviewKeyDown"/>
 
     </Grid>
 </UserControl>
