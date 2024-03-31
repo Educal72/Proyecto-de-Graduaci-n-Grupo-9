@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static FrontEndWPF.PuntoVenta;
 
 namespace FrontEndWPF
 {
@@ -26,18 +27,16 @@ namespace FrontEndWPF
 
 		private List<Product> products = new List<Product>
 		{
-			new Product { Name = "Product 1", Category = "Category 1", Price = 1299.00 },
-			new Product { Name = "Product 2", Category = "Category 1", Price = 1299.00 },
-			new Product { Name = "Product 2", Category = "Category 1", Price = 1299.00 },
-			new Product { Name = "Product 2", Category = "Category 1", Price = 1299.00 },
-			new Product { Name = "Product 2", Category = "Category 1", Price = 1299.00 },
-			new Product { Name = "Product 2", Category = "Category 1" , Price = 1299.00},
-			new Product { Name = "Product 2", Category = "Category 1", Price = 1299.00 },
-			new Product { Name = "Product 2", Category = "Category 1" , Price = 1299.00},
-			new Product { Name = "Product 2", Category = "Category 1" , Price = 1299.00},
-			new Product { Name = "Product 2", Category = "Category 1", Price = 1299.00 },
-			new Product { Name = "Product 3", Category = "Category 2", Price = 1299.00},
-            // Add more products and categories as needed
+			new Product { Id=1, Name = "Producto 1", Category = "Category 1", Price = 1299.00 },
+			new Product { Id=2, Name = "Producto 2", Category = "Category 2", Price = 1399.00 },
+			new Product { Id=3, Name = "Producto 3", Category = "Category 1", Price = 1499.00 },
+			new Product { Id=4, Name = "Producto 4", Category = "Category 2", Price = 1599.00 },
+			new Product { Id=5, Name = "Producto 5", Category = "Category 1", Price = 1899.00 },
+			new Product { Id=6, Name = "Producto 6", Category = "Category 3" , Price = 1099.00},
+			new Product { Id=7, Name = "Producto 7", Category = "Category 1", Price = 1099.00 },
+			new Product { Id=8, Name = "Producto 8", Category = "Category 2" , Price = 999.00},
+			new Product { Id=9, Name = "Producto 9", Category = "Category 4" , Price = 1299.00},
+			new Product { Id=10, Name = "Producto 10", Category = "Category 2", Price = 1299.00 },
         };
 
 		public PuntoVenta()
@@ -52,11 +51,64 @@ namespace FrontEndWPF
 			{
 				CategoryListBox.Items.Add(category);
 			}
+			buscar.Focus();
 		}
 		
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
+		}
+
+		private void ProductIdTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
+			{
+				SearchProduct();
+				// Mark the event as handled, so it won't propagate further
+				e.Handled = true;
+			}
+		}
+
+		private void SearchProduct()
+		{
+			int productId;
+			if (int.TryParse(buscar.Text, out productId))
+			{
+				Product product = products.FirstOrDefault(p => p.Id == productId);
+				carritoItem existingProduct = carrito.Items.OfType<carritoItem>().FirstOrDefault(p => p.Id == productId);
+				if (product != null)
+				{
+					if (existingProduct != null)
+					{
+						existingProduct.Cantidad += 1;
+						buscar.Text = "";
+						carrito.Items.Refresh();
+					}
+					else { 
+
+						var cartItem = new carritoItem
+					{
+						Id = product.Id,
+						Nombre = product.Name,
+						Precio = product.Price,
+						Cantidad = 1
+					};
+
+					carrito.Items.Add(cartItem);
+					buscar.Text = "";
+					carrito.Items.Refresh();
+					}
+					
+				}
+				else
+				{
+					MessageBox.Show("No se encontro el producto", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+			}
+			else
+			{
+				MessageBox.Show("Por favor, introduzca un ID valido!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
 		}
 
 		private void CategoryButton_Click(object sender, RoutedEventArgs e)
@@ -81,18 +133,27 @@ namespace FrontEndWPF
 			Button button = (Button)sender;
 			string productName = button.Content.ToString();
 			Product selectedProduct = products.FirstOrDefault(p => p.Name == productName);
+			carritoItem existingProduct = carrito.Items.OfType<carritoItem>().FirstOrDefault(p => p.Id == selectedProduct.Id);
 			if (selectedProduct != null)
 			{
-				// Create a new CartItem object
-				var cartItem = new carritoItem
+				if (existingProduct != null)
 				{
-					Nombre = selectedProduct.Name,
-					Precio = selectedProduct.Price,
-					Cantidad = 1
-				};
+					existingProduct.Cantidad += 1;
+					buscar.Text = "";
+					carrito.Items.Refresh();
+				}
+				else
+				{
+					var cartItem = new carritoItem
+					{
+						Id = selectedProduct.Id,
+						Nombre = selectedProduct.Name,
+						Precio = selectedProduct.Price,
+						Cantidad = 1
+					};
+					carrito.Items.Add(cartItem);
+				}
 
-				// Add the new CartItem to the DataGrid
-				carrito.Items.Add(cartItem);
 			}
 		}
 
@@ -109,12 +170,14 @@ namespace FrontEndWPF
 
 		public class Product
 		{
+			public int Id { get; set; }
 			public string Name { get; set; }
 			public string Category { get; set; }
 			public double Price { get; set; }
 		}
 		public class carritoItem
 		{
+			public int Id { get; set; }
 			public string Nombre { get; set; }
 			public double Precio { get; set; }
 			public int Cantidad { get; set; }
@@ -172,6 +235,24 @@ namespace FrontEndWPF
 
 
 				carrito.Items.Add(new carritoItem { Nombre = itemName, Precio = itemPrice, Cantidad = 1 });
+			}
+		}
+
+		private void Button_Click_5(object sender, RoutedEventArgs e)
+		{
+			Window parentWindow = Window.GetWindow(this);
+			if (parentWindow != null && parentWindow is MainWindow mainWindow)
+			{
+				mainWindow.mainFrame.Navigate(new ordenesListado());
+			}
+		}
+
+		private void Button_Click_6(object sender, RoutedEventArgs e)
+		{
+			Window parentWindow = Window.GetWindow(this);
+			if (parentWindow != null && parentWindow is MainWindow mainWindow)
+			{
+				mainWindow.mainFrame.Navigate(new ordenesListado());
 			}
 		}
 	}
