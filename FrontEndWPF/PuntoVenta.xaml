@@ -5,6 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FrontEndWPF"
              mc:Ignorable="d" Width="1920" Height="1080" Background="White">
+    <UserControl.DataContext>
+        <local:ordenesListado />
+    </UserControl.DataContext>
     <UserControl.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -69,7 +72,7 @@
             <Button
                 HorizontalAlignment="Left" Width="90" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Perfil" Grid.ColumnSpan="2" Background="#FFABD904"/>
         </Grid>
-        
+
         <DataGrid x:Name="carrito" AutoGenerateColumns="false" Margin="10,259,1353,155">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Cantidad" Binding="{Binding Cantidad}" IsReadOnly="False" Width="120"/>
@@ -83,9 +86,15 @@
         <Button HorizontalAlignment="Left" Height="200" Margin="572,415,0,0" VerticalAlignment="Top" Width="150" FontSize="72" Content="-" FontFamily="Roboto Medium" Click="Button_Click_2"/>
         <Button Content="✖" HorizontalAlignment="Left" Height="200" Margin="572,620,0,0" VerticalAlignment="Top" Width="150" FontFamily="Roboto Medium" FontSize="36" Foreground="Black" Click="Button_Click_3"/>
         <Button Content="Producto Unico" HorizontalAlignment="Left" Height="200" Margin="572,825,0,0" VerticalAlignment="Top" Width="150" FontFamily="Roboto Medium" FontSize="20" Click="Button_Click_4"/>
-        <Label Content="Categorias" Margin="1694,199,0,0" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" HorizontalAlignment="Left" Width="192" RenderTransformOrigin="0.37,0.564"/>
-        
-        <ListBox x:Name="CategoryListBox" Margin="1660,259,0,0" Height="766" VerticalAlignment="Top" HorizontalAlignment="Center" Width="225">
+        <Label Content="Categorias" Margin="1674,199,0,0" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" HorizontalAlignment="Left" Width="192" RenderTransformOrigin="0.37,0.564"/>
+
+        <ListBox x:Name="CategoryListBox" Margin="1642,259,0,0" Height="766" VerticalAlignment="Top" HorizontalAlignment="Center" Width="263" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Top"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <ListBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
@@ -96,12 +105,12 @@
         </ListBox>
 
         <Button Content="Orden Lista" HorizontalAlignment="Left" Height="95" Margin="10,930,0,0" VerticalAlignment="Top" Width="557" FontFamily="Roboto Medium" FontSize="24" Background="#FFABD904" Click="Button_Click_5"/>
-        <ScrollViewer Margin="745,259,265,55">
+        <ScrollViewer Margin="727,259,283,55">
             <WrapPanel x:Name="ProductWrapPanel" VerticalAlignment="Top" HorizontalAlignment="Center">
 
             </WrapPanel>
         </ScrollViewer>
-        <Label Content="Productos" Margin="1110,199,0,0" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" HorizontalAlignment="Left" Width="180"/>
+        <Label Content="Productos" Margin="1070,199,0,0" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" HorizontalAlignment="Left" Width="180"/>
         <TextBox x:Name="buscar" HorizontalAlignment="Left" Margin="10,209,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="557" Height="45" FontFamily="Roboto" FontSize="36" PreviewKeyDown="ProductIdTextBox_PreviewKeyDown"/>
 
     </Grid>

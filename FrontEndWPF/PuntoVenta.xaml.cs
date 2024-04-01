@@ -35,6 +35,7 @@ namespace FrontEndWPF
 			new Product { Id=6, Name = "Producto 6", Category = "Category 3" , Price = 1099.00},
 			new Product { Id=7, Name = "Producto 7", Category = "Category 1", Price = 1099.00 },
 			new Product { Id=8, Name = "Producto 8", Category = "Category 2" , Price = 999.00},
+			new Product { Id=11, Name = "Producto 11", Category = "Category 2" , Price = 999.00},
 			new Product { Id=9, Name = "Producto 9", Category = "Category 4" , Price = 1299.00},
 			new Product { Id=10, Name = "Producto 10", Category = "Category 2", Price = 1299.00 },
         };
@@ -64,7 +65,6 @@ namespace FrontEndWPF
 			if (e.Key == Key.Enter)
 			{
 				SearchProduct();
-				// Mark the event as handled, so it won't propagate further
 				e.Handled = true;
 			}
 		}
@@ -113,7 +113,7 @@ namespace FrontEndWPF
 
 		private void CategoryButton_Click(object sender, RoutedEventArgs e)
 		{
-			ProductWrapPanel.Children.Clear(); // Clear existing buttons
+			ProductWrapPanel.Children.Clear();
 			string selectedCategory = ((Button)sender).Content.ToString();
 			var categoryProducts = products.Where(p => p.Category == selectedCategory);
 			foreach (var product in categoryProducts)
