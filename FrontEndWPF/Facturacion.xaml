@@ -1,11 +1,11 @@
-﻿<Page x:Class="FrontEndWPF.ordenesListado"
+﻿<Page x:Class="FrontEndWPF.Facturacion"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FrontEndWPF"
       mc:Ignorable="d"
-      Title="ordenesListado" Width="1920" Height="1080">
+      Title="Facturacion" Width="1920" Height="1080">
     <Page.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
