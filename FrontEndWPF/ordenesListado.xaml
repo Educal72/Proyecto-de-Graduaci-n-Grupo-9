@@ -40,8 +40,6 @@
             </Grid.ColumnDefinitions>
             <Button
                 HorizontalAlignment="Left" Width="90" VerticalAlignment="Bottom" Margin="290,0,0,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Grid.ColumnSpan="2" Background="#FFABD904" Click="Button_Click"/>
-            <Button
-                HorizontalAlignment="Left" Width="90" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Perfil" Grid.ColumnSpan="2" Background="#FFABD904" Margin="190,0,0,0"/>
         </Grid>
         <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding Orders}" HorizontalScrollBarVisibility="Auto" IsReadOnly="True" SelectionMode="Single" Margin="10,225,410,50">
             <DataGrid.Columns>

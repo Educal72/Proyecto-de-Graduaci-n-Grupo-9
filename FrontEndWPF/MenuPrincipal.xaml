@@ -41,7 +41,7 @@
             <Button
                 HorizontalAlignment="Center" Width="190" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Configuración" Grid.Column="1" Background="#FFABD904"/>
             <Button
-                HorizontalAlignment="Left" Width="90" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Perfil" Grid.ColumnSpan="2" Background="#FFABD904"/>
+                HorizontalAlignment="Left" Width="90" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Perfil" Grid.ColumnSpan="2" Background="#FFABD904" Click="Button_Click_2"/>
         </Grid>
         <Grid HorizontalAlignment="Center" Margin="0,254,0,0" Height="716" VerticalAlignment="Top">
             <Button Content="Punto de Venta" HorizontalAlignment="Center" Height="175" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603" Click="Button_Click_1"/>

@@ -26,4 +26,10 @@
     <Resource Include="person-fill.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="verCliente.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

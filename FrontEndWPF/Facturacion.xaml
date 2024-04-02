@@ -40,37 +40,33 @@
             </Grid.ColumnDefinitions>
             <Button
                 HorizontalAlignment="Left" Width="90" VerticalAlignment="Bottom" Margin="290,0,0,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Grid.ColumnSpan="2" Background="#FFABD904" Click="Button_Click"/>
-            <Button
-                HorizontalAlignment="Left" Width="90" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Perfil" Grid.ColumnSpan="2" Background="#FFABD904" Margin="190,0,0,0"/>
         </Grid>
-        <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding Orders}" HorizontalScrollBarVisibility="Auto" IsReadOnly="True" SelectionMode="Single" Margin="10,225,410,50">
+        <Button Content="Procesar" HorizontalAlignment="Left" Margin="765,915,0,0" VerticalAlignment="Top" Height="115" Width="1140" FontFamily="Roboto" FontSize="72" Background="#FFABD904" Click="Button_Click_4"/>
+        <Button Content="Asociar Cliente" HorizontalAlignment="Left" Margin="1340,815,0,0" VerticalAlignment="Top" Height="95" Width="565" FontFamily="Roboto" FontSize="72" Click="Button_Click_2"/>
+        <Button Content="Pago Exacto" HorizontalAlignment="Left" Margin="1715,655,0,0" VerticalAlignment="Top" Height="75" Width="190" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.517,0.579" Click="Button_Click_1"/>
+        <DataGrid x:Name="carrito" AutoGenerateColumns="false" Margin="10,214,1160,50">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                <DataGridTemplateColumn Header="Productos" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <ItemsControl ItemsSource="{Binding Productos}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock>
-                                        <Run Text="{Binding Cantidad}"/>
-                                        <Run Text="x"/>
-                                        <Run Text="{Binding Nombre}"/>
-                                            </TextBlock>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Hora de Creación" Binding="{Binding CreationTime}" Width="Auto"/>
-                <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="Auto"/>
+                <DataGridTextColumn Header="Cantidad" Binding="{Binding Cantidad}" IsReadOnly="False" Width="120"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" IsReadOnly="False" Width="*"/>
+                <DataGridTextColumn Header="Precio /u" Binding="{Binding Precio}" IsReadOnly="False" Width="90"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Facturar" HorizontalAlignment="Left" Margin="1565,730,0,0" VerticalAlignment="Top" Height="300" Width="300" FontFamily="Roboto" FontSize="72" Background="#FFABD904" Click="Button_Click_4"/>
-        <Button Content="Eliminar" HorizontalAlignment="Left" Margin="1565,395,0,0" VerticalAlignment="Top" Height="125" Width="300" FontFamily="Roboto" FontSize="72" Click="Button_Click_1"/>
-        <Button Content="Ver" HorizontalAlignment="Left" Margin="1565,525,0,0" VerticalAlignment="Top" Height="200" Width="300" FontFamily="Roboto" FontSize="72" RenderTransformOrigin="0.45,0" Click="Button_Click_2"/>
+        <Label Content="Servicio: %" HorizontalAlignment="Left" Margin="790,251,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.463,0.49"/>
+        <Label Content="Descuento: ₡ " HorizontalAlignment="Left" Margin="790,331,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.463,0.49"/>
+        <Label Content="Impuesto: %" HorizontalAlignment="Left" Margin="790,421,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.531,0.49"/>
+        <Label Content="Subtotal: ₡ " HorizontalAlignment="Left" Margin="790,512,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.463,0.49"/>
+        <TextBox x:Name="servicio" HorizontalAlignment="Left" Margin="925,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="345" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="descuento" HorizontalAlignment="Left" Margin="949,325,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="321" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="impuesto" HorizontalAlignment="Left" Margin="936,415,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="334" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="subtotal" HorizontalAlignment="Left" Margin="920,506,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="350" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center"/>
+        <Label Content="Total: ₡ " HorizontalAlignment="Left" Margin="1302,472,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="48" RenderTransformOrigin="0.531,0.49" FontWeight="Bold"/>
+        <TextBox x:Name="total" HorizontalAlignment="Left" Margin="1487,456,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="418" Height="100" FontSize="72" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center"/>
+        <Label Content="Cantidad Pagada: ₡ " HorizontalAlignment="Left" Margin="790,662,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="48" RenderTransformOrigin="0.463,0.49"/>
+        <TextBox x:Name="pagado" HorizontalAlignment="Left" Margin="1232,655,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="475" Height="75" UndoLimit="106" FontFamily="Roboto" FontSize="48" VerticalContentAlignment="Center" />
+        <Button Content="Asociar Salonero" HorizontalAlignment="Left" Margin="765,815,0,0" VerticalAlignment="Top" Height="95" Width="565" FontFamily="Roboto" FontSize="70" Click="Button_Click_3"/>
+        <Label Content="Cliente Asociado:" HorizontalAlignment="Left" Margin="1302,251,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.463,0.49"/>
+        <TextBox x:Name="cliente" HorizontalAlignment="Left" Margin="1503,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" Text="Génerico N/A" VerticalContentAlignment="Center"/>
+        <Label Content="Salonero Asociado:" HorizontalAlignment="Left" Margin="1302,331,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.463,0.49"/>
+        <TextBox x:Name="salonero" HorizontalAlignment="Left" Margin="1523,325,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="382" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center" Text="Ninguno"/>
     </Grid>
 </Page>

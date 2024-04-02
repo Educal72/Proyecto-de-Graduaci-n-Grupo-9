@@ -1,0 +1,67 @@
+﻿<Window x:Class="FrontEndWPF.resultadoFacturacion"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FrontEndWPF"
+        mc:Ignorable="d"
+        Title="resultadoFacturacion" Height="360" Width="520">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Total a Pagar:" Grid.Row="0" Margin="5,0,0,5" HorizontalAlignment="Left" Width="240" FontWeight="Bold" FontFamily="Roboto" FontSize="36"/>
+        <Label Content="Cantidad Pagada:" Grid.Row="1" Margin="5,5,0,5" HorizontalAlignment="Left" Width="298" FontWeight="Bold" FontFamily="Roboto" FontSize="36"/>
+        <Label Content="Vuelto:" Grid.Row="2" Margin="5,5,0,0" Width="125" HorizontalAlignment="Left" FontWeight="Bold" FontSize="36" FontFamily="Roboto"/>
+        <Label Content="Puntos Ganados:" Grid.Row="3" Margin="5,5,0,70" HorizontalAlignment="Left" Width="287" FontWeight="Bold" FontFamily="Roboto" FontSize="36"/>
+
+        <TextBox x:Name="total" Grid.Row="0" Margin="245,4,10,8" FontFamily="Roboto" FontSize="36" TextAlignment="Right" Height="50" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" IsEnabled="False">
+            <TextBox.BorderBrush>
+                <SolidColorBrush Color="#FFABADB3" Opacity="0"/>
+            </TextBox.BorderBrush>
+        </TextBox>
+        <TextBox x:Name="pagado" Grid.Row="1" Margin="303,7,10,6" FontFamily="Roboto" FontSize="36" TextAlignment="Right" Height="50" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" IsEnabled="False">
+            <TextBox.BorderBrush>
+                <SolidColorBrush Color="#FFABADB3" Opacity="0"/>
+            </TextBox.BorderBrush>
+        </TextBox>
+        <TextBox x:Name="vuelto" Grid.Row="2" Margin="130,9,10,4" FontFamily="Roboto" FontSize="36" TextAlignment="Right" Height="50" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" IsEnabled="False">
+            <TextBox.BorderBrush>
+                <SolidColorBrush Color="#FFABADB3" Opacity="0"/>
+            </TextBox.BorderBrush>
+        </TextBox>
+        <Button Content="Imprimir" HorizontalAlignment="Left" Margin="250,63,0,0" Grid.Row="3" VerticalAlignment="Top" Height="60" Width="115" FontFamily="Roboto" FontSize="24" Click="Button_Click_1"/>
+        <Button Content="Cerrar" HorizontalAlignment="Left" Margin="130,63,0,0" Grid.Row="3" VerticalAlignment="Top" Height="60" Width="115" Click="Button_Click" FontSize="24" FontFamily="Roboto"/>
+        <Rectangle Height="4" Margin="0,58,-5,0" Stroke="Black" VerticalAlignment="Top" Fill="Black"/>
+        <Rectangle HorizontalAlignment="Center" Height="5" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Width="520" Fill="Black" Margin="0,63,0,0" Grid.RowSpan="2"/>
+        <Rectangle HorizontalAlignment="Center" Height="5" Grid.Row="3" Stroke="Black" VerticalAlignment="Top" Width="520" Fill="Black"/>
+        <TextBox x:Name="puntos" Grid.Row="3" Margin="297,7,10,71" FontFamily="Roboto" FontSize="36" TextAlignment="Right" Height="50" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" IsEnabled="False">
+            <TextBox.BorderBrush>
+                <SolidColorBrush Color="#FFABADB3" Opacity="0"/>
+            </TextBox.BorderBrush>
+        </TextBox>
+    </Grid>
+</Window>
