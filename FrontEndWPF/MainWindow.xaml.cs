@@ -26,5 +26,9 @@ namespace FrontEndWPF
 			Login Pagina2 = new Login();
 			mainFrame.Navigate(Pagina2);
 		}
+		public void ChangePageToPuntoVenta()
+		{
+			mainFrame.Navigate(new PuntoVenta());
+		}
 	}
 }
