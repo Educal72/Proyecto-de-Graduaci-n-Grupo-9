@@ -15,25 +15,21 @@ using System.Windows.Shapes;
 
 namespace FrontEndWPF
 {
-	/// <summary>
-	/// Lógica de interacción para Perfil.xaml
-	/// </summary>
-	public partial class Perfil : Page
-	{
-		MainWindow main = new MainWindow();
-		public Perfil()
-		{
+    /// <summary>
+    /// Lógica de interacción para ExtraPagina.xaml
+    /// </summary>
+    public partial class Login : Page
+    {
+        public Login()
+        {
 			InitializeComponent();
-		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			NavigationService.GoBack();
-		}
+        }
+		
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			NavigationService.Navigate(new Uri("MenuPrincipal.xaml", UriKind.Relative));
+			NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
 		}
-    }
+	}
 }

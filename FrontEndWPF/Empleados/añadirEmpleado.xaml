@@ -49,7 +49,7 @@
         <Label Content="Puesto:" HorizontalAlignment="Left" Margin="10,334,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
         <TextBox x:Name="Puesto" HorizontalAlignment="Left" Margin="106,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="422" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Label Content="Fecha:" HorizontalAlignment="Left" Margin="10,380,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <Button Content="Actual" HorizontalAlignment="Left" Margin="533,384,0,0" VerticalAlignment="Top" Height="31" Width="50" FontFamily="Roboto"/>
+        <Button Content="Actual" HorizontalAlignment="Left" Margin="533,384,0,0" VerticalAlignment="Top" Height="31" Width="50" FontFamily="Roboto" Click="Button_Click"/>
         <Label Content="Contraseña:" HorizontalAlignment="Left" Margin="10,425,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
         <TextBox x:Name="Contraseña" HorizontalAlignment="Left" Margin="153,429,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Label x:Name="___Sin_nombre_" Content="Salario:" HorizontalAlignment="Left" Margin="10,470,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>

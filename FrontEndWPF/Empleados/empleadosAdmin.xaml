@@ -47,7 +47,7 @@
 
             <ListBox x:Name="MenuListBox" Grid.Column="0" SelectionChanged="MenuListBox_SelectionChanged" Grid.ColumnSpan="2" Margin="0,-15,1620,0" Foreground="White" Background="#FF272727" BorderBrush="#FF272727">
                 <ListBox.Resources>
-                    <!-- Define a Style for ListBoxItem -->
+
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Template">
                             <Setter.Value>
@@ -57,7 +57,6 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="5" Padding="0,10">
-                                        <!-- Adjust the CornerRadius and Padding as needed -->
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                     <ControlTemplate.Triggers>

@@ -45,9 +45,9 @@
         </Grid>
         <Grid HorizontalAlignment="Center" Margin="0,254,0,0" Height="716" VerticalAlignment="Top">
             <Button Content="Punto de Venta" HorizontalAlignment="Center" Height="175" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603" Click="Button_Click_1"/>
-            <Button Content="Empleados" HorizontalAlignment="Center" Height="176" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603" Margin="0,180,0,0" Click="Button_Click_3"/>
-            <Button Content="Inventario" HorizontalAlignment="Center" Height="175" Margin="0,361,0,0" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603"/>
-            <Button Content="Reportería" HorizontalAlignment="Center" Height="175" Margin="0,541,0,0" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603"/>
+            <Button Content="Reportería" HorizontalAlignment="Center" Height="176" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603" Margin="0,180,0,0" Click="Button_Click_3"/>
+            <Button Content="Empleados" HorizontalAlignment="Center" Height="175" Margin="0,361,0,0" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603" Click="Button_Click_4"/>
+            <Button Content="Inventario" HorizontalAlignment="Center" Height="175" Margin="0,541,0,0" VerticalAlignment="Top" Width="720" FontFamily="Roboto Thin" FontSize="72" Background="#FF72A603"/>
         </Grid>
         <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" HorizontalAlignment="Center" Foreground="White" Width="870" Margin="0,1000,0,40" FontFamily="Roboto" FontSize="24"/>
     </Grid>

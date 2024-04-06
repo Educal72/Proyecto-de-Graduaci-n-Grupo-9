@@ -46,22 +46,27 @@ namespace FrontEndWPF
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			NavigationService.Navigate(new Uri("Login.xaml", UriKind.Relative));
+			NavigationService.Navigate(new Uri("Index/Login.xaml", UriKind.Relative));
 		}
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			NavigationService.Navigate(new Uri("PuntoVenta.xaml", UriKind.Relative));
+			NavigationService.Navigate(new Uri("PuntoDeVenta/PuntoVenta.xaml", UriKind.Relative));
 		}
 
 		private void Button_Click_2(object sender, RoutedEventArgs e)
 		{
-			NavigationService.Navigate(new Uri("Perfil.xaml", UriKind.Relative));
+			NavigationService.Navigate(new Uri("Index/Perfil.xaml", UriKind.Relative));
 		}
 
 		private void Button_Click_3(object sender, RoutedEventArgs e)
 		{
-			NavigationService.Navigate(new Uri("empleadosAdmin.xaml", UriKind.Relative));
+			
+		}
+
+		private void Button_Click_4(object sender, RoutedEventArgs e)
+		{
+			NavigationService.Navigate(new Uri("Empleados/empleadosAdmin.xaml", UriKind.Relative));
 		}
 	}
 }
