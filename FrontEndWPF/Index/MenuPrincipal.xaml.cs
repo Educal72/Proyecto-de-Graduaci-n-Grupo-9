@@ -68,5 +68,15 @@ namespace FrontEndWPF
 		{
 			NavigationService.Navigate(new Uri("Empleados/empleadosAdmin.xaml", UriKind.Relative));
 		}
+
+		private void Button_Click_5(object sender, RoutedEventArgs e)
+		{
+			NavigationService.Navigate(new Uri("Index/Configuración.xaml", UriKind.Relative));
+		}
+
+		private void Button_Click_6(object sender, RoutedEventArgs e)
+		{
+			NavigationService.Navigate(new Uri("Inventario/Inventario.xaml", UriKind.Relative));
+		}
 	}
 }
