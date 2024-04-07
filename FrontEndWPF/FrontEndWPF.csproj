@@ -27,6 +27,18 @@
     <Compile Update="Empleados\nuevaFAQ.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Index\Impuesto.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Index\Impresora.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Index\BaseDeDatos.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Inventario\nuevoProducto.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="PuntoDeVenta\verCliente.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
