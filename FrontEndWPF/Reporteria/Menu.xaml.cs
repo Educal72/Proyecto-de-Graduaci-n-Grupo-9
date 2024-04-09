@@ -31,6 +31,7 @@ namespace FrontEndWPF.Reporteria
             comboBox.Items.Add("Registro Financiero");
             comboBox.Items.Add("Auditoria");
             comboBox.Items.Add("Normativas");
+            comboBox.SelectedIndex = 1;
         }
 
 
@@ -85,8 +86,6 @@ namespace FrontEndWPF.Reporteria
 
             switch (selectedItem)
             {
-
-
                 case "Inicios de sesion":
                     MainFrame.Navigate(new InicioDeSesion());
                     break;
