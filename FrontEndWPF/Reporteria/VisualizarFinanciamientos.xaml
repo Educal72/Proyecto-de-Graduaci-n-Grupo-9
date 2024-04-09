@@ -1,0 +1,53 @@
+﻿<!-- VisualizarFinanciamientos.xaml -->
+<Page x:Class="FrontEndWPF.Reporteria.VisualizarFinanciamientos"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FrontEndWPF.Reporteria"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="VisualizarFinanciamientos">
+
+    <Grid>
+        <DataGrid x:Name="financiamientosDataGrid" AutoGenerateColumns="False" Margin="10,104,156,10"
+                  ItemsSource="{Binding Financiamientos}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nombre Empresa" Binding="{Binding NombreEmpresa}"/>
+                <DataGridTextColumn Header="Motivo" Binding="{Binding Motivo}"/>
+                <DataGridTextColumn Header="Fecha Financiación" Binding="{Binding FechaFinanciacion}"/>
+                <DataGridTextColumn Header="Estado" Binding="{Binding Estado}"/>
+                <DataGridTextColumn Header="Monto Pendiente" Binding="{Binding MontoPendiente}"/>
+                <DataGridTextColumn Header="Monto Cancelado" Binding="{Binding MontoCancelado}"/>
+                <DataGridTextColumn Header="Intereses" Binding="{Binding Intereses}"/>
+                <!-- Agregar columna para la opción de descargar -->
+                <DataGridTemplateColumn Header="Descargar">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Descargar" Click="Descargar_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <CheckBox Content="Visualizar solo activos" HorizontalAlignment="Left" Margin="231,73,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Foreground="#FFF1E5E5"/>
+        <Label Content="Financiamientos" HorizontalAlignment="Left" Margin="400,0,0,0" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Width="137" Background="#FF18A20C" FontSize="18">
+            <Label.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FFA28888" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.BorderBrush>
+        </Label>
+        <TextBox HorizontalAlignment="Left" Margin="10,72,0,0" TextWrapping="Wrap" Text="Buscar..." VerticalAlignment="Top" Width="216" Height="16" RenderTransformOrigin="0.5,0.5">
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0"/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+        </TextBox>
+    </Grid>
+</Page>

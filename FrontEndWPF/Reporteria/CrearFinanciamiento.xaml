@@ -1,0 +1,61 @@
+﻿<!-- CrearFinanciamiento.xaml -->
+<Page x:Class="FrontEndWPF.Reporteria.CrearFinanciamiento"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FrontEndWPF.Reporteria"
+      mc:Ignorable="d"
+      Title="CrearFinanciamiento" Width="461" Height="475">
+    <Grid Margin="0,0,95,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Nombre de Empresa -->
+        <Label Content="Nombre de Empresa:" Grid.Row="0" Background="{x:Null}" Foreground="#FF51D219"/>
+        <TextBox x:Name="txtNombreEmpresa" Grid.Row="1" Margin="5"/>
+
+        <!-- Motivo -->
+        <Label Content="Motivo:" Grid.Row="2" Foreground="#FF51D219"/>
+        <TextBox x:Name="txtMotivo" Grid.Row="3" Margin="5"/>
+
+        <!-- Fecha de Financiacion -->
+        <Label Content="Fecha de Financiación:" Grid.Row="4" Foreground="#FF51D219"/>
+        <DatePicker x:Name="dpFechaFinanciacion" Grid.Row="5" Margin="5"/>
+
+        <!-- Estado -->
+        <Label Content="Estado:" Grid.Row="6" Foreground="#FF51D219"/>
+        <ComboBox x:Name="cmbEstado" Grid.Row="7" Margin="5">
+            <ComboBoxItem Content="Activo"/>
+            <ComboBoxItem Content="Inactivo"/>
+            <ComboBoxItem Content="Vencido"/>
+        </ComboBox>
+
+        <!-- Monto Pendiente -->
+        <Label Content="Monto Pendiente:" Grid.Row="8" Foreground="#FF51D219"/>
+        <TextBox x:Name="txtMontoPendiente" Grid.Row="9" Margin="5"/>
+
+        <!-- Monto Cancelado -->
+        <Label Content="Monto Cancelado:" Grid.Row="10" Foreground="#FF51D219"/>
+        <TextBox x:Name="txtMontoCancelado" Grid.Row="11" Margin="5"/>
+
+        <!-- Intereses -->
+        <Label Content="Intereses:" Grid.Row="12"/>
+        <TextBox x:Name="txtIntereses" Grid.Row="13" Margin="5"/>
+
+        <!-- Botón Crear Financiamiento -->
+        <Button Content="Crear Financiamiento" Grid.Row="11" Margin="100,49,138,-39"/>
+    </Grid>
+</Page>

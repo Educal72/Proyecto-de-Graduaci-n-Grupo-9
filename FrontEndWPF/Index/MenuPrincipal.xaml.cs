@@ -61,10 +61,10 @@ namespace FrontEndWPF
 
 		private void Button_Click_3(object sender, RoutedEventArgs e)
 		{
-			
-		}
+            NavigationService.Navigate(new Uri("Reporteria/Menu.xaml", UriKind.Relative));
+        }
 
-		private void Button_Click_4(object sender, RoutedEventArgs e)
+        private void Button_Click_4(object sender, RoutedEventArgs e)
 		{
 			NavigationService.Navigate(new Uri("Empleados/empleadosAdmin.xaml", UriKind.Relative));
 		}

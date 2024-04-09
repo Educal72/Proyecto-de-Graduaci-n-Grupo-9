@@ -1,0 +1,97 @@
+﻿<Page x:Class="FrontEndWPF.Reporteria.CrearInformeAuditoria"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FrontEndWPF.Reporteria"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="CrearInformeAuditoria">
+
+    <Page.Resources>
+        <!-- Estilo para los TextBox -->
+        <Style TargetType="TextBox" x:Key="TextBoxStyle">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="MinWidth" Value="200"/>
+            <Setter Property="BorderBrush" Value="#ABABAB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="#F9F9F9"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Estilo para los Label -->
+        <Style TargetType="Label" x:Key="LabelStyle">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Content="Código Auditoría" Style="{StaticResource LabelStyle}"/>
+        <TextBox Grid.Row="0" x:Name="txtCodigoAuditoria" Style="{StaticResource TextBoxStyle}" Text="Ingrese el código de la auditoría">
+            <TextBox.Foreground>
+                <SolidColorBrush Color="#ABABAB"/>
+            </TextBox.Foreground>
+        </TextBox>
+
+        <Label Grid.Row="1" Content="Descripción" Style="{StaticResource LabelStyle}"/>
+        <TextBox Grid.Row="1" x:Name="txtDescripcion" Style="{StaticResource TextBoxStyle}" Text="Ingrese la descripción de la auditoría">
+            <TextBox.Foreground>
+                <SolidColorBrush Color="#ABABAB"/>
+            </TextBox.Foreground>
+        </TextBox>
+
+        <Label Grid.Row="2" Content="Tipo de Auditoría" Style="{StaticResource LabelStyle}"/>
+        <TextBox Grid.Row="2" x:Name="txtTipoAuditoria" Style="{StaticResource TextBoxStyle}" Text="Ingrese el tipo de auditoría">
+            <TextBox.Foreground>
+                <SolidColorBrush Color="#ABABAB"/>
+            </TextBox.Foreground>
+        </TextBox>
+
+        <Label Grid.Row="3" Content="Fecha de Creación" Style="{StaticResource LabelStyle}"/>
+        <DatePicker Grid.Row="3" x:Name="dpFechaCreacion" SelectedDate="{x:Null}" Margin="5">
+            <DatePicker.Foreground>
+                <SolidColorBrush Color="#ABABAB"/>
+            </DatePicker.Foreground>
+        </DatePicker>
+
+        <Label Grid.Row="4" Content="Estado" Style="{StaticResource LabelStyle}"/>
+        <TextBox Grid.Row="4" x:Name="txtEstado" Style="{StaticResource TextBoxStyle}" Text="Ingrese el estado de la auditoría">
+            <TextBox.Foreground>
+                <SolidColorBrush Color="#ABABAB"/>
+            </TextBox.Foreground>
+        </TextBox>
+
+        <Button Grid.Row="5" Content="Crear Informe" Margin="5"/>
+    </Grid>
+</Page>
