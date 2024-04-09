@@ -28,7 +28,7 @@
                 </StackPanel>
             </Border>
         </Popup>
-        <Label Content="Informes &quot;Gestion de Ordenes&quot;" HorizontalAlignment="Left" Margin="297,12,0,0" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Width="256" Background="#FF18A20C" FontSize="18">
+        <Label Content="Informes &quot;Gestión de Ordenes&quot;" HorizontalAlignment="Left" Margin="297,12,0,0" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Width="256" Background="#FF18A20C" FontSize="18">
             <Label.BorderBrush>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>

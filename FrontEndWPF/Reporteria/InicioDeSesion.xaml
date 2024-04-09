@@ -49,7 +49,7 @@
                 </StackPanel>
             </Border>
         </Popup>
-        <Label Content="Informes &quot;Inicio de Sesion&quot;" HorizontalAlignment="Left" Margin="297,0,0,0" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Width="234" Background="#FF18A20C" FontSize="18">
+        <Label Content="Informes &quot;Inicio de Sesión&quot;" HorizontalAlignment="Left" Margin="297,0,0,0" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Width="234" Background="#FF18A20C" FontSize="18">
             <Label.BorderBrush>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>

@@ -6,8 +6,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FrontEndWPF.Reporteria"
       mc:Ignorable="d"
-      Title="CrearPrestamos" Width="456" Height="472">
+      Title="CrearPrestamos" Width="456" Height="551">
     <Grid Margin="0,0,10,0" Height="452" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="185*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="181*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -21,34 +27,42 @@
         </Grid.RowDefinitions>
 
         <!-- Entidad -->
-        <Label Content="Entidad:" Grid.Row="0" Background="{x:Null}" Foreground="#FF51D219" Margin="0,0,0,28" Grid.RowSpan="2"/>
-        <TextBox x:Name="txtEntidad" Grid.Row="1" Margin="5,5,5,5"/>
+        <Label Content="Entidad:" Grid.Row="0" Background="{x:Null}" Foreground="#FF51D219" RenderTransformOrigin="0.512,-2.281" Grid.ColumnSpan="4" Margin="0,0,0,28" Grid.RowSpan="2"/>
+        <TextBox x:Name="txtEntidad" Grid.Row="1" Margin="5,13,5,5" Grid.ColumnSpan="4"/>
 
         <!-- Monto Total -->
-        <Label Content="Monto Total:" Grid.Row="2" Background="{x:Null}" Foreground="#FF51D219" Margin="0,0,0,28" Grid.RowSpan="2"/>
-        <TextBox x:Name="txtMontoTotal" Grid.Row="3" Margin="5,5,5,5"/>
+        <Label Content="Monto Total:" Grid.Row="2" Background="{x:Null}" Foreground="#FF51D219" Margin="0,0,0,28" Grid.RowSpan="2" Grid.ColumnSpan="4"/>
+        <TextBox x:Name="txtMontoTotal" Grid.Row="3" Margin="5,9,5,1" Grid.ColumnSpan="4"/>
 
         <!-- Monto Pendiente -->
-        <Label Content="Monto Pendiente:" Grid.Row="4" Foreground="#FF51D219" Margin="0,0,0,34" Grid.RowSpan="3"/>
-        <TextBox x:Name="txtMontoPendiente" Grid.Row="6" Margin="5,5,5,11"/>
+        <Label Content="Monto Pendiente:" Grid.Row="4" Foreground="#FF51D219" Margin="0,0,0,34" Grid.RowSpan="3" Grid.ColumnSpan="4"/>
+        <TextBox x:Name="txtMontoPendiente" Grid.Row="6" Margin="5,5,5,11" Grid.ColumnSpan="4"/>
 
         <!-- Intereses Moratorios -->
-        <Label Content="Intereses Moratorios:" Grid.Row="6" Margin="0,23,0,227" Foreground="#FF51D219" Grid.RowSpan="2"/>
-        <TextBox x:Name="txtInteresesMoratorios" Grid.Row="7" Margin="5,15,5,211"/>
+        <Label Content="Intereses Moratorios:" Grid.Row="6" Margin="0,37,0,215" Foreground="#FF51D219" Grid.RowSpan="2" Grid.ColumnSpan="4"/>
+        <TextBox x:Name="txtInteresesMoratorios" Grid.Row="7" Margin="5,15,5,211" Grid.ColumnSpan="4"/>
 
         <!-- Estado -->
-        <Label Content="Estado:" Grid.Row="7" Margin="0,39,0,177" Foreground="#FF51D219"/>
-        <ComboBox x:Name="cmbEstado" Grid.Row="7" Margin="5,66,5,160">
+        <Label Content="Estado:" Grid.Row="7" Margin="0,46,0,170" Foreground="#FF51D219" Grid.ColumnSpan="4"/>
+        <ComboBox x:Name="cmbEstado" Grid.Row="7" Margin="5,75,5,151" Grid.ColumnSpan="4">
             <ComboBoxItem Content="Activo"/>
             <ComboBoxItem Content="Inactivo"/>
             <ComboBoxItem Content="Vencido"/>
         </ComboBox>
 
         <!-- Fecha de Financiacion -->
-        <Label Content="Fecha de Financiación:" Grid.Row="7" Margin="0,95,0,121" Foreground="#FF51D219"/>
-        <DatePicker x:Name="dpFechaFinanciacion" Grid.Row="7" Margin="5,128,5,98"/>
+        <Label Content="Fecha de Financiación:" Grid.Row="7" Margin="0,108,0,108" Foreground="#FF51D219" Grid.ColumnSpan="4"/>
+        <DatePicker x:Name="dpFechaFinanciacion" Grid.Row="7" Margin="5,131,5,95" Grid.ColumnSpan="4"/>
 
         <!-- Botón Crear Prestamo -->
-        <Button Content="Crear Préstamo" Grid.Row="7" Margin="162,174,193,52"/>
+        <Button Content="Crear Préstamo" Grid.Row="7" Margin="162,185,12,42" Grid.ColumnSpan="3">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FFFFED72" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Label Content="Nuevo Préstamo" HorizontalAlignment="Left" Margin="140,-60,0,0" VerticalAlignment="Top" Grid.ColumnSpan="4" Foreground="#FFEAB41F" FontSize="20"/>
     </Grid>
 </Page>
