@@ -10,7 +10,7 @@
 
     <Grid>
         <DataGrid x:Name="prestamosDataGrid" AutoGenerateColumns="False" Margin="10,108,219,10"
-                  ItemsSource="{Binding Prestamos}">
+                  ItemsSource="{Binding Prestamos}" SelectionChanged="prestamosDataGrid_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Entidad" Binding="{Binding Entidad}"/>
                 <DataGridTextColumn Header="Monto Total" Binding="{Binding MontoTotal}"/>
@@ -23,6 +23,14 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Descargar" Click="Descargar_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!-- Agregar columna para la opción de editar -->
+                <DataGridTemplateColumn Header="Editar">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Editar" Click="Editar_Click"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
