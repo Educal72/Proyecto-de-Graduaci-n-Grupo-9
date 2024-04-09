@@ -69,7 +69,7 @@
                         </Setter>
                     </Style>
                 </ListBox.Resources>
-                <ListBoxItem Content="Listado de Empleados" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,15,10,10"/>
+                <ListBoxItem Content="Listado de Empleados" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,15,10,10" Selected="ListBoxItem_Selected_1"/>
                 <ListBoxItem Content="Fichajes" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
                 <ListBoxItem Content="Permisos de Tiempo" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
                 <ListBoxItem Content="Permisos de Ausencia" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>

@@ -165,5 +165,19 @@ namespace FrontEndWPF
 			public double Salario{ get; set; } // Salario mínimo ofrecido
 		}
 
-		}
+        private void MenuListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ListBoxItem_Selected(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ListBoxItem_Selected_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
 }
