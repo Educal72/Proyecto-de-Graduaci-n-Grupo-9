@@ -7,12 +7,10 @@ namespace FrontEndWPF.Reporteria
 {
     public partial class VisualizarFinanciamientos : Page
     {
-
         public VisualizarFinanciamientos()
         {
             InitializeComponent();
             CargarDatosFinanciamiento();
-
         }
 
         private void CargarDatosFinanciamiento()
@@ -31,7 +29,18 @@ namespace FrontEndWPF.Reporteria
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
+            // Implementar la lógica para filtrar los financiamientos activos
+        }
 
+        private void financiamientosDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Implementar la lógica para mostrar los detalles del financiamiento seleccionado
+        }
+
+        private void Editar_Click(object sender, RoutedEventArgs e)
+        {
+            // Implementar la lógica para abrir la ventana de edición
+            MessageBox.Show("Editar financiamiento seleccionado.");
         }
     }
 
@@ -75,7 +84,6 @@ namespace FrontEndWPF.Reporteria
             };
         }
     }
-
 
     public class Financiamiento
     {

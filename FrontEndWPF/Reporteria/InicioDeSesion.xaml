@@ -17,16 +17,21 @@
                 <DataGridTextColumn Header="Fecha de Ingreso" Binding="{Binding FechaIngreso}"/>
                 <DataGridTextColumn Header="Fecha de Inicio de Sesión" Binding="{Binding FechaInicioSesion}"/>
                 <DataGridTextColumn Header="Última Fecha de Desconexión" Binding="{Binding UltimaFechaDesconexion}"/>
-                <!-- Agregar columna para el botón Editar -->
-                <DataGridTemplateColumn Header="Editar">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Editar" Click="Editar_Click" HorizontalAlignment="Center"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <!-- Botón "Generar Informe" -->
+
+        <!-- Modal para generar informe -->
+        <Popup x:Name="informePopup" Placement="Center" IsOpen="False">
+            <Border BorderBrush="Gray" BorderThickness="1" Background="White" CornerRadius="5">
+                <StackPanel Margin="20">
+                    <TextBlock Text="Seleccionar Fecha:" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                    <DatePicker x:Name="fechaInformeDatePicker" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
+                    <Button Content="Generar Informe" Click="GenerarInforme_Click" HorizontalAlignment="Center"/>
+                    <Button Content="Cerrar" Click="CerrarInformePopup_Click" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+        </Popup>
 
         <!-- Modal para mostrar los detalles del registro seleccionado -->
         <Popup x:Name="modalPopup" Placement="Center" IsOpen="False">
@@ -62,5 +67,6 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
+        <Button Content="Generar Informe" Click="GenerarInforme_Click" HorizontalAlignment="Left" Margin="244,43,0,0" VerticalAlignment="Top" Height="18" Width="98"/>
     </Grid>
 </Page>

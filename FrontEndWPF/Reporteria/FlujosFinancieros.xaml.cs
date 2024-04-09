@@ -39,6 +39,21 @@ namespace FrontEndWPF.Reporteria
         {
 
         }
+
+        private void GenerarInforme_Click(object sender, RoutedEventArgs e)
+        {
+            // Aquí puedes colocar la lógica para abrir el modal con las opciones de selección de fecha
+            // Por ejemplo:
+            // abrirModalSeleccionFecha();
+            //MessageBox.Show("Botón Generar Informe clickeado");
+            informePopup.IsOpen = true; // Abrir Modal
+
+        }
+
+        private void CerrarInformePopup_Click(object sender, RoutedEventArgs e)
+        {
+            informePopup.IsOpen = false;
+        }
     }
 
     public static class DatosFlujoFinanciero

@@ -12,8 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System;
-using System.Collections.Generic;
 
 namespace FrontEndWPF.Reporteria
 {
@@ -56,6 +54,22 @@ namespace FrontEndWPF.Reporteria
             // Una vez que hayas terminado, cierra el modal
             modalPopup.IsOpen = false;
         }
+
+        private void GenerarInforme_Click(object sender, RoutedEventArgs e)
+        {
+            // Aquí puedes colocar la lógica para abrir el modal con las opciones de selección de fecha
+            // Por ejemplo:
+            // abrirModalSeleccionFecha();
+            //MessageBox.Show("Botón Generar Informe clickeado");
+            informePopup.IsOpen = true; // Abrir Modal
+
+        }
+
+        private void CerrarInformePopup_Click(object sender, RoutedEventArgs e)
+        {
+            informePopup.IsOpen = false;
+        }
+
     }
 
     public static class DatosEmpleado

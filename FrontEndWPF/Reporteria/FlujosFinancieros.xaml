@@ -21,6 +21,16 @@
                 <DataGridTextColumn Header="Cajero" Binding="{Binding NombreCajero}"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Popup x:Name="informePopup" Placement="Center" IsOpen="False">
+            <Border BorderBrush="Gray" BorderThickness="1" Background="White" CornerRadius="5">
+                <StackPanel Margin="20">
+                    <TextBlock Text="Seleccionar Fecha:" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                    <DatePicker x:Name="fechaInformeDatePicker" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
+                    <Button Content="Generar Informe" Click="GenerarInforme_Click" HorizontalAlignment="Center"/>
+                    <Button Content="Cerrar" Click="CerrarInformePopup_Click" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+        </Popup>
         <Label Content="Informes Financieros " HorizontalAlignment="Left" Margin="297,12,0,0" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Width="179" Background="#FF18A20C" FontSize="18">
             <Label.BorderBrush>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -39,5 +49,6 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
+        <Button Content="Generar Informe" Click="GenerarInforme_Click" HorizontalAlignment="Left" Margin="231,57,0,0" VerticalAlignment="Top" Height="18" Width="98"/>
     </Grid>
 </Page>
