@@ -28,6 +28,7 @@ namespace FrontEndWPF
 		public string correo { get; set; }
 		public string contraseña { get; set; }
 		public string telefono { get; set; }
+		public string rol { get; set; }
 
 		public editarEmpleado()
 		{
@@ -46,6 +47,7 @@ namespace FrontEndWPF
 			correo = Correo.Text;
 			contraseña = Contraseña.Text;
 			telefono = Telefono.Text;
+			rol = Rol.Text;
 			DialogResult = true;
 		}
 

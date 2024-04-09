@@ -29,7 +29,47 @@ namespace FrontEndWPF
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
+			if (correo.Text == "" || correo.Text == "Admin")
+			{
+				MenuPrincipal menuPrincipal = new MenuPrincipal();
+				menuPrincipal.user.Content = "Usuario: Admin";
+				NavigationService.Navigate(menuPrincipal);
+			}
+			else if (correo.Text == "Cajero")
+			{
+				MenuPrincipal menuPrincipal = new MenuPrincipal();
+				menuPrincipal.user.Content = "Usuario: Cajero";
+				menuPrincipal.btnEmp.Visibility = Visibility.Hidden;
+				menuPrincipal.btnInv.Visibility = Visibility.Hidden;
+				menuPrincipal.btnPV.Visibility = Visibility.Visible;
+				menuPrincipal.btnRepor.Visibility = Visibility.Hidden;
+				NavigationService.Navigate(menuPrincipal);
+			}
+			else if (correo.Text == "Contador")
+			{
+				MenuPrincipal menuPrincipal = new MenuPrincipal();
+				menuPrincipal.user.Content = "Usuario: Contador";
+				menuPrincipal.btnEmp.Visibility = Visibility.Hidden;
+				menuPrincipal.btnInv.Visibility = Visibility.Hidden;
+				menuPrincipal.btnPV.Visibility = Visibility.Hidden;
+				menuPrincipal.btnRepor.Visibility = Visibility.Visible;
+				NavigationService.Navigate(menuPrincipal);
+			}
+			else {
+				MenuPrincipal menuPrincipal = new MenuPrincipal();
+				menuPrincipal.user.Content = "Usuario: Salonero";
+				menuPrincipal.btnEmp.Visibility = Visibility.Visible;
+				menuPrincipal.btnInv.Visibility = Visibility.Hidden;
+				menuPrincipal.btnPV.Visibility = Visibility.Hidden;
+				menuPrincipal.btnRepor.Visibility = Visibility.Hidden;
+				NavigationService.Navigate(menuPrincipal);
+			}
+			
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			NavigationService.Navigate(new Uri("Index/RecuperarContraseña.xaml", UriKind.Relative));
 		}
 	}
 }

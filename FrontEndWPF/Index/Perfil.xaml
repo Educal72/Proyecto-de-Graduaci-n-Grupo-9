@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:FrontEndWPF"
       mc:Ignorable="d"
       Title="Perfil"
-      Background="Black" Width="1920" Height="1080">
+      Background="Black" Width="Auto" Height="Auto" HorizontalAlignment="Stretch">
     <Page.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -36,7 +36,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-      
+
         <Style TargetType="PasswordBox">
             <Setter Property="Template">
                 <Setter.Value>
@@ -49,47 +49,42 @@
             </Setter>
         </Style>
     </Page.Resources>
-    <Grid Width="1920" Height="1080" VerticalAlignment="Center" Background="Black">
-        <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727"/>
-        <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
-        <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="280" RenderTransformOrigin="0.5,1.289"/>
-        <Label x:Name="user" Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="175" RenderTransformOrigin="0.514,0.567"/>
-        <Grid Margin="1525,106,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="380">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0*"/>
-                <ColumnDefinition Width="380"/>
-            </Grid.ColumnDefinitions>
-            <Button
-                HorizontalAlignment="Left" Width="90" VerticalAlignment="Center" Margin="290,0,0,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Grid.ColumnSpan="2" Background="#FFABD904" Click="Button_Click"/>
+    <ScrollViewer>
+        <Grid Width="Auto" Height="Auto" VerticalAlignment="Center" Background="Black">
+            <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727"/>
+            <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
+            <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="280" RenderTransformOrigin="0.5,1.289"/>
+            <Label x:Name="user" Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="175" RenderTransformOrigin="0.514,0.567"/>
+            <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" HorizontalAlignment="Center" Foreground="White" Width="870" Margin="0,1000,0,40" FontFamily="Roboto" FontSize="24"/>
+            <Label Content="Perfil" HorizontalAlignment="Left" Margin="42,212,0,0" VerticalAlignment="Top" Background="Black" Foreground="White" FontFamily="Roboto" FontWeight="Bold" FontSize="48"/>
+            <Rectangle Height="1" Margin="42,324,0,0" Stroke="White" VerticalAlignment="Top" Fill="#00000000"/>
+            <Label Content="Configura la información de tu cuenta" HorizontalAlignment="Left" Margin="42,280,0,0" VerticalAlignment="Top" Foreground="#FFC1C1C1" FontFamily="Roboto" FontSize="24"/>
+            <Label Content="Información Personal" HorizontalAlignment="Left" Margin="42,351,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="36" FontWeight="Bold"/>
+            <Label Content="Nombre" HorizontalAlignment="Left" Margin="42,415,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+            <TextBox HorizontalAlignment="Left" Margin="42,459,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+            <Label Content="Primer Apellido" HorizontalAlignment="Left" Margin="465,415,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+            <TextBox HorizontalAlignment="Left" Margin="465,459,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+            <Label Content="Segundo Apellido" HorizontalAlignment="Left" Margin="890,415,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+            <TextBox HorizontalAlignment="Left" Margin="890,459,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Background="Black" Foreground="White"/>
+            <Label Content="Cédula" HorizontalAlignment="Left" Margin="42,536,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+            <TextBox HorizontalAlignment="Left" Margin="42,580,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+            <Label Content="Teléfono" HorizontalAlignment="Left" Margin="465,536,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+            <TextBox HorizontalAlignment="Left" Margin="465,580,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Background="Black" Foreground="White"/>
+            <Label Content="Cuenta" HorizontalAlignment="Left" Margin="42,670,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="36" FontWeight="Bold"/>
+            <Label Content="Correo Electrónico" HorizontalAlignment="Left" Margin="42,734,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+            <TextBox HorizontalAlignment="Left" Margin="42,778,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="600" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+            <Label Content="Contraseña" HorizontalAlignment="Left" Margin="695,734,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+            <TextBox HorizontalAlignment="Left" Margin="695,778,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="595" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+            <Label Content="Rol" HorizontalAlignment="Left" Margin="42,864,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+            <ComboBox HorizontalAlignment="Left" Margin="42,908,0,0" VerticalAlignment="Top" Width="600" Height="50" RenderTransformOrigin="0.513,0.14" Background="White" Foreground="Black" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" BorderBrush="White">
+                <ComboBoxItem Content="Admin"/>
+                <ComboBoxItem Content="Cajero"/>
+                <ComboBoxItem Content="Salonero"/>
+                <ComboBoxItem Content="Contador"/>
+            </ComboBox>
+            <Button Content="Guardar" Margin="0,908,20,0" VerticalAlignment="Top" Height="50" Background="#FFABD904" FontFamily="Roboto" FontSize="24" Click="Button_Click_1" HorizontalAlignment="Right" Width="125"/>
+            <Button Content="Cambiar contraseña" Margin="0,908,150,0" VerticalAlignment="Top" Height="50" Background="Black" FontFamily="Roboto" FontSize="24" Foreground="White" BorderBrush="White" HorizontalAlignment="Right" Width="230" Click="Button_Click_2"/>
+            <Button VerticalAlignment="Top" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Background="#FFABD904" Click="Button_Click" Margin="0,103,10,0" HorizontalAlignment="Right" Width="90"/>
         </Grid>
-        <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" HorizontalAlignment="Center" Foreground="White" Width="870" Margin="0,1000,0,40" FontFamily="Roboto" FontSize="24"/>
-        <Label Content="Perfil" HorizontalAlignment="Left" Margin="42,212,0,0" VerticalAlignment="Top" Background="Black" Foreground="White" FontFamily="Roboto" FontWeight="Bold" FontSize="48"/>
-        <Rectangle HorizontalAlignment="Left" Height="1" Margin="42,324,0,0" Stroke="White" VerticalAlignment="Top" Width="1863" Fill="#00000000"/>
-        <Label Content="Configura la información de tu cuenta" HorizontalAlignment="Left" Margin="42,280,0,0" VerticalAlignment="Top" Foreground="#FFC1C1C1" FontFamily="Roboto" FontSize="24"/>
-        <Label Content="Información Personal" HorizontalAlignment="Left" Margin="42,351,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="36" FontWeight="Bold"/>
-        <Label Content="Nombre" HorizontalAlignment="Left" Margin="42,415,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="42,459,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
-        <Label Content="Primer Apellido" HorizontalAlignment="Left" Margin="465,415,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="465,459,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
-        <Label Content="Segundo Apellido" HorizontalAlignment="Left" Margin="890,415,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="890,459,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Background="Black" Foreground="White"/>
-        <Label Content="Cédula" HorizontalAlignment="Left" Margin="42,536,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="42,580,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
-        <Label Content="Teléfono" HorizontalAlignment="Left" Margin="465,536,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="465,580,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Background="Black" Foreground="White"/>
-        <Label Content="Cuenta" HorizontalAlignment="Left" Margin="42,670,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="36" FontWeight="Bold"/>
-        <Label Content="Correo Electrónico" HorizontalAlignment="Left" Margin="42,734,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="42,778,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="600" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
-        <Label Content="Contraseña" HorizontalAlignment="Left" Margin="695,734,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="695,778,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="595" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
-        <Label Content="Rol" HorizontalAlignment="Left" Margin="42,864,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-        <ComboBox HorizontalAlignment="Left" Margin="42,908,0,0" VerticalAlignment="Top" Width="600" Height="50" RenderTransformOrigin="0.513,0.14" Background="White" Foreground="Black" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" BorderBrush="White">
-            <ComboBoxItem Content="Admin"/>
-            <ComboBoxItem Content="Cajero"/>
-            <ComboBoxItem Content="Salonero"/>
-            <ComboBoxItem Content="Contador"/>
-        </ComboBox>
-        <Button Content="Guardar" HorizontalAlignment="Left" Margin="1760,933,0,0" VerticalAlignment="Top" Height="50" Width="125" Background="#FFABD904" FontFamily="Roboto" FontSize="24" Click="Button_Click_1"/>
-        <Button Content="Cambiar contraseña" HorizontalAlignment="Left" Margin="1525,933,0,0" VerticalAlignment="Top" Height="50" Width="230" Background="Black" FontFamily="Roboto" FontSize="24" Foreground="White" BorderBrush="White"/>
-    </Grid>
+    </ScrollViewer>
 </Page>

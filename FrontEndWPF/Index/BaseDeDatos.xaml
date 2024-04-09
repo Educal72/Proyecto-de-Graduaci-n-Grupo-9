@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FrontEndWPF.Index"
              mc:Ignorable="d" 
-               Background="Black" Width="1920" Height="1080">
+               Background="Black" Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top">
     <UserControl.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -48,28 +48,24 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Width="1920" Height="1080" VerticalAlignment="Center" Background="Black">
-        <Grid Margin="1525,106,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="380">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0*"/>
-                <ColumnDefinition Width="380"/>
-            </Grid.ColumnDefinitions>
+    <ScrollViewer>
+        <Grid VerticalAlignment="Center" Background="Black">
+            <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" Foreground="White" Margin="45,902,45,0" FontFamily="Roboto" FontSize="24" Height="39" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+            <Label Content="Base de Datos" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Background="Black" Foreground="White" FontFamily="Roboto" FontWeight="Bold" FontSize="48"/>
+            <Rectangle Height="1" Margin="10,136,10,0" Stroke="White" VerticalAlignment="Top" Fill="#00000000"/>
+            <Label Content="Configura la conexión con la base de datos." HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" Foreground="#FFC1C1C1" FontFamily="Roboto" FontSize="24"/>
+            <Label Content="Dirección de la BD" HorizontalAlignment="Left" Margin="10,167,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+            <TextBox HorizontalAlignment="Left" Margin="10,211,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="950" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+            <Label Content="Nombre de la BD" HorizontalAlignment="Left" Margin="10,405,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+            <TextBox HorizontalAlignment="Left" Margin="10,449,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="950" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+            <Label Content="Contraseña" HorizontalAlignment="Left" Margin="10,651,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+            <TextBox HorizontalAlignment="Left" Margin="10,695,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="950" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Background="Black" Foreground="White"/>
+            <Label Content="Puerto de la BD" HorizontalAlignment="Left" Margin="10,288,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+            <TextBox HorizontalAlignment="Left" Margin="10,332,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="950" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black" BorderBrush="White"/>
+            <Label Content="Nombre de Usuario" HorizontalAlignment="Left" Margin="10,526,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+            <TextBox HorizontalAlignment="Left" Margin="10,570,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="950" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Background="Black" Foreground="White" BorderBrush="White"/>
+            <Button Content="Guardar" HorizontalAlignment="Left" Margin="830,795,0,0" VerticalAlignment="Top" Height="50" Width="125" Background="#FFABD904" FontFamily="Roboto" FontSize="24"/>
+            <Button Content="Probar Conexión" HorizontalAlignment="Left" Margin="595,795,0,0" VerticalAlignment="Top" Height="50" Width="230" Background="Black" FontFamily="Roboto" FontSize="24" Foreground="White" BorderBrush="White"/>
         </Grid>
-        <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" HorizontalAlignment="Center" Foreground="White" Width="870" Margin="0,1000,0,40" FontFamily="Roboto" FontSize="24"/>
-        <Label Content="Base de Datos" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Background="Black" Foreground="White" FontFamily="Roboto" FontWeight="Bold" FontSize="48"/>
-        <Rectangle HorizontalAlignment="Left" Height="1" Margin="10,136,0,0" Stroke="White" VerticalAlignment="Top" Width="1863" Fill="#00000000"/>
-        <Label Content="Configura la conexión con la base de datos." HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" Foreground="#FFC1C1C1" FontFamily="Roboto" FontSize="24"/>
-        <Label Content="Dirección de la BD" HorizontalAlignment="Left" Margin="10,167,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="10,211,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="950" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
-        <Label Content="Nombre de la BD" HorizontalAlignment="Left" Margin="10,405,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="10,449,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="950" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
-        <Label Content="Contraseña" HorizontalAlignment="Left" Margin="10,651,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="10,695,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="950" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Background="Black" Foreground="White"/>
-        <Label Content="Puerto de la BD" HorizontalAlignment="Left" Margin="10,288,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="10,332,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="950" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black" BorderBrush="White"/>
-        <Label Content="Nombre de Usuario" HorizontalAlignment="Left" Margin="10,526,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="10,570,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="950" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Background="Black" Foreground="White" BorderBrush="White"/>
-        <Button Content="Guardar" HorizontalAlignment="Left" Margin="830,795,0,0" VerticalAlignment="Top" Height="50" Width="125" Background="#FFABD904" FontFamily="Roboto" FontSize="24"/>
-        <Button Content="Probar Conexión" HorizontalAlignment="Left" Margin="595,795,0,0" VerticalAlignment="Top" Height="50" Width="230" Background="Black" FontFamily="Roboto" FontSize="24" Foreground="White" BorderBrush="White"/>
-    </Grid>
+    </ScrollViewer>
 </UserControl>

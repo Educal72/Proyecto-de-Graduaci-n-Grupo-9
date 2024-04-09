@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrontEndWPF"
         mc:Ignorable="d"
-        Title="añadirEmpleado" Height="645" Width="655">
+        Title="añadirEmpleado" Height="674" Width="655">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -29,7 +29,7 @@
 
 
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,534,0,0" Width="220">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,564,0,0" Width="220">
             <Button Content="Guardar" Click="Guardar_Click" Margin="5" Width="100"/>
             <Button Content="Cancelar" Click="Cancelar_Click" Margin="5" Width="100
                     "/>
@@ -55,5 +55,12 @@
         <Label x:Name="___Sin_nombre_" Content="Salario:" HorizontalAlignment="Left" Margin="10,470,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
         <TextBox x:Name="Salario" HorizontalAlignment="Left" Margin="106,474,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="422" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <DatePicker x:Name="Fecha" HorizontalAlignment="Left" Margin="95,384,0,0" VerticalAlignment="Top" Width="433" Height="30" VerticalContentAlignment="Center"/>
+        <Label x:Name="___Sin_nombre__Copiar" Content="Rol:" HorizontalAlignment="Left" Margin="10,514,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <ComboBox x:Name="Rol" HorizontalAlignment="Left" Margin="67,519,0,0" VerticalAlignment="Top" Width="461" Height="30" RenderTransformOrigin="0.513,0.14" Background="White" Foreground="Black" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" BorderBrush="White">
+            <ComboBoxItem Content="Admin"/>
+            <ComboBoxItem Content="Cajero"/>
+            <ComboBoxItem Content="Salonero"/>
+            <ComboBoxItem Content="Contador"/>
+        </ComboBox>
     </Grid>
 </Window>
