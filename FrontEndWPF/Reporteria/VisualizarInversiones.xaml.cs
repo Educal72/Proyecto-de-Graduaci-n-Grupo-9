@@ -24,6 +24,21 @@ namespace FrontEndWPF.Reporteria
         {
             // Agregar código para descargar la inversión seleccionada
         }
+
+        private void inversionesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void inversionesDataGrid_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void Editar_Click(object sender, RoutedEventArgs e)
+        {
+            // Implementar la lógica para abrir la ventana de edición
+            MessageBox.Show("Editar financiamiento seleccionado.");
+        }
     }
 
     public static class DatosInversiones

@@ -25,6 +25,14 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <!-- Agregar columna para la opción de editar -->
+                <DataGridTemplateColumn Header="Editar">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Editar" Click="Editar_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Label Content="Inversiones" HorizontalAlignment="Left" Margin="375,10,0,0" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Width="103" Background="#FF18A20C" FontSize="18">

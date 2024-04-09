@@ -39,6 +39,17 @@ namespace FrontEndWPF.Reporteria
         {
             // Agregar código para descargar el préstamo seleccionado
         }
+
+        private void prestamosDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Editar_Click(object sender, RoutedEventArgs e)
+        {
+            // Implementar la lógica para abrir la ventana de edición
+            MessageBox.Show("Editar financiamiento seleccionado.");
+        }
     }
 
     public static class DatosPrestamos

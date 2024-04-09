@@ -44,5 +44,6 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
+        <CheckBox Content="Solo ver Activos" HorizontalAlignment="Left" Margin="231,57,0,0" VerticalAlignment="Top" Foreground="#FFF1E5E5"/>
     </Grid>
 </Page>
