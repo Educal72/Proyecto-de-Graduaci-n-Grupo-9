@@ -166,10 +166,11 @@
 
             <ContentControl x:Name="ContentArea" Grid.Column="1" Margin="300,0,0,0"/>
         </Grid>
-        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="17,139,0,0" VerticalAlignment="Top" Width="173" SelectionChanged="ComboBox_SelectionChanged" Height="39">
-            <TextBox IsEnabled="False" Text="Selecciona una opción..." Foreground="Gray"/>
+        <ComboBox Text="Selecciona una opción..." x:Name="comboBox" HorizontalAlignment="Left" Margin="17,158,0,0" VerticalAlignment="Top" Width="173" SelectionChanged="ComboBox_SelectionChanged" Height="20">
+            <TextBox  IsEnabled="False" Text="Selecciona una opción..." Foreground="Gray"/>
         </ComboBox>
         <Image HorizontalAlignment="Left" Height="138" Margin="751,34,0,0" VerticalAlignment="Top" Width="575" Source="/Reporteria/reportes.jpg"/>
+        <Label Content="Opciones..." HorizontalAlignment="Left" Margin="17,132,0,0" VerticalAlignment="Top" Foreground="#FFFBFBFB"/>
     </Grid>
 
 </Page>
