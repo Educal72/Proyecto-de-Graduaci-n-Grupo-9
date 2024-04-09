@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrontEndWPF.Empleados;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -84,6 +85,7 @@ namespace FrontEndWPF
 				string Correo = nuevoEmpleado.correo;
 				string Contraseña = nuevoEmpleado.contraseña;
 				string Telefono = nuevoEmpleado.telefono;
+				string Rol = nuevoEmpleado.rol;
 				bool Activo = true;
 
 
@@ -99,6 +101,7 @@ namespace FrontEndWPF
 					CorreoElectronico = Correo,
 					Telefono = Telefono,
 					Contraseña = Contraseña,
+					Rol = Rol,
 					Activo = Activo
 				});
 				EmployeeDataGrid.Items.Refresh();
@@ -132,6 +135,7 @@ namespace FrontEndWPF
 				editarEmpleado.Contraseña.Text = selectedEmpleado.Contraseña;
 				editarEmpleado.Telefono.Text = selectedEmpleado.Telefono;
 				editarEmpleado.Activo.IsChecked = selectedEmpleado.Activo;
+				editarEmpleado.Rol.Text = selectedEmpleado.Rol;
 				if (editarEmpleado.ShowDialog() == true)
 				{
 					selectedEmpleado.Cedula = editarEmpleado.cedula;
@@ -144,10 +148,26 @@ namespace FrontEndWPF
 					selectedEmpleado.Contraseña = editarEmpleado.contraseña;
 					selectedEmpleado.Telefono = editarEmpleado.telefono;
 					selectedEmpleado.Activo = editarEmpleado.Activo.IsChecked ?? false;
+					selectedEmpleado.Rol = editarEmpleado.rol;
 					EmployeeDataGrid.Items.Refresh();
 				}
 			}
 		}
+
+
+		private void Button_Click_6(object sender, RoutedEventArgs e)
+		{
+			Empleado selectedEmpleado = EmployeeDataGrid.SelectedItem as Empleado;
+			if (selectedEmpleado != null)
+			{
+				MainWindow mainWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+				if (mainWindow != null)
+				{
+					mainWindow.ChangePageToMetricas();
+				}
+
+			}
+		}
 	}
-}
+	}
 

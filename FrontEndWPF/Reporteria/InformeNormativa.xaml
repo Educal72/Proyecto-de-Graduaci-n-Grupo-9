@@ -10,7 +10,7 @@
 
     <Grid>
 
-        <DataGrid x:Name="normativaDataGrid" AutoGenerateColumns="False" Margin="10,90,10,10">
+        <DataGrid x:Name="normativaDataGrid" AutoGenerateColumns="False" Margin="10,90,10,10" ColumnWidth="*">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nombre Normativa" Binding="{Binding NombreNormativa}"/>
                 <DataGridTextColumn Header="Código Normativa" Binding="{Binding CodigoNormativa}"/>
@@ -26,7 +26,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Label Content="Informes de Normativas" HorizontalAlignment="Center" Margin="0,12,0,0" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Width="206" Background="#FF18A20C" FontSize="18">
+        <Label Content="Informes de Normativas" Margin="297,12,297,0" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Background="#FF18A20C" FontSize="18">
             <Label.BorderBrush>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
