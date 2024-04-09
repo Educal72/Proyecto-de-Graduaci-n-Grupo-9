@@ -10,7 +10,7 @@
       Title="VisualizarInversiones">
 
     <Grid>
-        <DataGrid x:Name="inversionesDataGrid" AutoGenerateColumns="False" Margin="10,122,193,10">
+        <DataGrid x:Name="inversionesDataGrid" AutoGenerateColumns="False" Margin="10,122,193,10" SelectionChanged="inversionesDataGrid_SelectionChanged_2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Financiera" Binding="{Binding Financiera}"/>
                 <DataGridTextColumn Header="Monto Invertido" Binding="{Binding MontoInvertido}"/>

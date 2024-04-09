@@ -48,7 +48,7 @@ namespace FrontEndWPF.Reporteria
         private void Editar_Click(object sender, RoutedEventArgs e)
         {
             // Implementar la lógica para abrir la ventana de edición
-            MessageBox.Show("Editar financiamiento seleccionado.");
+            MessageBox.Show("Editar prestamo seleccionado.");
         }
     }
 
