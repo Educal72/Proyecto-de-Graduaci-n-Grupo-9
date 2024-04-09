@@ -66,7 +66,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid>
+    <Grid Margin="0,0,0,-98">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -76,21 +76,22 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Content="Nombre Normativa"/>
-        <TextBox Grid.Row="0" x:Name="txtNombreNormativa" Text="Ingrese el nombre de la normativa" Style="{StaticResource TextBoxStyle}"/>
+        <Label Grid.Row="0" Content="Nombre Normativa" Foreground="#FF51D219"/>
+        <TextBox Grid.Row="0" x:Name="txtNombreNormativa" Text="Ingrese el nombre de la normativa" Style="{StaticResource TextBoxStyle}" Margin="0,37,10,4" Grid.RowSpan="5"/>
 
-        <Label Grid.Row="1" Content="Código Normativa"/>
-        <TextBox Grid.Row="1" x:Name="txtCodigoNormativa" Text="Ingrese el código de la normativa" Style="{StaticResource TextBoxStyle}"/>
+        <Label Grid.Row="1" Content="Código Normativa" Margin="0,38,10,14" Grid.RowSpan="5" Foreground="#FF51D219"/>
+        <TextBox Grid.Row="5" x:Name="txtCodigoNormativa" Text="Ingrese el código de la normativa" Style="{StaticResource TextBoxStyle}" Margin="0,39,10,-27"/>
 
-        <Label Grid.Row="2" Content="Descripción"/>
-        <TextBox Grid.Row="2" x:Name="txtDescripcion" Text="Ingrese la descripción de la normativa" Style="{StaticResource TextBoxStyle}"/>
+        <Label Grid.Row="5" Content="Descripción" Margin="5,82,5,-69" Foreground="#FF51D219"/>
+        <TextBox Grid.Row="5" x:Name="txtDescripcion" Text="Ingrese la descripción de la normativa" Style="{StaticResource TextBoxStyle}" Margin="0,108,10,-102"/>
 
-        <Label Grid.Row="3" Content="Fecha de Aplicación"/>
-        <DatePicker Grid.Row="3" x:Name="dpFechaAplicacion" Margin="5"/>
+        <Label Grid.Row="5" Content="Fecha de Aplicación" Margin="0,157,10,-153" Foreground="#FF51D219"/>
+        <DatePicker Grid.Row="5" x:Name="dpFechaAplicacion" Margin="0,187,10,-183"/>
 
-        <Label Grid.Row="4" Content="Estado"/>
-        <TextBox Grid.Row="4" x:Name="txtEstado" Text="Ingrese el estado de la normativa" Style="{StaticResource TextBoxStyle}"/>
+        <Label Grid.Row="5" Content="Estado" Margin="0,225,10,-222" Foreground="#FF51D219"/>
+        <TextBox Grid.Row="5" x:Name="txtEstado" Text="Ingrese el estado de la normativa" Style="{StaticResource TextBoxStyle}" Margin="0,255,10,-245"/>
 
-        <Button Grid.Row="5" Content="Agregar Normativa"  Style="{StaticResource ButtonStyle}"/>
+        <Button Grid.Row="5" Content="Agregar Normativa"  Style="{StaticResource ButtonStyle}" Margin="0,321,10,-310"/>
+        <Label Content="Nueva Normativa" HorizontalAlignment="Left" Margin="295,-52,0,0" VerticalAlignment="Top" Foreground="#FFEAB41F" FontSize="20"/>
     </Grid>
 </Page>

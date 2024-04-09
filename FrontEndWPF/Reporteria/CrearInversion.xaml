@@ -39,6 +39,14 @@
         <DatePicker x:Name="dpFechaFinalizacion" Grid.Row="5" Margin="5,133,5,-123"/>
 
         <!-- Botón Crear Inversión -->
-        <Button Content="Crear Inversión" Grid.Row="5" Margin="185,177,196,-167"/>
+        <Button Content="Crear Inversión" Grid.Row="5" Margin="185,177,196,-167">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FFFFED72" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Label Content="Nueva Inversión" HorizontalAlignment="Left" Margin="142,-42,0,0" VerticalAlignment="Top" Foreground="#FFEAB41F" FontSize="20"/>
     </Grid>
 </Page>

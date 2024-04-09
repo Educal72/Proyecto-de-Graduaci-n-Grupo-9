@@ -43,6 +43,26 @@
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
         </Style>
+        <!-- Estilo para el botón -->
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
 
     <Grid>
@@ -57,41 +77,42 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Content="Código Auditoría" Style="{StaticResource LabelStyle}"/>
-        <TextBox Grid.Row="0" x:Name="txtCodigoAuditoria" Style="{StaticResource TextBoxStyle}" Text="Ingrese el código de la auditoría">
+        <Label Grid.Row="0" Content="Código Auditoría" Style="{StaticResource LabelStyle}" Foreground="#FF51D219"/>
+        <TextBox Grid.Row="0" x:Name="txtCodigoAuditoria" Style="{StaticResource TextBoxStyle}" Text="Ingrese el código de la auditoría" Margin="0,37,10,5" Grid.RowSpan="7">
             <TextBox.Foreground>
                 <SolidColorBrush Color="#ABABAB"/>
             </TextBox.Foreground>
         </TextBox>
 
-        <Label Grid.Row="1" Content="Descripción" Style="{StaticResource LabelStyle}"/>
-        <TextBox Grid.Row="1" x:Name="txtDescripcion" Style="{StaticResource TextBoxStyle}" Text="Ingrese la descripción de la auditoría">
+        <Label Grid.Row="7" Content="Descripción" Style="{StaticResource LabelStyle}" Margin="0,10,10,-34" Foreground="#FF51D219"/>
+        <TextBox Grid.Row="7" x:Name="txtDescripcion" Style="{StaticResource TextBoxStyle}" Text="Ingrese la descripción de la auditoría" Margin="0,40,10,-70">
             <TextBox.Foreground>
                 <SolidColorBrush Color="#ABABAB"/>
             </TextBox.Foreground>
         </TextBox>
 
-        <Label Grid.Row="2" Content="Tipo de Auditoría" Style="{StaticResource LabelStyle}"/>
-        <TextBox Grid.Row="2" x:Name="txtTipoAuditoria" Style="{StaticResource TextBoxStyle}" Text="Ingrese el tipo de auditoría">
+        <Label Grid.Row="7" Content="Tipo de Auditoría" Style="{StaticResource LabelStyle}" Margin="0,81,10,-110" Foreground="#FF51D219"/>
+        <TextBox Grid.Row="7" x:Name="txtTipoAuditoria" Style="{StaticResource TextBoxStyle}" Text="Ingrese el tipo de auditoría" Margin="0,109,10,-140">
             <TextBox.Foreground>
                 <SolidColorBrush Color="#ABABAB"/>
             </TextBox.Foreground>
         </TextBox>
 
-        <Label Grid.Row="3" Content="Fecha de Creación" Style="{StaticResource LabelStyle}"/>
-        <DatePicker Grid.Row="3" x:Name="dpFechaCreacion" SelectedDate="{x:Null}" Margin="5">
+        <Label Grid.Row="7" Content="Fecha de Creación" Style="{StaticResource LabelStyle}" Margin="0,145,10,-174" Foreground="#FF51D219"/>
+        <DatePicker Grid.Row="7" x:Name="dpFechaCreacion" SelectedDate="{x:Null}" Margin="0,174,10,-203">
             <DatePicker.Foreground>
                 <SolidColorBrush Color="#ABABAB"/>
             </DatePicker.Foreground>
         </DatePicker>
 
-        <Label Grid.Row="4" Content="Estado" Style="{StaticResource LabelStyle}"/>
-        <TextBox Grid.Row="4" x:Name="txtEstado" Style="{StaticResource TextBoxStyle}" Text="Ingrese el estado de la auditoría">
+        <Label Grid.Row="7" Content="Estado" Style="{StaticResource LabelStyle}" Margin="0,208,10,-238" Foreground="#FF51D219"/>
+        <TextBox Grid.Row="7" x:Name="txtEstado" Style="{StaticResource TextBoxStyle}" Text="Ingrese el estado de la auditoría" Margin="0,238,10,-269">
             <TextBox.Foreground>
                 <SolidColorBrush Color="#ABABAB"/>
             </TextBox.Foreground>
         </TextBox>
 
-        <Button Grid.Row="5" Content="Crear Informe" Margin="5"/>
+        <Button Grid.Row="7" Content="Crear Informe" Style="{StaticResource ButtonStyle}" Margin="0,289,10,-309"/>
+        <Label Content="Nuevo Informe de Auditoria" HorizontalAlignment="Left" Margin="295,-52,0,0" VerticalAlignment="Top" Foreground="#FFEAB41F" FontSize="20"/>
     </Grid>
 </Page>
