@@ -4,9 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FrontEndWPF.Reporteria"
-      mc:Ignorable="d" 
-      d:DesignHeight="362.59"
-      Title="CrearInversion" Width="794">
+      mc:Ignorable="d"
+      Title="CrearInversion" Width="794" Height="438">
 
     <Grid Margin="100,0,214,0">
         <Grid.RowDefinitions>
@@ -19,27 +18,27 @@
         </Grid.RowDefinitions>
 
         <!-- Financiera -->
-        <Label Content="Financiera:" Grid.Row="0" Foreground="#FF51D219"/>
-        <TextBox x:Name="txtFinanciera" Grid.Row="1" Margin="5"/>
+        <Label Content="Financiera:" Grid.Row="1" Foreground="#FF51D219" Margin="0,18,0,10" Grid.RowSpan="2"/>
+        <TextBox x:Name="txtFinanciera" Grid.Row="2" Margin="5,21,5,15" Grid.RowSpan="2"/>
 
         <!-- Monto Invertido -->
-        <Label Content="Monto Invertido:" Grid.Row="2" Foreground="#FF51D219"/>
-        <TextBox x:Name="txtMontoInvertido" Grid.Row="3" Margin="5"/>
+        <Label Content="Monto Invertido:" Grid.Row="3" Foreground="#FF51D219" Margin="0,18,0,10" Grid.RowSpan="2"/>
+        <TextBox x:Name="txtMontoInvertido" Grid.Row="4" Margin="5,21,5,21" Grid.RowSpan="2"/>
 
         <!-- Fecha de Inversion -->
-        <Label Content="Fecha de Inversión:" Grid.Row="4" Foreground="#FF51D219"/>
-        <DatePicker x:Name="dpFechaInversion" Grid.Row="5" Margin="0,5,10,5"/>
+        <Label Content="Fecha de Inversión:" Grid.Row="5" Foreground="#FF51D219" Margin="0,18,0,-10"/>
+        <DatePicker x:Name="dpFechaInversion" Grid.Row="5" Margin="0,49,10,-39"/>
 
         <!-- % de Ganancia Mensual -->
-        <Label Content="% de Ganancia Mensual:" Grid.Row="5" Margin="0,47,5,-45" Foreground="#FF51D219"/>
-        <TextBox x:Name="txtPorcentajeGananciaMensual" Grid.Row="5" Margin="0,67,10,-57"/>
+        <Label Content="% de Ganancia Mensual:" Grid.Row="5" Margin="0,91,5,-89" Foreground="#FF51D219"/>
+        <TextBox x:Name="txtPorcentajeGananciaMensual" Grid.Row="5" Margin="0,111,10,-101"/>
 
         <!-- Fecha de Finalizacion -->
-        <Label Content="Fecha de Finalización:" Grid.Row="5" Margin="0,99,0,-99" Foreground="#FF51D219"/>
-        <DatePicker x:Name="dpFechaFinalizacion" Grid.Row="5" Margin="5,133,5,-123"/>
+        <Label Content="Fecha de Finalización:" Grid.Row="5" Margin="0,143,0,-143" Foreground="#FF51D219"/>
+        <DatePicker x:Name="dpFechaFinalizacion" Grid.Row="5" Margin="5,177,5,-167"/>
 
         <!-- Botón Crear Inversión -->
-        <Button Content="Crear Inversión" Grid.Row="5" Margin="185,177,196,-167">
+        <Button Content="Crear Inversión" Grid.Row="5" Margin="185,221,196,-211">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -47,6 +46,6 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Label Content="Nueva Inversión" HorizontalAlignment="Left" Margin="142,-42,0,0" VerticalAlignment="Top" Foreground="#FFEAB41F" FontSize="20"/>
+        <Label Content="Nueva Inversión" HorizontalAlignment="Left" Margin="142,2,0,0" VerticalAlignment="Top" Foreground="#FFEAB41F" FontSize="20" Grid.RowSpan="2"/>
     </Grid>
 </Page>

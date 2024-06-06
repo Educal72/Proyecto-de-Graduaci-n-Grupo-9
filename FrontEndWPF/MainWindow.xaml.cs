@@ -18,6 +18,7 @@ namespace FrontEndWPF
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		public string Usuario;
 		public MainWindow()
 		{
 			InitializeComponent();

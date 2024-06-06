@@ -22,7 +22,8 @@ namespace FrontEndWPF.Reporteria
     /// </summary>
     public partial class Menu : Page
     {
-        public ListBox listBox {  get; set; }
+		private DispatcherTimer timer;
+		public ListBox listBox {  get; set; }
         
         public Menu()
         {
@@ -32,10 +33,20 @@ namespace FrontEndWPF.Reporteria
             comboBox.Items.Add("Auditoria");
             comboBox.Items.Add("Normativas");
             comboBox.SelectedIndex = 1;
-        }
+			timer = new DispatcherTimer();
+			timer.Interval = TimeSpan.FromSeconds(1);
+			timer.Tick += Timer_Tick;
+			timer.Start();
+			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
+		}
+
+		private void Timer_Tick(object sender, EventArgs e)
+		{
+			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
+		}
 
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboBox.SelectedItem as string == "Informes")
             {

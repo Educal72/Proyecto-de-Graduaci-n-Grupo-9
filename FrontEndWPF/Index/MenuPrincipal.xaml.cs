@@ -34,7 +34,7 @@ namespace FrontEndWPF
 			timer.Tick += Timer_Tick;
 			timer.Start(); 
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
-
+			
 		}
 
 		private void Timer_Tick(object sender, EventArgs e)

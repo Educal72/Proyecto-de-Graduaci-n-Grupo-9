@@ -1,6 +1,7 @@
 ﻿using FrontEndWPF.Empleados;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static FrontEndWPF.empleadosAdmin;
+using static FrontEndWPF.Modelos.UserModel;
 
 namespace FrontEndWPF
 {
@@ -23,50 +25,57 @@ namespace FrontEndWPF
 	public partial class EmployeeListControl : UserControl
 	{
 		List<Empleado> employees = new List<Empleado>();
+		Conexion conexion = new Conexion();
+
 		public EmployeeListControl()
 		{
 			InitializeComponent();
-			PopulateEmployeeDataGrid();
+			conexion.OpenConnection();
+			LoadData();
 		}
 
-		private void PopulateEmployeeDataGrid()
+		private void LoadData()
 		{
-			// Sample data for employees
-			employees = new List<Empleado>
-			{
-				new Empleado { Cedula = "123456789",
-	Nombre = "John",
-	Apellidos = "Doe",
-	Puesto = "Desarrollador",
-	FechaContratacion = new DateTime(2020, 1, 1),
-	Salario = 50000.00,
-	CorreoElectronico = "john.doe@example.com",
-	Telefono = "123456789",
-	Contraseña = "password123",
-	Activo = true },
-				new Empleado { Cedula = "987654321",
-	Nombre = "Jane",
-	Apellidos = "Smith",
-	Puesto = "Gerente",
-	FechaContratacion = new DateTime(2018, 5, 1),
-	Salario = 75000.00,
-	CorreoElectronico = "jane.smith@example.com",
-	Telefono = "987654321",
-	Contraseña = "strongpassword",
-	Activo = true },
-				new Empleado { Cedula = "456789123",
-	Nombre = "Alice",
-	Apellidos = "Johnson",
-	Puesto = "Diseñador",
-	FechaContratacion = new DateTime(2019, 3, 15),
-	Salario = 60000.00,
-	CorreoElectronico = "alice.johnson@example.com",
-	Telefono = "456789123",
-	Contraseña = "securepass123",
-	Activo = false },
-			};
+			
+			string query = @"
+                SELECT u.Nombre, u.PrimerApellido, u.SegundoApellido, u.Cedula, u.Telefono, u.Correo, u.Contraseña, u.IdRol, u.FechaCreacion, e.Puesto, e.Salario
+                FROM Usuario u
+                JOIN Empleado e ON u.Id = e.IdUsuario";
 
-			EmployeeDataGrid.ItemsSource = employees;
+			List<UsuarioEmpleado> usuariosEmpleados = new List<UsuarioEmpleado>();
+
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				try
+				{
+					SqlCommand command = new SqlCommand(query, connection);
+					SqlDataReader reader = command.ExecuteReader();
+
+					while (reader.Read())
+					{
+						usuariosEmpleados.Add(new UsuarioEmpleado
+						{
+							Nombre = reader["Nombre"].ToString(),
+							PrimerApellido = reader["PrimerApellido"].ToString(),
+							SegundoApellido = reader["SegundoApellido"].ToString(),
+							Cedula = reader["Cedula"].ToString(),
+							Telefono = reader["Telefono"].ToString(),
+							Correo = reader["Correo"].ToString(),
+							Contraseña = reader["Contraseña"].ToString(),
+							IdRol = Convert.ToInt32(reader["IdRol"]),
+							FechaCreacion = Convert.ToDateTime(reader["FechaCreacion"]),
+							Puesto = reader["Puesto"].ToString(),
+							Salario = Convert.ToDecimal(reader["Salario"])
+						});
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: " + ex.Message);
+				}
+			}
+
+			EmployeeDataGrid.ItemsSource = usuariosEmpleados;
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
@@ -86,25 +95,9 @@ namespace FrontEndWPF
 				string Contraseña = nuevoEmpleado.contraseña;
 				string Telefono = nuevoEmpleado.telefono;
 				string Rol = nuevoEmpleado.rol;
-				bool Activo = true;
 
-
-
-				employees.Add(new Empleado
-				{
-					Cedula = Cedula,
-					Nombre = Nombre,
-					Apellidos = Apellidos,
-					Puesto = Puesto,
-					FechaContratacion = Fecha,
-					Salario = Salario,
-					CorreoElectronico = Correo,
-					Telefono = Telefono,
-					Contraseña = Contraseña,
-					Rol = Rol,
-					Activo = Activo
-				});
-				EmployeeDataGrid.Items.Refresh();
+				conexion.AddUser(Nombre, Apellidos, Apellidos, Cedula, Telefono, Correo, Contraseña, Rol, Fecha, Puesto, Salario);
+				LoadData();
 			}
 		}
 
