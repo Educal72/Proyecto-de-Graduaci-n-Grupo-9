@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FrontEndWPF"
       mc:Ignorable="d"
-      Title="Login" Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+      Title="Login" Width="Auto" Height="665" HorizontalAlignment="Stretch" VerticalAlignment="Top">
     <Page.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -47,18 +47,19 @@
             </Setter>
         </Style>
     </Page.Resources>
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Height="613" Width="446" Background="Black">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="665" Width="446" Background="Black">
         <Rectangle Height="356" Stroke="Black" VerticalAlignment="Top" Width="418" Fill="#FF171717" RadiusX="10" RadiusY="10" Margin="0,204,0,0" HorizontalAlignment="Center"/>
         <Label Content="Bienvenido" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Roboto Black" FontSize="36" Foreground="White" Height="48" Width="191" Margin="32,228,0,0"/>
-        <Label Content="Correo Electrónico" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontFamily="Roboto Medium" FontSize="16" Height="30" Width="143" Margin="32,0,0,0"/>
+        <Label Content="Correo Electrónico" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto Medium" FontSize="16" Height="30" Width="143" Margin="32,292,0,0"/>
         <TextBox x:Name="correo" VerticalContentAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="382" Background="Black" FontFamily="Roboto" FontSize="18" Foreground="White" BorderBrush="#FF262626" Height="36" AcceptsTab="True" Padding="5,0,0,0" Margin="0,322,0,0" HorizontalAlignment="Center"/>
         <Label Content="Contraseña" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto Medium" FontSize="16" Height="26" Width="94" RenderTransformOrigin="0.553,1.269" Margin="32,369,0,0"/>
         <PasswordBox x:Name="cont" VerticalContentAlignment="Center" VerticalAlignment="Top" Width="382" Background="Black" FontFamily="Roboto" FontSize="16" Foreground="White" BorderBrush="#FF262626" Height="37" Padding="5,0,0,0" Margin="0,399,0,0" HorizontalAlignment="Center"/>
         <Button Content="Iniciar Sesión" VerticalAlignment="Top" FontFamily="Roboto Black" FontSize="20" Background="#FF72A603" BorderBrush="#FF377D35" Width="212" Height="43" Click="Button_Click_1" Foreground="White" Margin="0,495,0,0" HorizontalAlignment="Center"/>
-        <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" VerticalAlignment="Top" Foreground="White" Width="446" Height="31" Margin="0,582,0,0" HorizontalAlignment="Center"/>
+        <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" VerticalAlignment="Top" Foreground="White" Width="446" Height="31" Margin="0,565,0,0" HorizontalAlignment="Center"/>
         <Image Height="245" VerticalAlignment="Top" Width="246" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" OpacityMask="Black" HorizontalAlignment="Center"/>
         <Grid Background="Black" VerticalAlignment="Center" Height="Auto" Margin="0,0,-584,0"/>
-        <Button Content="¿Olvidaste tu contraseña?" Margin="0,450,32,0" VerticalAlignment="Top" Height="31" Background="#FF171717" FontFamily="Roboto" FontSize="16" Foreground="White" BorderBrush="White" HorizontalAlignment="Right" Width="191" Click="Button_Click"/>
+        <Button x:Name="Opcion1" Content="¿Olvidaste tu contraseña?" Margin="0,450,32,0" VerticalAlignment="Top" Height="31" Background="#FF171717" FontFamily="Roboto" FontSize="16" Foreground="White" BorderBrush="White" HorizontalAlignment="Right" Width="191" Click="Button_Click"/>
+        <Button x:Name="BDButton" Content="Conectarse a Base de Datos" HorizontalAlignment="Center" Margin="0,601,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.028,0.251" Height="45" Width="212" FontFamily="Roboto" FontSize="16" FontWeight="Bold" Foreground="White" Background="#FF699211" Click="BDButton_Click"/>
 
     </Grid>
 

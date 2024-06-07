@@ -1,0 +1,5 @@
+Server: localhost
+Puerto: 80
+Nombre: ProyectoBD_Molino
+Usuario: Admin
+Contraseña: admin123
