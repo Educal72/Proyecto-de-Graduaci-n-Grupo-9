@@ -85,7 +85,14 @@ namespace FrontEndWPF
 					string Rol = nuevoEmpleado.rol;
 
 					conexion.AddUser(Nombre, Apellidos, Apellidos, Cedula, Telefono, Correo, Contraseña, Rol, Fecha, Puesto, Salario);
-					NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
+					var con = conexion.SelectUser(Correo, conexion.HashPassword(Contraseña));
+					if (con != null)
+					{
+						SesionUsuario.Instance.correo = con["Correo"].ToString();
+						conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
+						SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
+						NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
+					}
 				}
 
 			}
