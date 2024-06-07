@@ -1,0 +1,79 @@
+﻿<Window x:Class="FrontEndWPF.BaseDeDatosPrimera"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FrontEndWPF"
+        mc:Ignorable="d"
+        Title="BaseDeDatosPrimera" Height="384" Width="481">
+    <Window.Resources>
+
+
+        <Style TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="PasswordBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <DockPanel>
+                <TextBlock Foreground="Red" FontSize="12">!</TextBlock>
+                <AdornedElementPlaceholder/>
+            </DockPanel>
+        </ControlTemplate>
+
+    </Window.Resources>
+    <Grid Background="Black">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="Titulo" Content="Conectar a Base de Datos" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Roboto Medium" FontSize="36" Foreground="White"/>
+        <Label Content="Servidor:" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="22" Width="100" Foreground="White"/>
+        <Label Content="Puerto:" HorizontalAlignment="Left" Margin="10,108,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="22" Width="100" Foreground="White"/>
+        <Button Content="Confirmar" HorizontalAlignment="Left" Margin="355,282,0,0" VerticalAlignment="Top" Height="39" Width="80" FontFamily="Roboto" Click="Button_Click" Background="#FF72A603" FontSize="14" FontWeight="Bold" Foreground="White"/>
+        <Button Content="Cancelar" HorizontalAlignment="Left" Margin="270,282,0,0" VerticalAlignment="Top" Height="39" Width="80" FontFamily="Roboto" Click="Button_Click_1" Background="#FF72A603" Foreground="White"/>
+        <Label Content="Nombre de BD:" HorizontalAlignment="Left" Margin="10,149,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="22" Width="160" Foreground="White"/>
+        <Label Content="Usuario:" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="22" Width="100" Foreground="White"/>
+        <Label Content="Contraseña:" HorizontalAlignment="Left" Margin="10,231,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="22" Width="138" Foreground="White"/>
+        <TextBox x:Name="servidor" HorizontalAlignment="Left" Margin="110,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="325" Height="27" VerticalContentAlignment="Center" Background="Black" Foreground="White" BorderBrush="White"/>
+        <TextBox x:Name="puerto" HorizontalAlignment="Left" Margin="110,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="325" Height="27" VerticalContentAlignment="Center" Background="Black" Foreground="White" BorderBrush="White"/>
+        <TextBox x:Name="nombre" HorizontalAlignment="Left" Margin="175,154,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="260" Height="27" VerticalContentAlignment="Center" Background="Black" Foreground="White" BorderBrush="White"/>
+        <TextBox x:Name="usuario" HorizontalAlignment="Left" Margin="110,195,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="325" Height="27" VerticalContentAlignment="Center" Background="Black" Foreground="White" BorderBrush="White"/>
+        <TextBox x:Name="contraseña" HorizontalAlignment="Left" Margin="148,236,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="287" Height="27" VerticalContentAlignment="Center" Background="Black" Foreground="White" BorderBrush="White"/>
+        <Button Content="Probar Conexión" HorizontalAlignment="Left" Margin="145,281,0,0" VerticalAlignment="Top" Height="39" Width="120" Background="#FF72A603" Foreground="White" Click="Button_Click_2"/>
+    </Grid>
+</Window>

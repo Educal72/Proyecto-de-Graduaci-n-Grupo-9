@@ -25,19 +25,57 @@ namespace FrontEndWPF
     public partial class MenuPrincipal : Page
     {
 		private DispatcherTimer timer;
+		string userRole = SesionUsuario.Instance.rol;
 		public MenuPrincipal()
         {
-			
             InitializeComponent();
+			user.Content = "Usuario: "+userRole;
 			timer = new DispatcherTimer();
 			timer.Interval = TimeSpan.FromSeconds(1);
 			timer.Tick += Timer_Tick;
 			timer.Start(); 
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
-			
+			switch (userRole)
+			{
+				case "Admin":
+					// Codigo Rol Admin
+					btnEmp.Visibility = Visibility.Visible;
+					btnInv.Visibility = Visibility.Visible;
+					btnPV.Visibility = Visibility.Visible;
+					btnRepor.Visibility = Visibility.Visible;
+					break;
+				case "Cajero":
+					// Codigo Rol Cajero
+					btnEmp.Visibility = Visibility.Hidden;
+					btnInv.Visibility = Visibility.Hidden;
+					btnPV.Visibility = Visibility.Visible;
+					btnRepor.Visibility = Visibility.Hidden;
+					break;
+				case "Contador":
+					// Codigo Rol Contador
+					btnEmp.Visibility = Visibility.Hidden;
+					btnInv.Visibility = Visibility.Hidden;
+					btnPV.Visibility = Visibility.Hidden;
+					btnRepor.Visibility = Visibility.Visible;
+					break;
+				case "Salonero":
+					// Codigo Rol Salonero
+					btnEmp.Visibility = Visibility.Hidden;
+					btnInv.Visibility = Visibility.Hidden;
+					btnPV.Visibility = Visibility.Hidden;
+					btnRepor.Visibility = Visibility.Hidden;
+					break;
+				default:
+					btnEmp.Visibility = Visibility.Hidden;
+					btnInv.Visibility = Visibility.Hidden;
+					btnPV.Visibility = Visibility.Hidden;
+					btnRepor.Visibility = Visibility.Hidden;
+					break;
+			}
+
 		}
 
-		private void Timer_Tick(object sender, EventArgs e)
+	private void Timer_Tick(object sender, EventArgs e)
 		{
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 		}

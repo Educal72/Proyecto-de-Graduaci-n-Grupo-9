@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,11 +20,13 @@ namespace FrontEndWPF
 	public partial class MainWindow : Window
 	{
 		public string Usuario;
+
 		public MainWindow()
 		{
+
 			InitializeComponent();
 			WindowState = WindowState.Maximized;
-			Uri iconUri = new Uri("D:\\Visual Studio Apps\\FrontEnd\\FrontEndWPF\\icono.ico", UriKind.RelativeOrAbsolute);
+			Uri iconUri = new Uri(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/icono.ico", UriKind.RelativeOrAbsolute);
 			this.Icon = BitmapFrame.Create(iconUri);
 			Login Pagina2 = new Login();
 			mainFrame.Navigate(Pagina2);
