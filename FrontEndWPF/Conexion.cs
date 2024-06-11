@@ -347,8 +347,9 @@ namespace FrontEndWPF
 						}
 					}
 
-					// Find the role ID
-					string userQuery = "SELECT Id FROM Usuario WHERE Cedula = @Cedula";
+
+                    // Find the role ID
+                    string userQuery = "SELECT Id FROM Usuario WHERE Cedula = @Cedula";
 					int userId = -1;
 
 					using (SqlCommand userCommand = new SqlCommand(userQuery, connection))
@@ -403,7 +404,42 @@ namespace FrontEndWPF
 			return success;
 		}
 
-		public string HashPassword(string password)
+        public bool InsertarProducto(string nombre, string categoria, decimal precio, bool activo)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "INSERT INTO Productos (Nombre, Categoria, Precio, Activo) VALUES (@Nombre, @Categoria, @Precio, @Activo)";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Nombre", nombre);
+                        command.Parameters.AddWithValue("@Categoria", categoria);
+                        command.Parameters.AddWithValue("@Precio", precio);
+                        command.Parameters.AddWithValue("@Activo", activo);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing insert query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+
+        public string HashPassword(string password)
 		{
 			using (SHA256 sha256Hash = SHA256.Create())
 			{
