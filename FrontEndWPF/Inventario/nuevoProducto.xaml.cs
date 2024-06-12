@@ -14,6 +14,7 @@ namespace FrontEndWPF.Inventario
         private void Guardar_Click(object sender, RoutedEventArgs e)
         {
             // Obtener los valores de los campos
+            int codigoProducto = 2;
             string nombreProducto = Nombre.Text;
             string categoriaProducto = Categoria.Text;
             decimal precioProducto = Convert.ToDecimal(Precio.Text);
@@ -21,7 +22,7 @@ namespace FrontEndWPF.Inventario
 
             // Llamar al método para realizar la inserción en la base de datos
             Conexion conexion = new Conexion();
-            bool success = conexion.InsertarProducto(nombreProducto, categoriaProducto, precioProducto, activoProducto);
+            bool success = conexion.InsertarProducto(codigoProducto, nombreProducto, categoriaProducto, precioProducto, activoProducto);
 
             if (success)
             {

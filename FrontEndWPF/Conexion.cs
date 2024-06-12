@@ -168,55 +168,55 @@ namespace FrontEndWPF
 
 			return result;
 		}
-        public Dictionary<string, object> GetUserByEmail(string correo)
-        {
-            var result = new Dictionary<string, object>();
+		public Dictionary<string, object> GetUserByEmail(string correo)
+		{
+			var result = new Dictionary<string, object>();
 
-            using (SqlConnection connection = OpenConnection())
-            {
-                if (connection != null)
-                {
-                    string query = "SELECT * FROM Usuario WHERE Correo = @Correo";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@Correo", correo);
+			using (SqlConnection connection = OpenConnection())
+			{
+				if (connection != null)
+				{
+					string query = "SELECT * FROM Usuario WHERE Correo = @Correo";
+					using (SqlCommand command = new SqlCommand(query, connection))
+					{
+						command.Parameters.AddWithValue("@Correo", correo);
 
-                        try
-                        {
-                            using (SqlDataReader reader = command.ExecuteReader())
-                            {
-                                if (reader.Read())
-                                {
-                                    for (int i = 0; i < reader.FieldCount; i++)
-                                    {
-                                        string fieldName = reader.GetName(i);
-                                        if (!reader.IsDBNull(i))
-                                        {
-                                            result[fieldName] = reader.GetValue(i);
-                                        }
-                                        else
-                                        {
-                                            result[fieldName] = null; // Otra opción sería asignar un valor predeterminado, como string.Empty
-                                        }
-                                    }
-                                }
+						try
+						{
+							using (SqlDataReader reader = command.ExecuteReader())
+							{
+								if (reader.Read())
+								{
+									for (int i = 0; i < reader.FieldCount; i++)
+									{
+										string fieldName = reader.GetName(i);
+										if (!reader.IsDBNull(i))
+										{
+											result[fieldName] = reader.GetValue(i);
+										}
+										else
+										{
+											result[fieldName] = null; // Otra opción sería asignar un valor predeterminado, como string.Empty
+										}
+									}
+								}
 
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("Error executing query: " + ex.Message);
-                        }
-                    }
+							}
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine("Error executing query: " + ex.Message);
+						}
+					}
 
-                    CloseConnection(connection);
-                }
-            }
+					CloseConnection(connection);
+				}
+			}
 
-            return result;
-        }
+			return result;
+		}
 
-        public Dictionary<string, object> SelectUserCedula(string correo, int cedula)
+		public Dictionary<string, object> SelectUserCedula(string correo, int cedula)
 		{
 			var result = new Dictionary<string, object>();
 
@@ -404,7 +404,7 @@ namespace FrontEndWPF
 			return success;
 		}
 
-        public bool InsertarProducto(string nombre, string categoria, decimal precio, bool activo)
+        public bool InsertarProducto(int codigo ,string nombre, string categoria, decimal precio, bool activo)
         {
             bool success = false;
 
@@ -412,9 +412,10 @@ namespace FrontEndWPF
             {
                 if (connection != null)
                 {
-                    string query = "INSERT INTO Productos (Nombre, Categoria, Precio, Activo) VALUES (@Nombre, @Categoria, @Precio, @Activo)";
+                    string query = "INSERT INTO Productos (Codigo, Nombre, Categoria, Precio, Activo) VALUES (@Codigo, @Nombre, @Categoria, @Precio, @Activo)";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.Parameters.AddWithValue("@Codigo", codigo);
                         command.Parameters.AddWithValue("@Nombre", nombre);
                         command.Parameters.AddWithValue("@Categoria", categoria);
                         command.Parameters.AddWithValue("@Precio", precio);

@@ -12,13 +12,23 @@ namespace FrontEndWPF
     {
         private DispatcherTimer timer;
         private string userEmail;
-
+        public string userRol = SesionUsuario.Instance.rol;
         public Perfil()
         {
             InitializeComponent();
+            foreach (ComboBoxItem item in comboRol.Items)
+            {
+
+                if (item.Content.ToString() == userRol)
+                {
+                    // Set the matched item as selected
+                    comboRol.SelectedItem = item;
+                    break; // Exit loop once found
+                }
+            }
 
             // Establecer el DataContext con el ViewModel
-            DataContext = new PerfilViewModel(userEmail);
+            DataContext = new PerfilViewModel();
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);

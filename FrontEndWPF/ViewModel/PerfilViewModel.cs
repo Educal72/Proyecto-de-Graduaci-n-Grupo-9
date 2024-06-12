@@ -58,14 +58,15 @@ namespace FrontEndWPF
             set { rol = value; OnPropertyChanged(); }
         }
 
-        public PerfilViewModel(string userEmail)
+        public PerfilViewModel()
         {
             conexion = new Conexion();
-            LoadUserData(userEmail);
+            LoadUserData();
         }
 
-        private void LoadUserData(string userEmail)
+        private void LoadUserData()
         {
+            string userEmail = SesionUsuario.Instance.correo;
             var userData = conexion.GetUserByEmail(userEmail);
             if (userData != null)
             {

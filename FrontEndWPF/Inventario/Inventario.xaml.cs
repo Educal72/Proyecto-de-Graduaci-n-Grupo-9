@@ -161,10 +161,10 @@ namespace FrontEndWPF.Inventario
 				productos.Add(new Producto
 				{
 					//Id = nuevoProducto.id,
-					//Nombre = nuevoProducto.nombre,
-					//Categoria = nuevoProducto.categoria,
-					//Precio = nuevoProducto.precio,
-					//Activo = nuevoProducto.activo
+					//Nombre = nuevoProducto.nombreProducto,
+					//Categoria = nuevoProducto.categoriaProducto,
+					//Precio = nuevoProducto.precioProducto,
+					//Activo = nuevoProducto.activoProducto
 				});
 				ProductosGrid.Items.Refresh();
 			}
