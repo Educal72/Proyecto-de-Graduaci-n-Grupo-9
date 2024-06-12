@@ -131,13 +131,6 @@
                           FontSize="18" 
                           ColumnWidth="*" 
                           Grid.Column="1" Grid.Row="1" Margin="5,5,0,10" VerticalAlignment="Stretch">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Código" Binding="{Binding Codigo}" />
-                        <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" />
-                        <DataGridTextColumn Header="Categoría" Binding="{Binding Categoria}" />
-                        <DataGridTextColumn Header="Precio" Binding="{Binding Precio}" />
-                        <DataGridCheckBoxColumn Header="Activo" Binding="{Binding Activo}" />
-                    </DataGrid.Columns>
                 </DataGrid>
             </Grid>
             <Button VerticalAlignment="Top" Margin="0,102,13,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Salir" Background="#FFABD904" Click="Button_Click" HorizontalAlignment="Right" Width="90"/>
