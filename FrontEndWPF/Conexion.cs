@@ -168,6 +168,53 @@ namespace FrontEndWPF
 
 			return result;
 		}
+		public Dictionary<string, object> GetUserByEmail(string correo)
+		{
+			var result = new Dictionary<string, object>();
+
+			using (SqlConnection connection = OpenConnection())
+			{
+				if (connection != null)
+				{
+					string query = "SELECT * FROM Usuario WHERE Correo = @Correo";
+					using (SqlCommand command = new SqlCommand(query, connection))
+					{
+						command.Parameters.AddWithValue("@Correo", correo);
+
+						try
+						{
+							using (SqlDataReader reader = command.ExecuteReader())
+							{
+								if (reader.Read())
+								{
+									for (int i = 0; i < reader.FieldCount; i++)
+									{
+										string fieldName = reader.GetName(i);
+										if (!reader.IsDBNull(i))
+										{
+											result[fieldName] = reader.GetValue(i);
+										}
+										else
+										{
+											result[fieldName] = null; // Otra opción sería asignar un valor predeterminado, como string.Empty
+										}
+									}
+								}
+
+							}
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine("Error executing query: " + ex.Message);
+						}
+					}
+
+					CloseConnection(connection);
+				}
+			}
+
+			return result;
+		}
 
 		public Dictionary<string, object> SelectUserCedula(string correo, int cedula)
 		{
@@ -300,8 +347,9 @@ namespace FrontEndWPF
 						}
 					}
 
-					// Find the role ID
-					string userQuery = "SELECT Id FROM Usuario WHERE Cedula = @Cedula";
+
+                    // Find the role ID
+                    string userQuery = "SELECT Id FROM Usuario WHERE Cedula = @Cedula";
 					int userId = -1;
 
 					using (SqlCommand userCommand = new SqlCommand(userQuery, connection))
@@ -356,7 +404,43 @@ namespace FrontEndWPF
 			return success;
 		}
 
-		public string HashPassword(string password)
+        public bool InsertarProducto(int codigo ,string nombre, string categoria, decimal precio, bool activo)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "INSERT INTO Productos (Codigo, Nombre, Categoria, Precio, Activo) VALUES (@Codigo, @Nombre, @Categoria, @Precio, @Activo)";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Codigo", codigo);
+                        command.Parameters.AddWithValue("@Nombre", nombre);
+                        command.Parameters.AddWithValue("@Categoria", categoria);
+                        command.Parameters.AddWithValue("@Precio", precio);
+                        command.Parameters.AddWithValue("@Activo", activo);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing insert query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+
+        public string HashPassword(string password)
 		{
 			using (SHA256 sha256Hash = SHA256.Create())
 			{

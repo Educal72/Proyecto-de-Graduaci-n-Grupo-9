@@ -160,11 +160,11 @@ namespace FrontEndWPF.Inventario
 			{
 				productos.Add(new Producto
 				{
-					Id = nuevoProducto.id,
-					Nombre = nuevoProducto.nombre,
-					Categoria = nuevoProducto.categoria,
-					Precio = nuevoProducto.precio,
-					Activo = nuevoProducto.activo
+					//Id = nuevoProducto.id,
+					//Nombre = nuevoProducto.nombreProducto,
+					//Categoria = nuevoProducto.categoriaProducto,
+					//Precio = nuevoProducto.precioProducto,
+					//Activo = nuevoProducto.activoProducto
 				});
 				ProductosGrid.Items.Refresh();
 			}
@@ -184,10 +184,10 @@ namespace FrontEndWPF.Inventario
 				nuevoProducto.Activo.IsChecked = selectedValue.Activo;
 				if (nuevoProducto.ShowDialog() == true)
 				{
-					selectedValue.Nombre = nuevoProducto.nombre;
-					selectedValue.Categoria = nuevoProducto.categoria;
-					selectedValue.Precio = nuevoProducto.precio;
-					selectedValue.Activo = nuevoProducto.activo;
+					//selectedValue.Nombre = nuevoProducto.nombre;
+					//selectedValue.Categoria = nuevoProducto.categoria;
+					//selectedValue.Precio = nuevoProducto.precio;
+					//selectedValue.Activo = nuevoProducto.activo;
 					ProductosGrid.Items.Refresh();
 				}
 			}

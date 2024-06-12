@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FrontEndWPF.Inventario"
       mc:Ignorable="d" 
-      Title="Inventario" Background="Black" Width="1920" Height="1080">
+      Title="Inventario" Background="Black" Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top">
     <Page.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -25,29 +25,112 @@
             </Setter>
         </Style>
     </Page.Resources>
-    <Grid Width="1920" Height="1080" VerticalAlignment="Center" Background="Black">
-        <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727"/>
-        <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
-        <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="280" RenderTransformOrigin="0.5,1.289"/>
-        <Label x:Name="user" Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="175" RenderTransformOrigin="0.514,0.567"/>
-        <Grid Margin="1525,106,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="380">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0*"/>
-                <ColumnDefinition Width="380"/>
-            </Grid.ColumnDefinitions>
-            <Button
-                HorizontalAlignment="Left" Width="90" VerticalAlignment="Center" Margin="290,0,0,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Salir" Grid.ColumnSpan="2" Background="#FFABD904" Click="Button_Click"/>
-        </Grid>
-        <DataGrid x:Name="InventarioGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,300,960,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*"/>
-        <DataGrid x:Name="ProductosGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="965,300,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*"/>
-        <Button Content="Añadir" HorizontalAlignment="Left" Margin="605,208,0,0" VerticalAlignment="Top" Height="75" Width="115" FontFamily="Roboto" FontSize="24" Click="Button_Click_3"/>
-        <Button Content="Editar" HorizontalAlignment="Left" Margin="725,208,0,0" VerticalAlignment="Top" Height="75" Width="115" FontFamily="Roboto" FontSize="24" Click="Button_Click_4"/>
-        <Button Content="Eliminar" HorizontalAlignment="Left" Margin="845,208,0,0" VerticalAlignment="Top" Height="75" Width="115" FontSize="24" FontFamily="Roboto" Click="Button_Click_1"/>
-        <Button Content="Añadir" HorizontalAlignment="Left" Margin="1555,208,0,0" VerticalAlignment="Top" Height="75" Width="115" FontFamily="Roboto" FontSize="24" Click="Button_Click_5"/>
-        <Button Content="Editar" HorizontalAlignment="Left" Margin="1675,208,0,0" VerticalAlignment="Top" Height="75" Width="115" FontFamily="Roboto" FontSize="24" Click="Button_Click_6"/>
-        <Button Content="Eliminar" HorizontalAlignment="Left" Margin="1795,208,0,0" VerticalAlignment="Top" Height="75" Width="115" FontSize="24" FontFamily="Roboto" Click="Button_Click_2"/>
-        <Label Content="Inventario" HorizontalAlignment="Left" Margin="10,208,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontWeight="Bold" FontSize="48" Foreground="White" Height="75" VerticalContentAlignment="Center"/>
-        <Label Content="Productos" HorizontalAlignment="Left" Margin="965,208,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontWeight="Bold" FontSize="48" Foreground="White" Height="75" VerticalContentAlignment="Center"/>
-    </Grid>
-</Page>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Width="Auto" Height="Auto" VerticalAlignment="Center" Background="Black" HorizontalAlignment="Stretch" >
+            <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727" HorizontalAlignment="Stretch"/>
+            <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
+            <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" Margin="0,58,13,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" RenderTransformOrigin="0.5,1.289" HorizontalAlignment="Right" Width="280"/>
+            <Label x:Name="user" Content="Usuario: Admin" Margin="0,14,16,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" RenderTransformOrigin="0.514,0.567" HorizontalAlignment="Right" Width="aUTO"/>
+            <Grid Margin="10,195,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
+                <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,10,0">
+                    <Label Content="Inventario" 
+Margin="0,0,0,0" 
+VerticalAlignment="Top" 
+FontFamily="Roboto" 
+FontWeight="Bold" 
+FontSize="48" 
+Foreground="White" 
+Height="75" 
+VerticalContentAlignment="Center"/>
+                    <Button Content="Añadir" 
+                        Margin="0,0,10,0" 
+                        VerticalAlignment="Top" 
+                        Height="75" 
+                        Width="115" 
+                        FontFamily="Roboto" 
+                        FontSize="24" 
+                        Click="Button_Click_3"/>
+                    <Button Content="Editar" 
+                        Margin="0,0,10,0" 
+                        VerticalAlignment="Top" 
+                        Height="75" 
+                        Width="115" 
+                        FontFamily="Roboto" 
+                        FontSize="24" 
+                        Click="Button_Click_4"/>
+                    <Button Content="Eliminar" 
+                        Margin="0,0,0,0" 
+                        VerticalAlignment="Top" 
+                        Height="75" 
+                        Width="115" 
+                        FontSize="24" 
+                        FontFamily="Roboto" 
+                        Click="Button_Click_1"/>
+                </StackPanel>
+
+                <!-- Right Section -->
+                <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,0,0,0">
+                    <Label Content="Productos" 
+Margin="0,0,0,0" 
+VerticalAlignment="Top" 
+FontFamily="Roboto" 
+FontWeight="Bold" 
+FontSize="48" 
+Foreground="White" 
+Height="75" 
+VerticalContentAlignment="Center"/>
+                    <Button Content="Añadir" 
+                        Margin="0,0,10,0" 
+                        VerticalAlignment="Top" 
+                        Height="75" 
+                        Width="115" 
+                        FontFamily="Roboto" 
+                        FontSize="24" 
+                        Click="Button_Click_5" HorizontalAlignment="Right"
+/>
+                    <Button Content="Editar" 
+                        Margin="0,0,10,0" 
+                        VerticalAlignment="Top" 
+                        Height="75" 
+                        Width="115" 
+                        FontFamily="Roboto" 
+                        FontSize="24" 
+                        Click="Button_Click_4" HorizontalAlignment="Right"
+/>
+                    <Button Content="Eliminar" 
+                        Margin="0,0,0,0" 
+                        VerticalAlignment="Top" 
+                        Height="75" 
+                        Width="115" 
+                        FontSize="24" 
+                        FontFamily="Roboto" 
+                        Click="Button_Click_1" HorizontalAlignment="Right"
+/>
+                </StackPanel>
+                <DataGrid x:Name="InventarioGrid" 
+                  d:ItemsSource="{d:SampleData ItemCount=5}" 
+                  FontFamily="Roboto" 
+                  FontSize="18" 
+                  ColumnWidth="*"
+                  Grid.Column="0" Grid.Row="1" Margin="0,5,10,10" VerticalAlignment="Stretch" />
+
+                <DataGrid x:Name="ProductosGrid" 
+                  d:ItemsSource="{d:SampleData ItemCount=5}" 
+                  FontFamily="Roboto" 
+                  FontSize="18" 
+                  ColumnWidth="*"
+                  Grid.Column="1" Grid.Row="1" Margin="5,5,0,10" VerticalAlignment="Stretch" />
+            </Grid>
+            <Button VerticalAlignment="Top" Margin="0,102,13,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Salir" Background="#FFABD904" Click="Button_Click" HorizontalAlignment="Right" Width="90"/>
+        </Grid>
+    </ScrollViewer>
+</Page>
