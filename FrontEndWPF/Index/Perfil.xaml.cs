@@ -13,6 +13,8 @@ namespace FrontEndWPF
         private DispatcherTimer timer;
         private string userEmail;
         public string userRol = SesionUsuario.Instance.rol;
+        public Conexion conexion = new Conexion();
+
         public Perfil()
         {
             InitializeComponent();
@@ -55,6 +57,19 @@ namespace FrontEndWPF
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Instrucciones enviadas al correo electrónico, favor revisarlo.", "Recuperación de Contraseña", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            //var actualizarUsuario = new PerfilViewModel(); Esta pendiente revisar el modelo.
+            //conexion.OpenConnection();
+            conexion.ActualizarUsuario(correo.Text, Nombre.Text, primerApellido.Text, segundoApellido.Text, Cedula.Text, Telefono.Text, comboRol.Text);
+            MessageBox.Show("Funciona");
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
         }
     }
 }

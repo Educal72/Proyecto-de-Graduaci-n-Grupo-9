@@ -486,7 +486,7 @@ namespace FrontEndWPF
             return success;
         }
 
-        public bool ActualizarUsuario(string correo, string nombre, string primerApellido, string segundoApellido, string cedula, string telefono, string contraseña, string rol)
+        public bool ActualizarUsuario(string correo, string nombre, string primerApellido, string segundoApellido, string cedula, string telefono, string rol)
         {
             bool success = false;
 
@@ -522,17 +522,16 @@ namespace FrontEndWPF
                     }
 
                     // Actualizar el usuario
-                    string query = "UPDATE Usuario SET Nombre = @Nombre, PrimerApellido = @PrimerApellido, SegundoApellido = @SegundoApellido, " +
-                                   "Cedula = @Cedula, Telefono = @Telefono, Contraseña = @Contraseña, IdRol = @IdRol WHERE Correo = @Correo";
+                    string actualizarquery = "UPDATE Usuario SET Nombre = @Nombre, PrimerApellido = @PrimerApellido, SegundoApellido = @SegundoApellido, " +
+                                   "Cedula = @Cedula, Telefono = @Telefono, IdRol = @IdRol WHERE Correo = @Correo";
 
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    using (SqlCommand command = new SqlCommand(actualizarquery, connection))
                     {
                         command.Parameters.AddWithValue("@Nombre", nombre);
                         command.Parameters.AddWithValue("@PrimerApellido", primerApellido);
                         command.Parameters.AddWithValue("@SegundoApellido", segundoApellido);
                         command.Parameters.AddWithValue("@Cedula", cedula);
                         command.Parameters.AddWithValue("@Telefono", telefono);
-                        command.Parameters.AddWithValue("@Contraseña", HashPassword(contraseña));
                         command.Parameters.AddWithValue("@IdRol", roleId);
                         command.Parameters.AddWithValue("@Correo", correo);
 
