@@ -486,6 +486,74 @@ namespace FrontEndWPF
             return success;
         }
 
+        public bool ActualizarUsuario(string correo, string nombre, string primerApellido, string segundoApellido, string cedula, string telefono, string contraseña, string rol)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    // Obtener el ID del rol
+                    string roleQuery = "SELECT Id FROM roles WHERE Nombre = @Rol";
+                    int roleId = -1;
+
+                    using (SqlCommand roleCommand = new SqlCommand(roleQuery, connection))
+                    {
+                        roleCommand.Parameters.AddWithValue("@Rol", rol);
+                        try
+                        {
+                            object result = roleCommand.ExecuteScalar();
+                            if (result != null)
+                            {
+                                roleId = Convert.ToInt32(result);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Rol no encontrado.");
+                                return false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error al ejecutar la consulta de rol: " + ex.Message);
+                            return false;
+                        }
+                    }
+
+                    // Actualizar el usuario
+                    string query = "UPDATE Usuario SET Nombre = @Nombre, PrimerApellido = @PrimerApellido, SegundoApellido = @SegundoApellido, " +
+                                   "Cedula = @Cedula, Telefono = @Telefono, Contraseña = @Contraseña, IdRol = @IdRol WHERE Correo = @Correo";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Nombre", nombre);
+                        command.Parameters.AddWithValue("@PrimerApellido", primerApellido);
+                        command.Parameters.AddWithValue("@SegundoApellido", segundoApellido);
+                        command.Parameters.AddWithValue("@Cedula", cedula);
+                        command.Parameters.AddWithValue("@Telefono", telefono);
+                        command.Parameters.AddWithValue("@Contraseña", HashPassword(contraseña));
+                        command.Parameters.AddWithValue("@IdRol", roleId);
+                        command.Parameters.AddWithValue("@Correo", correo);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error al ejecutar la consulta de actualización: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
 
         public string HashPassword(string password)
 		{

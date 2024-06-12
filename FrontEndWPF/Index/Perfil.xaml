@@ -85,7 +85,7 @@
                 <ComboBoxItem Content="Salonero"/>
                 <ComboBoxItem Content="Contador"/>
             </ComboBox>
-            <Button Content="Guardar" Margin="0,908,20,0" VerticalAlignment="Top" Height="50" Background="#FFABD904" FontFamily="Roboto" FontSize="24" Command="{Binding GuardarCommand}" HorizontalAlignment="Right" Width="125"/>
+            <Button Content="Guardar" Margin="0,908,20,0" VerticalAlignment="Top" Height="50" Background="#FFABD904" FontFamily="Roboto" FontSize="24" Command="{Binding ActualizarUsuarioCommand}" HorizontalAlignment="Right" Width="125"/>
             <Button Content="Cambiar contraseña" Margin="0,908,150,0" VerticalAlignment="Top" Height="50" Background="Black" FontFamily="Roboto" FontSize="24" Foreground="White" BorderBrush="White" Command="{Binding CambiarContrasenaCommand}" HorizontalAlignment="Right" Width="230"/>
             <Button VerticalAlignment="Top" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Background="#FFABD904" Command="{Binding VolverCommand}" Margin="0,103,10,0" HorizontalAlignment="Right" Width="90"/>
         </Grid>
