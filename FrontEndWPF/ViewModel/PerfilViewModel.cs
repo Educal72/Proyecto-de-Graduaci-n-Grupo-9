@@ -51,12 +51,20 @@ namespace FrontEndWPF
             set { correo = value; OnPropertyChanged(); }
         }
 
+        private string contraseña;
+        public string Contraseña
+        {
+            get => contraseña;
+            set { contraseña = value; OnPropertyChanged(); }
+        }
+
         private string rol;
         public string Rol
         {
             get => rol;
             set { rol = value; OnPropertyChanged(); }
         }
+
 
         public PerfilViewModel()
         {
@@ -77,6 +85,19 @@ namespace FrontEndWPF
                 Telefono = userData["Telefono"].ToString();
                 Correo = userData["Correo"].ToString();
                 Rol = conexion.getRoleName(Convert.ToInt32(userData["IdRol"]));
+            }
+        }
+
+        public void ActualizarUsuario()
+        {
+            bool actualizado = conexion.ActualizarUsuario(Correo, Nombre, PrimerApellido, SegundoApellido, Cedula, Telefono, Rol);
+            if (actualizado)
+            {
+                // Usuario actualizado exitosamente
+            }
+            else
+            {
+                // Error al actualizar el usuario
             }
         }
 

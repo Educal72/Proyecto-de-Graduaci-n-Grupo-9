@@ -63,20 +63,18 @@
             <Label Content="Configura la información de tu cuenta" HorizontalAlignment="Left" Margin="42,280,0,0" VerticalAlignment="Top" Foreground="#FFC1C1C1" FontFamily="Roboto" FontSize="24"/>
             <Label Content="Información Personal" HorizontalAlignment="Left" Margin="42,351,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="36" FontWeight="Bold"/>
             <Label Content="Nombre" HorizontalAlignment="Left" Margin="42,415,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox Text="{Binding Nombre}" HorizontalAlignment="Left" Margin="42,459,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+            <TextBox x:Name="Nombre" Text="{Binding Nombre}" HorizontalAlignment="Left" Margin="42,459,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
             <Label Content="Primer Apellido" HorizontalAlignment="Left" Margin="465,415,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox Text="{Binding PrimerApellido}" HorizontalAlignment="Left" Margin="465,459,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+            <TextBox x:Name="primerApellido" Text="{Binding PrimerApellido}" HorizontalAlignment="Left" Margin="465,459,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
             <Label Content="Segundo Apellido" HorizontalAlignment="Left" Margin="890,415,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox Text="{Binding SegundoApellido}" HorizontalAlignment="Left" Margin="890,459,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Background="Black" Foreground="White"/>
+            <TextBox x:Name="segundoApellido" Text="{Binding SegundoApellido}" HorizontalAlignment="Left" Margin="890,459,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Background="Black" Foreground="White"/>
             <Label Content="Cédula" HorizontalAlignment="Left" Margin="42,536,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox Text="{Binding Cedula}" HorizontalAlignment="Left" Margin="42,580,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+            <TextBox x:Name="Cedula" Text="{Binding Cedula}" HorizontalAlignment="Left" Margin="42,580,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
             <Label Content="Teléfono" HorizontalAlignment="Left" Margin="465,536,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox Text="{Binding Telefono}" HorizontalAlignment="Left" Margin="465,580,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Background="Black" Foreground="White"/>
+            <TextBox x:Name="Telefono" Text="{Binding Telefono}" HorizontalAlignment="Left" Margin="465,580,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Background="Black" Foreground="White"/>
             <Label Content="Cuenta" HorizontalAlignment="Left" Margin="42,670,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="36" FontWeight="Bold"/>
             <Label Content="Correo Electrónico" HorizontalAlignment="Left" Margin="42,734,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox Text="{Binding Correo}" HorizontalAlignment="Left" Margin="42,778,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="600" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
-            <Label Content="Contraseña" HorizontalAlignment="Left" Margin="695,734,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox Text="{Binding Contrasena}" HorizontalAlignment="Left" Margin="695,778,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="595" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+            <TextBox x:Name="correo" Text="{Binding Correo}" HorizontalAlignment="Left" Margin="42,778,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="600" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
             <Label Content="Rol" HorizontalAlignment="Left" Margin="42,864,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
             <ComboBox x:Name="comboRol" SelectedItem="{Binding Rol}" HorizontalAlignment="Left" Margin="42,908,0,0" VerticalAlignment="Top" Width="600" Height="50" RenderTransformOrigin="0.513,0.14" Background="White" Foreground="Black" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" BorderBrush="White
 ">
@@ -85,9 +83,9 @@
                 <ComboBoxItem Content="Salonero"/>
                 <ComboBoxItem Content="Contador"/>
             </ComboBox>
-            <Button Content="Guardar" Margin="0,908,20,0" VerticalAlignment="Top" Height="50" Background="#FFABD904" FontFamily="Roboto" FontSize="24" Command="{Binding GuardarCommand}" HorizontalAlignment="Right" Width="125"/>
+            <Button Content="Guardar" Margin="0,908,20,0" VerticalAlignment="Top" Height="50" Background="#FFABD904" FontFamily="Roboto" FontSize="24" Command="{Binding ActualizarUsuarioCommand}" HorizontalAlignment="Right" Width="125" Click="Button_Click_3"/>
             <Button Content="Cambiar contraseña" Margin="0,908,150,0" VerticalAlignment="Top" Height="50" Background="Black" FontFamily="Roboto" FontSize="24" Foreground="White" BorderBrush="White" Command="{Binding CambiarContrasenaCommand}" HorizontalAlignment="Right" Width="230"/>
-            <Button VerticalAlignment="Top" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Background="#FFABD904" Command="{Binding VolverCommand}" Margin="0,103,10,0" HorizontalAlignment="Right" Width="90"/>
+            <Button VerticalAlignment="Top" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Background="#FFABD904" Command="{Binding VolverCommand}" Margin="0,103,10,0" HorizontalAlignment="Right" Width="90" Click="Button_Click_4"/>
         </Grid>
     </ScrollViewer>
 </Page>
