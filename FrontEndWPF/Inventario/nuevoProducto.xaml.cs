@@ -6,6 +6,13 @@ namespace FrontEndWPF.Inventario
 {
     public partial class nuevoProducto : Window
     {
+        private int i;
+        internal object id;
+        internal object nombreProducto;
+        internal object categoriaProducto;
+        internal object precioProducto;
+        internal object activoProducto;
+
         public nuevoProducto()
         {
             InitializeComponent();
@@ -14,7 +21,7 @@ namespace FrontEndWPF.Inventario
         private void Guardar_Click(object sender, RoutedEventArgs e)
         {
             // Obtener los valores de los campos
-            int codigoProducto = 2;
+            int codigoProducto = 7;
             string nombreProducto = Nombre.Text;
             string categoriaProducto = Categoria.Text;
             decimal precioProducto = Convert.ToDecimal(Precio.Text);

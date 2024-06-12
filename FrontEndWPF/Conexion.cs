@@ -216,7 +216,54 @@ namespace FrontEndWPF
 			return result;
 		}
 
-		public Dictionary<string, object> SelectUserCedula(string correo, int cedula)
+        public List<Dictionary<string, object>> GetProductos()
+        {
+            var productos = new List<Dictionary<string, object>>();
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT Codigo, Nombre, Categoria, Precio, Activo FROM Productos";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var producto = new Dictionary<string, object>();
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        string fieldName = reader.GetName(i);
+                                        if (!reader.IsDBNull(i))
+                                        {
+                                            producto[fieldName] = reader.GetValue(i);
+                                        }
+                                        else
+                                        {
+                                            producto[fieldName] = null; // Otra opción sería asignar un valor predeterminado, como string.Empty
+                                        }
+                                    }
+                                    productos.Add(producto);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return productos;
+        }
+
+        public Dictionary<string, object> SelectUserCedula(string correo, int cedula)
 		{
 			var result = new Dictionary<string, object>();
 
