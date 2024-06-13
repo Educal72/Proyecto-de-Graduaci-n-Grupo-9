@@ -92,21 +92,22 @@ namespace FrontEndWPF
 		}
 		public class Empleado
 		{
-			// Propiedades del empleado
-			public string Cedula { get; set; }
-			public string Nombre { get; set; }
-			public string Apellidos { get; set; }
-			public string Puesto { get; set; }
-			public DateTime FechaContratacion { get; set; }
-			public double Salario { get; set; }
-			public string CorreoElectronico { get; set; }
-			public string Telefono { get; set; }
-			public string Contraseña { get; set;}
-			public string Rol {  get; set; }
-			public bool Activo { get; set; }
+			// Propiedades del empleado			
+			public string? Nombre { get; set; }
+			public string? PrimerApellido { get; set; }
+            public string? SegundoApellido { get; set; }           
+			public string? Cedula { get; set; }
+            public string? Telefono { get; set; }
+            public string? Correo { get; set; }
+            public string? Contraseña { get; set; }
+            public string IdRol { get; set; }            
+			public DateTime FechaCreacion { get; set; }
+            public string? Puesto { get; set; }
+            public double Salario { get; set; }
+			//public bool Activo { get; set; }
 		}
 
-		public class Fichajes
+        public class Fichajes
 		{
 			public int Id { get; set; }
 			public int Cedula { get; set; }
@@ -124,7 +125,8 @@ namespace FrontEndWPF
 			public string Empresa { get; set; }
 			public string Cargo { get; set; }
 		}
-			public class PermisoDeAusencia
+		
+		public class PermisoDeAusencia
 		{
 			public string Empleado { get; set; } 
 			public DateTime FechaInicio { get; set; } 

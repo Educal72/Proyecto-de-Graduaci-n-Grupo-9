@@ -9,7 +9,7 @@ namespace FrontEndWPF
     {
         private Conexion conexion;
 
-        public ObservableCollection<Producto> Productos { get; private set; }
+        public ObservableCollection<Producto> Productos { get; set; }
 
         public ProductosViewModel()
         {
@@ -18,7 +18,7 @@ namespace FrontEndWPF
             LoadProductosData();
         }
 
-        private void LoadProductosData()
+        public void LoadProductosData()
         {
             var productosData = conexion.GetProductos();
             if (productosData != null && productosData.Count > 0)

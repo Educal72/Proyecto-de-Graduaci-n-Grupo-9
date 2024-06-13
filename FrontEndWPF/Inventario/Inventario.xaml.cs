@@ -8,13 +8,15 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-
 using static FrontEndWPF.empleadosAdmin;
 using static FrontEndWPF.Modelos.UserModel;
 using static FrontEndWPF.Modelos.InventarioModel;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+
 
 namespace FrontEndWPF.Inventario
 {
+
     public partial class Inventario : Page
     {
         private DispatcherTimer timer;
@@ -30,7 +32,7 @@ namespace FrontEndWPF.Inventario
             timer.Tick += Timer_Tick;
             timer.Start();
             fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
-
+            Conexion conexion = new Conexion();
             productosViewModel = new ProductosViewModel();
             viewModel = new ProductosViewModel();
             DataContext = viewModel;
@@ -41,6 +43,7 @@ namespace FrontEndWPF.Inventario
             PopulateProductosDataGrid();
         }
 
+
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
@@ -50,7 +53,7 @@ namespace FrontEndWPF.Inventario
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			NavigationService.GoBack();
-        }
+		}
 
 		public void PopulateInventariosDataGrid()
 		{
@@ -67,7 +70,7 @@ namespace FrontEndWPF.Inventario
 
 					while (reader.Read())
 					{
-						inventarios.Add(new InventarioM() 
+						inventarios.Add(new InventarioM()
 						{
 							Id = Convert.ToInt32(reader["Id"]),
 							Nombre = reader["Nombre"].ToString(),
@@ -87,73 +90,58 @@ namespace FrontEndWPF.Inventario
 		}
 
 
-
-
-
-    
-
-
-		public class Inventarios
+		public void PopulateProductosDataGrid()
 		{
-			public int Id { get; set; }
-			public string Nombre { get; set; }
-			public int Cantidad { get; set; }
-			public decimal Precio { get; set; }
-			public bool Activo { get; set; }
+			ProductosGrid.ItemsSource = productosViewModel.Productos;
 		}
-
-
-        public void PopulateProductosDataGrid()
-        {
-            ProductosGrid.ItemsSource = productosViewModel.Productos;
-        }
 
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 			var selectedValue = InventarioGrid.SelectedValue as InventarioM;
-			
+
 			if (selectedValue != null)
 			{
 				MessageBoxResult result = MessageBox.Show("¿Esta seguro que desea eliminar esta entrada del inventario?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-				if (result == MessageBoxResult.Yes) {
+				if (result == MessageBoxResult.Yes)
+				{
 					bool resultQuery = conexion.DeleteInventario(selectedValue.Id);
 					PopulateInventariosDataGrid();
 					if (resultQuery)
 					{
 						MessageBox.Show("La entrada fue eliminada exitosamente", "Resultado", MessageBoxButton.OK, MessageBoxImage.Information);
 					}
-					else {
+					else
+					{
 						MessageBox.Show("La entrada no se pudo eliminar", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
 					}
 				}
 			}
 		}
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            var selectedValue = ProductosGrid.SelectedItem as Producto;
-            if (selectedValue != null)
-            {
-                bool eliminado = productosViewModel.EliminarProducto(selectedValue.Id);
-                if (eliminado)
-                {
-                    MessageBox.Show("Producto eliminado exitosamente!");
-                    ProductosGrid.Items.Refresh();
-                }
-                else
-                {
-                    MessageBox.Show("Error al eliminar el producto.");
-                }
-            }
-        }
-
+		private void Button_Click_2(object sender, RoutedEventArgs e)
+		{
+			var selectedValue = ProductosGrid.SelectedItem as Producto;
+			if (selectedValue != null)
+			{
+				bool eliminado = productosViewModel.EliminarProducto(selectedValue.Id);
+				if (eliminado)
+				{
+					MessageBox.Show("Producto eliminado exitosamente!");
+					ProductosGrid.Items.Refresh();
+				}
+				else
+				{
+					MessageBox.Show("Error al eliminar el producto.");
+				}
+			}
+		}
 
 		private void Button_Click_3(object sender, RoutedEventArgs e)
 		{
 			var nuevoInventario = new nuevoInventario();
 			nuevoInventario.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-			nuevoInventario.Titulo.Content = "Nuevo Item"; 
+			nuevoInventario.Titulo.Content = "Nuevo Item";
 			if (nuevoInventario.ShowDialog() == true)
 			{
 				string Nombre = nuevoInventario.nombre;
@@ -190,6 +178,7 @@ namespace FrontEndWPF.Inventario
 				}
 			}
 		}
+
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {

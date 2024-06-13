@@ -21,8 +21,10 @@ namespace FrontEndWPF
 		private string nombre;
 		private string usuario;
 		private string contraseña;
+		int idusuario = 0;
+		int idusuario2 = 0;
 
-		public Conexion()
+        public Conexion()
 		{
 			if (!File.Exists(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/db_config.txt"))
 			{
@@ -68,8 +70,6 @@ namespace FrontEndWPF
 				MessageBox.Show($"Error al leer la configuración del archivo: {ex.Message}");
 			}
 		}
-
-
 
 		public SqlConnection OpenConnection()
 		{
@@ -366,7 +366,10 @@ namespace FrontEndWPF
 			return hasEntries;
 		}
 
-		public bool AddUser(string nombre, string primerApellido, string segundoApellido, string cedula, string telefono, string correo, string contraseña, string rol, DateTime fechaCreacion, string puesto, double salario)
+		/* 
+		 * Método que sirve para poder añadir nuevos empleados a la BD.
+		 */
+		public bool AddUser(string nombre, string primerApellido, string segundoApellido, string cedula, string telefono, string correo, string contraseña, string rol, DateTime fechaCreacion, string puesto, double salario, string direccion)
 		{
 			bool success = false;
 
@@ -456,8 +459,17 @@ namespace FrontEndWPF
 						}
 					}
 
-					string query2 = "INSERT INTO Empleado (Puesto, FechaContratacion, Salario, FechaDespido, IdUsuario) " +
-								   "VALUES (@Puesto, @FechaContratacion, @Salario, @FechaDespido, @IdUsuario)";
+					/*
+					 * Nota Importante:
+					 * Si notaron que en los métodos loadData y para añadir empleado se especificaba el campo activo, -
+					 * pero no se usaba como parámetro [VER 0.1 y 0.2] es porque cuando se crea un nuevo empleado, aquí en -
+					 * visual, se le da directamente el dato 1 (que significa que si esta activo) para evitar un error en la lectura -
+					 * de los datos (tanto en el programa, como en la BD), esto también porque a nivel de lógica del negocio, si yo como -
+					 * 3ra persona (digamos un administrador) estoy agregando un nuevo empleado que acaba de ser contratado, dicho empleado -
+					 * entonces debe estar activo, ya que esta trabajando en el negocio, por eso no se coloca el activo como parámetro.
+					 */
+					string query2 = "INSERT INTO Empleado (Puesto, FechaContratacion, Salario, FechaDespido, IdUsuario, Activo, Direccion) " +
+                                   "VALUES (@Puesto, @FechaContratacion, @Salario, @FechaDespido, @IdUsuario, @Activo, @Direccion)";
 
 					using (SqlCommand command = new SqlCommand(query2, connection))
 					{
@@ -466,6 +478,8 @@ namespace FrontEndWPF
 						command.Parameters.AddWithValue("@Salario", salario);
 						command.Parameters.AddWithValue("@FechaDespido", fechaCreacion);
 						command.Parameters.AddWithValue("@IdUsuario", userId);
+						command.Parameters.AddWithValue("@Activo", 1);
+						command.Parameters.AddWithValue("@Direccion", direccion);
 
 						try
 						{
@@ -485,40 +499,45 @@ namespace FrontEndWPF
 			return success;
 		}
 
-        public bool InsertarProducto(int codigo ,string nombre, string categoria, decimal precio, bool activo)
-        {
-            bool success = false;
+		public bool InsertarProducto(int codigo, string nombre, string categoria, decimal precio, bool activo)
+		{
+			bool success = false;
 
-            using (SqlConnection connection = OpenConnection())
-            {
-                if (connection != null)
-                {
-                    string query = "INSERT INTO Productos (Codigo, Nombre, Categoria, Precio, Activo) VALUES (@Codigo, @Nombre, @Categoria, @Precio, @Activo)";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@Codigo", codigo);
-                        command.Parameters.AddWithValue("@Nombre", nombre);
-                        command.Parameters.AddWithValue("@Categoria", categoria);
-                        command.Parameters.AddWithValue("@Precio", precio);
-                        command.Parameters.AddWithValue("@Activo", activo);
+			using (SqlConnection connection = OpenConnection())
+			{
+				if (connection != null)
+				{
+					try
+					{
+						string query = "INSERT INTO Productos (Codigo, Nombre, Categoria, Precio, Activo) VALUES (@Codigo, @Nombre, @Categoria, @Precio, @Activo)";
+						using (SqlCommand command = new SqlCommand(query, connection))
+						{
+							command.Parameters.AddWithValue("@Codigo", codigo);
+							command.Parameters.AddWithValue("@Nombre", nombre);
+							command.Parameters.AddWithValue("@Categoria", categoria);
+							command.Parameters.AddWithValue("@Precio", precio);
+							command.Parameters.AddWithValue("@Activo", activo);
 
-                        try
-                        {
-                            int rowsAffected = command.ExecuteNonQuery();
-                            success = rowsAffected > 0;
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("Error executing insert query: " + ex.Message);
-                        }
-                    }
+							int rowsAffected = command.ExecuteNonQuery();
+							success = rowsAffected > 0;
+						}
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Error executing insert query: " + ex.Message);
+						// Lanza la excepción para que quien llama pueda manejarla adecuadamente.
+						throw;
+					}
+					finally
+					{
+						CloseConnection(connection);
+					}
+				}
+			}
 
-                    CloseConnection(connection);
-                }
-            }
+			return success;
+		}
 
-            return success;
-        }
 
         public bool ActualizarProducto(int id, int codigo, string nombre, string categoria, decimal precio, bool activo)
         {
@@ -624,8 +643,117 @@ namespace FrontEndWPF
             return success;
         }
 
+		/* 
+		 * Método que sirve para enviar los datos que se quiere actualizar de un empleado -
+		 * hacia la base de datos que esta en SQL Server.
+		 */
+		public bool UpdateEmployee(string cedula, string nombre,
+			string primerApellido, string segundoApellido,
+			string puesto, DateTime fechaContratacion, double salario,
+			string correo, string contraseña, string telefono, bool activo,
+			string direccion, int idrol)
+		{
+            bool success = false;
 
-        public string HashPassword(string password)
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+					/*
+					 * Aquí lo que hace es incrementar el idusuario en 1 en 1, -
+					 * esto porque en el comando donde se manda la instrucción de ejecución -
+					 * a la BD (el cual se llama: query), tiene un procedimiento almacenado que -
+					 * necesita dicho campo, además que este es necesario para realizar una actualización -
+					 * que se encuentra dentro del procedimiento almacenado que se esta utilizando.
+					 * 
+					 * [2.1]
+					 * También la variable idusuario es global para que se pueda tomar en cuenta el incremento -
+					 * que se esta indicando en el comando (idusuario++), además porque dicho dato en la BD es un -
+					 * IDENTITY que va de uno en uno.
+					 * 
+					 * También, en la BD, se encuentran los procedimientos almacenados con documentación integrada, -
+					 * por lo que si quieren ver más detallado su funcionamiento, entonces pueden checar dicho procedimiento -
+					 * en la BD.
+					 */
+					idusuario++;
+					string query = "Exec ActualizarListadoEmpleados @IdUsuario, @Cedula, @Nombre, @PrimerApellido, @SegundoApellido, @Contraseña, @Puesto, @FechaContratacion, @Salario, @Correo, @Telefono, @Direccion, @Activo, @IdRol";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdUsuario", idusuario);
+                        command.Parameters.AddWithValue("@Cedula", cedula);
+                        command.Parameters.AddWithValue("@Nombre", nombre);
+                        command.Parameters.AddWithValue("@PrimerApellido", primerApellido);
+                        command.Parameters.AddWithValue("@SegundoApellido", segundoApellido);
+                        command.Parameters.AddWithValue("@Contraseña", contraseña);
+                        command.Parameters.AddWithValue("@Puesto", puesto);
+                        command.Parameters.AddWithValue("@FechaContratacion", fechaContratacion);
+                        command.Parameters.AddWithValue("@Salario", salario);
+                        command.Parameters.AddWithValue("@Correo", correo);
+                        command.Parameters.AddWithValue("@Telefono", telefono);
+                        command.Parameters.AddWithValue("@Direccion", direccion);
+						command.Parameters.AddWithValue("@Activo", activo);
+                        command.Parameters.AddWithValue("@IdRol", idrol);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing insert query: " + ex.Message);
+                        }
+                    }
+                    CloseConnection(connection);
+                }
+            }
+
+			return success;
+        }
+
+        /* 
+		 * Método que sirve para enviar los datos que se quiere eliminar de un empleado -
+		 * hacia la base de datos que esta en SQL Server.
+		 */
+        public bool DeleteEmployee(int idrol)
+		{
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    /* 
+					 * Aquí sucede algo similar al del método de actualizar un empleado, -
+					 * solo que aquí es para eliminar un empleado.
+					 * 
+					 * Nota: VER el comentario [2.1]. 
+					 */
+                    idusuario2++;
+                    string query = "Exec EliminarListadoEmpleados @IdRol, @IdUsuario";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdRol", idrol);
+                        command.Parameters.AddWithValue("@IdUsuario", idusuario2);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing insert query: " + ex.Message);
+                        }
+                    }
+                    CloseConnection(connection);
+                }
+            }
+
+			return success;
+        }
+
+		public string HashPassword(string password)
 		{
 			using (SHA256 sha256Hash = SHA256.Create())
 			{
@@ -641,6 +769,7 @@ namespace FrontEndWPF
 				return builder.ToString();
 			}
 		}
+
 		public string getRoleName(int Id)
 		{
 
