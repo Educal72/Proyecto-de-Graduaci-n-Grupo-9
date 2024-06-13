@@ -45,7 +45,7 @@ namespace FrontEndWPF.Inventario
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			NavigationService.GoBack();
-        }
+		}
 
 		public void PopulateInventariosDataGrid()
 		{
@@ -62,7 +62,7 @@ namespace FrontEndWPF.Inventario
 
 					while (reader.Read())
 					{
-						inventarios.Add(new InventarioM() 
+						inventarios.Add(new InventarioM()
 						{
 							Id = Convert.ToInt32(reader["Id"]),
 							Nombre = reader["Nombre"].ToString(),
@@ -82,67 +82,58 @@ namespace FrontEndWPF.Inventario
 		}
 
 
-
-        productosViewModel.Productos.Remove(selectedValue);
-        ProductosGrid.Items.Refresh();
-    }
-}
-
-			//}
-
+		public void PopulateProductosDataGrid()
+		{
+			ProductosGrid.ItemsSource = productosViewModel.Productos;
 		}
-
-        public void PopulateProductosDataGrid()
-        {
-            ProductosGrid.ItemsSource = productosViewModel.Productos;
-        }
 
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 			var selectedValue = InventarioGrid.SelectedValue as InventarioM;
-			
+
 			if (selectedValue != null)
 			{
 				MessageBoxResult result = MessageBox.Show("¿Esta seguro que desea eliminar esta entrada del inventario?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-				if (result == MessageBoxResult.Yes) {
+				if (result == MessageBoxResult.Yes)
+				{
 					bool resultQuery = conexion.DeleteInventario(selectedValue.Id);
 					PopulateInventariosDataGrid();
 					if (resultQuery)
 					{
 						MessageBox.Show("La entrada fue eliminada exitosamente", "Resultado", MessageBoxButton.OK, MessageBoxImage.Information);
 					}
-					else {
+					else
+					{
 						MessageBox.Show("La entrada no se pudo eliminar", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
 					}
 				}
 			}
 		}
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            var selectedValue = ProductosGrid.SelectedItem as Producto;
-            if (selectedValue != null)
-            {
-                bool eliminado = productosViewModel.EliminarProducto(selectedValue.Id);
-                if (eliminado)
-                {
-                    MessageBox.Show("Producto eliminado exitosamente!");
-                    ProductosGrid.Items.Refresh();
-                }
-                else
-                {
-                    MessageBox.Show("Error al eliminar el producto.");
-                }
-            }
-        }
-
+		private void Button_Click_2(object sender, RoutedEventArgs e)
+		{
+			var selectedValue = ProductosGrid.SelectedItem as Producto;
+			if (selectedValue != null)
+			{
+				bool eliminado = productosViewModel.EliminarProducto(selectedValue.Id);
+				if (eliminado)
+				{
+					MessageBox.Show("Producto eliminado exitosamente!");
+					ProductosGrid.Items.Refresh();
+				}
+				else
+				{
+					MessageBox.Show("Error al eliminar el producto.");
+				}
+			}
+		}
 
 		private void Button_Click_3(object sender, RoutedEventArgs e)
 		{
 			var nuevoInventario = new nuevoInventario();
 			nuevoInventario.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-			nuevoInventario.Titulo.Content = "Nuevo Item"; 
+			nuevoInventario.Titulo.Content = "Nuevo Item";
 			if (nuevoInventario.ShowDialog() == true)
 			{
 				string Nombre = nuevoInventario.nombre;
@@ -180,12 +171,12 @@ namespace FrontEndWPF.Inventario
 			}
 		}
 
-        private void Button_Click_5(object sender, RoutedEventArgs e)
-        {
-            var nuevoProducto = new nuevoProducto();
-            nuevoProducto.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            nuevoProducto.Titulo.Content = "Nuevo Producto";
-            if (nuevoProducto.ShowDialog() == true)
+		private void Button_Click_5(object sender, RoutedEventArgs e)
+		{
+			var nuevoProducto = new nuevoProducto();
+			nuevoProducto.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			nuevoProducto.Titulo.Content = "Nuevo Producto";
+			if (nuevoProducto.ShowDialog() == true)
 			{
 				//            productosViewModel.Productos.Add(new Producto
 				//            {
@@ -197,30 +188,30 @@ namespace FrontEndWPF.Inventario
 				//});
 				PopulateProductosDataGrid();
 			}
-        }
+		}
 
-        private void Button_Click_6(object sender, RoutedEventArgs e)
-        {
-            var selectedValue = ProductosGrid.SelectedItem as Producto;
-            if (selectedValue != null)
-            {
-                var nuevoProducto = new nuevoProducto();
-                nuevoProducto.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                nuevoProducto.Titulo.Content = "Editar Producto";
-                nuevoProducto.Nombre.Text = selectedValue.Nombre;
-                nuevoProducto.Categoria.Text = selectedValue.Categoria;
-                nuevoProducto.Precio.Text = selectedValue.Precio.ToString();
-                nuevoProducto.Activo.IsChecked = selectedValue.Activo;
-                if (nuevoProducto.ShowDialog() == true)
-                {
+		private void Button_Click_6(object sender, RoutedEventArgs e)
+		{
+			var selectedValue = ProductosGrid.SelectedItem as Producto;
+			if (selectedValue != null)
+			{
+				var nuevoProducto = new nuevoProducto();
+				nuevoProducto.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+				nuevoProducto.Titulo.Content = "Editar Producto";
+				nuevoProducto.Nombre.Text = selectedValue.Nombre;
+				nuevoProducto.Categoria.Text = selectedValue.Categoria;
+				nuevoProducto.Precio.Text = selectedValue.Precio.ToString();
+				nuevoProducto.Activo.IsChecked = selectedValue.Activo;
+				if (nuevoProducto.ShowDialog() == true)
+				{
 					//selectedValue.Nombre = nuevoProducto.nombreProducto;
 					//selectedValue.Categoria = nuevoProducto.categoriaProducto;
 					//selectedValue.Precio = nuevoProducto.precioProducto;
 					//selectedValue.Activo = nuevoProducto.activoProducto;
 					//ProductosGrid.Items.Refresh();
-					
-                }
-            }
-        }
-    }
+
+				}
+			}
+		}
+	}
 }
