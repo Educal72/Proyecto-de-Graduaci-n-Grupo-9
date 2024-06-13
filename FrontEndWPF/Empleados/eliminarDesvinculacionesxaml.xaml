@@ -1,0 +1,61 @@
+﻿<Window x:Class="FrontEndWPF.eliminarDesvinculacionesxaml"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FrontEndWPF"
+        mc:Ignorable="d"
+        Title="eliminarDesvinculacionesxaml"  Height="674" Width="655">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="0,10,0,9">
+
+
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,564,0,0" Width="220">
+            <Button Content="Eliminar" Click="Eliminar_Desvinculacion_Click" Margin="5" Width="100"/>
+            <Button Content="Cancelar" Click="Cancelar_Desvinculacion_Click" Margin="5" Width="100
+                    "/>
+        </StackPanel>
+        <Label Content="Eliminar Desvinculación:" HorizontalAlignment="Left" Margin="10,-2,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="48" FontWeight="Bold"/>
+        <Label Content="Empleado:" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Aviso importante: ¡Una vez confirmado la eliminación, &#xA;se quitara de manera permanente!" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="16" Foreground="#FF5D5D5D"/>
+
+        <TextBox x:Name="EmpleadoTextBox" HorizontalAlignment="Left" Margin="142,124,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="423" FontSize="24" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsReadOnly="True"/>
+
+        <Label Content="Fecha inicio:" HorizontalAlignment="Left" Margin="11,164,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <DatePicker x:Name="FechaInicioPicker" HorizontalAlignment="Left" Margin="156,170,0,0" VerticalAlignment="Top" Width="433" Height="30" VerticalContentAlignment="Center"/>
+        <Label Content="Motivo:" HorizontalAlignment="Left" Margin="10,212,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <TextBox x:Name="MotivoTextbox" HorizontalAlignment="Left" Margin="110,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="423" FontSize="24" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsReadOnly="True"/>
+        <Label Content="Comentarios:" HorizontalAlignment="Left" Margin="10,256,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <TextBox x:Name="ComentariosTextbox" HorizontalAlignment="Left" Margin="168,262,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="423" FontSize="24" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsReadOnly="True"/>
+        <Label Content="Fecha salida:" HorizontalAlignment="Left" Margin="11,312,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <DatePicker x:Name="FechaSalidaPicker" HorizontalAlignment="Left" Margin="156,315,0,0" VerticalAlignment="Top" Width="433" Height="30" VerticalContentAlignment="Center">
+            <DatePicker.Resources>
+                <Style TargetType="DatePickerTextBox">
+                    <Setter Property="IsReadOnly" Value="True"/>
+                </Style>
+            </DatePicker.Resources>
+        </DatePicker>
+        <Label x:Name="Reconocido" Content="Reconocido:" HorizontalAlignment="Left" Margin="10,362,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <TextBox x:Name="ReconocidoTextbox" HorizontalAlignment="Left" Margin="155,367,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="423" FontSize="24" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsReadOnly="True"/>
+    </Grid>
+</Window>
+

@@ -753,7 +753,73 @@ namespace FrontEndWPF
 			return success;
         }
 
-		public string HashPassword(string password)
+        public bool AddDesvinculacion(DateTime FechaInicio, string Motivo,
+									  string Comentarios, DateTime FechaSalida)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query1 = "Exec CreacionSolicitudDesvinculacion @FechaInicio, @Motivo, @Comentarios, @FechaSalida";
+
+                    using (SqlCommand command = new SqlCommand(query1, connection))
+                    {
+                        command.Parameters.AddWithValue("@FechaInicio", FechaInicio);
+                        command.Parameters.AddWithValue("@Motivo", Motivo);
+                        command.Parameters.AddWithValue("@Comentarios", Comentarios);
+                        command.Parameters.AddWithValue("@FechaSalida", FechaSalida);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing insert query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+        public bool DeleteDesvinculaciones(int id)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "Exec EliminarSolicitudDesvinculacion @Id";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", id);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing insert query: " + ex.Message);
+                        }
+                    }
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+        public string HashPassword(string password)
 		{
 			using (SHA256 sha256Hash = SHA256.Create())
 			{
