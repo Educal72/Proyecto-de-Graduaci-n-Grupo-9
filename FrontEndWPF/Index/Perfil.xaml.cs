@@ -64,7 +64,7 @@ namespace FrontEndWPF
             //var actualizarUsuario = new PerfilViewModel(); Esta pendiente revisar el modelo.
             //conexion.OpenConnection();
             conexion.ActualizarUsuario(correo.Text, Nombre.Text, primerApellido.Text, segundoApellido.Text, Cedula.Text, Telefono.Text, comboRol.Text);
-            MessageBox.Show("Funciona");
+            MessageBox.Show("Producto agregado Exitosamente!");
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
