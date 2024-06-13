@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,53 +14,151 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static FrontEndWPF.empleadosAdmin;
+using static FrontEndWPF.Modelos.UserModel;
 
 namespace FrontEndWPF.Empleados
 {
-	/// <summary>
-	/// Lógica de interacción para Desvinculaciones.xaml
-	/// </summary>
-	public partial class Desvinculaciones : UserControl
-	{
-		List<Desvinculacion> desvinculaciones = new List<Desvinculacion>();
-		public Desvinculaciones()
-		{
-			InitializeComponent();
-			PopulateDesvinculacionesDataGrid();
-		}
+    /// <summary>
+    /// Lógica de interacción para Desvinculaciones.xaml
+    /// </summary>
+    public partial class Desvinculaciones : UserControl
+    {
+        Conexion conexion = new Conexion();
+        public Desvinculaciones()
+        {
+            InitializeComponent();
+            conexion.OpenConnection();
+            LoadDataDesv();
 
-		public void PopulateDesvinculacionesDataGrid()
-		{
-			desvinculaciones = new List<Desvinculacion>
-		{
-			new Desvinculacion { Id = 1, Empleado = "Juan Pérez", Fecha = DateTime.Now.AddDays(-10), Motivo = "Renuncia voluntaria", Comentarios = "Excelente desempeño durante su tiempo en la empresa.", Reconocido = true},
-			new Desvinculacion { Id = 2, Empleado = "María García", Fecha = DateTime.Now.AddDays(-5), Motivo = "Despido justificado", Comentarios = "Incumplimiento reiterado de políticas de la empresa.", Reconocido = false },
-			new Desvinculacion { Id = 3, Empleado = "Pedro López", Fecha = DateTime.Now.AddDays(-3), Motivo = "Jubilación", Comentarios = "Más de 30 años de servicio.", Reconocido = true }
-		};
+        }
 
-			DesvinculacionesDataGrid.ItemsSource = desvinculaciones;
-		}
+        /* 
+         * Método para poder leer y mostrar los datos de desvinculación.
+         */
+        private void LoadDataDesv()
+        {
+            /*
+             * Aqui se trae los datos para poder mostrar la desvinculación, -
+             * esto por medio de dos INNER JOINS a las tablas: Desvinculacion, -
+             * Empleado y Usuario.
+             */
+            string query = @"
+            SELECT 
+                Desv.Id,
+			    Desv.IdEmpleado,
+			    CONCAT(Us.Nombre, ' ', Us.PrimerApellido)  as 'Empleado',
+			    Desv.FechaInicio,
+			    Desv.Motivo,
+			    Desv.Comentarios,
+			    Desv.FechaSalida,
+			    Desv.Reconocido
 
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			var selectedItem = DesvinculacionesDataGrid.SelectedItem as Desvinculacion;
-			if (selectedItem != null)
-			{
-				selectedItem.Reconocido = false;
-				DesvinculacionesDataGrid.Items.Refresh();
-			}
-		}
+	        FROM
+		        Desvinculacion Desv INNER JOIN Empleado Emp 
+		        ON Desv.IdEmpleado = Emp.Id 
+		        INNER JOIN Usuario Us 
+		        ON Emp.IdUsuario = Us.Id";
 
-		private void Button_Click_1(object sender, RoutedEventArgs e)
-		{
-			var selectedItem = DesvinculacionesDataGrid.SelectedItem as Desvinculacion;
-			if (selectedItem != null)
-			{
-				selectedItem.Reconocido = true;
-				DesvinculacionesDataGrid.Items.Refresh();
-			}
-		}
+            List<EmpleadoDesvinculacion> usuariosEmpleados = new List<EmpleadoDesvinculacion>();
+
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                try
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        usuariosEmpleados.Add(new EmpleadoDesvinculacion
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            Empleado = reader["Empleado"].ToString(),
+                            FechaInicio = reader["FechaInicio"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(reader["FechaInicio"]),
+                            Motivo = reader["Motivo"].ToString(),
+                            Comentarios = reader["Comentarios"].ToString(),
+                            FechaSalida = reader["FechaSalida"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(reader["FechaSalida"]),
+                            Reconocido = reader["Reconocido"] == DBNull.Value ? false : Convert.ToBoolean(reader["Reconocido"])
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+
+            DesvinculacionesDataGrid.ItemsSource = usuariosEmpleados;
+        }
 
 
-	}
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = DesvinculacionesDataGrid.SelectedItem as EmpleadoDesvinculacion;
+            if (selectedItem != null)
+            {
+                selectedItem.Reconocido = false;
+                DesvinculacionesDataGrid.Items.Refresh();
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = DesvinculacionesDataGrid.SelectedItem as EmpleadoDesvinculacion;
+            if (selectedItem != null)
+            {
+                selectedItem.Reconocido = true;
+                DesvinculacionesDataGrid.Items.Refresh();
+            }
+        }
+
+        /* 
+         * Método para añadir una solicitud de desvinculación.
+         */
+        private void Añadir_Desvinculaciones_Click(object sender, RoutedEventArgs e)
+        {
+            var nuevaDesvinculacion = new añadirDesvinculaciones();
+            nuevaDesvinculacion.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            if (nuevaDesvinculacion.ShowDialog() == true)
+            {
+                DateTime FechaInicio = nuevaDesvinculacion.fechaInicio;
+                string Motivo = nuevaDesvinculacion.motivo;
+                string Comentarios = nuevaDesvinculacion.comentarios;
+                DateTime FechaSalida = nuevaDesvinculacion.fechaSalida;
+
+                conexion.AddDesvinculacion(FechaInicio, Motivo, Comentarios, FechaSalida);
+                LoadDataDesv();
+            }
+        }
+
+
+        /* 
+         * Método para eliminar una solicitud de desvinculación.
+         */
+        private void Eliminar_Desvinculaciones_Click(object sender, RoutedEventArgs e)
+        {
+            EmpleadoDesvinculacion? selectedDesvinculacion =
+                DesvinculacionesDataGrid.SelectedItem as EmpleadoDesvinculacion;
+
+            if (selectedDesvinculacion != null)
+            {
+                var eliminarDesvinculacion = new eliminarDesvinculacionesxaml();
+                eliminarDesvinculacion.WindowStartupLocation =
+                    WindowStartupLocation.CenterScreen;
+
+                eliminarDesvinculacion.EmpleadoTextBox.Text = selectedDesvinculacion.Empleado;
+                eliminarDesvinculacion.FechaInicioPicker.SelectedDate = selectedDesvinculacion.FechaInicio;
+                eliminarDesvinculacion.MotivoTextbox.Text = selectedDesvinculacion.Motivo;
+                eliminarDesvinculacion.ComentariosTextbox.Text = selectedDesvinculacion.Comentarios;
+                eliminarDesvinculacion.FechaSalidaPicker.SelectedDate = selectedDesvinculacion.FechaSalida;
+
+                if (eliminarDesvinculacion.ShowDialog() == true)
+                {
+                    DesvinculacionesDataGrid.Items.Refresh();
+                    conexion.DeleteDesvinculaciones(selectedDesvinculacion.Id);
+                    LoadDataDesv();
+                }
+            }
+        }
+    }
 }

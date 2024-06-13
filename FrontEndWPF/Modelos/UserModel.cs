@@ -26,5 +26,16 @@ namespace FrontEndWPF.Modelos
 
 
         }
-	}
+
+        public class EmpleadoDesvinculacion
+        {
+            public int Id { get; set; } // Identificador único de la desvinculación
+            public string Empleado { get; set; }
+            public DateTime FechaInicio { get; set; } // Fecha de inicio.
+            public string Motivo { get; set; } // Motivo de la desvinculación
+            public string Comentarios { get; set; } // Comentarios adicionales sobre la desvinculación
+            public DateTime FechaSalida { get; set; } // Fecha de la desvinculación
+            public bool Reconocido { get; set; }
+        }
+    }
 }
