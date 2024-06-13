@@ -25,7 +25,7 @@ namespace FrontEndWPF.Inventario
 		public int id { get; set; }
 		public string nombre { get; set; }
 		public int cantidad { get; set; }
-		public double precio { get; set; }
+		public decimal precio { get; set; }
 		public bool activo { get; set; }
 
 		public nuevoInventario()
@@ -34,12 +34,45 @@ namespace FrontEndWPF.Inventario
 			
 		}
 
+		private bool ValidateInputs(out string errorMessage)
+		{
+			errorMessage = string.Empty;
+
+			// Validar Nombre
+			if (string.IsNullOrWhiteSpace(Nombre.Text))
+			{
+				errorMessage = "El campo Nombre es obligatorio.";
+				return false;
+			}
+
+			// Validar Cedula
+			if (!int.TryParse(Cantidad.Text, out _))
+			{
+				errorMessage = "El campo Cantidad es obligatorio y debe ser un número válido.";
+				return false;
+			}
+
+			// Validar Salario
+			if (!decimal.TryParse(Precio.Text, out _))
+			{
+				errorMessage = "El campo Precio debe ser un número válido.";
+				return false;
+			}
+
+			// Todas las validaciones realizadas
+			return true;
+		}
+
 		private void Guardar_Click(object sender, RoutedEventArgs e)
 		{
-			id = 1;
+			if (!ValidateInputs(out string errorMessage))
+			{
+				MessageBox.Show(errorMessage);
+				return;
+			}
 			nombre = Nombre.Text;
 			cantidad = int.Parse(Cantidad.Text);
-			precio = double.Parse(Precio.Text);
+			precio = decimal.Parse(Precio.Text);
 			activo = Activo.IsChecked.Value;
 			DialogResult = true;
 		}

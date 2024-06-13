@@ -68,7 +68,7 @@ namespace FrontEndWPF
 			}
 
 			// Validar Puesto
-			if (string.IsNullOrWhiteSpace(Puesto.Text) || Puesto.Text.Length > 3)
+			if (string.IsNullOrWhiteSpace(Puesto.Text) || Puesto.Text.Length < 3)
 			{
 				errorMessage = "El campo Puesto es obligatorio.";
 				return false;
