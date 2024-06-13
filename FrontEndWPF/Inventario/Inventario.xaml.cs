@@ -24,7 +24,6 @@ namespace FrontEndWPF.Inventario
 		private DispatcherTimer timer;
 		List<Producto> productos = new List<Producto>();
 		Conexion conexion = new Conexion();
-		ProductosViewModel productosViewModel = new ProductosViewModel();
 		public Inventario()
 		{
 			InitializeComponent();
@@ -41,6 +40,7 @@ namespace FrontEndWPF.Inventario
 		{
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 		}
+
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
@@ -81,12 +81,12 @@ namespace FrontEndWPF.Inventario
 			InventarioGrid.ItemsSource = inventarios;
 		}
 
-		private void Button_Click_2(object sender, RoutedEventArgs e)
-		{
-			//var selectedValue = ProductosGrid.SelectedItem as Producto;
-			//if (selectedValue != null)
-			//{
-			//	productosViewModel.Productos.Remove(selectedValue);
+
+
+        productosViewModel.Productos.Remove(selectedValue);
+        ProductosGrid.Items.Refresh();
+    }
+}
 
 			//}
 
@@ -118,6 +118,24 @@ namespace FrontEndWPF.Inventario
 				}
 			}
 		}
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            var selectedValue = ProductosGrid.SelectedItem as Producto;
+            if (selectedValue != null)
+            {
+                bool eliminado = productosViewModel.EliminarProducto(selectedValue.Id);
+                if (eliminado)
+                {
+                    MessageBox.Show("Producto eliminado exitosamente!");
+                    ProductosGrid.Items.Refresh();
+                }
+                else
+                {
+                    MessageBox.Show("Error al eliminar el producto.");
+                }
+            }
+        }
 
 
 		private void Button_Click_3(object sender, RoutedEventArgs e)

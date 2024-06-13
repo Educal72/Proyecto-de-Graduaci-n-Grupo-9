@@ -27,6 +27,7 @@ namespace FrontEndWPF
                 {
                     var producto = new Producto
                     {
+                        Id = Convert.ToInt32(productoData["Id"]),
                         Codigo = productoData["Codigo"].ToString(),
                         Nombre = productoData["Nombre"].ToString(),
                         Categoria = productoData["Categoria"].ToString(),
@@ -38,6 +39,21 @@ namespace FrontEndWPF
             }
         }
 
+        public bool EliminarProducto(int id)
+        {
+            bool eliminado = conexion.EliminarProducto(id);
+            if (eliminado)
+            {
+                var producto = Productos.FirstOrDefault(p => p.Id == id);
+                if (producto != null)
+                {
+                    Productos.Remove(producto);
+                }
+                OnPropertyChanged(nameof(Productos));
+            }
+            return eliminado;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -47,6 +63,7 @@ namespace FrontEndWPF
 
     public class Producto
     {
+        public int Id { get; set; }
         public string Codigo { get; set; }
         public string Nombre { get; set; }
         public string Categoria { get; set; }
