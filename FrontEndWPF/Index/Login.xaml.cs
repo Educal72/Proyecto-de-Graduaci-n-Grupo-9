@@ -15,7 +15,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-
+using System.IO.Ports;
+using FrontEndWPF.Index;
+using Microsoft.PointOfService;
 
 namespace FrontEndWPF
 {
@@ -24,6 +26,8 @@ namespace FrontEndWPF
 	/// </summary>
 	public partial class Login : Page
 	{
+		private PosExplorer _posExplorer;
+		private PosPrinter _printer;
 		Conexion conexion = new Conexion();
 		public Login()
 		{
@@ -64,7 +68,17 @@ namespace FrontEndWPF
 		{
 			if (conexion.HasEntries())
 			{
-				NavigationService.Navigate(new Uri("Index/RecuperarContraseña.xaml", UriKind.Relative));
+				//try
+				//{
+				//	// Use the printer name you found in Devices and Printers
+				//	string printerName = "SAT 37TUSE";
+				//	PrintHelloWorldAndOpenCashDrawer(printerName);
+				//}
+				//catch (Exception ex)
+				//{
+				//	MessageBox.Show($"Error: {ex.Message}");
+				//}
+				//MessageBox.Show("Usuario ya existe!");
 			}
 			else
 			{
@@ -121,11 +135,11 @@ namespace FrontEndWPF
 			try
 			{
 				File.WriteAllText(filePath, content);
-				MessageBox.Show($"Configuración guardada exitosamente en el archivo!\nRuta: {filePath}");
+				MessageBox.Show($"Configuración guardada exitosamente en el archivo!\nRuta: {filePath}", "Resultado", MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show($"Error al guardar la configuración en el archivo: {ex.Message}");
+				MessageBox.Show($"Error al guardar la configuración en el archivo: {ex.Message}", "Resultado", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 
@@ -145,6 +159,25 @@ namespace FrontEndWPF
 				NavigationService.Navigate(new Uri("Index/Login.xaml", UriKind.Relative));
 			}
 		}
+
+		private void PrintHelloWorldAndOpenCashDrawer(string printerName)
+		{
+			// ESC/POS command to print "Hello World"
+			string printHelloWorldCommand = "\n";
+		// ESC/POS command to open the cash drawer
+			string openDrawerCommand = "\x1B\x70\x01\x32\x32";
+			
+			// Send print command
+			RawPrinterHelper.SendStringToPrinter(printerName, printHelloWorldCommand);
+
+			// Send open drawer command
+			RawPrinterHelper.SendStringToPrinter(printerName, openDrawerCommand);
+
+			
+		}
+
+		
+		
 	}
 }
 

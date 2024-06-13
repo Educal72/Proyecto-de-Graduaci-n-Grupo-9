@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using static FrontEndWPF.empleadosAdmin;
+using static FrontEndWPF.Modelos.UserModel;
+using static FrontEndWPF.Modelos.InventarioModel;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+
 
 namespace FrontEndWPF.Inventario
 {
@@ -23,8 +22,9 @@ namespace FrontEndWPF.Inventario
 	public partial class Inventario : Page
 	{
 		private DispatcherTimer timer;
-		List<Inventarios> inventarios = new List<Inventarios>();
 		List<Producto> productos = new List<Producto>();
+		Conexion conexion = new Conexion();
+		ProductosViewModel productosViewModel = new ProductosViewModel();
 		public Inventario()
 		{
 			InitializeComponent();
@@ -42,70 +42,91 @@ namespace FrontEndWPF.Inventario
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 		}
 
+
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			NavigationService.GoBack();
-        }
+		}
 
 		public void PopulateInventariosDataGrid()
 		{
-			inventarios = new List<Inventarios>
-		{
-			new Inventarios { Id = 1, Nombre = "Producto A", Cantidad = 10, Precio = 20.5, Activo = true },
-			new Inventarios { Id = 2, Nombre = "Producto B", Cantidad = 15, Precio = 15.75, Activo = false },
-			new Inventarios { Id = 3, Nombre = "Producto C", Cantidad = 20, Precio = 30.0, Activo = true }
-		};
+			string query = @"SELECT Id, Nombre, Cantidad, Precio, Activo FROM Inventario";
+
+			List<InventarioM> inventarios = new List<InventarioM>();
+
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				try
+				{
+					SqlCommand command = new SqlCommand(query, connection);
+					SqlDataReader reader = command.ExecuteReader();
+
+					while (reader.Read())
+					{
+						inventarios.Add(new InventarioM()
+						{
+							Id = Convert.ToInt32(reader["Id"]),
+							Nombre = reader["Nombre"].ToString(),
+							Cantidad = Convert.ToInt32(reader["Id"]),
+							Precio = Convert.ToDecimal(reader["Precio"]),
+							Activo = Convert.ToBoolean(reader["Activo"])
+						});
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: " + ex.Message);
+				}
+			}
 
 			InventarioGrid.ItemsSource = inventarios;
 		}
 
+
 		public void PopulateProductosDataGrid()
 		{
-			productos = new List<Producto>
-		{
-			new Producto { Id = 1, Nombre = "Producto X", Categoria = "Categoría 1", Precio = 25.0, Activo = true },
-			new Producto { Id = 2, Nombre = "Producto Y", Categoria = "Categoría 2", Precio = 18.5, Activo = true },
-			new Producto { Id = 3, Nombre = "Producto Z", Categoria = "Categoría 1", Precio = 30.0, Activo = false }
-		};
-
-			ProductosGrid.ItemsSource = productos;
+			ProductosGrid.ItemsSource = productosViewModel.Productos;
 		}
 
-		public class Inventarios
-		{
-			public int Id { get; set; }
-			public string Nombre { get; set; }
-			public int Cantidad { get; set; }
-			public double Precio { get; set; }
-			public bool Activo { get; set; }
-		}
-
-		public class Producto
-		{
-			public int Id { get; set; }
-			public string Nombre { get; set; }
-			public string Categoria { get; set; }
-			public double Precio { get; set; }
-			public bool Activo { get; set; }
-		}
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			var selectedValue = InventarioGrid.SelectedValue as Inventarios;
+			var selectedValue = InventarioGrid.SelectedValue as InventarioM;
+
 			if (selectedValue != null)
 			{
-				inventarios.Remove(selectedValue);
-				InventarioGrid.Items.Refresh();
+				MessageBoxResult result = MessageBox.Show("¿Esta seguro que desea eliminar esta entrada del inventario?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+				if (result == MessageBoxResult.Yes)
+				{
+					bool resultQuery = conexion.DeleteInventario(selectedValue.Id);
+					PopulateInventariosDataGrid();
+					if (resultQuery)
+					{
+						MessageBox.Show("La entrada fue eliminada exitosamente", "Resultado", MessageBoxButton.OK, MessageBoxImage.Information);
+					}
+					else
+					{
+						MessageBox.Show("La entrada no se pudo eliminar", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+					}
+				}
 			}
 		}
 
 		private void Button_Click_2(object sender, RoutedEventArgs e)
 		{
-			var selectedValue = ProductosGrid.SelectedValue as Producto;
+			var selectedValue = ProductosGrid.SelectedItem as Producto;
 			if (selectedValue != null)
 			{
-				productos.Remove(selectedValue);
-				ProductosGrid.Items.Refresh();
+				bool eliminado = productosViewModel.EliminarProducto(selectedValue.Id);
+				if (eliminado)
+				{
+					MessageBox.Show("Producto eliminado exitosamente!");
+					ProductosGrid.Items.Refresh();
+				}
+				else
+				{
+					MessageBox.Show("Error al eliminar el producto.");
+				}
 			}
 		}
 
@@ -113,40 +134,40 @@ namespace FrontEndWPF.Inventario
 		{
 			var nuevoInventario = new nuevoInventario();
 			nuevoInventario.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-			nuevoInventario.Titulo.Content = "Nuevo Item"; 
+			nuevoInventario.Titulo.Content = "Nuevo Item";
 			if (nuevoInventario.ShowDialog() == true)
 			{
-				inventarios.Add(new Inventarios
-				{
-					Id = nuevoInventario.id,
-					Nombre = nuevoInventario.nombre,
-					Cantidad = nuevoInventario.cantidad,
-					Precio = nuevoInventario.precio,
-					Activo = nuevoInventario.activo
-				});
-				InventarioGrid.Items.Refresh();
+				string Nombre = nuevoInventario.nombre;
+				int Cantidad = nuevoInventario.cantidad;
+				decimal Precio = nuevoInventario.precio;
+				bool Activo = nuevoInventario.activo;
+				conexion.AddInventario(Nombre, Cantidad, Precio, Activo);
+				PopulateInventariosDataGrid();
 			}
 		}
 
 		private void Button_Click_4(object sender, RoutedEventArgs e)
 		{
-			var selectedValue = InventarioGrid.SelectedValue as Inventarios;
+			var selectedValue = InventarioGrid.SelectedValue as InventarioM;
 			if (selectedValue != null)
 			{
 				var nuevoInventario = new nuevoInventario();
 				nuevoInventario.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 				nuevoInventario.Titulo.Content = "Editar Item";
-				nuevoInventario.Nombre.Text = selectedValue.Nombre;
-				nuevoInventario.Cantidad.Text = selectedValue.Cantidad.ToString();
-				nuevoInventario.Precio.Text = selectedValue.Precio.ToString();
-				nuevoInventario.Activo.IsChecked = selectedValue.Activo;
+				var inventarioSeleccionado = conexion.GetInventarioById(selectedValue.Id);
+				nuevoInventario.Nombre.Text = inventarioSeleccionado["Nombre"].ToString();
+				nuevoInventario.Cantidad.Text = inventarioSeleccionado["Cantidad"].ToString();
+				nuevoInventario.Precio.Text = inventarioSeleccionado["Precio"].ToString();
+				nuevoInventario.Activo.IsChecked = Convert.ToBoolean(inventarioSeleccionado["Activo"]);
 				if (nuevoInventario.ShowDialog() == true)
 				{
-					selectedValue.Nombre = nuevoInventario.nombre;
-					selectedValue.Cantidad = nuevoInventario.cantidad;
-					selectedValue.Precio = nuevoInventario.precio;
-					selectedValue.Activo = nuevoInventario.activo;
-					InventarioGrid.Items.Refresh();
+
+					string Nombre = nuevoInventario.nombre;
+					int Cantidad = nuevoInventario.cantidad;
+					decimal Precio = nuevoInventario.precio;
+					bool Activo = nuevoInventario.activo;
+					conexion.EditInventario(Convert.ToInt32(inventarioSeleccionado["Id"]), Nombre, Cantidad, Precio, Activo);
+					PopulateInventariosDataGrid();
 				}
 			}
 		}
@@ -158,21 +179,21 @@ namespace FrontEndWPF.Inventario
 			nuevoProducto.Titulo.Content = "Nuevo Producto";
 			if (nuevoProducto.ShowDialog() == true)
 			{
-				productos.Add(new Producto
-				{
-					Id = nuevoProducto.id,
-					Nombre = nuevoProducto.nombre,
-					Categoria = nuevoProducto.categoria,
-					Precio = nuevoProducto.precio,
-					Activo = nuevoProducto.activo
-				});
-				ProductosGrid.Items.Refresh();
+				//            productosViewModel.Productos.Add(new Producto
+				//            {
+				//                //Codigo = nuevoProducto.id,
+				//                //Nombre = nuevoProducto.nombreProducto,
+				//                //Categoria = nuevoProducto.categoriaProducto,
+				//                //Precio = nuevoProducto.precioProducto,
+				//                //Activo = nuevoProducto.activoProducto
+				//});
+				PopulateProductosDataGrid();
 			}
 		}
 
 		private void Button_Click_6(object sender, RoutedEventArgs e)
 		{
-			var selectedValue = ProductosGrid.SelectedValue as Producto;
+			var selectedValue = ProductosGrid.SelectedItem as Producto;
 			if (selectedValue != null)
 			{
 				var nuevoProducto = new nuevoProducto();
@@ -184,14 +205,14 @@ namespace FrontEndWPF.Inventario
 				nuevoProducto.Activo.IsChecked = selectedValue.Activo;
 				if (nuevoProducto.ShowDialog() == true)
 				{
-					selectedValue.Nombre = nuevoProducto.nombre;
-					selectedValue.Categoria = nuevoProducto.categoria;
-					selectedValue.Precio = nuevoProducto.precio;
-					selectedValue.Activo = nuevoProducto.activo;
-					ProductosGrid.Items.Refresh();
+					//selectedValue.Nombre = nuevoProducto.nombreProducto;
+					//selectedValue.Categoria = nuevoProducto.categoriaProducto;
+					//selectedValue.Precio = nuevoProducto.precioProducto;
+					//selectedValue.Activo = nuevoProducto.activoProducto;
+					//ProductosGrid.Items.Refresh();
+
 				}
 			}
 		}
 	}
-
 }

@@ -168,8 +168,136 @@ namespace FrontEndWPF
 
 			return result;
 		}
+		public Dictionary<string, object> GetUserByEmail(string correo)
+		{
+			var result = new Dictionary<string, object>();
 
-		public Dictionary<string, object> SelectUserCedula(string correo, int cedula)
+			using (SqlConnection connection = OpenConnection())
+			{
+				if (connection != null)
+				{
+					string query = "SELECT * FROM Usuario WHERE Correo = @Correo";
+					using (SqlCommand command = new SqlCommand(query, connection))
+					{
+						command.Parameters.AddWithValue("@Correo", correo);
+
+						try
+						{
+							using (SqlDataReader reader = command.ExecuteReader())
+							{
+								if (reader.Read())
+								{
+									for (int i = 0; i < reader.FieldCount; i++)
+									{
+										string fieldName = reader.GetName(i);
+										if (!reader.IsDBNull(i))
+										{
+											result[fieldName] = reader.GetValue(i);
+										}
+										else
+										{
+											result[fieldName] = null; // Otra opción sería asignar un valor predeterminado, como string.Empty
+										}
+									}
+								}
+
+							}
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine("Error executing query: " + ex.Message);
+						}
+					}
+
+					CloseConnection(connection);
+				}
+			}
+
+			return result;
+		}
+
+        public List<Dictionary<string, object>> GetProductos()
+        {
+            var productos = new List<Dictionary<string, object>>();
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT Id, Codigo, Nombre, Categoria, Precio, Activo FROM Productos";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var producto = new Dictionary<string, object>();
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        string fieldName = reader.GetName(i);
+                                        if (!reader.IsDBNull(i))
+                                        {
+                                            producto[fieldName] = reader.GetValue(i);
+                                        }
+                                        else
+                                        {
+                                            producto[fieldName] = null;
+                                        }
+                                    }
+                                    productos.Add(producto);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return productos;
+        }
+
+        public bool EliminarProducto(int id)
+        {
+            bool eliminado = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "DELETE FROM Productos WHERE Id = @Id";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", id);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            if (rowsAffected > 0)
+                            {
+                                eliminado = true;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return eliminado;
+        }
+
+        public Dictionary<string, object> SelectUserCedula(string correo, int cedula)
 		{
 			var result = new Dictionary<string, object>();
 
@@ -230,7 +358,7 @@ namespace FrontEndWPF
 							Console.WriteLine("Error executing query: " + ex.Message);
 						}
 					}
-
+					
 					CloseConnection(connection);
 				}
 			}
@@ -303,8 +431,9 @@ namespace FrontEndWPF
 						}
 					}
 
-					// Find the role ID
-					string userQuery = "SELECT Id FROM Usuario WHERE Cedula = @Cedula";
+
+                    // Find the role ID
+                    string userQuery = "SELECT Id FROM Usuario WHERE Cedula = @Cedula";
 					int userId = -1;
 
 					using (SqlCommand userCommand = new SqlCommand(userQuery, connection))
@@ -643,6 +772,128 @@ namespace FrontEndWPF
 				
 				}
 			}
+		}
+		public bool AddInventario(string nombre, int cantidad, decimal precio, bool activo)
+		{
+			bool success = false;
+			string query = "INSERT INTO Inventario (Nombre, Cantidad, Precio, Activo) " +
+						   "VALUES (@Nombre, @Cantidad, @Precio, @Activo)";
+
+			using (SqlConnection connection = OpenConnection())
+			{
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.AddWithValue("@Nombre", nombre);
+					command.Parameters.AddWithValue("@Cantidad", cantidad);
+					command.Parameters.AddWithValue("@Precio", precio);
+					command.Parameters.AddWithValue("@Activo", activo);
+
+					try
+					{
+						int rowsAffected = command.ExecuteNonQuery();
+						success = rowsAffected > 0;
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Error al añadir: " + ex.Message);
+					}
+				}
+				CloseConnection(connection);
+			}
+			
+			return success;
+		}
+
+		public bool EditInventario(int id, string nombre, int cantidad, decimal precio, bool activo)
+		{
+			bool success = false;
+			string query = "UPDATE Inventario SET Nombre = @Nombre, Cantidad = @Cantidad, Precio = @Precio, Activo = @Activo WHERE Id = @Id";
+
+			using (SqlConnection connection = OpenConnection())
+			{
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.AddWithValue("@Id", id);
+					command.Parameters.AddWithValue("@Nombre", nombre);
+					command.Parameters.AddWithValue("@Cantidad", cantidad);
+					command.Parameters.AddWithValue("@Precio", precio);
+					command.Parameters.AddWithValue("@Activo", activo);
+
+					try
+					{
+						int rowsAffected = command.ExecuteNonQuery();
+						success = rowsAffected > 0;
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Error executing update query: " + ex.Message);
+					}
+				}
+			}
+
+			return success;
+		}
+
+
+		public bool DeleteInventario(int id)
+		{
+			bool success = false;
+			string query = "DELETE FROM Inventario WHERE Id = @Id";
+
+			using (SqlConnection connection = OpenConnection())
+			{
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.AddWithValue("@Id", id);
+
+					try
+					{
+						int rowsAffected = command.ExecuteNonQuery();
+						success = rowsAffected > 0;
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Error al eliminar: " + ex.Message);
+					}
+				}
+				CloseConnection(connection);
+			}
+
+			return success;
+		}
+
+		public Dictionary<string, object> GetInventarioById(int id)
+		{
+			var result = new Dictionary<string, object>();
+			string query = "SELECT Id, Nombre, Cantidad, Precio, Activo FROM Inventario WHERE Id = @Id";
+
+			using (SqlConnection connection = OpenConnection())
+			{
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.AddWithValue("@Id", id);
+
+					try
+					{
+						using (SqlDataReader reader = command.ExecuteReader())
+						{
+							if (reader.Read())
+							{
+								for (int i = 0; i < reader.FieldCount; i++)
+								{
+									result[reader.GetName(i)] = reader.GetValue(i);
+								}
+							}
+						}
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Error executing query: " + ex.Message);
+					}
+				}
+			}
+
+			return result;
 		}
 	}
 }
