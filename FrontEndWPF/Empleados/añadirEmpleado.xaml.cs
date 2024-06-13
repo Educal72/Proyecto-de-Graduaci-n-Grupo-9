@@ -29,8 +29,11 @@ namespace FrontEndWPF
 		public string correo { get; set; }
 		public string contraseña { get; set; }
 		public string telefono { get; set; }
-		public string rol { get; set; }
-		public añadirEmpleado()
+        public string direccion { get; set; } //Se coloco la dirección porque en la historia: CTE001 lo mencionaba en uno de sus escenarios.
+        public string rol { get; set; }
+
+
+        public añadirEmpleado()
 		{
 			InitializeComponent();
 		}
@@ -138,7 +141,8 @@ namespace FrontEndWPF
 			correo = Correo.Text;
 			contraseña = Contraseña.Text;
 			telefono = Telefono.Text;
-			rol = Rol.Text;
+            direccion = DireccionTo.Text; //Toma el dato que esta en el espacio llamado Direccion, el cual aparece cuando se quiere agregar un nuevo empleado.
+            rol = Rol.Text;
 			DialogResult = true;
 			
 			

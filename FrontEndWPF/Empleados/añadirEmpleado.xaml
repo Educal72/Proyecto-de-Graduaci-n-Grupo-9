@@ -34,29 +34,31 @@
             <Button Content="Cancelar" Click="Cancelar_Click" Margin="5" Width="100
                     "/>
         </StackPanel>
-        <Label Content="Nuevo Empleado" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="48" FontWeight="Bold"/>
-        <Label Content="Cédula:" HorizontalAlignment="Left" Margin="10,112,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <Label Content="Nombre:" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <Label Content="Apellidos:" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <Label Content="Correo Electrónico:" HorizontalAlignment="Left" Margin="10,244,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <Label Content="Ingrese los datos del nuevo empleado." HorizontalAlignment="Left" Margin="10,78,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="16" Foreground="#FF5D5D5D"/>
-        <Label Content="Teléfono:" HorizontalAlignment="Left" Margin="10,288,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <TextBox x:Name="Telefono" HorizontalAlignment="Left" Margin="124,292,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="404" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="Correo" HorizontalAlignment="Left" Margin="228,248,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="Apellidos" HorizontalAlignment="Left" Margin="130,204,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="398" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="Nombre" HorizontalAlignment="Left" Margin="117,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="411" FontSize="24" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <TextBox x:Name="Cedula" HorizontalAlignment="Left" Margin="105,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="423" FontSize="24" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <Label Content="Puesto:" HorizontalAlignment="Left" Margin="10,334,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <TextBox x:Name="Puesto" HorizontalAlignment="Left" Margin="106,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="422" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Label Content="Fecha:" HorizontalAlignment="Left" Margin="10,380,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <Button Content="Actual" HorizontalAlignment="Left" Margin="533,384,0,0" VerticalAlignment="Top" Height="31" Width="50" FontFamily="Roboto" Click="Button_Click"/>
-        <Label Content="Contraseña:" HorizontalAlignment="Left" Margin="10,425,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <TextBox x:Name="Contraseña" HorizontalAlignment="Left" Margin="153,429,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Label x:Name="___Sin_nombre_" Content="Salario:" HorizontalAlignment="Left" Margin="10,470,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <TextBox x:Name="Salario" HorizontalAlignment="Left" Margin="106,474,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="422" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <DatePicker x:Name="Fecha" HorizontalAlignment="Left" Margin="95,384,0,0" VerticalAlignment="Top" Width="433" Height="30" VerticalContentAlignment="Center"/>
-        <Label x:Name="___Sin_nombre__Copiar" Content="Rol:" HorizontalAlignment="Left" Margin="10,514,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <ComboBox x:Name="Rol" HorizontalAlignment="Left" Margin="67,519,0,0" VerticalAlignment="Top" Width="461" Height="30" RenderTransformOrigin="0.513,0.14" Background="White" Foreground="Black" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" BorderBrush="White">
+        <Label Content="Nuevo Empleado" HorizontalAlignment="Left" Margin="10,-2,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="48" FontWeight="Bold"/>
+        <Label Content="Cédula:" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Nombre:" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Apellidos:" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Correo Electrónico:" HorizontalAlignment="Left" Margin="10,224,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Ingrese los datos del nuevo empleado." HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="16" Foreground="#FF5D5D5D"/>
+        <Label Content="Teléfono:" HorizontalAlignment="Left" Margin="10,268,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <TextBox x:Name="Telefono" HorizontalAlignment="Left" Margin="124,272,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="404" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="Correo" HorizontalAlignment="Left" Margin="228,228,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="Apellidos" HorizontalAlignment="Left" Margin="130,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="398" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="Nombre" HorizontalAlignment="Left" Margin="117,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="411" FontSize="24" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <TextBox x:Name="Cedula" HorizontalAlignment="Left" Margin="105,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="423" FontSize="24" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Label Content="Puesto:" HorizontalAlignment="Left" Margin="10,314,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <TextBox x:Name="Puesto" HorizontalAlignment="Left" Margin="106,318,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="422" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label Content="Fecha:" HorizontalAlignment="Left" Margin="10,360,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Button Content="Actual" HorizontalAlignment="Left" Margin="533,364,0,0" VerticalAlignment="Top" Height="31" Width="50" FontFamily="Roboto" Click="Button_Click"/>
+        <Label Content="Contraseña:" HorizontalAlignment="Left" Margin="10,405,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <TextBox x:Name="Contraseña" HorizontalAlignment="Left" Margin="153,409,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label x:Name="___Sin_nombre_" Content="Salario:" HorizontalAlignment="Left" Margin="10,450,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <TextBox x:Name="Salario" HorizontalAlignment="Left" Margin="106,454,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="422" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <DatePicker x:Name="Fecha" HorizontalAlignment="Left" Margin="95,364,0,0" VerticalAlignment="Top" Width="433" Height="30" VerticalContentAlignment="Center"/>
+        <Label x:Name="___Sin_nombre__Copiar" Content="Rol:" HorizontalAlignment="Left" Margin="10,492,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label x:Name="Direccion" Content="Direccion:" HorizontalAlignment="Left" Margin="10,530,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <TextBox x:Name="DireccionTo" HorizontalAlignment="Left" Margin="131,531,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="411" FontSize="24" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <ComboBox x:Name="Rol" HorizontalAlignment="Left" Margin="67,495,0,0" VerticalAlignment="Top" Width="461" Height="30" RenderTransformOrigin="0.513,0.14" Background="White" Foreground="Black" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" BorderBrush="White">
             <ComboBoxItem Content="Admin"/>
             <ComboBoxItem Content="Cajero"/>
             <ComboBoxItem Content="Salonero"/>
