@@ -23,22 +23,31 @@ namespace FrontEndWPF.Inventario
 		private DispatcherTimer timer;
 		List<Producto> productos = new List<Producto>();
 		Conexion conexion = new Conexion();
-		public Inventario()
-		{
-			InitializeComponent();
-			timer = new DispatcherTimer();
-			timer.Interval = TimeSpan.FromSeconds(1);
-			timer.Tick += Timer_Tick;
-			timer.Start();
-			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
-			PopulateInventariosDataGrid();
-			PopulateProductosDataGrid();
-		}
+		
+
+
+       public Inventario()
+        {
+            InitializeComponent();
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+            fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
+
+            productosViewModel = new ProductosViewModel();
+            DataContext = productosViewModel;
+            ProductosGrid.ItemsSource = productosViewModel.Productos;
+
+            PopulateInventariosDataGrid();
+            PopulateProductosDataGrid();
+        }
 
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 		}
+
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
@@ -80,15 +89,7 @@ namespace FrontEndWPF.Inventario
 		}
 
 
-private void Button_Click_2(object sender, RoutedEventArgs e)
-{
-    var selectedValue = ProductosGrid.SelectedItem as Producto;
-    if (selectedValue != null)
-    {
-        productosViewModel.Productos.Remove(selectedValue);
-        ProductosGrid.Items.Refresh();
-    }
-}
+
 
 
     
@@ -130,6 +131,24 @@ private void Button_Click_2(object sender, RoutedEventArgs e)
 				}
 			}
 		}
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            var selectedValue = ProductosGrid.SelectedItem as Producto;
+            if (selectedValue != null)
+            {
+                bool eliminado = productosViewModel.EliminarProducto(selectedValue.Id);
+                if (eliminado)
+                {
+                    MessageBox.Show("Producto eliminado exitosamente!");
+                    ProductosGrid.Items.Refresh();
+                }
+                else
+                {
+                    MessageBox.Show("Error al eliminar el producto.");
+                }
+            }
+        }
 
 
 		private void Button_Click_3(object sender, RoutedEventArgs e)
