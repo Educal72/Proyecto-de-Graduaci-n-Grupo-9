@@ -22,9 +22,9 @@ namespace FrontEndWPF.Inventario
         private DispatcherTimer timer;
         private ProductosViewModel productosViewModel;
         private ProductosViewModel viewModel;
+		Conexion conexion = new Conexion();
 
-
-        public Inventario()
+		public Inventario()
         {
             InitializeComponent();
             timer = new DispatcherTimer();
@@ -32,13 +32,11 @@ namespace FrontEndWPF.Inventario
             timer.Tick += Timer_Tick;
             timer.Start();
             fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
-            Conexion conexion = new Conexion();
             productosViewModel = new ProductosViewModel();
             viewModel = new ProductosViewModel();
             DataContext = viewModel;
             DataContext = productosViewModel;
             ProductosGrid.ItemsSource = productosViewModel.Productos;
-
             PopulateInventariosDataGrid();
             PopulateProductosDataGrid();
         }
@@ -99,7 +97,6 @@ namespace FrontEndWPF.Inventario
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 			var selectedValue = InventarioGrid.SelectedValue as InventarioM;
-
 			if (selectedValue != null)
 			{
 				MessageBoxResult result = MessageBox.Show("¿Esta seguro que desea eliminar esta entrada del inventario?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -195,7 +192,8 @@ namespace FrontEndWPF.Inventario
                     //Precio = nuevoProducto.precioProducto,
                     //Activo = nuevoProducto.activoProducto
                 });
-                ProductosGrid.Items.Refresh();
+				productosViewModel.LoadProductosData();
+                PopulateProductosDataGrid();
             }
         }
 

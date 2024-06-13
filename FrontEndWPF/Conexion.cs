@@ -649,9 +649,9 @@ namespace FrontEndWPF
 		 */
 		public bool UpdateEmployee(string cedula, string nombre,
 			string primerApellido, string segundoApellido,
-			string puesto, DateTime fechaContratacion, double salario,
+			string puesto, DateTime fechaContratacion, decimal salario,
 			string correo, string contraseña, string telefono, bool activo,
-			string direccion, int idrol)
+			string direccion, int idrol, string oldCedula, string oldCorreo)
 		{
             bool success = false;
 
@@ -675,11 +675,11 @@ namespace FrontEndWPF
 					 * por lo que si quieren ver más detallado su funcionamiento, entonces pueden checar dicho procedimiento -
 					 * en la BD.
 					 */
-					idusuario++;
+					int idUsuario = GetUserIdByEmailCedula(oldCorreo, oldCedula);
 					string query = "Exec ActualizarListadoEmpleados @IdUsuario, @Cedula, @Nombre, @PrimerApellido, @SegundoApellido, @Contraseña, @Puesto, @FechaContratacion, @Salario, @Correo, @Telefono, @Direccion, @Activo, @IdRol";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@IdUsuario", idusuario);
+                        command.Parameters.AddWithValue("@IdUsuario", idUsuario);
                         command.Parameters.AddWithValue("@Cedula", cedula);
                         command.Parameters.AddWithValue("@Nombre", nombre);
                         command.Parameters.AddWithValue("@PrimerApellido", primerApellido);
@@ -715,7 +715,7 @@ namespace FrontEndWPF
 		 * Método que sirve para enviar los datos que se quiere eliminar de un empleado -
 		 * hacia la base de datos que esta en SQL Server.
 		 */
-        public bool DeleteEmployee(int idrol)
+        public bool DeleteEmployee(int idrol, string correo, string cedula)
 		{
             bool success = false;
 
@@ -723,18 +723,18 @@ namespace FrontEndWPF
             {
                 if (connection != null)
                 {
-                    /* 
+					/* 
 					 * Aquí sucede algo similar al del método de actualizar un empleado, -
 					 * solo que aquí es para eliminar un empleado.
 					 * 
 					 * Nota: VER el comentario [2.1]. 
 					 */
-                    idusuario2++;
-                    string query = "Exec EliminarListadoEmpleados @IdRol, @IdUsuario";
+					int idUsuario = GetUserIdByEmailCedula(correo, cedula);
+					string query = "Exec EliminarListadoEmpleados @IdRol, @IdUsuario";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@IdRol", idrol);
-                        command.Parameters.AddWithValue("@IdUsuario", idusuario2);
+                        command.Parameters.AddWithValue("@IdUsuario", idUsuario);
 
                         try
                         {
@@ -932,6 +932,52 @@ namespace FrontEndWPF
 			}
 
 			return result;
+		}
+
+		public bool ProductoExists(string codigo)
+		{
+			using (SqlConnection connection = OpenConnection())
+			{
+				string query = "SELECT COUNT(1) FROM Productos WHERE Codigo = @Codigo";
+				SqlCommand command = new SqlCommand(query, connection);
+				command.Parameters.AddWithValue("@Codigo", codigo);
+
+				int count = (int)command.ExecuteScalar();
+				return count > 0;
+			}
+		}
+
+		public int GetUserIdByEmailCedula(string correo, string cedula)
+		{
+			using (SqlConnection connection = OpenConnection())
+			{
+				int userId;
+				string query = "SELECT Id FROM Usuario WHERE Correo = @Correo AND Cedula = @Cedula";
+				using (SqlCommand userCommand = new SqlCommand(query, connection))
+				{
+					userCommand.Parameters.AddWithValue("@Correo", correo);
+					userCommand.Parameters.AddWithValue("@Cedula", cedula);
+					try
+					{
+						object result = userCommand.ExecuteScalar();
+						if (result != null)
+						{
+							userId = Convert.ToInt32(result);
+							return userId;
+						}
+						else
+						{
+							Console.WriteLine("Usuario no Existe.");
+							return 0;
+						}
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Error: " + ex.Message);
+						return 0;
+					}
+				}
+			}
 		}
 	}
 }

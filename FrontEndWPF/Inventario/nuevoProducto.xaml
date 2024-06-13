@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrontEndWPF.Inventario"
         mc:Ignorable="d"
-        Title="nuevoInventario" Height="435" Width="485">
+        Title="nuevoInventario" Height="482" Width="485">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -25,19 +25,21 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid Margin="0,10,0,9">
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="99,314,0,0" Width="220" Height="66" VerticalAlignment="Top">
+    <Grid Margin="0,10,0,4">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="94,360,0,0" Width="220" Height="66" VerticalAlignment="Top">
             <Button Content="Guardar" Click="Guardar_Click" Margin="5" Width="100"/>
             <Button Content="Cancelar" Click="Cancelar_Click" Margin="5" Width="100"/>
         </StackPanel>
         <Label x:Name="Titulo" Content="Producto" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="48" FontWeight="Bold"/>
-        <Label Content="Nombre:" HorizontalAlignment="Left" Margin="10,112,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Nombre:" HorizontalAlignment="Left" Margin="6,158,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
         <Label Content="Ingrese los datos del nuevo producto." HorizontalAlignment="Left" Margin="10,78,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="16" Foreground="#FF5D5D5D"/>
-        <Label Content="Categoria:" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <Label Content="Precio:" HorizontalAlignment="Left" Margin="10,219,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <CheckBox x:Name="Activo" Content="Activo" HorizontalAlignment="Left" Margin="10,271,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="Nombre" HorizontalAlignment="Left" Margin="117,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" Height="30" VerticalContentAlignment="Center" FontFamily="Roboto" FontSize="18"/>
-        <TextBox x:Name="Categoria" HorizontalAlignment="Left" Margin="134,169,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="261" Height="30" VerticalContentAlignment="Center" FontFamily="Roboto" FontSize="18"/>
-        <TextBox x:Name="Precio" HorizontalAlignment="Left" Margin="99,223,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="296" Height="30" VerticalContentAlignment="Center" FontFamily="Roboto" FontSize="18"/>
+        <Label Content="Categoria:" HorizontalAlignment="Left" Margin="6,211,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Precio:" HorizontalAlignment="Left" Margin="6,265,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <CheckBox x:Name="Activo" Content="Activo" HorizontalAlignment="Left" Margin="6,317,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="Nombre" HorizontalAlignment="Left" Margin="112,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" Height="30" VerticalContentAlignment="Center" FontFamily="Roboto" FontSize="18"/>
+        <TextBox x:Name="Categoria" HorizontalAlignment="Left" Margin="130,215,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="260" Height="30" VerticalContentAlignment="Center" FontFamily="Roboto" FontSize="18"/>
+        <TextBox x:Name="Precio" HorizontalAlignment="Center" Margin="0,269,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="296" Height="30" VerticalContentAlignment="Center" FontFamily="Roboto" FontSize="18"/>
+        <Label Content="Codigo:" HorizontalAlignment="Left" Margin="7,108,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <TextBox x:Name="CodigoTo" HorizontalAlignment="Left" Margin="113,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" Height="30" VerticalContentAlignment="Center" FontFamily="Roboto" FontSize="18"/>
     </Grid>
 </Window>

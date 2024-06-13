@@ -20,7 +20,7 @@ namespace FrontEndWPF.Modelos
 			public int IdRol { get; set; }
 			public DateTime FechaCreacion { get; set; }
 			public string Puesto { get; set; }
-			public double Salario { get; set; }
+			public decimal Salario { get; set; }
             public string Direccion { get; set; }
             public bool Activo { get; set; }
 

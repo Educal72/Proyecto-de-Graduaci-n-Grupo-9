@@ -14,6 +14,7 @@ namespace FrontEndWPF.Inventario
         internal object precioProducto;
         internal object activoProducto;
 		ProductosViewModel productosViewModel = new ProductosViewModel();
+		Conexion conexion = new Conexion();
 
         public object Codigo { get; internal set; }
 
@@ -22,10 +23,52 @@ namespace FrontEndWPF.Inventario
             InitializeComponent();
         }
 
-        private void Guardar_Click(object sender, RoutedEventArgs e)
+		private bool ValidateInputs(out string errorMessage)
+		{
+			errorMessage = string.Empty;
+
+			// Validar Nombre
+			if (string.IsNullOrWhiteSpace(Nombre.Text))
+			{
+				errorMessage = "El campo Nombre es obligatorio.";
+				return false;
+			}
+
+			// Validar Cedula
+			if (string.IsNullOrWhiteSpace(Categoria.Text))
+			{
+				errorMessage = "El campo Cantidad es obligatorio.";
+				return false;
+			}
+
+			// Validar Salario
+			if (!decimal.TryParse(Precio.Text, out _))
+			{
+				errorMessage = "El campo Precio debe ser un número válido.";
+				return false;
+			}
+
+			bool resultado = conexion.ProductoExists(CodigoTo.Text);
+			// Validar Codigo
+			if (!int.TryParse(CodigoTo.Text, out _) || resultado)
+			{
+				errorMessage = "El codigo debe ser un número valido o ya esta asignado a otro producto.";
+				return false;
+			}
+
+			// Todas las validaciones realizadas
+			return true;
+		}
+
+		private void Guardar_Click(object sender, RoutedEventArgs e)
         {
-            // Obtener los valores de los campos
-            int codigoProducto = 12;
+			if (!ValidateInputs(out string errorMessage))
+			{
+				MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+			// Obtener los valores de los campos
+			int codigoProducto = Convert.ToInt32(CodigoTo.Text);
             string nombreProducto = Nombre.Text;
             string categoriaProducto = Categoria.Text;
             decimal precioProducto = Convert.ToDecimal(Precio.Text);
@@ -63,5 +106,7 @@ namespace FrontEndWPF.Inventario
             // Cerrar la ventana sin guardar
             this.DialogResult = false;
         }
-    }
+
+		
+	}
 }

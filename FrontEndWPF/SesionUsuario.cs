@@ -13,6 +13,7 @@ namespace FrontEndWPF
 		private static readonly object padlock = new object();
 		public string correo {  get; set; }
 		public string rol {  get; set; }
+		public string nombre { get; set; }
 
 		SesionUsuario() { 
 		}

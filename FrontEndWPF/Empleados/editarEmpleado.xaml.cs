@@ -22,7 +22,7 @@ namespace FrontEndWPF
 		public string nombre { get; set; }
 		public string apellidos { get; set; }
 		public string cedula { get; set; }
-		public double salario { get; set; }
+		public decimal salario { get; set; }
 		public string puesto { get; set; }
 		public DateTime fechaContratación { get; set; }
 		public string correo { get; set; }
@@ -74,7 +74,7 @@ namespace FrontEndWPF
                     nombre = Nombre.Text;
                     apellidos = Apellidos.Text;
                     cedula = Cedula.Text;
-                    salario = double.Parse(Salario.Text);
+                    salario = decimal.Parse(Salario.Text);
                     puesto = Puesto.Text;
                     fechaContratación = selectedDate.Value;
                     correo = Correo.Text;

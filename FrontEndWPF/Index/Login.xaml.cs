@@ -55,6 +55,7 @@ namespace FrontEndWPF
 					SesionUsuario.Instance.correo = con["Correo"].ToString();
 					conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
 					SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
+					SesionUsuario.Instance.nombre = con["Nombre"].ToString();
 				}
 				NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
 			}
@@ -106,6 +107,7 @@ namespace FrontEndWPF
 						SesionUsuario.Instance.correo = con["Correo"].ToString();
 						conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
 						SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
+						SesionUsuario.Instance.nombre = con["Nombre"].ToString();
 						NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
 					}
 				}

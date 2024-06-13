@@ -79,7 +79,7 @@ namespace FrontEndWPF
 							IdRol = Convert.ToInt32(reader["IdRol"]),
 							FechaCreacion = Convert.ToDateTime(reader["FechaCreacion"]),
 							Puesto = reader["Puesto"].ToString(),
-							Salario = ((double)Convert.ToDecimal(reader["Salario"])),
+							Salario = Convert.ToDecimal(reader["Salario"]),
                             Direccion = reader["Direccion"].ToString(),
                             Activo = Convert.ToBoolean(reader["Activo"])
                         });
@@ -188,7 +188,7 @@ namespace FrontEndWPF
 					 * con rol de administrador, por eso se pide el rol.
 					 */
                     EmployeeDataGrid.Items.Refresh();
-					conexion.DeleteEmployee(selectedEmpleado.IdRol);
+					conexion.DeleteEmployee(selectedEmpleado.IdRol, selectedEmpleado.Correo, selectedEmpleado.Cedula);
 					LoadData();
 				}
                     
@@ -216,6 +216,8 @@ namespace FrontEndWPF
 			 */
 			if (selectedEmpleado != null)
 			{
+				string oldCorreo = selectedEmpleado.Correo;
+				string oldCedula = selectedEmpleado.Cedula;
 				var editarEmpleado = new editarEmpleado();
 				editarEmpleado.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 				editarEmpleado.Cedula.Text = selectedEmpleado.Cedula;
@@ -252,7 +254,7 @@ namespace FrontEndWPF
                         selectedEmpleado.Puesto, selectedEmpleado.FechaCreacion,
                         selectedEmpleado.Salario, selectedEmpleado.Correo,
                         selectedEmpleado.Contraseña, selectedEmpleado.Telefono,
-                        selectedEmpleado.Activo, selectedEmpleado.Direccion, selectedEmpleado.IdRol);                    
+                        selectedEmpleado.Activo, selectedEmpleado.Direccion, selectedEmpleado.IdRol, oldCedula, oldCorreo);                    
                     LoadData();
 				}
 			}

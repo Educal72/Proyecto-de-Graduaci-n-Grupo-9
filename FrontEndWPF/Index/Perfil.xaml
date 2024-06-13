@@ -56,13 +56,8 @@
             <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727"/>
             <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
             <Label x:Name="fecha" Content="{Binding Fecha}" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="280" RenderTransformOrigin="0.5,1.289"/>
-            <TextBlock HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="175" RenderTransformOrigin="0.514,0.567">
-    <Run Text="Usuario: "/>
-    <Run Text="{Binding Nombre}"/>
-    <LineBreak />
-    <Run Text="Rol: "/>
-    <Run Text="{Binding Rol}"/>             
-            </TextBlock>
+            <Label x:Name="loginUser"  HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" RenderTransformOrigin="0.514,0.567" Width="Auto">
+            </Label>
             <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" HorizontalAlignment="Center" Foreground="White" Width="870" Margin="0,1000,0,40" FontFamily="Roboto" FontSize="24"/>
             <Label Content="Perfil" HorizontalAlignment="Left" Margin="42,212,0,0" VerticalAlignment="Top" Background="Black" Foreground="White" FontFamily="Roboto" FontWeight="Bold" FontSize="48"/>
             <Rectangle Height="1" Margin="42,324,0,0" Stroke="White" VerticalAlignment="Top" Fill="#00000000"/>

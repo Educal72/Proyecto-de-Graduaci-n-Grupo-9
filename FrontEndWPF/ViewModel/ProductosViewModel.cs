@@ -20,6 +20,7 @@ namespace FrontEndWPF
 
         public void LoadProductosData()
         {
+            Productos.Clear();
             var productosData = conexion.GetProductos();
             if (productosData != null && productosData.Count > 0)
             {

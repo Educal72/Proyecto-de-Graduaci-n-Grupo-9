@@ -13,7 +13,8 @@ namespace FrontEndWPF
         private DispatcherTimer timer;
         private string userEmail;
         public string userRol = SesionUsuario.Instance.rol;
-        public Conexion conexion = new Conexion();
+		public string userName = SesionUsuario.Instance.nombre;
+		public Conexion conexion = new Conexion();
 
         public Perfil()
         {
@@ -28,6 +29,7 @@ namespace FrontEndWPF
                     break; // Exit loop once found
                 }
             }
+            loginUser.Content = "Usuario: "+ userName + " Rol: "+ userRol;
 
             // Establecer el DataContext con el ViewModel
             DataContext = new PerfilViewModel();
