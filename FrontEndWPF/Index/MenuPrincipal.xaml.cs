@@ -46,21 +46,21 @@ namespace FrontEndWPF
 					break;
 				case "Cajero":
 					// Codigo Rol Cajero
-					btnEmp.Visibility = Visibility.Hidden;
+					btnEmp.Visibility = Visibility.Visible;
 					btnInv.Visibility = Visibility.Hidden;
 					btnPV.Visibility = Visibility.Visible;
 					btnRepor.Visibility = Visibility.Hidden;
 					break;
 				case "Contador":
 					// Codigo Rol Contador
-					btnEmp.Visibility = Visibility.Hidden;
+					btnEmp.Visibility = Visibility.Visible;
 					btnInv.Visibility = Visibility.Hidden;
 					btnPV.Visibility = Visibility.Hidden;
 					btnRepor.Visibility = Visibility.Visible;
 					break;
 				case "Salonero":
 					// Codigo Rol Salonero
-					btnEmp.Visibility = Visibility.Hidden;
+					btnEmp.Visibility = Visibility.Visible;
 					btnInv.Visibility = Visibility.Hidden;
 					btnPV.Visibility = Visibility.Hidden;
 					btnRepor.Visibility = Visibility.Hidden;
@@ -102,8 +102,28 @@ namespace FrontEndWPF
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
 		{
-			NavigationService.Navigate(new Uri("Empleados/empleadosAdmin.xaml", UriKind.Relative));
-		}
+			/*
+			 * Dicha condición permite saber si el empleado que accede es alguien con el rol de:
+			 * Administrador, Cajero, Contador y Salonero, y apartir de eso, lo redirige a la página -
+			 * respectiva (esto acorde a su rol).
+			 */
+            if (userRole == "Admin")
+            {
+                NavigationService.Navigate(new Uri("Empleados/empleadosAdmin.xaml", UriKind.Relative));
+            }
+            else if (userRole == "Cajero")
+            {
+                NavigationService.Navigate(new Uri("Empleados/empleadosNoAdmin.xaml", UriKind.Relative));
+            }
+            else if (userRole == "Contador")
+            {
+                NavigationService.Navigate(new Uri("Empleados/empleadosNoAdmin.xaml", UriKind.Relative));
+            }
+            else if (userRole == "Salonero")
+            {
+                NavigationService.Navigate(new Uri("Empleados/empleadosNoAdmin.xaml", UriKind.Relative));
+            }
+        }
 
 		private void Button_Click_5(object sender, RoutedEventArgs e)
 		{

@@ -17,7 +17,7 @@ using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.IO.Ports;
 using FrontEndWPF.Index;
-using Microsoft.PointOfService;
+//using Microsoft.PointOfService;
 
 namespace FrontEndWPF
 {
@@ -26,8 +26,8 @@ namespace FrontEndWPF
 	/// </summary>
 	public partial class Login : Page
 	{
-		private PosExplorer _posExplorer;
-		private PosPrinter _printer;
+		//private PosExplorer _posExplorer;
+		//private PosPrinter _printer;
 		Conexion conexion = new Conexion();
 		public Login()
 		{
