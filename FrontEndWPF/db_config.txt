@@ -1,4 +1,4 @@
-Server: DESKTOP-EIU6OVG\SQLEXPRESS01
+Server: localhost
 Puerto: 80
 Nombre: ProyectoBD_Molino
 Usuario: Admin

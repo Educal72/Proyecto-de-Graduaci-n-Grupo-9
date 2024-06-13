@@ -8,10 +8,11 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-
 using static FrontEndWPF.empleadosAdmin;
 using static FrontEndWPF.Modelos.UserModel;
 using static FrontEndWPF.Modelos.InventarioModel;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+
 
 namespace FrontEndWPF.Inventario
 {
@@ -23,6 +24,7 @@ namespace FrontEndWPF.Inventario
 		private DispatcherTimer timer;
 		List<Producto> productos = new List<Producto>();
 		Conexion conexion = new Conexion();
+		ProductosViewModel productosViewModel = new ProductosViewModel();
 		public Inventario()
 		{
 			InitializeComponent();
@@ -79,30 +81,16 @@ namespace FrontEndWPF.Inventario
 			InventarioGrid.ItemsSource = inventarios;
 		}
 
-
-private void Button_Click_2(object sender, RoutedEventArgs e)
-{
-    var selectedValue = ProductosGrid.SelectedItem as Producto;
-    if (selectedValue != null)
-    {
-        productosViewModel.Productos.Remove(selectedValue);
-        ProductosGrid.Items.Refresh();
-    }
-}
-
-
-    
-
-
-		public class Inventarios
+		private void Button_Click_2(object sender, RoutedEventArgs e)
 		{
-			public int Id { get; set; }
-			public string Nombre { get; set; }
-			public int Cantidad { get; set; }
-			public decimal Precio { get; set; }
-			public bool Activo { get; set; }
-		}
+			//var selectedValue = ProductosGrid.SelectedItem as Producto;
+			//if (selectedValue != null)
+			//{
+			//	productosViewModel.Productos.Remove(selectedValue);
 
+			//}
+
+		}
 
         public void PopulateProductosDataGrid()
         {
@@ -180,17 +168,17 @@ private void Button_Click_2(object sender, RoutedEventArgs e)
             nuevoProducto.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             nuevoProducto.Titulo.Content = "Nuevo Producto";
             if (nuevoProducto.ShowDialog() == true)
-            {
-                productosViewModel.Productos.Add(new Producto
-                {
-                    //Codigo = nuevoProducto.id,
-                    //Nombre = nuevoProducto.nombreProducto,
-                    //Categoria = nuevoProducto.categoriaProducto,
-                    //Precio = nuevoProducto.precioProducto,
-                    //Activo = nuevoProducto.activoProducto
-                });
-                ProductosGrid.Items.Refresh();
-            }
+			{
+				//            productosViewModel.Productos.Add(new Producto
+				//            {
+				//                //Codigo = nuevoProducto.id,
+				//                //Nombre = nuevoProducto.nombreProducto,
+				//                //Categoria = nuevoProducto.categoriaProducto,
+				//                //Precio = nuevoProducto.precioProducto,
+				//                //Activo = nuevoProducto.activoProducto
+				//});
+				PopulateProductosDataGrid();
+			}
         }
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
@@ -207,11 +195,12 @@ private void Button_Click_2(object sender, RoutedEventArgs e)
                 nuevoProducto.Activo.IsChecked = selectedValue.Activo;
                 if (nuevoProducto.ShowDialog() == true)
                 {
-                    //selectedValue.Nombre = nuevoProducto.nombreProducto;
-                    //selectedValue.Categoria = nuevoProducto.categoriaProducto;
-                    //selectedValue.Precio = nuevoProducto.precioProducto;
-                    //selectedValue.Activo = nuevoProducto.activoProducto;
-                    //ProductosGrid.Items.Refresh();
+					//selectedValue.Nombre = nuevoProducto.nombreProducto;
+					//selectedValue.Categoria = nuevoProducto.categoriaProducto;
+					//selectedValue.Precio = nuevoProducto.precioProducto;
+					//selectedValue.Activo = nuevoProducto.activoProducto;
+					//ProductosGrid.Items.Refresh();
+					
                 }
             }
         }

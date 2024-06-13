@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using FrontEndWPF;
+using static FrontEndWPF.PuntoVenta;
 
 namespace FrontEndWPF.Inventario
 {
@@ -12,8 +13,9 @@ namespace FrontEndWPF.Inventario
         internal object categoriaProducto;
         internal object precioProducto;
         internal object activoProducto;
+		ProductosViewModel productosViewModel = new ProductosViewModel();
 
-        public nuevoProducto()
+		public nuevoProducto()
         {
             InitializeComponent();
         }
@@ -21,7 +23,7 @@ namespace FrontEndWPF.Inventario
         private void Guardar_Click(object sender, RoutedEventArgs e)
         {
             // Obtener los valores de los campos
-            int codigoProducto = 7;
+            int codigoProducto = 12;
             string nombreProducto = Nombre.Text;
             string categoriaProducto = Categoria.Text;
             decimal precioProducto = Convert.ToDecimal(Precio.Text);
@@ -33,7 +35,16 @@ namespace FrontEndWPF.Inventario
 
             if (success)
             {
-                MessageBox.Show("Producto guardado exitosamente.");
+				var producto = new Producto
+				{
+					Codigo = codigoProducto.ToString(),
+					Nombre = nombreProducto,
+					Categoria = categoriaProducto,
+					Precio = precioProducto,
+					Activo = activoProducto
+				};
+				productosViewModel.Productos.Add(producto);
+				MessageBox.Show("Producto guardado exitosamente.");
             }
             else
             {

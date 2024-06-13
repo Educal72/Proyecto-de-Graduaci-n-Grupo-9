@@ -451,42 +451,46 @@ namespace FrontEndWPF
 			return success;
 		}
 
-        public bool InsertarProducto(int codigo ,string nombre, string categoria, decimal precio, bool activo)
-        {
-            bool success = false;
+		public bool InsertarProducto(int codigo, string nombre, string categoria, decimal precio, bool activo)
+		{
+			bool success = false;
 
-            using (SqlConnection connection = OpenConnection())
-            {
-                if (connection != null)
-                {
-                    string query = "INSERT INTO Productos (Codigo, Nombre, Categoria, Precio, Activo) VALUES (@Codigo, @Nombre, @Categoria, @Precio, @Activo)";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@Codigo", codigo);
-                        command.Parameters.AddWithValue("@Nombre", nombre);
-                        command.Parameters.AddWithValue("@Categoria", categoria);
-                        command.Parameters.AddWithValue("@Precio", precio);
-                        command.Parameters.AddWithValue("@Activo", activo);
+			using (SqlConnection connection = OpenConnection())
+			{
+				if (connection != null)
+				{
+					try
+					{
+						string query = "INSERT INTO Productos (Codigo, Nombre, Categoria, Precio, Activo) VALUES (@Codigo, @Nombre, @Categoria, @Precio, @Activo)";
+						using (SqlCommand command = new SqlCommand(query, connection))
+						{
+							command.Parameters.AddWithValue("@Codigo", codigo);
+							command.Parameters.AddWithValue("@Nombre", nombre);
+							command.Parameters.AddWithValue("@Categoria", categoria);
+							command.Parameters.AddWithValue("@Precio", precio);
+							command.Parameters.AddWithValue("@Activo", activo);
 
-                        try
-                        {
-                            int rowsAffected = command.ExecuteNonQuery();
-                            success = rowsAffected > 0;
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("Error executing insert query: " + ex.Message);
-                        }
-                    }
+							int rowsAffected = command.ExecuteNonQuery();
+							success = rowsAffected > 0;
+						}
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Error executing insert query: " + ex.Message);
+						// Lanza la excepción para que quien llama pueda manejarla adecuadamente.
+						throw;
+					}
+					finally
+					{
+						CloseConnection(connection);
+					}
+				}
+			}
 
-                    CloseConnection(connection);
-                }
-            }
+			return success;
+		}
 
-            return success;
-        }
-
-        public bool ActualizarUsuario(string correo, string nombre, string primerApellido, string segundoApellido, string cedula, string telefono, string rol)
+		public bool ActualizarUsuario(string correo, string nombre, string primerApellido, string segundoApellido, string cedula, string telefono, string rol)
         {
             bool success = false;
 
