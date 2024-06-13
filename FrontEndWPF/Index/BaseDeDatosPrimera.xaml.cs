@@ -133,7 +133,7 @@ namespace FrontEndWPF
 		{
 			if (!ValidateInputs(servidor.Text, puerto.Text, nombre.Text, usuario.Text, contraseña.Text, out string errorMessage))
 			{
-				MessageBox.Show(errorMessage);
+				MessageBox.Show(errorMessage, "Resultado", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 			Servidor = servidor.Text;
@@ -156,11 +156,11 @@ namespace FrontEndWPF
 			try
 			{
 				connection.Open();
-				MessageBox.Show("Conexión Exitosa.");
+				MessageBox.Show("Conexión Exitosa.", "Resultado", MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show("Error en la Conexión: " + ex.Message);
+				MessageBox.Show("Error en la Conexión: " + ex.Message, "Resultado", MessageBoxButton.OK, MessageBoxImage.Error);
 				
 			}
 		}

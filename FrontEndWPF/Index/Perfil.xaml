@@ -76,7 +76,7 @@
             <Label Content="Contraseña" HorizontalAlignment="Left" Margin="695,734,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
             <TextBox HorizontalAlignment="Left" Margin="695,778,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="595" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
             <Label Content="Rol" HorizontalAlignment="Left" Margin="42,864,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <ComboBox HorizontalAlignment="Left" Margin="42,908,0,0" VerticalAlignment="Top" Width="600" Height="50" RenderTransformOrigin="0.513,0.14" Background="White" Foreground="Black" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" BorderBrush="White">
+            <ComboBox x:Name="comboRol" HorizontalAlignment="Left" Margin="42,908,0,0" VerticalAlignment="Top" Width="600" Height="50" RenderTransformOrigin="0.513,0.14" Background="White" Foreground="Black" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" BorderBrush="White">
                 <ComboBoxItem Content="Admin"/>
                 <ComboBoxItem Content="Cajero"/>
                 <ComboBoxItem Content="Salonero"/>
