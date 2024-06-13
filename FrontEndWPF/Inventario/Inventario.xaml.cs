@@ -11,6 +11,8 @@ namespace FrontEndWPF.Inventario
     {
         private DispatcherTimer timer;
         private ProductosViewModel productosViewModel;
+        private ProductosViewModel viewModel;
+
 
         public Inventario()
         {
@@ -22,6 +24,8 @@ namespace FrontEndWPF.Inventario
             fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 
             productosViewModel = new ProductosViewModel();
+            viewModel = new ProductosViewModel();
+            DataContext = viewModel;
             DataContext = productosViewModel;
             ProductosGrid.ItemsSource = productosViewModel.Productos;
 
@@ -161,21 +165,29 @@ namespace FrontEndWPF.Inventario
             var selectedValue = ProductosGrid.SelectedItem as Producto;
             if (selectedValue != null)
             {
-                var nuevoProducto = new nuevoProducto();
-                nuevoProducto.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                nuevoProducto.Titulo.Content = "Editar Producto";
-                nuevoProducto.Nombre.Text = selectedValue.Nombre;
-                nuevoProducto.Categoria.Text = selectedValue.Categoria;
-                nuevoProducto.Precio.Text = selectedValue.Precio.ToString();
-                nuevoProducto.Activo.IsChecked = selectedValue.Activo;
-                if (nuevoProducto.ShowDialog() == true)
+                var editarProductoWindow = new EditarProductoWindow(selectedValue);
+                editarProductoWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+                if (editarProductoWindow.ShowDialog() == true)
                 {
-                    //selectedValue.Nombre = nuevoProducto.nombreProducto;
-                    //selectedValue.Categoria = nuevoProducto.categoriaProducto;
-                    //selectedValue.Precio = nuevoProducto.precioProducto;
-                    //selectedValue.Activo = nuevoProducto.activoProducto;
-                    //ProductosGrid.Items.Refresh();
+                    // Actualiza el producto en el ViewModel
+                    viewModel.ActualizarProducto(
+                        selectedValue.Id,
+                        int.Parse(editarProductoWindow.CodigoTextBox.Text),
+                        editarProductoWindow.NombreTextBox.Text,
+                        editarProductoWindow.CategoriaTextBox.Text,
+                        decimal.Parse(editarProductoWindow.PrecioTextBox.Text),
+                        editarProductoWindow.ActivoCheckBox.IsChecked.GetValueOrDefault()
+                    );
+
+                    // Refresca la vista
+                    MessageBox.Show("Producto actualizado exitosamente!");
+                    ProductosGrid.Items.Refresh();
                 }
+            }
+            else
+            {
+                MessageBox.Show("Seleccione un producto para editar.", "Editar Producto", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }

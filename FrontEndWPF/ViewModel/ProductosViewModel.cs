@@ -54,6 +54,25 @@ namespace FrontEndWPF
             return eliminado;
         }
 
+        public bool ActualizarProducto(int id, int codigo, string nombre, string categoria, decimal precio, bool activo)
+        {
+            bool actualizado = conexion.ActualizarProducto(id, codigo, nombre, categoria, precio, activo);
+            if (actualizado)
+            {
+                var producto = Productos.FirstOrDefault(p => p.Id == id);
+                if (producto != null)
+                {
+                    producto.Codigo = codigo.ToString();
+                    producto.Nombre = nombre;
+                    producto.Categoria = categoria;
+                    producto.Precio = precio;
+                    producto.Activo = activo;
+                    OnPropertyChanged(nameof(Productos));
+                }
+            }
+            return actualizado;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

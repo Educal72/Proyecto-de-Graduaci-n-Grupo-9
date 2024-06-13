@@ -13,6 +13,8 @@ namespace FrontEndWPF.Inventario
         internal object precioProducto;
         internal object activoProducto;
 
+        public object Codigo { get; internal set; }
+
         public nuevoProducto()
         {
             InitializeComponent();
@@ -41,6 +43,7 @@ namespace FrontEndWPF.Inventario
             }
 
             // Cerrar la ventana después de guardar
+
             this.DialogResult = true;
         }
 
