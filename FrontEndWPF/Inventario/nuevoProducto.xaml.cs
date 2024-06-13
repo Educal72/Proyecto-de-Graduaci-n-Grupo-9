@@ -21,7 +21,7 @@ namespace FrontEndWPF.Inventario
         private void Guardar_Click(object sender, RoutedEventArgs e)
         {
             // Obtener los valores de los campos
-            int codigoProducto = 7;
+            int codigoProducto = 8;
             string nombreProducto = Nombre.Text;
             string categoriaProducto = Categoria.Text;
             decimal precioProducto = Convert.ToDecimal(Precio.Text);

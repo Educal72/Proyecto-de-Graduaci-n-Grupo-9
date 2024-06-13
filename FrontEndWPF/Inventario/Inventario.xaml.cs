@@ -23,6 +23,8 @@ namespace FrontEndWPF.Inventario
 
             productosViewModel = new ProductosViewModel();
             DataContext = productosViewModel;
+            ProductosGrid.ItemsSource = productosViewModel.Productos;
+
             PopulateInventariosDataGrid();
             PopulateProductosDataGrid();
         }
@@ -79,8 +81,16 @@ namespace FrontEndWPF.Inventario
             var selectedValue = ProductosGrid.SelectedItem as Producto;
             if (selectedValue != null)
             {
-                productosViewModel.Productos.Remove(selectedValue);
-                ProductosGrid.Items.Refresh();
+                bool eliminado = productosViewModel.EliminarProducto(selectedValue.Id);
+                if (eliminado)
+                {
+                    MessageBox.Show("Producto eliminado exitosamente!");
+                    ProductosGrid.Items.Refresh();
+                }
+                else
+                {
+                    MessageBox.Show("Error al eliminar el producto.");
+                }
             }
         }
 

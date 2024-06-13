@@ -224,7 +224,7 @@ namespace FrontEndWPF
             {
                 if (connection != null)
                 {
-                    string query = "SELECT Codigo, Nombre, Categoria, Precio, Activo FROM Productos";
+                    string query = "SELECT Id, Codigo, Nombre, Categoria, Precio, Activo FROM Productos";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         try
@@ -243,7 +243,7 @@ namespace FrontEndWPF
                                         }
                                         else
                                         {
-                                            producto[fieldName] = null; // Otra opción sería asignar un valor predeterminado, como string.Empty
+                                            producto[fieldName] = null;
                                         }
                                     }
                                     productos.Add(producto);
@@ -261,6 +261,40 @@ namespace FrontEndWPF
             }
 
             return productos;
+        }
+
+        public bool EliminarProducto(int id)
+        {
+            bool eliminado = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "DELETE FROM Productos WHERE Id = @Id";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", id);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            if (rowsAffected > 0)
+                            {
+                                eliminado = true;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return eliminado;
         }
 
         public Dictionary<string, object> SelectUserCedula(string correo, int cedula)
@@ -324,7 +358,7 @@ namespace FrontEndWPF
 							Console.WriteLine("Error executing query: " + ex.Message);
 						}
 					}
-
+					
 					CloseConnection(connection);
 				}
 			}
