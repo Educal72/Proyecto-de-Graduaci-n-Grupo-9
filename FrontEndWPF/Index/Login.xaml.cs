@@ -96,9 +96,10 @@ namespace FrontEndWPF
 					string Correo = nuevoEmpleado.correo;
 					string Contraseña = nuevoEmpleado.contraseña;
 					string Telefono = nuevoEmpleado.telefono;
+					string Direccion = nuevoEmpleado.direccion;
 					string Rol = nuevoEmpleado.rol;
 
-					conexion.AddUser(Nombre, Apellidos, Apellidos, Cedula, Telefono, Correo, Contraseña, Rol, Fecha, Puesto, Salario);
+					conexion.AddUser(Nombre, Apellidos, Apellidos, Cedula, Telefono, Correo, Contraseña, Rol, Fecha, Puesto, Salario, Direccion);
 					var con = conexion.SelectUser(Correo, conexion.HashPassword(Contraseña));
 					if (con != null)
 					{
