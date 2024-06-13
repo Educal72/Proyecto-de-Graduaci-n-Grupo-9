@@ -24,6 +24,7 @@ namespace FrontEndWPF.Inventario
 		private DispatcherTimer timer;
 		List<Producto> productos = new List<Producto>();
 		Conexion conexion = new Conexion();
+		ProductosViewModel productosViewModel = new ProductosViewModel();
 		public Inventario()
 		{
 			InitializeComponent();
