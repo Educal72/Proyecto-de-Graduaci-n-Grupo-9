@@ -538,7 +538,45 @@ namespace FrontEndWPF
 			return success;
 		}
 
-		public bool ActualizarUsuario(string correo, string nombre, string primerApellido, string segundoApellido, string cedula, string telefono, string rol)
+
+        public bool ActualizarProducto(int id, int codigo, string nombre, string categoria, decimal precio, bool activo)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "UPDATE Productos SET Codigo = @Codigo, Nombre = @Nombre, Categoria = @Categoria, Precio = @Precio, Activo = @Activo WHERE Id = @Id";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", id);
+                        command.Parameters.AddWithValue("@Codigo", codigo);
+                        command.Parameters.AddWithValue("@Nombre", nombre);
+                        command.Parameters.AddWithValue("@Categoria", categoria);
+                        command.Parameters.AddWithValue("@Precio", precio);
+                        command.Parameters.AddWithValue("@Activo", activo);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing update query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+
+        public bool ActualizarUsuario(string correo, string nombre, string primerApellido, string segundoApellido, string cedula, string telefono, string rol)
         {
             bool success = false;
 

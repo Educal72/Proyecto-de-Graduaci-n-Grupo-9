@@ -15,7 +15,9 @@ namespace FrontEndWPF.Inventario
         internal object activoProducto;
 		ProductosViewModel productosViewModel = new ProductosViewModel();
 
-		public nuevoProducto()
+        public object Codigo { get; internal set; }
+
+        public nuevoProducto()
         {
             InitializeComponent();
         }
@@ -52,6 +54,7 @@ namespace FrontEndWPF.Inventario
             }
 
             // Cerrar la ventana después de guardar
+
             this.DialogResult = true;
         }
 
