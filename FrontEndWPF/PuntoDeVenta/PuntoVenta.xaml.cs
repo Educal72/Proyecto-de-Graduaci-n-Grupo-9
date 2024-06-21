@@ -38,7 +38,17 @@ namespace FrontEndWPF
 			new Product { Id=11, Name = "Producto 11", Category = "Category 2" , Price = 999.00},
 			new Product { Id=9, Name = "Producto 9", Category = "Category 4" , Price = 1299.00},
 			new Product { Id=10, Name = "Producto 10", Category = "Category 2", Price = 1299.00 },
-        };
+			new Product { Id=14, Name = "Producto 14", Category = "Category 2", Price = 1299.00 },
+			new Product { Id=16, Name = "Producto 16", Category = "Category 2", Price = 1299.00 },
+			new Product { Id=96, Name = "Producto 96", Category = "Category 2", Price = 1299.00 },
+			new Product { Id=78, Name = "Producto 78", Category = "Category 2", Price = 1299.00 },
+			new Product { Id=89, Name = "Producto 89", Category = "Category 2", Price = 1299.00 },
+			new Product { Id=18, Name = "Producto 18", Category = "Category 2", Price = 1299.00 },
+			new Product { Id=28, Name = "Producto 28", Category = "Category 2", Price = 1299.00 },
+			new Product { Id=16, Name = "Producto 16", Category = "Category 2", Price = 1299.00 },
+			new Product { Id=15, Name = "Producto 15", Category = "Category 2", Price = 1299.00 },
+
+		};
 
 		public PuntoVenta()
         {
