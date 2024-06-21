@@ -819,6 +819,37 @@ namespace FrontEndWPF
             return success;
         }
 
+        public bool ValidarCorreo(string correo)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "Exec RecuperarContraseña @Correo";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Correo", correo);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing insert query: " + ex.Message);
+                        }
+                    }
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+
         public string HashPassword(string password)
 		{
 			using (SHA256 sha256Hash = SHA256.Create())

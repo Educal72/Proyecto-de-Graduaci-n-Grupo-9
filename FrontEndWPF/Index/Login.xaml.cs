@@ -65,22 +65,15 @@ namespace FrontEndWPF
 			}
 		}
 
+		/*
+		 * Botón para recuperar contraseña
+		 */
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			if (conexion.HasEntries())
 			{
-				//try
-				//{
-				//	// Use the printer name you found in Devices and Printers
-				//	string printerName = "SAT 37TUSE";
-				//	PrintHelloWorldAndOpenCashDrawer(printerName);
-				//}
-				//catch (Exception ex)
-				//{
-				//	MessageBox.Show($"Error: {ex.Message}");
-				//}
-				//MessageBox.Show("Usuario ya existe!");
-			}
+                NavigationService.Navigate(new Uri("Index/RecuperarContraseña.xaml", UriKind.Relative));
+            }
 			else
 			{
 				var nuevoEmpleado = new añadirEmpleado();
@@ -100,7 +93,8 @@ namespace FrontEndWPF
 					string Direccion = nuevoEmpleado.direccion;
 					string Rol = nuevoEmpleado.rol;
 
-					conexion.AddUser(Nombre, Apellidos, Apellidos, Cedula, Telefono, Correo, Contraseña, Rol, Fecha, Puesto, Salario, Direccion);
+					conexion.AddUser(Nombre, Apellidos, Apellidos, Cedula, Telefono, 
+						Correo, Contraseña, Rol, Fecha, Puesto, Salario, Direccion);
 					var con = conexion.SelectUser(Correo, conexion.HashPassword(Contraseña));
 					if (con != null)
 					{

@@ -157,5 +157,10 @@ namespace FrontEndWPF
 		{
 			Fecha.SelectedDate = DateTime.Now;
 		}
-	}
+
+        private void Nombre_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+    }
 }
