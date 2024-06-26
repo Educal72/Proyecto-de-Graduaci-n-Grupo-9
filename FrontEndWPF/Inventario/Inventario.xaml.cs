@@ -94,51 +94,62 @@ namespace FrontEndWPF.Inventario
 		}
 
 
-		private void Button_Click_1(object sender, RoutedEventArgs e)
-		{
-			var selectedValue = InventarioGrid.SelectedValue as InventarioM;
-			if (selectedValue != null)
-			{
-				MessageBoxResult result = MessageBox.Show("¿Esta seguro que desea eliminar esta entrada del inventario?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-				if (result == MessageBoxResult.Yes)
-				{
-					bool resultQuery = conexion.DeleteInventario(selectedValue.Id);
-					PopulateInventariosDataGrid();
-					if (resultQuery)
-					{
-						MessageBox.Show("La entrada fue eliminada exitosamente", "Resultado", MessageBoxButton.OK, MessageBoxImage.Information);
-					}
-					else
-					{
-						MessageBox.Show("La entrada no se pudo eliminar", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
-					}
-				}
-			}
-		}
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var selectedValue = InventarioGrid.SelectedValue as InventarioM;
+            if (selectedValue == null)
+            {
+                MessageBox.Show("Por favor, seleccione un elemento de la lsita para eliminar.", "Selección requerida", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return; // Salir del método si no hay ningún elemento seleccionado
+            }
 
-		private void Button_Click_2(object sender, RoutedEventArgs e)
-		{
-			var selectedValue = ProductosGrid.SelectedItem as Producto;
-			if (selectedValue != null)
-			{
-				bool eliminado = productosViewModel.EliminarProducto(selectedValue.Id);
-				if (eliminado)
-				{
-					MessageBox.Show("Producto eliminado exitosamente!");
-					ProductosGrid.Items.Refresh();
-				}
-				else
-				{
-					MessageBox.Show("Error al eliminar el producto.");
-				}
-			}
-		}
+            MessageBoxResult result = MessageBox.Show("¿Está seguro que desea eliminar este inventario?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                bool resultQuery = conexion.DeleteInventario(selectedValue.Id);
+                PopulateInventariosDataGrid();
+                if (resultQuery)
+                {
+                    MessageBox.Show("El inventario fue eliminado exitosamente", "Resultado", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo eliminar el inventario", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+        }
 
-		private void Button_Click_3(object sender, RoutedEventArgs e)
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            var selectedValue = ProductosGrid.SelectedItem as Producto;
+            if (selectedValue == null)
+            {
+                MessageBox.Show("Por favor, seleccione un producto para eliminar.", "Selección requerida", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return; // Salir del método si no hay ningún producto seleccionado
+            }
+
+            MessageBoxResult result = MessageBox.Show("¿Está seguro que desea eliminar este producto?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                bool eliminado = productosViewModel.EliminarProducto(selectedValue.Id);
+                if (eliminado)
+                {
+                    MessageBox.Show("Producto eliminado exitosamente!");
+                    ProductosGrid.Items.Refresh();
+                }
+                else
+                {
+                    MessageBox.Show("Error al eliminar el producto.");
+                }
+            }
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
 		{
 			var nuevoInventario = new nuevoInventario();
 			nuevoInventario.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-			nuevoInventario.Titulo.Content = "Nuevo Item";
+			nuevoInventario.Titulo.Content = "Nuevo Inventario";
 			if (nuevoInventario.ShowDialog() == true)
 			{
 				string Nombre = nuevoInventario.nombre;
@@ -150,31 +161,35 @@ namespace FrontEndWPF.Inventario
 			}
 		}
 
-		private void Button_Click_4(object sender, RoutedEventArgs e)
-		{
-			var selectedValue = InventarioGrid.SelectedValue as InventarioM;
-			if (selectedValue != null)
-			{
-				var nuevoInventario = new nuevoInventario();
-				nuevoInventario.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-				nuevoInventario.Titulo.Content = "Editar Item";
-				var inventarioSeleccionado = conexion.GetInventarioById(selectedValue.Id);
-				nuevoInventario.Nombre.Text = inventarioSeleccionado["Nombre"].ToString();
-				nuevoInventario.Cantidad.Text = inventarioSeleccionado["Cantidad"].ToString();
-				nuevoInventario.Precio.Text = inventarioSeleccionado["Precio"].ToString();
-				nuevoInventario.Activo.IsChecked = Convert.ToBoolean(inventarioSeleccionado["Activo"]);
-				if (nuevoInventario.ShowDialog() == true)
-				{
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            var selectedValue = InventarioGrid.SelectedValue as InventarioM;
+            if (selectedValue == null)
+            {
+                MessageBox.Show("Seleccione un Inventario para poder editar.", "Editar Inventario", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
-					string Nombre = nuevoInventario.nombre;
-					int Cantidad = nuevoInventario.cantidad;
-					decimal Precio = nuevoInventario.precio;
-					bool Activo = nuevoInventario.activo;
-					conexion.EditInventario(Convert.ToInt32(inventarioSeleccionado["Id"]), Nombre, Cantidad, Precio, Activo);
-					PopulateInventariosDataGrid();
-				}
-			}
-		}
+            var nuevoInventario = new nuevoInventario();
+            nuevoInventario.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            nuevoInventario.Titulo.Content = "Editar Inventario";
+            var inventarioSeleccionado = conexion.GetInventarioById(selectedValue.Id);
+            nuevoInventario.Nombre.Text = inventarioSeleccionado["Nombre"].ToString();
+            nuevoInventario.Cantidad.Text = inventarioSeleccionado["Cantidad"].ToString();
+            nuevoInventario.Precio.Text = inventarioSeleccionado["Precio"].ToString();
+            nuevoInventario.Activo.IsChecked = Convert.ToBoolean(inventarioSeleccionado["Activo"]);
+
+            if (nuevoInventario.ShowDialog() == true)
+            {
+                string Nombre = nuevoInventario.nombre;
+                int Cantidad = nuevoInventario.cantidad;
+                decimal Precio = nuevoInventario.precio;
+                bool Activo = nuevoInventario.activo;
+                conexion.EditInventario(Convert.ToInt32(inventarioSeleccionado["Id"]), Nombre, Cantidad, Precio, Activo);
+                PopulateInventariosDataGrid();
+            }
+        }
+
 
 
         private void Button_Click_5(object sender, RoutedEventArgs e)

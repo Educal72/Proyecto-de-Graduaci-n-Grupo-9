@@ -74,8 +74,7 @@ namespace FrontEndWPF
 
             if (result == MessageBoxResult.Yes)
             {
-                //var actualizarUsuario = new PerfilViewModel(); Esta pendiente revisar el modelo.
-                //conexion.OpenConnection();
+              
                 conexion.ActualizarUsuario(
                     correo.Text,
                     Nombre.Text,
@@ -91,8 +90,7 @@ namespace FrontEndWPF
             {
                 MessageBox.Show("Actualización cancelada.");
             }
-            //conexion.ActualizarUsuario(correo.Text, Nombre.Text, primerApellido.Text, segundoApellido.Text, Cedula.Text, Telefono.Text, comboRol.Text);
-            //MessageBox.Show("Perfil actualizado exitosamente!");
+          
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
