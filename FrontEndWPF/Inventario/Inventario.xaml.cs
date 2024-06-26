@@ -72,7 +72,7 @@ namespace FrontEndWPF.Inventario
 						{
 							Id = Convert.ToInt32(reader["Id"]),
 							Nombre = reader["Nombre"].ToString(),
-							Cantidad = Convert.ToInt32(reader["Id"]),
+							Cantidad = Convert.ToInt32(reader["Cantidad"]),
 							Precio = Convert.ToDecimal(reader["Precio"]),
 							Activo = Convert.ToBoolean(reader["Activo"])
 						});
