@@ -144,11 +144,12 @@ namespace FrontEndWPF
             direccion = DireccionTo.Text; //Toma el dato que esta en el espacio llamado Direccion, el cual aparece cuando se quiere agregar un nuevo empleado.
             rol = Rol.Text;
 			DialogResult = true;
-			
-			
-		}
+            MessageBox.Show("Empleado guardado exitosamente.");
 
-		private void Cancelar_Click(object sender, RoutedEventArgs e)
+
+        }
+
+        private void Cancelar_Click(object sender, RoutedEventArgs e)
 		{
 			this.DialogResult = false;
 		}
