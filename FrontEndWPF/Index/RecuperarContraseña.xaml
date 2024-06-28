@@ -51,7 +51,7 @@
         <Rectangle Height="330" Stroke="Black" VerticalAlignment="Top" Fill="#FF171717" RadiusX="10" RadiusY="10" Margin="0,204,0,0" HorizontalAlignment="Center" Width="418"/>
         <Label Content="Recuperar Contraseña" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Roboto Black" FontSize="36" Foreground="White" Height="48" Width="382" Margin="0,228,0,0" HorizontalContentAlignment="Center"/>
         <Label Content="Correo Electrónico:" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto Medium" FontSize="16" Height="26" Width="143" RenderTransformOrigin="0.553,1.269" Margin="32,356,0,0"/>
-        <TextBox Name="Correo" VerticalContentAlignment="Center" VerticalAlignment="Top" 
+        <TextBox x:Name="Correo" VerticalContentAlignment="Center" VerticalAlignment="Top" 
                      Width="382" Background="Black" FontFamily="Roboto" 
                      FontSize="16" Foreground="White" 
                      BorderBrush="#FF262626" Height="37" Padding="5,0,0,0" Margin="0,386,0,0" HorizontalAlignment="Center"/>

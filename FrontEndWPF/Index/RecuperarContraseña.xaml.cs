@@ -40,17 +40,8 @@ namespace FrontEndWPF
             correo = Correo.Text;
             var valida = conexion.ValidarCorreo(correo);
 
-            if (valida != null)
-            {
-                num = true;
-            }
-            else
-            {
-                num = false;
-            }
-
             //2da parte:
-            if (num == true)
+            if (valida == true)
             {
                 ProcedimientoParaElCorreo(correo);
                 MessageBox.Show("Instrucciones enviadas al correo electrónico, favor revisarlo.",
@@ -75,22 +66,32 @@ namespace FrontEndWPF
 
         public static void ProcedimientoParaElCorreo(string correo)
         {
-            string to = "Molino Central Coronado";
-            string from = correo;
-            string subject = "Recuperación de contraseña.";
-            string body =
-                @"¡Hola!, gracias por mandar tu solicitud de restablecimiento de contraseña, aqui te proporcionamos una contraseña temporal para que puedas ingresar a la aplicación y puedas cambiarla después.
-                  Advertencia: Esta contraseña es de uso confidencial, no compartas esta contraseña con ningún otro, además, de que dicha contraseña tiene un limite de tiempo, muchas gracias por usar nuestros servicios.";
+            //string subject = "Recuperación de contraseña.";
+            //string body =
+               // @"¡Hola!, gracias por mandar tu solicitud de restablecimiento de contraseña, aqui te proporcionamos una contraseña temporal para que puedas ingresar a la aplicación y puedas cambiarla después.
+                 // Advertencia: Esta contraseña es de uso confidencial, no compartas esta contraseña con ningún otro, además, de que dicha contraseña tiene un limite de tiempo, muchas gracias por usar nuestros servicios.";
 
-            MailMessage message = new MailMessage(from, to, subject, body);
-            var smtpClient = new SmtpClient();
+            /*Aqui coloca los datos la persona administradora, el cual quiere enviar el mensaje.*/
+            MailMessage mailMessage = new MailMessage {
+                From = new MailAddress("vicky_mora1321@hotmail.com"), Subject = "Password Reset",
+                Body = $"Your new temporary password is: ", IsBodyHtml = true };
+
+
+            SmtpClient client = new SmtpClient("smtp.office365.com", 587)
+            {
+                Credentials = new NetworkCredential("vicky_mora1321@hotmail.com", "vickymora1977"),
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false
+            };
             
-
             try
             {
-                smtpClient.Send(message);
+                /*Se manda al usuario que uno quiere mandar*/
+                mailMessage.To.Add(correo);
+                client.Send(mailMessage);
                 Debug.WriteLine("Sent");
-                smtpClient.Dispose();
+                client.Dispose();
             }
             catch
             {

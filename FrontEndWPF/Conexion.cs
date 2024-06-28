@@ -13,208 +13,208 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace FrontEndWPF
 {
-	public class Conexion
-	{
-		private string connectionString;
-		private string server;
-		private string puerto;
-		private string nombre;
-		private string usuario;
-		private string contraseña;
-		int idusuario = 0;
-		int idusuario2 = 0;
+    public class Conexion
+    {
+        private string connectionString;
+        private string server;
+        private string puerto;
+        private string nombre;
+        private string usuario;
+        private string contraseña;
+        int idusuario = 0;
+        int idusuario2 = 0;
 
         public Conexion()
-		{
-			if (!File.Exists(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/db_config.txt"))
-			{
-				return;
-			}
-			try
-			{
-				// Leer todas las líneas del archivo
-				string[] lines = File.ReadAllLines(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/db_config.txt");
+        {
+            if (!File.Exists(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/db_config.txt"))
+            {
+                return;
+            }
+            try
+            {
+                // Leer todas las líneas del archivo
+                string[] lines = File.ReadAllLines(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/db_config.txt");
 
-				// Parsear el contenido del archivo
-				foreach (string line in lines)
-				{
-					string[] parts = line.Split(new[] { ": " }, StringSplitOptions.None);
-					if (parts.Length == 2)
-					{
-						switch (parts[0])
-						{
-							case "Server":
-								server = parts[1];
-								break;
-							case "Puerto":
-								puerto = parts[1];
-								break;
-							case "Nombre":
-								nombre = parts[1];
-								break;
-							case "Usuario":
-								usuario = parts[1];
-								break;
-							case "Contraseña":
-								contraseña = parts[1];
-								break;
-						}
-					}
-				}
+                // Parsear el contenido del archivo
+                foreach (string line in lines)
+                {
+                    string[] parts = line.Split(new[] { ": " }, StringSplitOptions.None);
+                    if (parts.Length == 2)
+                    {
+                        switch (parts[0])
+                        {
+                            case "Server":
+                                server = parts[1];
+                                break;
+                            case "Puerto":
+                                puerto = parts[1];
+                                break;
+                            case "Nombre":
+                                nombre = parts[1];
+                                break;
+                            case "Usuario":
+                                usuario = parts[1];
+                                break;
+                            case "Contraseña":
+                                contraseña = parts[1];
+                                break;
+                        }
+                    }
+                }
 
-				// Opcional: Mostrar los valores leídos (para depuración)
-				connectionString = $"Server={server};Database={nombre};User Id={usuario};Password={contraseña};";
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show($"Error al leer la configuración del archivo: {ex.Message}");
-			}
-		}
+                // Opcional: Mostrar los valores leídos (para depuración)
+                connectionString = $"Server={server};Database={nombre};User Id={usuario};Password={contraseña};";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al leer la configuración del archivo: {ex.Message}");
+            }
+        }
 
-		public SqlConnection OpenConnection()
-		{
-			SqlConnection connection = new SqlConnection(connectionString);
-			try
-			{
-				connection.Open();
-				Console.WriteLine("Connection opened successfully.");
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine("Error opening connection: " + ex.Message);
-			}
-			return connection;
-		}
+        public SqlConnection OpenConnection()
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                connection.Open();
+                Console.WriteLine("Connection opened successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error opening connection: " + ex.Message);
+            }
+            return connection;
+        }
 
-		public void CloseConnection(SqlConnection connection)
-		{
-			if (connection != null && connection.State == System.Data.ConnectionState.Open)
-			{
-				connection.Close();
-				Console.WriteLine("Connection closed successfully.");
-			}
-		}
+        public void CloseConnection(SqlConnection connection)
+        {
+            if (connection != null && connection.State == System.Data.ConnectionState.Open)
+            {
+                connection.Close();
+                Console.WriteLine("Connection closed successfully.");
+            }
+        }
 
-		public void InsertData(string table, Dictionary<string, object> data)
-		{
-			using (SqlConnection connection = OpenConnection())
-			{
-				if (connection != null)
-				{
-					string columns = string.Join(", ", data.Keys);
-					string parameters = string.Join(", ", data.Keys.Select(key => "@" + key));
+        public void InsertData(string table, Dictionary<string, object> data)
+        {
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string columns = string.Join(", ", data.Keys);
+                    string parameters = string.Join(", ", data.Keys.Select(key => "@" + key));
 
-					string query = $"INSERT INTO {table} ({columns}) VALUES ({parameters})";
+                    string query = $"INSERT INTO {table} ({columns}) VALUES ({parameters})";
 
-					using (SqlCommand command = new SqlCommand(query, connection))
-					{
-						foreach (var pair in data)
-						{
-							command.Parameters.AddWithValue("@" + pair.Key, pair.Value);
-						}
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        foreach (var pair in data)
+                        {
+                            command.Parameters.AddWithValue("@" + pair.Key, pair.Value);
+                        }
 
-						try
-						{
-							int rowsAffected = command.ExecuteNonQuery();
-							Console.WriteLine($"Rows affected: {rowsAffected}");
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine("Error executing query: " + ex.Message);
-						}
-					}
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            Console.WriteLine($"Rows affected: {rowsAffected}");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
 
-					CloseConnection(connection);
-				}
-			}
-		}
+                    CloseConnection(connection);
+                }
+            }
+        }
 
-		public Dictionary<string, object> SelectUser(string correo, string contraseña)
-		{
-			var result = new Dictionary<string, object>();
+        public Dictionary<string, object> SelectUser(string correo, string contraseña)
+        {
+            var result = new Dictionary<string, object>();
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				if (connection != null)
-				{
-					string query = "SELECT * FROM Usuario WHERE Correo = @Correo AND Contraseña = @Contraseña";
-					using (SqlCommand command = new SqlCommand(query, connection))
-					{
-						command.Parameters.AddWithValue("@Correo", correo);
-						command.Parameters.AddWithValue("@Contraseña", contraseña);
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT * FROM Usuario WHERE Correo = @Correo AND Contraseña = @Contraseña";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Correo", correo);
+                        command.Parameters.AddWithValue("@Contraseña", contraseña);
 
-						try
-						{
-							using (SqlDataReader reader = command.ExecuteReader())
-							{
-								if (reader.Read())
-								{
-									for (int i = 0; i < reader.FieldCount; i++)
-									{
-										result[reader.GetName(i)] = reader.GetValue(i);
-									}
-								}
-							}
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine("Error executing query: " + ex.Message);
-						}
-					}
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        result[reader.GetName(i)] = reader.GetValue(i);
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
 
-					CloseConnection(connection);
-				}
-			}
+                    CloseConnection(connection);
+                }
+            }
 
-			return result;
-		}
-		public Dictionary<string, object> GetUserByEmail(string correo)
-		{
-			var result = new Dictionary<string, object>();
+            return result;
+        }
+        public Dictionary<string, object> GetUserByEmail(string correo)
+        {
+            var result = new Dictionary<string, object>();
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				if (connection != null)
-				{
-					string query = "SELECT * FROM Usuario WHERE Correo = @Correo";
-					using (SqlCommand command = new SqlCommand(query, connection))
-					{
-						command.Parameters.AddWithValue("@Correo", correo);
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT * FROM Usuario WHERE Correo = @Correo";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Correo", correo);
 
-						try
-						{
-							using (SqlDataReader reader = command.ExecuteReader())
-							{
-								if (reader.Read())
-								{
-									for (int i = 0; i < reader.FieldCount; i++)
-									{
-										string fieldName = reader.GetName(i);
-										if (!reader.IsDBNull(i))
-										{
-											result[fieldName] = reader.GetValue(i);
-										}
-										else
-										{
-											result[fieldName] = null; // Otra opción sería asignar un valor predeterminado, como string.Empty
-										}
-									}
-								}
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        string fieldName = reader.GetName(i);
+                                        if (!reader.IsDBNull(i))
+                                        {
+                                            result[fieldName] = reader.GetValue(i);
+                                        }
+                                        else
+                                        {
+                                            result[fieldName] = null; // Otra opción sería asignar un valor predeterminado, como string.Empty
+                                        }
+                                    }
+                                }
 
-							}
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine("Error executing query: " + ex.Message);
-						}
-					}
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
 
-					CloseConnection(connection);
-				}
-			}
+                    CloseConnection(connection);
+                }
+            }
 
-			return result;
-		}
+            return result;
+        }
 
         public List<Dictionary<string, object>> GetProductos()
         {
@@ -298,168 +298,168 @@ namespace FrontEndWPF
         }
 
         public Dictionary<string, object> SelectUserCedula(string correo, int cedula)
-		{
-			var result = new Dictionary<string, object>();
+        {
+            var result = new Dictionary<string, object>();
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				if (connection != null)
-				{
-					string query = "SELECT * FROM Usuario WHERE Correo = @Correo AND Cedula = @Cedula";
-					using (SqlCommand command = new SqlCommand(query, connection))
-					{
-						command.Parameters.AddWithValue("@Correo", correo);
-						command.Parameters.AddWithValue("@Cedula", cedula);
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT * FROM Usuario WHERE Correo = @Correo AND Cedula = @Cedula";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Correo", correo);
+                        command.Parameters.AddWithValue("@Cedula", cedula);
 
-						try
-						{
-							using (SqlDataReader reader = command.ExecuteReader())
-							{
-								if (reader.Read())
-								{
-									for (int i = 0; i < reader.FieldCount; i++)
-									{
-										result[reader.GetName(i)] = reader.GetValue(i);
-									}
-								}
-							}
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine("Error executing query: " + ex.Message);
-						}
-					}
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        result[reader.GetName(i)] = reader.GetValue(i);
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
 
-					CloseConnection(connection);
-				}
-			}
+                    CloseConnection(connection);
+                }
+            }
 
-			return result;
-		}
+            return result;
+        }
 
-		public bool HasEntries()
-		{
-			bool hasEntries = false;
+        public bool HasEntries()
+        {
+            bool hasEntries = false;
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				if (connection != null)
-				{
-					string query = "SELECT COUNT(*) FROM Usuario";
-					using (SqlCommand command = new SqlCommand(query, connection))
-					{
-						try
-						{
-							int count = (int)command.ExecuteScalar();
-							hasEntries = count > 0;
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine("Error executing query: " + ex.Message);
-						}
-					}
-					
-					CloseConnection(connection);
-				}
-			}
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT COUNT(*) FROM Usuario";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            int count = (int)command.ExecuteScalar();
+                            hasEntries = count > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
 
-			return hasEntries;
-		}
+                    CloseConnection(connection);
+                }
+            }
 
-		/* 
+            return hasEntries;
+        }
+
+        /* 
 		 * Método que sirve para poder añadir nuevos empleados a la BD.
 		 */
-		public bool AddUser(string nombre, string primerApellido, string segundoApellido, string cedula, string telefono, string correo, string contraseña, string rol, DateTime fechaCreacion, string puesto, double salario, string direccion)
-		{
-			bool success = false;
+        public bool AddUser(string nombre, string primerApellido, string segundoApellido, string cedula, string telefono, string correo, string contraseña, string rol, DateTime fechaCreacion, string puesto, double salario, string direccion)
+        {
+            bool success = false;
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				if (connection != null)
-				{
-					// Find the role ID
-					string roleQuery = "SELECT Id FROM roles WHERE Nombre = @Rol";
-					int roleId = -1;
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    // Find the role ID
+                    string roleQuery = "SELECT Id FROM roles WHERE Nombre = @Rol";
+                    int roleId = -1;
 
-					using (SqlCommand roleCommand = new SqlCommand(roleQuery, connection))
-					{
-						roleCommand.Parameters.AddWithValue("@Rol", rol);
-						try
-						{
-							object result = roleCommand.ExecuteScalar();
-							if (result != null)
-							{
-								roleId = Convert.ToInt32(result);
-							}
-							else
-							{
-								Console.WriteLine("Role not found.");
-								return false;
-							}
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine("Error executing role query: " + ex.Message);
-							return false;
-						}
-					}
+                    using (SqlCommand roleCommand = new SqlCommand(roleQuery, connection))
+                    {
+                        roleCommand.Parameters.AddWithValue("@Rol", rol);
+                        try
+                        {
+                            object result = roleCommand.ExecuteScalar();
+                            if (result != null)
+                            {
+                                roleId = Convert.ToInt32(result);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Role not found.");
+                                return false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing role query: " + ex.Message);
+                            return false;
+                        }
+                    }
 
-					// Insert the new user
-					string query = "INSERT INTO Usuario (Nombre, PrimerApellido, SegundoApellido, Cedula, Telefono, Correo, Contraseña, IdRol, FechaCreacion) " +
-								   "VALUES (@Nombre, @PrimerApellido, @SegundoApellido, @Cedula, @Telefono, @Correo, @Contraseña, @IdRol, @FechaCreacion)";
+                    // Insert the new user
+                    string query = "INSERT INTO Usuario (Nombre, PrimerApellido, SegundoApellido, Cedula, Telefono, Correo, Contraseña, IdRol, FechaCreacion) " +
+                                   "VALUES (@Nombre, @PrimerApellido, @SegundoApellido, @Cedula, @Telefono, @Correo, @Contraseña, @IdRol, @FechaCreacion)";
 
-					using (SqlCommand command = new SqlCommand(query, connection))
-					{
-						command.Parameters.AddWithValue("@Nombre", nombre);
-						command.Parameters.AddWithValue("@PrimerApellido", primerApellido);
-						command.Parameters.AddWithValue("@SegundoApellido", segundoApellido);
-						command.Parameters.AddWithValue("@Cedula", cedula);
-						command.Parameters.AddWithValue("@Telefono", telefono);
-						command.Parameters.AddWithValue("@Correo", correo);
-						command.Parameters.AddWithValue("@Contraseña", HashPassword(contraseña));
-						command.Parameters.AddWithValue("@IdRol", roleId);
-						command.Parameters.AddWithValue("@FechaCreacion", fechaCreacion);
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Nombre", nombre);
+                        command.Parameters.AddWithValue("@PrimerApellido", primerApellido);
+                        command.Parameters.AddWithValue("@SegundoApellido", segundoApellido);
+                        command.Parameters.AddWithValue("@Cedula", cedula);
+                        command.Parameters.AddWithValue("@Telefono", telefono);
+                        command.Parameters.AddWithValue("@Correo", correo);
+                        command.Parameters.AddWithValue("@Contraseña", HashPassword(contraseña));
+                        command.Parameters.AddWithValue("@IdRol", roleId);
+                        command.Parameters.AddWithValue("@FechaCreacion", fechaCreacion);
 
-						try
-						{
-							int rowsAffected = command.ExecuteNonQuery();
-							success = rowsAffected > 0;
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine("Error executing insert query: " + ex.Message);
-						}
-					}
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing insert query: " + ex.Message);
+                        }
+                    }
 
 
                     // Find the role ID
                     string userQuery = "SELECT Id FROM Usuario WHERE Cedula = @Cedula";
-					int userId = -1;
+                    int userId = -1;
 
-					using (SqlCommand userCommand = new SqlCommand(userQuery, connection))
-					{
-						userCommand.Parameters.AddWithValue("@Cedula", cedula);
-						try
-						{
-							object result = userCommand.ExecuteScalar();
-							if (result != null)
-							{
-								userId = Convert.ToInt32(result);
-							}
-							else
-							{
-								Console.WriteLine("User not found.");
-								return false;
-							}
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine("Error executing role query: " + ex.Message);
-							return false;
-						}
-					}
+                    using (SqlCommand userCommand = new SqlCommand(userQuery, connection))
+                    {
+                        userCommand.Parameters.AddWithValue("@Cedula", cedula);
+                        try
+                        {
+                            object result = userCommand.ExecuteScalar();
+                            if (result != null)
+                            {
+                                userId = Convert.ToInt32(result);
+                            }
+                            else
+                            {
+                                Console.WriteLine("User not found.");
+                                return false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing role query: " + ex.Message);
+                            return false;
+                        }
+                    }
 
-					/*
+                    /*
 					 * Nota Importante:
 					 * Si notaron que en los métodos loadData y para añadir empleado se especificaba el campo activo, -
 					 * pero no se usaba como parámetro [VER 0.1 y 0.2] es porque cuando se crea un nuevo empleado, aquí en -
@@ -468,75 +468,75 @@ namespace FrontEndWPF
 					 * 3ra persona (digamos un administrador) estoy agregando un nuevo empleado que acaba de ser contratado, dicho empleado -
 					 * entonces debe estar activo, ya que esta trabajando en el negocio, por eso no se coloca el activo como parámetro.
 					 */
-					string query2 = "INSERT INTO Empleado (Puesto, FechaContratacion, Salario, FechaDespido, IdUsuario, Activo, Direccion) " +
+                    string query2 = "INSERT INTO Empleado (Puesto, FechaContratacion, Salario, FechaDespido, IdUsuario, Activo, Direccion) " +
                                    "VALUES (@Puesto, @FechaContratacion, @Salario, @FechaDespido, @IdUsuario, @Activo, @Direccion)";
 
-					using (SqlCommand command = new SqlCommand(query2, connection))
-					{
-						command.Parameters.AddWithValue("@Puesto", puesto);
-						command.Parameters.AddWithValue("@FechaContratacion", fechaCreacion);
-						command.Parameters.AddWithValue("@Salario", salario);
-						command.Parameters.AddWithValue("@FechaDespido", fechaCreacion);
-						command.Parameters.AddWithValue("@IdUsuario", userId);
-						command.Parameters.AddWithValue("@Activo", 1);
-						command.Parameters.AddWithValue("@Direccion", direccion);
+                    using (SqlCommand command = new SqlCommand(query2, connection))
+                    {
+                        command.Parameters.AddWithValue("@Puesto", puesto);
+                        command.Parameters.AddWithValue("@FechaContratacion", fechaCreacion);
+                        command.Parameters.AddWithValue("@Salario", salario);
+                        command.Parameters.AddWithValue("@FechaDespido", fechaCreacion);
+                        command.Parameters.AddWithValue("@IdUsuario", userId);
+                        command.Parameters.AddWithValue("@Activo", 1);
+                        command.Parameters.AddWithValue("@Direccion", direccion);
 
-						try
-						{
-							int rowsAffected = command.ExecuteNonQuery();
-							success = rowsAffected > 0;
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine("Error executing insert query: " + ex.Message);
-						}
-					}
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing insert query: " + ex.Message);
+                        }
+                    }
 
-					CloseConnection(connection);
-				}
-			}
+                    CloseConnection(connection);
+                }
+            }
 
-			return success;
-		}
+            return success;
+        }
 
-		public bool InsertarProducto(int codigo, string nombre, string categoria, decimal precio, bool activo)
-		{
-			bool success = false;
+        public bool InsertarProducto(int codigo, string nombre, string categoria, decimal precio, bool activo)
+        {
+            bool success = false;
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				if (connection != null)
-				{
-					try
-					{
-						string query = "INSERT INTO Productos (Codigo, Nombre, Categoria, Precio, Activo) VALUES (@Codigo, @Nombre, @Categoria, @Precio, @Activo)";
-						using (SqlCommand command = new SqlCommand(query, connection))
-						{
-							command.Parameters.AddWithValue("@Codigo", codigo);
-							command.Parameters.AddWithValue("@Nombre", nombre);
-							command.Parameters.AddWithValue("@Categoria", categoria);
-							command.Parameters.AddWithValue("@Precio", precio);
-							command.Parameters.AddWithValue("@Activo", activo);
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        string query = "INSERT INTO Productos (Codigo, Nombre, Categoria, Precio, Activo) VALUES (@Codigo, @Nombre, @Categoria, @Precio, @Activo)";
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@Codigo", codigo);
+                            command.Parameters.AddWithValue("@Nombre", nombre);
+                            command.Parameters.AddWithValue("@Categoria", categoria);
+                            command.Parameters.AddWithValue("@Precio", precio);
+                            command.Parameters.AddWithValue("@Activo", activo);
 
-							int rowsAffected = command.ExecuteNonQuery();
-							success = rowsAffected > 0;
-						}
-					}
-					catch (Exception ex)
-					{
-						Console.WriteLine("Error executing insert query: " + ex.Message);
-						// Lanza la excepción para que quien llama pueda manejarla adecuadamente.
-						throw;
-					}
-					finally
-					{
-						CloseConnection(connection);
-					}
-				}
-			}
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error executing insert query: " + ex.Message);
+                        // Lanza la excepción para que quien llama pueda manejarla adecuadamente.
+                        throw;
+                    }
+                    finally
+                    {
+                        CloseConnection(connection);
+                    }
+                }
+            }
 
-			return success;
-		}
+            return success;
+        }
 
 
         public bool ActualizarProducto(int id, int codigo, string nombre, string categoria, decimal precio, bool activo)
@@ -643,23 +643,23 @@ namespace FrontEndWPF
             return success;
         }
 
-		/* 
+        /* 
 		 * Método que sirve para enviar los datos que se quiere actualizar de un empleado -
 		 * hacia la base de datos que esta en SQL Server.
 		 */
-		public bool UpdateEmployee(string cedula, string nombre,
-			string primerApellido, string segundoApellido,
-			string puesto, DateTime fechaContratacion, decimal salario,
-			string correo, string contraseña, string telefono, bool activo,
-			string direccion, int idrol, string oldCedula, string oldCorreo)
-		{
+        public bool UpdateEmployee(string cedula, string nombre,
+            string primerApellido, string segundoApellido,
+            string puesto, DateTime fechaContratacion, decimal salario,
+            string correo, string contraseña, string telefono, bool activo,
+            string direccion, int idrol, string oldCedula, string oldCorreo)
+        {
             bool success = false;
 
             using (SqlConnection connection = OpenConnection())
             {
                 if (connection != null)
                 {
-					/*
+                    /*
 					 * Aquí lo que hace es incrementar el idusuario en 1 en 1, -
 					 * esto porque en el comando donde se manda la instrucción de ejecución -
 					 * a la BD (el cual se llama: query), tiene un procedimiento almacenado que -
@@ -675,8 +675,8 @@ namespace FrontEndWPF
 					 * por lo que si quieren ver más detallado su funcionamiento, entonces pueden checar dicho procedimiento -
 					 * en la BD.
 					 */
-					int idUsuario = GetUserIdByEmailCedula(oldCorreo, oldCedula);
-					string query = "Exec ActualizarListadoEmpleados @IdUsuario, @Cedula, @Nombre, @PrimerApellido, @SegundoApellido, @Contraseña, @Puesto, @FechaContratacion, @Salario, @Correo, @Telefono, @Direccion, @Activo, @IdRol";
+                    int idUsuario = GetUserIdByEmailCedula(oldCorreo, oldCedula);
+                    string query = "Exec ActualizarListadoEmpleados @IdUsuario, @Cedula, @Nombre, @PrimerApellido, @SegundoApellido, @Contraseña, @Puesto, @FechaContratacion, @Salario, @Correo, @Telefono, @Direccion, @Activo, @IdRol";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@IdUsuario", idUsuario);
@@ -691,7 +691,7 @@ namespace FrontEndWPF
                         command.Parameters.AddWithValue("@Correo", correo);
                         command.Parameters.AddWithValue("@Telefono", telefono);
                         command.Parameters.AddWithValue("@Direccion", direccion);
-						command.Parameters.AddWithValue("@Activo", activo);
+                        command.Parameters.AddWithValue("@Activo", activo);
                         command.Parameters.AddWithValue("@IdRol", idrol);
 
                         try
@@ -708,7 +708,7 @@ namespace FrontEndWPF
                 }
             }
 
-			return success;
+            return success;
         }
 
         /* 
@@ -716,21 +716,21 @@ namespace FrontEndWPF
 		 * hacia la base de datos que esta en SQL Server.
 		 */
         public bool DeleteEmployee(int idrol, string correo, string cedula)
-		{
+        {
             bool success = false;
 
             using (SqlConnection connection = OpenConnection())
             {
                 if (connection != null)
                 {
-					/* 
+                    /* 
 					 * Aquí sucede algo similar al del método de actualizar un empleado, -
 					 * solo que aquí es para eliminar un empleado.
 					 * 
 					 * Nota: VER el comentario [2.1]. 
 					 */
-					int idUsuario = GetUserIdByEmailCedula(correo, cedula);
-					string query = "Exec EliminarListadoEmpleados @IdRol, @IdUsuario";
+                    int idUsuario = GetUserIdByEmailCedula(correo, cedula);
+                    string query = "Exec EliminarListadoEmpleados @IdRol, @IdUsuario";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@IdRol", idrol);
@@ -750,11 +750,11 @@ namespace FrontEndWPF
                 }
             }
 
-			return success;
+            return success;
         }
 
         public bool AddDesvinculacion(DateTime FechaInicio, string Motivo,
-									  string Comentarios, DateTime FechaSalida)
+                                      string Comentarios, DateTime FechaSalida)
         {
             bool success = false;
 
@@ -832,15 +832,16 @@ namespace FrontEndWPF
                     {
                         command.Parameters.AddWithValue("@Correo", correo);
 
-                        try
+
+                        object ValidaDato = command.ExecuteScalar();
+                        success = (ValidaDato != null && ValidaDato != DBNull.Value);
+
+                        if(success == false)
                         {
-                            int rowsAffected = command.ExecuteNonQuery();
-                            success = rowsAffected > 0;
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("Error executing insert query: " + ex.Message);
-                        }
+                            MessageBox.Show("Error executing the select.", "¡Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                            //Console.WriteLine("Error executing the select.");
+                        } 
+
                     }
                     CloseConnection(connection);
                 }
@@ -851,232 +852,233 @@ namespace FrontEndWPF
 
 
         public string HashPassword(string password)
-		{
-			using (SHA256 sha256Hash = SHA256.Create())
-			{
-				// ComputeHash - returns byte array
-				byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                // ComputeHash - returns byte array
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
 
-				// Convert byte array to a string
-				StringBuilder builder = new StringBuilder();
-				for (int i = 0; i < bytes.Length; i++)
-				{
-					builder.Append(bytes[i].ToString("x2"));
-				}
-				return builder.ToString();
-			}
-		}
+                // Convert byte array to a string
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
 
-		public string getRoleName(int Id)
-		{
+        public string getRoleName(int Id)
+        {
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				if (connection != null)
-				{
-					// Find the role name
-					string roleQuery = "SELECT Nombre FROM roles WHERE Id = @Rol";
-					string roleId;
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    // Find the role name
+                    string roleQuery = "SELECT Nombre FROM roles WHERE Id = @Rol";
+                    string roleId;
 
-					using (SqlCommand roleCommand = new SqlCommand(roleQuery, connection))
-					{
-						roleCommand.Parameters.AddWithValue("@Rol", Id);
-						try
-						{
-							object result = roleCommand.ExecuteScalar();
-							if (result != null)
-							{
-								roleId = result.ToString();
-								return roleId;
-							}
-							else
-							{
-								Console.WriteLine("Role not found.");
-								return "";
-							}
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine("Error: " + ex.Message);
-							return "";
-						}
-					}
-				}
-				else {
-					return "";
-				
-				}
-			}
-		}
-		public bool AddInventario(string nombre, int cantidad, decimal precio, bool activo)
-		{
-			bool success = false;
-			string query = "INSERT INTO Inventario (Nombre, Cantidad, Precio, Activo) " +
-						   "VALUES (@Nombre, @Cantidad, @Precio, @Activo)";
+                    using (SqlCommand roleCommand = new SqlCommand(roleQuery, connection))
+                    {
+                        roleCommand.Parameters.AddWithValue("@Rol", Id);
+                        try
+                        {
+                            object result = roleCommand.ExecuteScalar();
+                            if (result != null)
+                            {
+                                roleId = result.ToString();
+                                return roleId;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Role not found.");
+                                return "";
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error: " + ex.Message);
+                            return "";
+                        }
+                    }
+                }
+                else
+                {
+                    return "";
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					command.Parameters.AddWithValue("@Nombre", nombre);
-					command.Parameters.AddWithValue("@Cantidad", cantidad);
-					command.Parameters.AddWithValue("@Precio", precio);
-					command.Parameters.AddWithValue("@Activo", activo);
+                }
+            }
+        }
+        public bool AddInventario(string nombre, int cantidad, decimal precio, bool activo)
+        {
+            bool success = false;
+            string query = "INSERT INTO Inventario (Nombre, Cantidad, Precio, Activo) " +
+                           "VALUES (@Nombre, @Cantidad, @Precio, @Activo)";
 
-					try
-					{
-						int rowsAffected = command.ExecuteNonQuery();
-						success = rowsAffected > 0;
-					}
-					catch (Exception ex)
-					{
-						Console.WriteLine("Error al añadir: " + ex.Message);
-					}
-				}
-				CloseConnection(connection);
-			}
-			
-			return success;
-		}
+            using (SqlConnection connection = OpenConnection())
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Nombre", nombre);
+                    command.Parameters.AddWithValue("@Cantidad", cantidad);
+                    command.Parameters.AddWithValue("@Precio", precio);
+                    command.Parameters.AddWithValue("@Activo", activo);
 
-		public bool EditInventario(int id, string nombre, int cantidad, decimal precio, bool activo)
-		{
-			bool success = false;
-			string query = "UPDATE Inventario SET Nombre = @Nombre, Cantidad = @Cantidad, Precio = @Precio, Activo = @Activo WHERE Id = @Id";
+                    try
+                    {
+                        int rowsAffected = command.ExecuteNonQuery();
+                        success = rowsAffected > 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error al añadir: " + ex.Message);
+                    }
+                }
+                CloseConnection(connection);
+            }
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					command.Parameters.AddWithValue("@Id", id);
-					command.Parameters.AddWithValue("@Nombre", nombre);
-					command.Parameters.AddWithValue("@Cantidad", cantidad);
-					command.Parameters.AddWithValue("@Precio", precio);
-					command.Parameters.AddWithValue("@Activo", activo);
+            return success;
+        }
 
-					try
-					{
-						int rowsAffected = command.ExecuteNonQuery();
-						success = rowsAffected > 0;
-					}
-					catch (Exception ex)
-					{
-						Console.WriteLine("Error executing update query: " + ex.Message);
-					}
-				}
-			}
+        public bool EditInventario(int id, string nombre, int cantidad, decimal precio, bool activo)
+        {
+            bool success = false;
+            string query = "UPDATE Inventario SET Nombre = @Nombre, Cantidad = @Cantidad, Precio = @Precio, Activo = @Activo WHERE Id = @Id";
 
-			return success;
-		}
+            using (SqlConnection connection = OpenConnection())
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+                    command.Parameters.AddWithValue("@Nombre", nombre);
+                    command.Parameters.AddWithValue("@Cantidad", cantidad);
+                    command.Parameters.AddWithValue("@Precio", precio);
+                    command.Parameters.AddWithValue("@Activo", activo);
+
+                    try
+                    {
+                        int rowsAffected = command.ExecuteNonQuery();
+                        success = rowsAffected > 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error executing update query: " + ex.Message);
+                    }
+                }
+            }
+
+            return success;
+        }
 
 
-		public bool DeleteInventario(int id)
-		{
-			bool success = false;
-			string query = "DELETE FROM Inventario WHERE Id = @Id";
+        public bool DeleteInventario(int id)
+        {
+            bool success = false;
+            string query = "DELETE FROM Inventario WHERE Id = @Id";
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					command.Parameters.AddWithValue("@Id", id);
+            using (SqlConnection connection = OpenConnection())
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
 
-					try
-					{
-						int rowsAffected = command.ExecuteNonQuery();
-						success = rowsAffected > 0;
-					}
-					catch (Exception ex)
-					{
-						Console.WriteLine("Error al eliminar: " + ex.Message);
-					}
-				}
-				CloseConnection(connection);
-			}
+                    try
+                    {
+                        int rowsAffected = command.ExecuteNonQuery();
+                        success = rowsAffected > 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error al eliminar: " + ex.Message);
+                    }
+                }
+                CloseConnection(connection);
+            }
 
-			return success;
-		}
+            return success;
+        }
 
-		public Dictionary<string, object> GetInventarioById(int id)
-		{
-			var result = new Dictionary<string, object>();
-			string query = "SELECT Id, Nombre, Cantidad, Precio, Activo FROM Inventario WHERE Id = @Id";
+        public Dictionary<string, object> GetInventarioById(int id)
+        {
+            var result = new Dictionary<string, object>();
+            string query = "SELECT Id, Nombre, Cantidad, Precio, Activo FROM Inventario WHERE Id = @Id";
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					command.Parameters.AddWithValue("@Id", id);
+            using (SqlConnection connection = OpenConnection())
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
 
-					try
-					{
-						using (SqlDataReader reader = command.ExecuteReader())
-						{
-							if (reader.Read())
-							{
-								for (int i = 0; i < reader.FieldCount; i++)
-								{
-									result[reader.GetName(i)] = reader.GetValue(i);
-								}
-							}
-						}
-					}
-					catch (Exception ex)
-					{
-						Console.WriteLine("Error executing query: " + ex.Message);
-					}
-				}
-			}
+                    try
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                for (int i = 0; i < reader.FieldCount; i++)
+                                {
+                                    result[reader.GetName(i)] = reader.GetValue(i);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error executing query: " + ex.Message);
+                    }
+                }
+            }
 
-			return result;
-		}
+            return result;
+        }
 
-		public bool ProductoExists(string codigo)
-		{
-			using (SqlConnection connection = OpenConnection())
-			{
-				string query = "SELECT COUNT(1) FROM Productos WHERE Codigo = @Codigo";
-				SqlCommand command = new SqlCommand(query, connection);
-				command.Parameters.AddWithValue("@Codigo", codigo);
+        public bool ProductoExists(string codigo)
+        {
+            using (SqlConnection connection = OpenConnection())
+            {
+                string query = "SELECT COUNT(1) FROM Productos WHERE Codigo = @Codigo";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@Codigo", codigo);
 
-				int count = (int)command.ExecuteScalar();
-				return count > 0;
-			}
-		}
+                int count = (int)command.ExecuteScalar();
+                return count > 0;
+            }
+        }
 
-		public int GetUserIdByEmailCedula(string correo, string cedula)
-		{
-			using (SqlConnection connection = OpenConnection())
-			{
-				int userId;
-				string query = "SELECT Id FROM Usuario WHERE Correo = @Correo AND Cedula = @Cedula";
-				using (SqlCommand userCommand = new SqlCommand(query, connection))
-				{
-					userCommand.Parameters.AddWithValue("@Correo", correo);
-					userCommand.Parameters.AddWithValue("@Cedula", cedula);
-					try
-					{
-						object result = userCommand.ExecuteScalar();
-						if (result != null)
-						{
-							userId = Convert.ToInt32(result);
-							return userId;
-						}
-						else
-						{
-							Console.WriteLine("Usuario no Existe.");
-							return 0;
-						}
-					}
-					catch (Exception ex)
-					{
-						Console.WriteLine("Error: " + ex.Message);
-						return 0;
-					}
-				}
-			}
-		}
-	}
+        public int GetUserIdByEmailCedula(string correo, string cedula)
+        {
+            using (SqlConnection connection = OpenConnection())
+            {
+                int userId;
+                string query = "SELECT Id FROM Usuario WHERE Correo = @Correo AND Cedula = @Cedula";
+                using (SqlCommand userCommand = new SqlCommand(query, connection))
+                {
+                    userCommand.Parameters.AddWithValue("@Correo", correo);
+                    userCommand.Parameters.AddWithValue("@Cedula", cedula);
+                    try
+                    {
+                        object result = userCommand.ExecuteScalar();
+                        if (result != null)
+                        {
+                            userId = Convert.ToInt32(result);
+                            return userId;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Usuario no Existe.");
+                            return 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
 }
-	
+
 
