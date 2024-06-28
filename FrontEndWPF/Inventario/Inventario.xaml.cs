@@ -99,7 +99,7 @@ namespace FrontEndWPF.Inventario
             var selectedValue = InventarioGrid.SelectedValue as InventarioM;
             if (selectedValue == null)
             {
-                MessageBox.Show("Por favor, seleccione un elemento de la lsita para eliminar.", "Selección requerida", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Por favor, seleccione un elemento de la lista para eliminar.", "Selección requerida", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return; // Salir del método si no hay ningún elemento seleccionado
             }
 
