@@ -145,12 +145,19 @@ namespace FrontEndWPF
 			 */
             UsuarioEmpleado? selectedEmpleado = EmployeeDataGrid.SelectedItem as UsuarioEmpleado;
 
-			/* [1.2]
+            /* [1.2]
 			 * Aquí consiste en que si la persona tiene seleccionado un dato de la tabla de -
 			 * información que quiere eliminar, entonces puede hacer la acción correspondiente - 
 			 * (además de ver la información del dato que quiere eliminar), caso contrario -
 			 * entonces no dejara hacer la acción.
 			 */
+
+            if (selectedEmpleado == null)
+            {
+                MessageBox.Show("Por favor, seleccione un empleado para eliminar.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             if (selectedEmpleado != null)
 			{
 				/*
@@ -190,9 +197,11 @@ namespace FrontEndWPF
                     EmployeeDataGrid.Items.Refresh();
 					conexion.DeleteEmployee(selectedEmpleado.IdRol, selectedEmpleado.Correo, selectedEmpleado.Cedula);
 					LoadData();
-				}
-                    
-			}
+                    MessageBox.Show("Usuario desvinculado exitosamente.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                }
+
+            }
 		}
 
 
@@ -208,13 +217,19 @@ namespace FrontEndWPF
 			 */
             UsuarioEmpleado? selectedEmpleado = EmployeeDataGrid.SelectedItem as UsuarioEmpleado;
 
-			/*
+            /*
 			 * Aquí tiene un comportamiento similar al del método de eliminar -
 			 * [VER el comentario 1.2], salgo con la clara diferencia que aquí -
 			 * está enfocado en actualizar (o editar) a un empleado que esta -
 			 * siendo seleccionado.
 			 */
-			if (selectedEmpleado != null)
+            if (selectedEmpleado == null)
+            {
+                MessageBox.Show("Por favor, seleccione un empleado para editar.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (selectedEmpleado != null)
 			{
 				string oldCorreo = selectedEmpleado.Correo;
 				string oldCedula = selectedEmpleado.Cedula;
@@ -256,8 +271,10 @@ namespace FrontEndWPF
                         selectedEmpleado.Contraseña, selectedEmpleado.Telefono,
                         selectedEmpleado.Activo, selectedEmpleado.Direccion, selectedEmpleado.IdRol, oldCedula, oldCorreo);                    
                     LoadData();
-				}
-			}
+                    MessageBox.Show("Usuario actualizado exitosamente.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                }
+            }
 		}
 
 		/* 

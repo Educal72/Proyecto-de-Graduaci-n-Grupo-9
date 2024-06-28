@@ -44,6 +44,9 @@ namespace FrontEndWPF
             {
                 eliminarDesvinculacionesxaml.TranscursoDeVerificacion(true);
                 DialogResult = true;
+
+                // Mostrar MessageBox
+                MessageBox.Show("Empleado desvinculado exitosamente.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else if (ActivoNoDesvinculacion.IsChecked == true)
             {

@@ -18,7 +18,7 @@ namespace FrontEndWPF
     /// Lógica de interacción para eliminarDesvinculacionesxaml.xaml
     /// </summary>
     public partial class eliminarDesvinculacionesxaml : Window
-    {       
+    {
         public string? empleado { get; set; } // Nombre del empleado.
         public DateTime fechaInicio { get; set; } // Fecha de inicio.
         public string? motivo { get; set; } // Motivo de la desvinculación
