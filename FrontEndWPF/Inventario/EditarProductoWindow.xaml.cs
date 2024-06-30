@@ -17,7 +17,7 @@ namespace FrontEndWPF
             AceptarButton.Click += AceptarButton_Click;
             CancelarButton.Click += CancelarButton_Click;
             // Inicializar los campos con los datos del producto
-            CodigoTextBox.Text = Producto.Codigo;
+            CodigoTextBox.Text = Producto.Codigo.ToString();
             NombreTextBox.Text = Producto.Nombre;
             CategoriaTextBox.Text = Producto.Categoria;
             PrecioTextBox.Text = Producto.Precio.ToString();
@@ -49,15 +49,14 @@ namespace FrontEndWPF
 				return false;
 			}
 
-			bool resultado = conexion.ProductoExists(CodigoTextBox.Text);
-			// Validar Codigo
-			if (!int.TryParse(CodigoTextBox.Text, out _) || resultado)
-			{
-				errorMessage = "El codigo debe ser un número valido o ya esta asignado a otro producto.";
-				return false;
+			if (Producto.Codigo != Convert.ToInt32(CodigoTextBox.Text)) {
+				bool resultado = conexion.ProductoExists(CodigoTextBox.Text);
+				if (!int.TryParse(CodigoTextBox.Text, out _) || resultado)
+				{
+					errorMessage = "El codigo debe ser un número valido o ya esta asignado a otro producto.";
+					return false;
+				}
 			}
-
-			// Todas las validaciones realizadas
 			return true;
 		}
 
@@ -68,7 +67,7 @@ namespace FrontEndWPF
 				MessageBox.Show(errorMessage);
 				return;
 			}
-			Producto.Codigo = CodigoTextBox.Text;
+			Producto.Codigo = Convert.ToInt32(CodigoTextBox.Text);
             Producto.Nombre = NombreTextBox.Text;
             Producto.Categoria = CategoriaTextBox.Text;
             Producto.Precio = decimal.Parse(PrecioTextBox.Text);

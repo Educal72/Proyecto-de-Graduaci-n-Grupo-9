@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FrontEndWPF.Reporteria;
+using FrontEndWPF.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,7 +16,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static FrontEndWPF.Facturacion;
 using static FrontEndWPF.PuntoVenta;
+using static FrontEndWPF.ViewModel.OrdenesViewModel;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FrontEndWPF
 {
@@ -25,44 +30,48 @@ namespace FrontEndWPF
     {
 		private DispatcherTimer timer;
 
-		private List<Product> products = new List<Product>
-		{
-			new Product { Id=1, Name = "Producto 1", Category = "Category 1", Price = 1299.00 },
-			new Product { Id=2, Name = "Producto 2", Category = "Category 2", Price = 1399.00 },
-			new Product { Id=3, Name = "Producto 3", Category = "Category 1", Price = 1499.00 },
-			new Product { Id=4, Name = "Producto 4", Category = "Category 2", Price = 1599.00 },
-			new Product { Id=5, Name = "Producto 5", Category = "Category 1", Price = 1899.00 },
-			new Product { Id=6, Name = "Producto 6", Category = "Category 3" , Price = 1099.00},
-			new Product { Id=7, Name = "Producto 7", Category = "Category 1", Price = 1099.00 },
-			new Product { Id=8, Name = "Producto 8", Category = "Category 2" , Price = 999.00},
-			new Product { Id=11, Name = "Producto 11", Category = "Category 2" , Price = 999.00},
-			new Product { Id=9, Name = "Producto 9", Category = "Category 4" , Price = 1299.00},
-			new Product { Id=10, Name = "Producto 10", Category = "Category 2", Price = 1299.00 },
-			new Product { Id=14, Name = "Producto 14", Category = "Category 2", Price = 1299.00 },
-			new Product { Id=16, Name = "Producto 16", Category = "Category 2", Price = 1299.00 },
-			new Product { Id=96, Name = "Producto 96", Category = "Category 2", Price = 1299.00 },
-			new Product { Id=78, Name = "Producto 78", Category = "Category 2", Price = 1299.00 },
-			new Product { Id=89, Name = "Producto 89", Category = "Category 2", Price = 1299.00 },
-			new Product { Id=18, Name = "Producto 18", Category = "Category 2", Price = 1299.00 },
-			new Product { Id=28, Name = "Producto 28", Category = "Category 2", Price = 1299.00 },
-			new Product { Id=16, Name = "Producto 16", Category = "Category 2", Price = 1299.00 },
-			new Product { Id=15, Name = "Producto 15", Category = "Category 2", Price = 1299.00 },
 
-		};
-
-		public PuntoVenta()
+		ProductosViewModel productos = new ProductosViewModel();
+		OrdenesViewModel ordenes = new OrdenesViewModel();
+		int ordenId = 0;
+		public PuntoVenta(int orden)
         {
-            InitializeComponent();
+			InitializeComponent();
+			productos.LoadProductosDataActivo();
 			timer = new DispatcherTimer();
 			timer.Interval = TimeSpan.FromSeconds(1);
 			timer.Tick += Timer_Tick;
 			timer.Start();
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
-			foreach (var category in products.Select(p => p.Category).Distinct())
+			foreach (var category in productos.Productos.Select(p => p.Categoria).Distinct())
 			{
 				CategoryListBox.Items.Add(category);
 			}
 			buscar.Focus();
+			ordenId = orden;
+			LoadOrden(ordenId);
+		}
+
+		public async void LoadOrden(int ordenId) {
+			if (ordenId != 0)
+			{
+
+				var productosOrden = ordenes.GetProductosByOrdenId(ordenId);
+
+				foreach (var productoOrden in productosOrden)
+				{
+					carritoItem nuevoProducto = new carritoItem
+					{
+						Nombre = productoOrden.Nombre,
+						Cantidad = productoOrden.Cantidad,
+						Precio = productoOrden.Precio,
+						Id = productoOrden.ProductoId,
+
+					};
+
+					carrito.Items.Add(nuevoProducto);
+				}
+			}
 		}
 		
 		private void Timer_Tick(object sender, EventArgs e)
@@ -84,7 +93,7 @@ namespace FrontEndWPF
 			int productId;
 			if (int.TryParse(buscar.Text, out productId))
 			{
-				Product product = products.FirstOrDefault(p => p.Id == productId);
+				var product = productos.Productos.FirstOrDefault(p => p.Codigo == productId);
 				carritoItem existingProduct = carrito.Items.OfType<carritoItem>().FirstOrDefault(p => p.Id == productId);
 				if (product != null)
 				{
@@ -99,8 +108,8 @@ namespace FrontEndWPF
 						var cartItem = new carritoItem
 					{
 						Id = product.Id,
-						Nombre = product.Name,
-						Precio = product.Price,
+						Nombre = product.Nombre,
+						Precio = product.Precio,
 						Cantidad = 1
 					};
 
@@ -125,12 +134,12 @@ namespace FrontEndWPF
 		{
 			ProductWrapPanel.Children.Clear();
 			string selectedCategory = ((Button)sender).Content.ToString();
-			var categoryProducts = products.Where(p => p.Category == selectedCategory);
+			var categoryProducts = productos.Productos.Where(p => p.Categoria == selectedCategory);
 			foreach (var product in categoryProducts)
 			{
 				var button = new Button
 				{
-					Content = product.Name,
+					Content = product.Nombre,
 					Style = (Style)FindResource("ProductButtonStyle")
 				};
 				button.Click += ProductButton_Click;
@@ -142,7 +151,7 @@ namespace FrontEndWPF
 		{
 			Button button = (Button)sender;
 			string productName = button.Content.ToString();
-			Product selectedProduct = products.FirstOrDefault(p => p.Name == productName);
+			var selectedProduct = productos.Productos.FirstOrDefault(p => p.Nombre == productName);
 			carritoItem existingProduct = carrito.Items.OfType<carritoItem>().FirstOrDefault(p => p.Id == selectedProduct.Id);
 			if (selectedProduct != null)
 			{
@@ -157,8 +166,8 @@ namespace FrontEndWPF
 					var cartItem = new carritoItem
 					{
 						Id = selectedProduct.Id,
-						Nombre = selectedProduct.Name,
-						Precio = selectedProduct.Price,
+						Nombre = selectedProduct.Nombre,
+						Precio = selectedProduct.Precio,
 						Cantidad = 1
 					};
 					carrito.Items.Add(cartItem);
@@ -183,15 +192,22 @@ namespace FrontEndWPF
 			public int Id { get; set; }
 			public string Name { get; set; }
 			public string Category { get; set; }
-			public double Price { get; set; }
+			public decimal Price { get; set; }
 		}
 		public class carritoItem
 		{
 			public int Id { get; set; }
 			public string Nombre { get; set; }
-			public double Precio { get; set; }
+			public decimal Precio { get; set; }
 			public int Cantidad { get; set; }
 		}
+
+		public class nuevaOrden
+		{
+			public DateTime FechaCreacion { get; set; }
+			public string Estado { get; set; }
+		}
+
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
@@ -239,22 +255,77 @@ namespace FrontEndWPF
 			nuevoItem.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 			if (nuevoItem.ShowDialog() == true)
 			{
-
 				string itemName = nuevoItem.Nombre;
-				double itemPrice = nuevoItem.Precio;
-
-
-				carrito.Items.Add(new carritoItem { Nombre = itemName, Precio = itemPrice, Cantidad = 1 });
+				decimal itemPrice = nuevoItem.Precio;
+				int idProducto = ordenes.InsertarProductoUnico(itemName, "Historial", itemPrice, true);
+				carrito.Items.Add(new carritoItem { Id=idProducto ,Nombre = itemName, Precio = itemPrice, Cantidad = 1 });
 			}
 		}
 
-		private void Button_Click_5(object sender, RoutedEventArgs e)
+		private async void Button_Click_5(object sender, RoutedEventArgs e)
 		{
 			Window parentWindow = Window.GetWindow(this);
-			if (parentWindow != null && parentWindow is MainWindow mainWindow)
-			{
-				mainWindow.mainFrame.Navigate(new ordenesListado());
+            if (carrito.Items.Count == 0)
+            {
+				MessageBox.Show("¡La orden esta vacia!", "Orden Invalida", MessageBoxButton.OK, MessageBoxImage.Error);
+            }else {
+
+				if (ordenId != 0 ) {
+					ordenes.EliminarProductoOrden(ordenId);
+					var productosOrden = new List<ProductoOrden>();
+					var carritoItems = carrito.Items.OfType<carritoItem>().ToList();
+
+					foreach (var item in carritoItems)
+					{
+						var productoOrden = new ProductoOrden
+						{
+							OrdenId = ordenId,
+							ProductoId = item.Id,
+							Cantidad = item.Cantidad
+						};
+
+						productosOrden.Add(productoOrden);
+					}
+					ordenes.CrearProductoOrden(productosOrden);
+					if (parentWindow != null && parentWindow is MainWindow mainWindow)
+					{
+						mainWindow.mainFrame.Navigate(new ordenesListado());
+					}
+
+				} else {
+					OrdenesViewModel ordenesViewModel = new OrdenesViewModel();
+
+					var nuevaOrden = new OrdenesViewModel.Orden
+					{
+						Creacion = DateTime.Now,
+						Estado = "Activa"
+					};
+
+					int ordenId = ordenesViewModel.CrearOrdenAsync(nuevaOrden);
+
+					var productosOrden = new List<ProductoOrden>();
+					var carritoItems = carrito.Items.OfType<carritoItem>().ToList();
+
+					foreach (var item in carritoItems)
+					{
+						var productoOrden = new ProductoOrden
+						{
+							OrdenId = ordenId,
+							ProductoId = item.Id,
+							Cantidad = item.Cantidad
+						};
+
+						productosOrden.Add(productoOrden);
+					}
+					ordenesViewModel.CrearProductoOrden(productosOrden);
+					if (parentWindow != null && parentWindow is MainWindow mainWindow)
+					{
+						mainWindow.mainFrame.Navigate(new ordenesListado());
+					}
+				}
+
 			}
+            
 		}
 
 		private void Button_Click_6(object sender, RoutedEventArgs e)

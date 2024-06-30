@@ -55,7 +55,7 @@
         </Style>
 
     </UserControl.Resources>
-    <Grid Width="Auto" Height="Auto" VerticalAlignment="Center" Background="White" Margin="0,0,0,0">
+    <Grid Width="Auto" Height="Auto" VerticalAlignment="Stretch" Background="White" Margin="0,0,0,0">
         <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727" d:IsLocked="True"/>
         <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
         <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="280" RenderTransformOrigin="0.5,1.289"/>
@@ -94,13 +94,13 @@
             <TextBox x:Name="buscar" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="557" Height="45" FontFamily="Roboto" FontSize="36" PreviewKeyDown="ProductIdTextBox_PreviewKeyDown" Margin="10,10,0,0"/>
             <DataGrid x:Name="carrito" AutoGenerateColumns="false" HorizontalAlignment="Left" Width="557" Height="Auto" VerticalAlignment="Top" Margin="10,60,0,0" HorizontalScrollBarVisibility="Hidden">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Cantidad" Binding="{Binding Cantidad}" IsReadOnly="False" Width="120"/>
-                    <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" IsReadOnly="False" Width="335"/>
-                    <DataGridTextColumn Header="Precio /u" Binding="{Binding Precio}" IsReadOnly="False" Width="90"/>
+                    <DataGridTextColumn Header="Cantidad" Binding="{Binding Cantidad}" IsReadOnly="False" Width="70"/>
+                    <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" IsReadOnly="False" Width="360"/>
+                    <DataGridTextColumn Header="Precio /u" Binding="{Binding Precio}" IsReadOnly="False" Width="120"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Grid Height="Auto" VerticalAlignment="Top" Background="White" Margin="715,205,10,0">
+        <Grid Height="Auto" VerticalAlignment="Stretch" Background="White" Margin="715,205,10,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <!-- Fila para los Labels -->
@@ -120,13 +120,13 @@
             
             <Label Content="Categorias" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Width="192"/>
 
-            
-            <ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <WrapPanel x:Name="ProductWrapPanel" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+
+            <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <WrapPanel x:Name="ProductWrapPanel" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
             </ScrollViewer>
 
-           
-            <ListBox x:Name="CategoryListBox" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Right" Width="Auto" Height="Auto" Grid.Row="1" Grid.Column="1">
+
+            <ListBox x:Name="CategoryListBox" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="Auto" Height="Auto" Grid.Row="1" Grid.Column="1">
                 <ListBox.BorderBrush>
                     <SolidColorBrush Color="#FFABADB3" Opacity="0"/>
                 </ListBox.BorderBrush>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrontEndWPF.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace FrontEndWPF
 	{
 		private DispatcherTimer timer;
 		public ObservableCollection<Order> Orders { get; set; }
+
+		OrdenesViewModel ordenesViewModel = new OrdenesViewModel();
 		public ordenesListado()
 		{
 			InitializeComponent();
@@ -34,70 +37,78 @@ namespace FrontEndWPF
 			timer.Start();
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 			LoadOrders();
-			SortOrders();
 		}
 
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 		}
-		private void Button_Click(object sender, RoutedEventArgs e)
+		private async void Button_Click(object sender, RoutedEventArgs e)
 		{
 			Window parentWindow = Window.GetWindow(this);
 			if (parentWindow != null && parentWindow is MainWindow mainWindow)
 			{
-				mainWindow.mainFrame.Navigate(new PuntoVenta());
+				mainWindow.mainFrame.Navigate(new PuntoVenta(0));
 			}
 		}
 
-		private void LoadOrders()
+		private async void LoadOrders()
 		{
-			Orders = new ObservableCollection<Order>
-		{
-			new Order { Id = 1, Estado = "Pendiente", CreationTime = DateTime.Now,
-						Productos = new List<carritoItem>{ new carritoItem{Id=1, Nombre="Producto 1", Cantidad=2, Precio = 1299.00 },
-													   new carritoItem{Id=2, Nombre="Producto 2", Cantidad=1, Precio = 1399.00 }}},
-			new Order { Id = 2, Estado = "Pago", CreationTime = DateTime.Now.AddDays(-1),
-						Productos = new List<carritoItem>{ new carritoItem{Id=3, Nombre="Producto 3", Cantidad=3, Precio = 1499.00 },
-													   new carritoItem{Id=4, Nombre="Producto 4", Cantidad=4, Precio = 1599.00 }}},
-			new Order { Id = 3, Estado = "Pendiente", CreationTime = DateTime.Now.AddDays(-2),
-						Productos = new List<carritoItem>{ new carritoItem{Id = 5, Nombre="Producto 5", Cantidad=5, Precio = 1899.00 },
-													   new carritoItem{Id=6, Nombre="Producto 6", Cantidad=6, Precio = 1099.00 }}},
-		};
-
-			DataContext = this;
-		}
-
-		private void SortOrders()
-		{
-			var sortedOrders = Orders.OrderByDescending(o => o.Estado == "Pendiente")
-								 .ThenByDescending(o => o.CreationTime)
-								 .ToList();
-
-			
-			Orders.Clear();
-			foreach (var order in sortedOrders)
+			List<Order> Ordenes = new List<Order>();
+			var ordenesConProductos = ordenesViewModel.GetOrdenesConProductos();
+			Orders = new ObservableCollection<Order>();
+			OrdersDataGrid.ItemsSource = Ordenes;
+			foreach (var entry in ordenesConProductos)
 			{
-				Orders.Add(order);
+				List<ProductosOrden> productosOrdenes = new List<ProductosOrden>();
+				var orden = entry.Key;
+				var productos = entry.Value;
+				foreach (var producto in productos)
+				{
+					var productoOrden = new ProductosOrden
+					{
+						Id = producto.Id,
+						OrdenId = producto.OrdenId,
+						ProductoId = producto.ProductoId,
+						Cantidad = producto.Cantidad,
+						Nombre = producto.Nombre,
+					};
+					productosOrdenes.Add(productoOrden);
+				}
+				var Orders = new Order
+				{
+					Id = orden.Id,
+					Estado = orden.Estado,
+					CreationTime = orden.Creacion,
+					Productos = productosOrdenes,
+				};
+				Ordenes.Add(Orders);
+				
 			}
+
+			Ordenes.OrderByDescending(o => o.CreationTime).ToList();
+			OrdersDataGrid.ItemsSource = Ordenes;
 		}
+
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 			Order selectedOrder = OrdersDataGrid.SelectedItem as Order;
 			if (selectedOrder != null)
 			{
-				Orders.Remove(selectedOrder);
-				
+				ordenesViewModel.EliminarOrden(selectedOrder.Id);
+				LoadOrders();
 			}
 		}
 
 		private void Button_Click_2(object sender, RoutedEventArgs e)
 		{
+
+			var selectedItem = OrdersDataGrid.SelectedItem as Order;
 			Window parentWindow = Window.GetWindow(this);
-			if (parentWindow != null && parentWindow is MainWindow mainWindow)
+			if (parentWindow != null && parentWindow is MainWindow mainWindow && selectedItem != null)
 			{
-				mainWindow.mainFrame.Navigate(new PuntoVenta());
+				mainWindow.mainFrame.Navigate(new PuntoVenta(selectedItem.Id));
 			}
 		}
 
@@ -106,7 +117,7 @@ namespace FrontEndWPF
 			Window parentWindow = Window.GetWindow(this);
 			if (parentWindow != null && parentWindow is MainWindow mainWindow)
 			{
-				mainWindow.mainFrame.Navigate(new PuntoVenta());
+				mainWindow.mainFrame.Navigate(new PuntoVenta(0));
 			}
 		}
 
@@ -120,12 +131,21 @@ namespace FrontEndWPF
 		}
 	}
 
+	public class ProductosOrden
+	{
+		public int Id { get; set; }
+		public int OrdenId { get; set; }
+		public int ProductoId { get; set; }
+		public string Nombre { get; set; }
+		public int Cantidad { get; set; }
+	}
+
 	public class Order
 	{
 		public int Id { get; set; }
 		public string Estado { get; set; }
 		public DateTime CreationTime { get; set; }
-		public List<carritoItem> Productos { get; set; }
+		public List<ProductosOrden> Productos { get; set; }
 	}
 
 	public class carritoItem
@@ -135,5 +155,7 @@ namespace FrontEndWPF
 		public double Precio { get; set; }
 		public int Cantidad { get; set; }
 	}
+
+	
 }
 
