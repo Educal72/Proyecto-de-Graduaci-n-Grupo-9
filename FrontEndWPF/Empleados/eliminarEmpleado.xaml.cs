@@ -84,6 +84,10 @@ namespace FrontEndWPF
         {
             this.DialogResult = false;
         }
- 
+
+        private void FechaActual_Click(object sender, RoutedEventArgs e)
+        {
+            Fecha.SelectedDate = DateTime.Now;
+        }
     }
 }

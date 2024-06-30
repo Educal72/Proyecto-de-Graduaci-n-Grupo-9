@@ -31,6 +31,8 @@ namespace FrontEndWPF
         public string direccion { get; set; }
         public bool activo { get; set; }
         public string rol { get; set; }
+        public object PrimerApellido { get; internal set; }
+        public object SegundoApellido { get; internal set; }
 
         public static bool validacionActualizar;
 
@@ -101,5 +103,10 @@ namespace FrontEndWPF
 		{
 			Fecha.SelectedDate = DateTime.Now;
 		}
-	}
+
+        private void FechaActual_Click(object sender, RoutedEventArgs e)
+        {
+            Fecha.SelectedDate = DateTime.Now;
+        }
+    }
 }

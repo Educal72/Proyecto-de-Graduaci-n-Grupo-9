@@ -20,11 +20,11 @@ namespace FrontEndWPF
     public partial class VerificaActualiza : Window
     {
         editarEmpleado editarEmpleado = new editarEmpleado();
-        
+
         public VerificaActualiza()
         {
             InitializeComponent();
-        }        
+        }
 
         /* [4.1]
          * Este método se ejecuta cuando se da en guardar en la ventana llamada:
@@ -42,7 +42,9 @@ namespace FrontEndWPF
             if (ActivoSi.IsChecked == true)
             {
                 editarEmpleado.TranscursoDeVerificacionDeActualizar(true);
-                DialogResult = true;
+                DialogResult = true; 
+                MessageBox.Show("Empleado actualizado exitosamente.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+
             }
             else if (ActivoNo.IsChecked == true)
             {

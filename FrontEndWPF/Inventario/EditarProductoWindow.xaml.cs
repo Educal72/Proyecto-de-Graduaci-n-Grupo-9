@@ -13,9 +13,6 @@ namespace FrontEndWPF
             InitializeComponent();
             Producto = producto;
             DataContext = Producto;
-
-            AceptarButton.Click += AceptarButton_Click;
-            CancelarButton.Click += CancelarButton_Click;
             // Inicializar los campos con los datos del producto
             CodigoTextBox.Text = Producto.Codigo.ToString();
             NombreTextBox.Text = Producto.Nombre;
@@ -28,8 +25,15 @@ namespace FrontEndWPF
 		{
 			errorMessage = string.Empty;
 
-			// Validar Nombre
-			if (string.IsNullOrWhiteSpace(NombreTextBox.Text))
+            // Validar Codigo
+            if (string.IsNullOrWhiteSpace(CodigoTextBox.Text))
+            {
+                errorMessage = "El campo Codigo es obligatorio.";
+                return false;
+            }
+
+            // Validar Nombre
+            if (string.IsNullOrWhiteSpace(NombreTextBox.Text))
 			{
 				errorMessage = "El campo Nombre es obligatorio.";
 				return false;
