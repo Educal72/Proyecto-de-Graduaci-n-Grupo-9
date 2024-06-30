@@ -185,5 +185,7 @@ namespace FrontEndWPF.Empleados
                 }
             }
         }
+
+		
     }
 }

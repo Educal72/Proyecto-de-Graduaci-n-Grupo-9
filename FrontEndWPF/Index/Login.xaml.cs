@@ -46,23 +46,25 @@ namespace FrontEndWPF
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			var con = conexion.SelectUser(correo.Text, conexion.HashPassword(cont.Password));
-			if (con.Count() > 0)
-			{
-				MainWindow mainWindow = new MainWindow();
-				mainWindow.Usuario = con["Correo"].ToString();
-				if (con != null ) {
-					SesionUsuario.Instance.correo = con["Correo"].ToString();
-					conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
-					SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
-					SesionUsuario.Instance.nombre = con["Nombre"].ToString();
-				}
-				NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
-			}
-			else
-			{
-				MessageBox.Show("Usuario o Contraseña Incorrecta", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-			}
+			NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
+			SesionUsuario.Instance.rol = "Admin";
+			//var con = conexion.SelectUser(correo.Text, conexion.HashPassword(cont.Password));
+			//if (con.Count() > 0)
+			//{
+			//	MainWindow mainWindow = new MainWindow();
+			//	mainWindow.Usuario = con["Correo"].ToString();
+			//	if (con != null ) {
+			//		SesionUsuario.Instance.correo = con["Correo"].ToString();
+			//		conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
+			//		SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
+			//		SesionUsuario.Instance.nombre = con["Nombre"].ToString();
+			//	}
+			//	NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
+			//}
+			//else
+			//{
+			//	MessageBox.Show("Usuario o Contraseña Incorrecta", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+			//}
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)

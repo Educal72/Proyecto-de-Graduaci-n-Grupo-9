@@ -82,7 +82,7 @@ namespace FrontEndWPF.Inventario
             {
 				var producto = new Producto
 				{
-					Codigo = codigoProducto.ToString(),
+					Codigo = codigoProducto,
 					Nombre = nombreProducto,
 					Categoria = categoriaProducto,
 					Precio = precioProducto,

@@ -263,7 +263,54 @@ namespace FrontEndWPF
             return productos;
         }
 
-        public bool EliminarProducto(int id)
+		public List<Dictionary<string, object>> GetProductosActivos()
+		{
+			var productos = new List<Dictionary<string, object>>();
+
+			using (SqlConnection connection = OpenConnection())
+			{
+				if (connection != null)
+				{
+					string query = "SELECT Id, Codigo, Nombre, Categoria, Precio, Activo FROM Productos Where Activo = 1";
+					using (SqlCommand command = new SqlCommand(query, connection))
+					{
+						try
+						{
+							using (SqlDataReader reader = command.ExecuteReader())
+							{
+								while (reader.Read())
+								{
+									var producto = new Dictionary<string, object>();
+									for (int i = 0; i < reader.FieldCount; i++)
+									{
+										string fieldName = reader.GetName(i);
+										if (!reader.IsDBNull(i))
+										{
+											producto[fieldName] = reader.GetValue(i);
+										}
+										else
+										{
+											producto[fieldName] = null;
+										}
+									}
+									productos.Add(producto);
+								}
+							}
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine("Error executing query: " + ex.Message);
+						}
+					}
+
+					CloseConnection(connection);
+				}
+			}
+
+			return productos;
+		}
+
+		public bool EliminarProducto(int id)
         {
             bool eliminado = false;
 
@@ -538,8 +585,7 @@ namespace FrontEndWPF
 			return success;
 		}
 
-
-        public bool ActualizarProducto(int id, int codigo, string nombre, string categoria, decimal precio, bool activo)
+		public bool ActualizarProducto(int id, int codigo, string nombre, string categoria, decimal precio, bool activo)
         {
             bool success = false;
 
@@ -1044,6 +1090,50 @@ namespace FrontEndWPF
 					}
 				}
 			}
+		}
+
+		public bool InsertarOrden()
+		{
+			bool success = false;
+
+			using (SqlConnection connection = OpenConnection())
+			{
+				if (connection != null)
+				{
+					try
+					{
+						string query = "INSERT INTO Orden (FechaHoraCreacion, Estado) VALUES (@Fecha, @Estado)";
+						using (SqlCommand command = new SqlCommand(query, connection))
+						{
+							command.Parameters.AddWithValue("@Fecha", DateTime.Now);
+							command.Parameters.AddWithValue("@Estado", true);
+							int rowsAffected = command.ExecuteNonQuery();
+							success = rowsAffected > 0;
+						}
+						
+						string query2 = "INSERT INTO ProductosOrden (FechaHoraCreacion, Estado) VALUES (@Fecha, @Estado)";
+						using (SqlCommand command = new SqlCommand(query2, connection))
+						{
+							command.Parameters.AddWithValue("@Fecha", DateTime.Now);
+							command.Parameters.AddWithValue("@Estado", true);
+							int rowsAffected = command.ExecuteNonQuery();
+							success = rowsAffected > 0;
+						}
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Error executing insert query: " + ex.Message);
+						// Lanza la excepción para que quien llama pueda manejarla adecuadamente.
+						throw;
+					}
+					finally
+					{
+						CloseConnection(connection);
+					}
+				}
+			}
+
+			return success;
 		}
 	}
 }
