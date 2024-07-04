@@ -1,11 +1,14 @@
-﻿using System;
+﻿using FrontEndWPF.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -27,15 +30,28 @@ namespace FrontEndWPF
 	/// </summary>
 	public partial class Facturacion : Page
 	{
-		double Subtotal;
-		double Total;
+		decimal Subtotal;
+		decimal Total;
 		private DispatcherTimer timer;
-        private const double ServicioPorcentaje = 0.10;
-        private const double ImpuestoPorcentaje = 0.13;
-        private FacturacionViewModel viewModel;
 
-        public Facturacion(int orderId)
+		OrdenesViewModel Orden = new OrdenesViewModel();
+		FacturaViewModel Factura = new FacturaViewModel();
+		private decimal puntosDisponibles = 0;
+		private bool isAsociado = false;
+
+		private int IdUsuario;
+		private int IdCliente;
+		int idOrden { get; set; }
+		private string Fservicio;
+		private string Fiva;
+		private string tipoVenta;
+		private string metodoPago;
+		private string cajero = SesionUsuario.Instance.nombre;
+		private decimal puntosGanados;
+
+		public Facturacion(int idOrden)
 		{
+			this.idOrden = idOrden;
 			InitializeComponent();
             viewModel = new FacturacionViewModel();
             this.DataContext = viewModel;
@@ -48,88 +64,84 @@ namespace FrontEndWPF
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 			//LoadCarritoItems();
 			pagado.Focus();
+			FileRead();
+			RestauranteButton.IsChecked = true;
+			tipoVenta = "Restaurante";
+			EfectivoButton.IsChecked = true;
+			metodoPago = "Efectivo";
+			IdCliente = 0;
+			IdUsuario = SesionUsuario.Instance.id;
+		}
 
-            LoadSelectedOrder();
-            CalculateTotals();
-        }
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 		}
 
-		    private void LoadSelectedOrder()
-    {
-        var selectedOrder = SelectedOrderService.SelectedOrder;
-        if (selectedOrder != null)
-        {
-            carrito.ItemsSource = selectedOrder.Productos;
-        }
-    }
+		public void FileRead()
+		{
+			if (!File.Exists(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/imp_config.txt"))
+			{
+				return;
+			}
+			try
+			{
+				// Leer todas las líneas del archivo
+				string[] lines = File.ReadAllLines(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/imp_config.txt");
 
-    private void CalculateTotals()
-    {
-            var productos = carrito.ItemsSource as IEnumerable<Producto>;
-            if (productos != null)
-            {
-                double subtotal = (double)productos.Sum(p => p.Cantidad * p.Precio);
-                subtotalTextBox.Text = subtotal.ToString("C");
-                servicioTextBox.Text = (subtotal * ServicioPorcentaje).ToString("C");
-                impuestoTextBox.Text = (subtotal * ImpuestoPorcentaje).ToString("C");
-                UpdateTotal();
-            }
-        }
+				// Parsear el contenido del archivo
+				foreach (string line in lines)
+				{
+					string[] parts = line.Split(new[] { ": " }, StringSplitOptions.None);
+					if (parts.Length == 2)
+					{
+						switch (parts[0])
+						{
+							case "IVA":
+								Fiva = parts[1];
+								break;
+							case "Servicio":
+								Fservicio = parts[1];
+								break;
+						}
+					}
+				}
+				impuesto.Text = Fiva;
+				servicio.Text = Fservicio;
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Error al leer la configuración del archivo: {ex.Message}");
+			}
+		}
 
-    private void descuentoTextBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        UpdateTotal();
-    }
+		private void LoadCarritoItems()
+		{
+			var orden = Orden.GetOrdenConProductosById(idOrden);
+			if (orden != null && orden.ContainsKey("Productos")) {
+				var productos = orden["Productos"] as List<OrdenesViewModel.ProductosOrden>;
+				if (productos != null)
+				{
+					foreach (var producto in productos)
+					{
+						var cartItem = new carritoItem
+						{
+							Nombre = producto.Nombre,
+							Precio = producto.Precio,
+							Cantidad = producto.Cantidad
+						};
+						carrito.Items.Add(cartItem);
+						Subtotal = Subtotal + (producto.Cantidad * producto.Precio);
 
-    private void UpdateTotal()
-    {
-        double subtotal = double.Parse(subtotalTextBox.Text, NumberStyles.Currency);
-        double servicio = double.Parse(servicioTextBox.Text, NumberStyles.Currency);
-        double impuesto = double.Parse(impuestoTextBox.Text, NumberStyles.Currency);
-        double descuento = 0;
-
-        if (double.TryParse(descuentoTextBox.Text, out double parsedDescuento))
-        {
-            descuento = parsedDescuento;
-        }
-
-        double total = subtotal + servicio + impuesto - descuento;
-        totalTextBox.Text = total.ToString("C");
-    }
-		//private void LoadCarritoItems()
-		//{
-		//	var cartItem = new carritoItem
-		//	{
-		//		Nombre = "Pizza",
-		//		Precio = 2100.00,
-		//		Cantidad = 2
-		//	};
-		//	var cartItem2 = new carritoItem
-		//	{
-		//		Nombre = "Hamburguesa",
-		//		Precio = 2900.00,
-		//		Cantidad = 1
-		//	};
-		//	var cartItem3 = new carritoItem
-		//	{
-		//		Nombre = "Ensalada",
-		//		Precio = 1200.00,
-		//		Cantidad = 3
-		//	};
-		//	carrito.Items.Add(cartItem);
-		//	carrito.Items.Add(cartItem2);
-		//	carrito.Items.Add(cartItem3);
-		//	Subtotal = (cartItem.Cantidad*cartItem.Precio) + (cartItem2.Cantidad * cartItem2.Precio) + (cartItem3.Cantidad * cartItem3.Precio);
-		//	subtotal.Text = Subtotal.ToString();
-		//	impuesto.Text = "13";
-		//	descuento.Text = "0";
-		//	servicio.Text = "10";
-		//	Total = Subtotal + Subtotal * 0.10;
-		//	total.Text = Total.ToString();
-		//}
+					}
+				}
+			}
+				subtotal.Text = Subtotal.ToString();
+				descuento.Text = puntosDisponibles.ToString();
+				Total = Subtotal + Subtotal * 0.10m;
+			    Total = (decimal)System.Math.Round(Total, 2);
+				total.Text = Total.ToString();
+			} 
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
@@ -143,7 +155,7 @@ namespace FrontEndWPF
 		public class carritoItem
 		{
 			public string Nombre { get; set; }
-			public double Precio { get; set; }
+			public decimal Precio { get; set; }
 			public int Cantidad { get; set; }
 		}
 
@@ -160,7 +172,13 @@ namespace FrontEndWPF
 			if (clienteAsociado.ShowDialog() == true)
 			{
 				string NombreCompleto = clienteAsociado.NombreCompleto;
+				IdCliente = clienteAsociado.Cedula;
 				cliente.Text = NombreCompleto;
+
+				if (clienteAsociado.isAsociado) {
+					puntosDisponibles = clienteAsociado.puntosDisponibles;
+					isAsociado = clienteAsociado.isAsociado;
+				}
 			}
 		}
 
@@ -171,23 +189,81 @@ namespace FrontEndWPF
 			if (saloneroAsociado.ShowDialog() == true)
 			{
 				string NombreCompleto = saloneroAsociado.NombreCompleto;
+				IdUsuario = saloneroAsociado.IdUsuario;
 				salonero.Text = NombreCompleto;
+				puntosGanados = Total * 0.01m;
 			}
 		}
 
 		private void Button_Click_4(object sender, RoutedEventArgs e)
 		{
-			if (!double.TryParse(pagado.Text, out double result))
+			if (!double.TryParse(pagado.Text, out double result) || Convert.ToDecimal(pagado.Text.ToString()) < Total)
 			{
 				MessageBox.Show("Por favor, introduzca una cantidad pagada valida.", "Error de validación", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			else
 			{
-				resultadoFacturacion resultado = new resultadoFacturacion(totalTextBox.Text, pagado.Text);
+
+				var orden = Orden.GetOrdenById(idOrden);
+				bool resultadoCrear = Factura.CrearFactura(idOrden, Convert.ToDecimal(pagado.Text), Convert.ToInt32(Fiva), Convert.ToInt32(Fservicio), orden.Creacion, DateTime.Now, cajero, IdUsuario, IdCliente, Convert.ToDecimal(descuento.Text), puntosGanados, metodoPago, tipoVenta, Total);
+                if (resultadoCrear)
+                {
+					Factura.TerminarOrden(idOrden);
+                }
+                resultadoFacturacion resultado = new resultadoFacturacion(total.Text, pagado.Text);
 				resultado.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 				resultado.Show();
 
 			}
+		}
+
+		private void ToggleButton_Checked(object sender, RoutedEventArgs e)
+		{
+			var checkedButton = sender as ToggleButton;
+
+			if (UberEatsButton == checkedButton)
+			{
+				tipoVenta = "Uber Eats";
+			}
+			else if (PedidosYaButton == checkedButton)
+			{
+				tipoVenta = "PedidosYa";
+			}
+			else if (RestauranteButton == checkedButton)
+			{
+				tipoVenta = "Restaurante";
+			}
+			else {
+				tipoVenta = "Para Llevar";
+			}
+		}
+
+		private void ToggleButton_Checked_1(object sender, RoutedEventArgs e)
+		{
+			var checkedButton = sender as ToggleButton;
+
+			if (EfectivoButton == checkedButton)
+			{
+				metodoPago = "Efectivo";
+			}
+			else
+			{
+				metodoPago = "Tarjeta";
+			}
+			
+		}
+
+		private void Button_Click_5(object sender, RoutedEventArgs e)
+		{
+			if (!isAsociado) {
+				MessageBox.Show("No hay un cliente asociado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+			} else { 
+				descuento.Text = puntosDisponibles.ToString();
+				Total = Total - puntosDisponibles;
+				puntosGanados = Total * 0.01m;
+				total.Text = Total.ToString();
+			}
+			
 		}
 	}
 }

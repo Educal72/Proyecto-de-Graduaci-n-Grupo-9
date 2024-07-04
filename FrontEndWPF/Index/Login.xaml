@@ -59,7 +59,6 @@
         <Image Height="245" VerticalAlignment="Top" Width="246" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" OpacityMask="Black" HorizontalAlignment="Center"/>
         <Grid Background="Black" VerticalAlignment="Center" Height="Auto" Margin="0,0,-584,0"/>
         <Button x:Name="Opcion1" Content="¿Olvidaste tu contraseña?" Margin="0,450,32,0" VerticalAlignment="Top" Height="31" Background="#FF171717" FontFamily="Roboto" FontSize="16" Foreground="White" BorderBrush="White" HorizontalAlignment="Right" Width="191" Click="Button_Click"/>
-        <Button x:Name="BDButton" Content="Conectarse a Base de Datos" HorizontalAlignment="Center" Margin="0,601,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.028,0.251" Height="45" Width="212" FontFamily="Roboto" FontSize="16" FontWeight="Bold" Foreground="White" Background="#FF699211" Click="BDButton_Click"/>
 
     </Grid>
 

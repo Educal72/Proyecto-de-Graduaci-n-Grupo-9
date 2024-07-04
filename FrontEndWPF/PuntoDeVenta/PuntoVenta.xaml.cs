@@ -90,11 +90,12 @@ namespace FrontEndWPF
 
 		private void SearchProduct()
 		{
-			int productId;
-			if (int.TryParse(buscar.Text, out productId))
+			int productoCodigo;
+			if (int.TryParse(buscar.Text, out productoCodigo))
 			{
-				var product = productos.Productos.FirstOrDefault(p => p.Codigo == productId);
-				carritoItem existingProduct = carrito.Items.OfType<carritoItem>().FirstOrDefault(p => p.Id == productId);
+				var productoId = ordenes.GetProductIdByCodigo(productoCodigo);
+				var product = productos.Productos.FirstOrDefault(p => p.Id == productoId);
+				carritoItem existingProduct = carrito.Items.OfType<carritoItem>().FirstOrDefault(p => p.Id == productoId);
 				if (product != null)
 				{
 					if (existingProduct != null)

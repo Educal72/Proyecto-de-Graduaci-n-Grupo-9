@@ -65,7 +65,6 @@ namespace FrontEndWPF
 			}
 		}
 
-
         /*
          * Método que esta asociado al botón llamado: Iniciar sesión.
          * 
@@ -127,6 +126,7 @@ namespace FrontEndWPF
 		 * su contraseña de su cuenta ó si quiere registrar un nuevo usuario.
 		 */
         private void Button_Click(object sender, RoutedEventArgs e)
+
 		{
 			if (conexion.HasEntries())
 			{
@@ -156,7 +156,8 @@ namespace FrontEndWPF
 					var con = conexion.SelectUser(Correo, conexion.HashPassword(Contraseña));
 					if (con != null)
 					{
-                        SesionUsuario.Instance.correo = con["Correo"].ToString();
+						SesionUsuario.Instance.correo = con["Correo"].ToString();
+						SesionUsuario.Instance.id = Convert.ToInt32(con["Id"]);
 						conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
 						SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
 						SesionUsuario.Instance.nombre = con["Nombre"].ToString();
