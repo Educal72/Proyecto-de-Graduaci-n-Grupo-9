@@ -264,7 +264,54 @@ namespace FrontEndWPF
             return productos;
         }
 
-        public bool EliminarProducto(int id)
+		public List<Dictionary<string, object>> GetProductosActivos()
+		{
+			var productos = new List<Dictionary<string, object>>();
+
+			using (SqlConnection connection = OpenConnection())
+			{
+				if (connection != null)
+				{
+					string query = "SELECT Id, Codigo, Nombre, Categoria, Precio, Activo FROM Productos Where Activo = 1";
+					using (SqlCommand command = new SqlCommand(query, connection))
+					{
+						try
+						{
+							using (SqlDataReader reader = command.ExecuteReader())
+							{
+								while (reader.Read())
+								{
+									var producto = new Dictionary<string, object>();
+									for (int i = 0; i < reader.FieldCount; i++)
+									{
+										string fieldName = reader.GetName(i);
+										if (!reader.IsDBNull(i))
+										{
+											producto[fieldName] = reader.GetValue(i);
+										}
+										else
+										{
+											producto[fieldName] = null;
+										}
+									}
+									productos.Add(producto);
+								}
+							}
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine("Error executing query: " + ex.Message);
+						}
+					}
+
+					CloseConnection(connection);
+				}
+			}
+
+			return productos;
+		}
+
+		public bool EliminarProducto(int id)
         {
             bool eliminado = false;
 
@@ -539,8 +586,7 @@ namespace FrontEndWPF
             return success;
         }
 
-
-        public bool ActualizarProducto(int id, int codigo, string nombre, string categoria, decimal precio, bool activo)
+		public bool ActualizarProducto(int id, int codigo, string nombre, string categoria, decimal precio, bool activo)
         {
             bool success = false;
 
@@ -920,234 +966,278 @@ namespace FrontEndWPF
             cambioContraseña.ErrorEnvio(dato);
         }
 
-        public string HashPassword(string password)
-        {
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                // ComputeHash - returns byte array
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+    public string HashPassword(string password)
+		{
+			using (SHA256 sha256Hash = SHA256.Create())
+			{
+				// ComputeHash - returns byte array
+				byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
 
-                // Convert byte array to a string
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
-            }
-        }
+				// Convert byte array to a string
+				StringBuilder builder = new StringBuilder();
+				for (int i = 0; i < bytes.Length; i++)
+				{
+					builder.Append(bytes[i].ToString("x2"));
+				}
+				return builder.ToString();
+			}
+		}
 
-        public string getRoleName(int Id)
-        {
+		public string getRoleName(int Id)
+		{
 
-            using (SqlConnection connection = OpenConnection())
-            {
-                if (connection != null)
-                {
-                    // Find the role name
-                    string roleQuery = "SELECT Nombre FROM roles WHERE Id = @Rol";
-                    string roleId;
+			using (SqlConnection connection = OpenConnection())
+			{
+				if (connection != null)
+				{
+					// Find the role name
+					string roleQuery = "SELECT Nombre FROM roles WHERE Id = @Rol";
+					string roleId;
 
-                    using (SqlCommand roleCommand = new SqlCommand(roleQuery, connection))
-                    {
-                        roleCommand.Parameters.AddWithValue("@Rol", Id);
-                        try
-                        {
-                            object result = roleCommand.ExecuteScalar();
-                            if (result != null)
-                            {
-                                roleId = result.ToString();
-                                return roleId;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Role not found.");
-                                return "";
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("Error: " + ex.Message);
-                            return "";
-                        }
-                    }
-                }
-                else
-                {
-                    return "";
+					using (SqlCommand roleCommand = new SqlCommand(roleQuery, connection))
+					{
+						roleCommand.Parameters.AddWithValue("@Rol", Id);
+						try
+						{
+							object result = roleCommand.ExecuteScalar();
+							if (result != null)
+							{
+								roleId = result.ToString();
+								return roleId;
+							}
+							else
+							{
+								Console.WriteLine("Role not found.");
+								return "";
+							}
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine("Error: " + ex.Message);
+							return "";
+						}
+					}
+				}
+				else {
+					return "";
+				
+				}
+			}
+		}
+		public bool AddInventario(string nombre, int cantidad, decimal precio, bool activo)
+		{
+			bool success = false;
+			string query = "INSERT INTO Inventario (Nombre, Cantidad, Precio, Activo) " +
+						   "VALUES (@Nombre, @Cantidad, @Precio, @Activo)";
 
-                }
-            }
-        }
-        public bool AddInventario(string nombre, int cantidad, decimal precio, bool activo)
-        {
-            bool success = false;
-            string query = "INSERT INTO Inventario (Nombre, Cantidad, Precio, Activo) " +
-                           "VALUES (@Nombre, @Cantidad, @Precio, @Activo)";
+			using (SqlConnection connection = OpenConnection())
+			{
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.AddWithValue("@Nombre", nombre);
+					command.Parameters.AddWithValue("@Cantidad", cantidad);
+					command.Parameters.AddWithValue("@Precio", precio);
+					command.Parameters.AddWithValue("@Activo", activo);
 
-            using (SqlConnection connection = OpenConnection())
-            {
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Nombre", nombre);
-                    command.Parameters.AddWithValue("@Cantidad", cantidad);
-                    command.Parameters.AddWithValue("@Precio", precio);
-                    command.Parameters.AddWithValue("@Activo", activo);
+					try
+					{
+						int rowsAffected = command.ExecuteNonQuery();
+						success = rowsAffected > 0;
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Error al añadir: " + ex.Message);
+					}
+				}
+				CloseConnection(connection);
+			}
+			
+			return success;
+		}
 
-                    try
-                    {
-                        int rowsAffected = command.ExecuteNonQuery();
-                        success = rowsAffected > 0;
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error al añadir: " + ex.Message);
-                    }
-                }
-                CloseConnection(connection);
-            }
+		public bool EditInventario(int id, string nombre, int cantidad, decimal precio, bool activo)
+		{
+			bool success = false;
+			string query = "UPDATE Inventario SET Nombre = @Nombre, Cantidad = @Cantidad, Precio = @Precio, Activo = @Activo WHERE Id = @Id";
 
-            return success;
-        }
+			using (SqlConnection connection = OpenConnection())
+			{
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.AddWithValue("@Id", id);
+					command.Parameters.AddWithValue("@Nombre", nombre);
+					command.Parameters.AddWithValue("@Cantidad", cantidad);
+					command.Parameters.AddWithValue("@Precio", precio);
+					command.Parameters.AddWithValue("@Activo", activo);
 
-        public bool EditInventario(int id, string nombre, int cantidad, decimal precio, bool activo)
-        {
-            bool success = false;
-            string query = "UPDATE Inventario SET Nombre = @Nombre, Cantidad = @Cantidad, Precio = @Precio, Activo = @Activo WHERE Id = @Id";
+					try
+					{
+						int rowsAffected = command.ExecuteNonQuery();
+						success = rowsAffected > 0;
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Error executing update query: " + ex.Message);
+					}
+				}
+			}
 
-            using (SqlConnection connection = OpenConnection())
-            {
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Id", id);
-                    command.Parameters.AddWithValue("@Nombre", nombre);
-                    command.Parameters.AddWithValue("@Cantidad", cantidad);
-                    command.Parameters.AddWithValue("@Precio", precio);
-                    command.Parameters.AddWithValue("@Activo", activo);
-
-                    try
-                    {
-                        int rowsAffected = command.ExecuteNonQuery();
-                        success = rowsAffected > 0;
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error executing update query: " + ex.Message);
-                    }
-                }
-            }
-
-            return success;
-        }
+			return success;
+		}
 
 
-        public bool DeleteInventario(int id)
-        {
-            bool success = false;
-            string query = "DELETE FROM Inventario WHERE Id = @Id";
+		public bool DeleteInventario(int id)
+		{
+			bool success = false;
+			string query = "DELETE FROM Inventario WHERE Id = @Id";
 
-            using (SqlConnection connection = OpenConnection())
-            {
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Id", id);
+			using (SqlConnection connection = OpenConnection())
+			{
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.AddWithValue("@Id", id);
 
-                    try
-                    {
-                        int rowsAffected = command.ExecuteNonQuery();
-                        success = rowsAffected > 0;
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error al eliminar: " + ex.Message);
-                    }
-                }
-                CloseConnection(connection);
-            }
+					try
+					{
+						int rowsAffected = command.ExecuteNonQuery();
+						success = rowsAffected > 0;
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Error al eliminar: " + ex.Message);
+					}
+				}
+				CloseConnection(connection);
+			}
 
-            return success;
-        }
+			return success;
+		}
 
-        public Dictionary<string, object> GetInventarioById(int id)
-        {
-            var result = new Dictionary<string, object>();
-            string query = "SELECT Id, Nombre, Cantidad, Precio, Activo FROM Inventario WHERE Id = @Id";
+		public Dictionary<string, object> GetInventarioById(int id)
+		{
+			var result = new Dictionary<string, object>();
+			string query = "SELECT Id, Nombre, Cantidad, Precio, Activo FROM Inventario WHERE Id = @Id";
 
-            using (SqlConnection connection = OpenConnection())
-            {
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Id", id);
+			using (SqlConnection connection = OpenConnection())
+			{
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.AddWithValue("@Id", id);
 
-                    try
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                for (int i = 0; i < reader.FieldCount; i++)
-                                {
-                                    result[reader.GetName(i)] = reader.GetValue(i);
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error executing query: " + ex.Message);
-                    }
-                }
-            }
+					try
+					{
+						using (SqlDataReader reader = command.ExecuteReader())
+						{
+							if (reader.Read())
+							{
+								for (int i = 0; i < reader.FieldCount; i++)
+								{
+									result[reader.GetName(i)] = reader.GetValue(i);
+								}
+							}
+						}
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Error executing query: " + ex.Message);
+					}
+				}
+			}
 
-            return result;
-        }
+			return result;
+		}
 
-        public bool ProductoExists(string codigo)
-        {
-            using (SqlConnection connection = OpenConnection())
-            {
-                string query = "SELECT COUNT(1) FROM Productos WHERE Codigo = @Codigo";
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Codigo", codigo);
+		public bool ProductoExists(string codigo)
+		{
+			using (SqlConnection connection = OpenConnection())
+			{
+				string query = "SELECT COUNT(1) FROM Productos WHERE Codigo = @Codigo";
+				SqlCommand command = new SqlCommand(query, connection);
+				command.Parameters.AddWithValue("@Codigo", codigo);
 
-                int count = (int)command.ExecuteScalar();
-                return count > 0;
-            }
-        }
+				int count = (int)command.ExecuteScalar();
+				return count > 0;
+			}
+		}
 
-        public int GetUserIdByEmailCedula(string correo, string cedula)
-        {
-            using (SqlConnection connection = OpenConnection())
-            {
-                int userId;
-                string query = "SELECT Id FROM Usuario WHERE Correo = @Correo AND Cedula = @Cedula";
-                using (SqlCommand userCommand = new SqlCommand(query, connection))
-                {
-                    userCommand.Parameters.AddWithValue("@Correo", correo);
-                    userCommand.Parameters.AddWithValue("@Cedula", cedula);
-                    try
-                    {
-                        object result = userCommand.ExecuteScalar();
-                        if (result != null)
-                        {
-                            userId = Convert.ToInt32(result);
-                            return userId;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Usuario no Existe.");
-                            return 0;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error: " + ex.Message);
-                        return 0;
-                    }
-                }
-            }
-        }
-    }
+		public int GetUserIdByEmailCedula(string correo, string cedula)
+		{
+			using (SqlConnection connection = OpenConnection())
+			{
+				int userId;
+				string query = "SELECT Id FROM Usuario WHERE Correo = @Correo AND Cedula = @Cedula";
+				using (SqlCommand userCommand = new SqlCommand(query, connection))
+				{
+					userCommand.Parameters.AddWithValue("@Correo", correo);
+					userCommand.Parameters.AddWithValue("@Cedula", cedula);
+					try
+					{
+						object result = userCommand.ExecuteScalar();
+						if (result != null)
+						{
+							userId = Convert.ToInt32(result);
+							return userId;
+						}
+						else
+						{
+							Console.WriteLine("Usuario no Existe.");
+							return 0;
+						}
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Error: " + ex.Message);
+						return 0;
+					}
+				}
+			}
+		}
+
+		public bool InsertarOrden()
+		{
+			bool success = false;
+
+			using (SqlConnection connection = OpenConnection())
+			{
+				if (connection != null)
+				{
+					try
+					{
+						string query = "INSERT INTO Orden (FechaHoraCreacion, Estado) VALUES (@Fecha, @Estado)";
+						using (SqlCommand command = new SqlCommand(query, connection))
+						{
+							command.Parameters.AddWithValue("@Fecha", DateTime.Now);
+							command.Parameters.AddWithValue("@Estado", true);
+							int rowsAffected = command.ExecuteNonQuery();
+							success = rowsAffected > 0;
+						}
+						
+						string query2 = "INSERT INTO ProductosOrden (FechaHoraCreacion, Estado) VALUES (@Fecha, @Estado)";
+						using (SqlCommand command = new SqlCommand(query2, connection))
+						{
+							command.Parameters.AddWithValue("@Fecha", DateTime.Now);
+							command.Parameters.AddWithValue("@Estado", true);
+							int rowsAffected = command.ExecuteNonQuery();
+							success = rowsAffected > 0;
+						}
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Error executing insert query: " + ex.Message);
+						// Lanza la excepción para que quien llama pueda manejarla adecuadamente.
+						throw;
+					}
+					finally
+					{
+						CloseConnection(connection);
+					}
+				}
+			}
+
+			return success;
+		}
+	}
+
 }
 
 

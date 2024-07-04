@@ -5,39 +5,87 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrontEndWPF.Inventario"
         mc:Ignorable="d"
-        Title="nuevoInventario" Height="435" Width="485">
+        Title="Nuevo Inventario" Height="550" Width="500" Background="#f4f4f4">
+
     <Window.Resources>
         <Style TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                                <Setter TargetName="border" Property="Background" Value="#005A9E"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
     </Window.Resources>
-    <Grid Margin="0,10,0,9">
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="99,314,0,0" Width="220" Height="66" VerticalAlignment="Top">
-            <Button Content="Guardar" Click="Guardar_Click" Margin="5" Width="100"/>
-            <Button Content="Cancelar" Click="Cancelar_Click" Margin="5" Width="100"/>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Title -->
+        <Label x:Name="Titulo" Content="Inventario" Grid.Row="0" Grid.ColumnSpan="2" FontSize="36" FontWeight="Bold" Margin="0,0,0,20"/>
+
+        <!-- Instructions -->
+        <Label Content="Ingrese los datos del nuevo item de inventario." Grid.Row="1" Grid.ColumnSpan="2" FontSize="16" Foreground="#FF5D5D5D" Margin="0,0,0,20"/>
+
+        <!-- Form Fields -->
+        <Label Content="Nombre:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Nombre" Grid.Row="2" Grid.Column="1" Width="278" HorizontalAlignment="Left"/>
+
+        <Label Content="Cantidad:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Cantidad" Grid.Row="3" Grid.Column="1" Width="278" HorizontalAlignment="Left"/>
+
+        <Label Content="Precio:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Precio" Grid.Row="4" Grid.Column="1" Width="278" HorizontalAlignment="Left"/>
+
+        <CheckBox x:Name="Activo" Content="Activo" Grid.Row="5" Grid.ColumnSpan="2" FontSize="24" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="0,20,0,20"/>
+
+        <!-- Buttons -->
+        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button Content="Guardar" Click="Guardar_Click" Background="#FF43CC00"/>
+            <Button Content="Cancelar" Click="Cancelar_Click"/>
         </StackPanel>
-        <Label x:Name="Titulo" Content="Inventario" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="48" FontWeight="Bold"/>
-        <Label Content="Nombre:" HorizontalAlignment="Left" Margin="10,112,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <Label Content="Ingrese los datos del nuevo item de inventario." HorizontalAlignment="Left" Margin="10,78,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="16" Foreground="#FF5D5D5D"/>
-        <Label Content="Cantidad:" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <Label Content="Precio:" HorizontalAlignment="Left" Margin="10,219,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <CheckBox x:Name="Activo" Content="Activo" HorizontalAlignment="Left" Margin="10,271,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="Nombre" HorizontalAlignment="Left" Margin="117,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" Height="30" VerticalContentAlignment="Center" FontFamily="Roboto" FontSize="18"/>
-        <TextBox x:Name="Cantidad" HorizontalAlignment="Left" Margin="127,169,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="268" Height="30" VerticalContentAlignment="Center" FontFamily="Roboto" FontSize="18"/>
-        <TextBox x:Name="Precio" HorizontalAlignment="Left" Margin="99,223,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="296" Height="30" VerticalContentAlignment="Center" FontFamily="Roboto" FontSize="18"/>
     </Grid>
 </Window>

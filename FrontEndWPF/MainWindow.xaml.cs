@@ -33,7 +33,7 @@ namespace FrontEndWPF
 		}
 		public void ChangePageToPuntoVenta()
 		{
-			mainFrame.Navigate(new PuntoVenta());
+			mainFrame.Navigate(new PuntoVenta(0));
 		}
 		public void ChangePageToMetricas()
 		{

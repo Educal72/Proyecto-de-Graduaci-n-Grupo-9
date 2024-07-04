@@ -87,7 +87,11 @@ namespace FrontEndWPF
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			NavigationService.Navigate(new Uri("PuntoDeVenta/PuntoVenta.xaml", UriKind.Relative));
+			Window parentWindow = Window.GetWindow(this);
+			if (parentWindow != null && parentWindow is MainWindow mainWindow)
+			{
+				mainWindow.mainFrame.Navigate(new PuntoVenta(0));
+			}
 		}
 
 		private void Button_Click_2(object sender, RoutedEventArgs e)

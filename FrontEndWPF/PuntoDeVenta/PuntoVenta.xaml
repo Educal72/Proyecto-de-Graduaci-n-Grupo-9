@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FrontEndWPF"
-             mc:Ignorable="d" Width="1920" Height="1080" Background="White">
+             mc:Ignorable="d" Height="Auto" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto">
     <UserControl.DataContext>
         <local:ordenesListado />
     </UserControl.DataContext>
@@ -47,7 +47,7 @@
         </Style>
         <Style x:Key="ProductButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Margin" Value="5"/>
-            <Setter Property="Width" Value="200"/>
+            <Setter Property="Width" Value="176"/>
             <Setter Property="Height" Value="100"/>
         </Style>
         <Style TargetType="DataGridCell">
@@ -55,61 +55,95 @@
         </Style>
 
     </UserControl.Resources>
-    <Grid Width="1920" Height="1080" VerticalAlignment="Center" Background="White">
+    <Grid Width="Auto" Height="Auto" VerticalAlignment="Stretch" Background="White" Margin="0,0,0,0">
         <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727" d:IsLocked="True"/>
         <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
         <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="280" RenderTransformOrigin="0.5,1.289"/>
         <Label x:Name="user" Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="175" RenderTransformOrigin="0.514,0.567"/>
-        <Grid Margin="1525,106,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="380">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0*"/>
-                <ColumnDefinition Width="380"/>
-            </Grid.ColumnDefinitions>
-            <Button
-                HorizontalAlignment="Left" Width="90" VerticalAlignment="Bottom" Margin="290,0,0,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Grid.ColumnSpan="2" Background="#FFABD904" Click="Button_Click"/>
-            <Button
-                HorizontalAlignment="Center" Width="190" VerticalAlignment="Center" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Ordenes" Grid.Column="1" Background="#FFABD904" Click="Button_Click_6"/>
+        <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Background="#FFABD904" Click="Button_Click" VerticalAlignment="Top" Margin="0,106,10,0" HorizontalAlignment="Right" Width="90"/>
+        <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Ordenes" Background="#FFABD904" Click="Button_Click_6" VerticalAlignment="Top" Margin="0,106,105,0" HorizontalAlignment="Right" Width="190"/>
+        <Grid HorizontalAlignment="Left" Margin="572,205,0,0" Width="Auto">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                
+                <RowDefinition Height="*"/>
+                
+                <RowDefinition Height="*"/>
+                
+                <RowDefinition Height="*"/>
+                
+                <RowDefinition Height="*"/>
+                
+            </Grid.RowDefinitions>
+
+            
+            <Button Content="+" FontSize="72" FontFamily="Roboto Medium" Click="Button_Click_1" Foreground="Black" Grid.Row="0" Width="143" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
+            <Button FontSize="72" Content="-" FontFamily="Roboto Medium" Click="Button_Click_2" Grid.Row="1" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
+            <Button Content="✖" FontFamily="Roboto Medium" FontSize="36" Foreground="Black" Click="Button_Click_3" Grid.Row="2" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
+            <Button Grid.Row="3" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10" Click="Button_Click_4">
+                <TextBlock TextAlignment="Center" FontFamily="Roboto Medium" FontSize="20">
+        <Run Text="Producto"/>
+        <LineBreak/>
+        <Run Text="Unico"/>
+                </TextBlock>
+            </Button>
+            <Button Content="Orden Lista" FontFamily="Roboto Medium" FontSize="24" Background="#FFABD904" Click="Button_Click_5" Grid.Row="4" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
         </Grid>
+        <Grid HorizontalAlignment="Left" Margin="0,190,0,0" Height="Auto" VerticalAlignment="Stretch">
+            <TextBox x:Name="buscar" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="557" Height="45" FontFamily="Roboto" FontSize="36" PreviewKeyDown="ProductIdTextBox_PreviewKeyDown" Margin="10,10,0,0"/>
+            <DataGrid x:Name="carrito" AutoGenerateColumns="false" HorizontalAlignment="Left" Width="557" Height="Auto" VerticalAlignment="Top" Margin="10,60,0,0" HorizontalScrollBarVisibility="Hidden">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Cantidad" Binding="{Binding Cantidad}" IsReadOnly="False" Width="70"/>
+                    <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" IsReadOnly="False" Width="360"/>
+                    <DataGridTextColumn Header="Precio /u" Binding="{Binding Precio}" IsReadOnly="False" Width="120"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Height="Auto" VerticalAlignment="Stretch" Background="White" Margin="715,205,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Fila para los Labels -->
+                <RowDefinition Height="*"/>
+                <!-- Fila para el contenido (ListBox y WrapPanel) -->
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                
+                <ColumnDefinition Width="Auto"/>
+                
+            </Grid.ColumnDefinitions>
 
-        <DataGrid x:Name="carrito" AutoGenerateColumns="false" Margin="10,259,1353,155">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Cantidad" Binding="{Binding Cantidad}" IsReadOnly="False" Width="120"/>
-                <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" IsReadOnly="False" Width="335"/>
-                <DataGridTextColumn Header="Precio /u" Binding="{Binding Precio}" IsReadOnly="False" Width="90"/>
-            </DataGrid.Columns>
-        </DataGrid>
+           
+            <Label Content="Productos" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Width="180"/>
+
+            
+            <Label Content="Categorias" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Width="192"/>
 
 
-        <Button Content="+" HorizontalAlignment="Left" Height="200" Margin="572,210,0,0" VerticalAlignment="Top" Width="150" FontSize="72" FontFamily="Roboto Medium" Click="Button_Click_1" Foreground="Black"/>
-        <Button HorizontalAlignment="Left" Height="200" Margin="572,415,0,0" VerticalAlignment="Top" Width="150" FontSize="72" Content="-" FontFamily="Roboto Medium" Click="Button_Click_2"/>
-        <Button Content="✖" HorizontalAlignment="Left" Height="200" Margin="572,620,0,0" VerticalAlignment="Top" Width="150" FontFamily="Roboto Medium" FontSize="36" Foreground="Black" Click="Button_Click_3"/>
-        <Button Content="Producto Unico" HorizontalAlignment="Left" Height="200" Margin="572,825,0,0" VerticalAlignment="Top" Width="150" FontFamily="Roboto Medium" FontSize="20" Click="Button_Click_4"/>
-        <Label Content="Categorias" Margin="1674,199,0,0" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" HorizontalAlignment="Left" Width="192" RenderTransformOrigin="0.37,0.564"/>
+            <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <WrapPanel x:Name="ProductWrapPanel" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+            </ScrollViewer>
 
-        <ListBox x:Name="CategoryListBox" Margin="1642,259,0,0" Height="766" VerticalAlignment="Top" HorizontalAlignment="Center" Width="263" ScrollViewer.VerticalScrollBarVisibility="Visible">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    <Setter Property="VerticalContentAlignment" Value="Top"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <ListBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                        <Button Content="{Binding}" Click="CategoryButton_Click" Style="{StaticResource CustomButtonStyle}"/>
-                    </ListBoxItem>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
 
-        <Button Content="Orden Lista" HorizontalAlignment="Left" Height="95" Margin="10,930,0,0" VerticalAlignment="Top" Width="557" FontFamily="Roboto Medium" FontSize="24" Background="#FFABD904" Click="Button_Click_5"/>
-        <ScrollViewer Margin="727,259,283,55">
-            <WrapPanel x:Name="ProductWrapPanel" VerticalAlignment="Top" HorizontalAlignment="Center">
-
-            </WrapPanel>
-        </ScrollViewer>
-        <Label Content="Productos" Margin="1070,199,0,0" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" HorizontalAlignment="Left" Width="180"/>
-        <TextBox x:Name="buscar" HorizontalAlignment="Left" Margin="10,209,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="557" Height="45" FontFamily="Roboto" FontSize="36" PreviewKeyDown="ProductIdTextBox_PreviewKeyDown"/>
-
+            <ListBox x:Name="CategoryListBox" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="Auto" Height="Auto" Grid.Row="1" Grid.Column="1">
+                <ListBox.BorderBrush>
+                    <SolidColorBrush Color="#FFABADB3" Opacity="0"/>
+                </ListBox.BorderBrush>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Top"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <ListBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            <Button Content="{Binding}" Click="CategoryButton_Click" Style="{StaticResource CustomButtonStyle}"/>
+                        </ListBoxItem>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
     </Grid>
 </UserControl>

@@ -20,7 +20,7 @@ namespace FrontEndWPF
     public partial class nuevoItemVentana : Window
     {
 		public string Nombre { get; set; }
-		public double Precio { get; set; }
+		public decimal Precio { get; set; }
 
 		public nuevoItemVentana()
         {
@@ -38,7 +38,7 @@ namespace FrontEndWPF
 			}
 			else {
 				Nombre = nombreItem.Text;
-				Precio = double.Parse(precioItem.Text);
+				Precio = decimal.Parse(precioItem.Text);
 				DialogResult = true;
 			}
 			

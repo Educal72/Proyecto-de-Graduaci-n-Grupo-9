@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FrontEndWPF"
       mc:Ignorable="d"
-      Title="ordenesListado" Width="1920" Height="1080">
+      Title="ordenesListado" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
     <Page.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -28,47 +28,59 @@
             <Setter Property="FontSize" Value="32"/>
         </Style>
     </Page.Resources>
-    <Grid Width="1920" Height="1080" VerticalAlignment="Center" Background="White">
+    <Grid Width="Auto" Height="Auto" VerticalAlignment="Stretch" Background="White" HorizontalAlignment="Stretch">
         <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727" d:IsLocked="True"/>
         <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
         <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="280" RenderTransformOrigin="0.5,1.289"/>
         <Label x:Name="user" Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="175" RenderTransformOrigin="0.514,0.567"/>
-        <Grid Margin="1525,106,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="380">
+        <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Background="#FFABD904" Click="Button_Click" VerticalAlignment="Top" Margin="0,103,10,0" HorizontalAlignment="Right" Width="90"/>
+        <Grid Margin="0,195,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0*"/>
-                <ColumnDefinition Width="380"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button
-                HorizontalAlignment="Left" Width="90" VerticalAlignment="Bottom" Margin="290,0,0,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Grid.ColumnSpan="2" Background="#FFABD904" Click="Button_Click"/>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding Orders}"
+                  HorizontalScrollBarVisibility="Auto" IsReadOnly="True" SelectionMode="Single" Margin="10"
+                  Grid.Column="0" SelectionChanged="OrdersDataGrid_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                    <DataGridTemplateColumn Header="Productos" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <ItemsControl ItemsSource="{Binding Productos}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock>
+                                                <Run Text="{Binding Cantidad}"/>
+                                                <Run Text="x"/>
+                                                <Run Text="{Binding Nombre}"/>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Hora de Creación" Binding="{Binding CreationTime}" Width="Auto"/>
+                    <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="Auto"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Top">
+                <Button Content="Facturar" Height="100" Width="200" FontFamily="Roboto" FontSize="24"
+                    Background="#FFABD904" Click="Button_Click_4"/>
+                <Button Content="Eliminar" Height="50" Width="200" FontFamily="Roboto" FontSize="24"
+                    Margin="0,10,0,0" Click="Button_Click_1"/>
+                <Button Content="Ver" Height="75" Width="200" FontFamily="Roboto" FontSize="24"
+                    Margin="0,10,0,0" Click="Button_Click_2"/>
+            </StackPanel>
         </Grid>
-        <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding Orders}" HorizontalScrollBarVisibility="Auto" IsReadOnly="True" SelectionMode="Single" Margin="10,225,410,50">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                <DataGridTemplateColumn Header="Productos" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <ItemsControl ItemsSource="{Binding Productos}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock>
-                                        <Run Text="{Binding Cantidad}"/>
-                                        <Run Text="x"/>
-                                        <Run Text="{Binding Nombre}"/>
-                                            </TextBlock>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Hora de Creación" Binding="{Binding CreationTime}" Width="Auto"/>
-                <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="Auto"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button Content="Facturar" HorizontalAlignment="Left" Margin="1565,730,0,0" VerticalAlignment="Top" Height="300" Width="300" FontFamily="Roboto" FontSize="72" Background="#FFABD904" Click="Button_Click_4"/>
-        <Button Content="Eliminar" HorizontalAlignment="Left" Margin="1565,395,0,0" VerticalAlignment="Top" Height="125" Width="300" FontFamily="Roboto" FontSize="72" Click="Button_Click_1"/>
-        <Button Content="Ver" HorizontalAlignment="Left" Margin="1565,525,0,0" VerticalAlignment="Top" Height="200" Width="300" FontFamily="Roboto" FontSize="72" RenderTransformOrigin="0.45,0" Click="Button_Click_2"/>
     </Grid>
 </Page>

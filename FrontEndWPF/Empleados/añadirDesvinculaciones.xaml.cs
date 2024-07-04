@@ -47,9 +47,13 @@ namespace FrontEndWPF
             comentarios = ComentariosTextbox.Text;
             DateTime? selectedDateFinal = FechaSalidaPicker.SelectedDate;
             fechaSalida = selectedDateFinal.Value;
+
+            // Realizar el proceso de desvinculación aquí (guardar en la base de datos, por ejemplo)
+
+            // Mostrar mensaje de confirmación
+            MessageBox.Show($"El empleado {empleado} ha sido desvinculado exitosamente.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+
             DialogResult = true;
-
-
         }
 
         private void Cancelar_Click(object sender, RoutedEventArgs e)

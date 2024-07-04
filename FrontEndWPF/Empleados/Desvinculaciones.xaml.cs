@@ -97,8 +97,21 @@ namespace FrontEndWPF.Empleados
             var selectedItem = DesvinculacionesDataGrid.SelectedItem as EmpleadoDesvinculacion;
             if (selectedItem != null)
             {
-                selectedItem.Reconocido = false;
-                DesvinculacionesDataGrid.Items.Refresh();
+                MessageBoxResult result = MessageBox.Show("¿Está seguro de marcar este empleado como no reconocido?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    // Marcar al empleado como no reconocido
+                    selectedItem.Reconocido = false;
+                    DesvinculacionesDataGrid.Items.Refresh();
+                    MessageBox.Show("Empleado marcado como no reconocido.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                // Si el usuario responde No, no se realiza ninguna acción adicional
+            }
+            else
+            {
+                // Mostrar un mensaje de advertencia si no se selecciona ningún empleado
+                MessageBox.Show("Por favor, seleccione un empleado antes de proceder.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -107,8 +120,20 @@ namespace FrontEndWPF.Empleados
             var selectedItem = DesvinculacionesDataGrid.SelectedItem as EmpleadoDesvinculacion;
             if (selectedItem != null)
             {
-                selectedItem.Reconocido = true;
-                DesvinculacionesDataGrid.Items.Refresh();
+                MessageBoxResult result = MessageBox.Show("¿Desea reconocer al empleado?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    selectedItem.Reconocido = true;
+                    DesvinculacionesDataGrid.Items.Refresh();
+                    MessageBox.Show("Empleado reconocido exitosamente.", "Confirmación", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                // No se necesita hacer nada si el usuario selecciona "No"
+            }
+            else
+            {
+                // Mostrar un mensaje de advertencia si no se selecciona ningún empleado
+                MessageBox.Show("Por favor, seleccione un empleado antes de proceder.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -160,5 +185,7 @@ namespace FrontEndWPF.Empleados
                 }
             }
         }
+
+		
     }
 }

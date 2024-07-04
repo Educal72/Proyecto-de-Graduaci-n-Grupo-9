@@ -1,139 +1,147 @@
-﻿using System;
+﻿using FrontEndWPF.Services;
+using FrontEndWPF.ViewModel;
+using FrontEndWPF.Modelos;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
+using FrontEndWPF;
 using static FrontEndWPF.PuntoVenta;
 
 namespace FrontEndWPF
 {
-	/// <summary>
-	/// Lógica de interacción para ordenesListadoxaml.xaml
-	/// </summary>
-	public partial class ordenesListado : Page
-	{
-		private DispatcherTimer timer;
-		public ObservableCollection<Order> Orders { get; set; }
-		public ordenesListado()
-		{
-			InitializeComponent();
-			timer = new DispatcherTimer();
-			timer.Interval = TimeSpan.FromSeconds(1);
-			timer.Tick += Timer_Tick;
-			timer.Start();
-			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
-			LoadOrders();
-			SortOrders();
-		}
+    public partial class ordenesListado : Page
+    {
+        private DispatcherTimer timer;
+        public ObservableCollection<Order> Orders { get; set; }
 
-		private void Timer_Tick(object sender, EventArgs e)
-		{
-			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
-		}
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			Window parentWindow = Window.GetWindow(this);
-			if (parentWindow != null && parentWindow is MainWindow mainWindow)
-			{
-				mainWindow.mainFrame.Navigate(new PuntoVenta());
-			}
-		}
+        OrdenesViewModel ordenesViewModel = new OrdenesViewModel();
 
-		private void LoadOrders()
-		{
-			Orders = new ObservableCollection<Order>
-		{
-			new Order { Id = 1, Estado = "Pendiente", CreationTime = DateTime.Now,
-						Productos = new List<carritoItem>{ new carritoItem{Id=1, Nombre="Producto 1", Cantidad=2, Precio = 1299.00 },
-													   new carritoItem{Id=2, Nombre="Producto 2", Cantidad=1, Precio = 1399.00 }}},
-			new Order { Id = 2, Estado = "Pago", CreationTime = DateTime.Now.AddDays(-1),
-						Productos = new List<carritoItem>{ new carritoItem{Id=3, Nombre="Producto 3", Cantidad=3, Precio = 1499.00 },
-													   new carritoItem{Id=4, Nombre="Producto 4", Cantidad=4, Precio = 1599.00 }}},
-			new Order { Id = 3, Estado = "Pendiente", CreationTime = DateTime.Now.AddDays(-2),
-						Productos = new List<carritoItem>{ new carritoItem{Id = 5, Nombre="Producto 5", Cantidad=5, Precio = 1899.00 },
-													   new carritoItem{Id=6, Nombre="Producto 6", Cantidad=6, Precio = 1099.00 }}},
-		};
+        public ordenesListado()
+        {
+            InitializeComponent();
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+            fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
+            LoadOrders();
+        }
 
-			DataContext = this;
-		}
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
+        }
 
-		private void SortOrders()
-		{
-			var sortedOrders = Orders.OrderByDescending(o => o.Estado == "Pendiente")
-								 .ThenByDescending(o => o.CreationTime)
-								 .ToList();
+        private async void LoadOrders()
+        {
+            var ordenesConProductos = ordenesViewModel.GetOrdenesConProductos();
+            Orders = new ObservableCollection<Order>();
 
-			
-			Orders.Clear();
-			foreach (var order in sortedOrders)
-			{
-				Orders.Add(order);
-			}
-		}
+            foreach (var entry in ordenesConProductos)
+            {
+                List<ProductosOrden> productosOrdenes = new List<ProductosOrden>();
+                var orden = entry.Key;
+                var productos = entry.Value;
+                foreach (var producto in productos)
+                {
+                    var productoOrden = new ProductosOrden
+                    {
+                        Id = producto.Id,
+                        OrdenId = producto.OrdenId,
+                        ProductoId = producto.ProductoId,
+                        Cantidad = producto.Cantidad,
+                        Nombre = producto.Nombre,
+                    };
+                    productosOrdenes.Add(productoOrden);
+                }
 
-		private void Button_Click_1(object sender, RoutedEventArgs e)
-		{
-			Order selectedOrder = OrdersDataGrid.SelectedItem as Order;
-			if (selectedOrder != null)
-			{
-				Orders.Remove(selectedOrder);
-				
-			}
-		}
+                var order = new Order
+                {
+                    Id = orden.Id,
+                    Estado = orden.Estado,
+                    CreationTime = orden.Creacion,
+                    Productos = productosOrdenes,
+                };
 
-		private void Button_Click_2(object sender, RoutedEventArgs e)
-		{
-			Window parentWindow = Window.GetWindow(this);
-			if (parentWindow != null && parentWindow is MainWindow mainWindow)
-			{
-				mainWindow.mainFrame.Navigate(new PuntoVenta());
-			}
-		}
+                Orders.Add(order);
+            }
 
-		private void Button_Click_3(object sender, RoutedEventArgs e)
-		{
-			Window parentWindow = Window.GetWindow(this);
-			if (parentWindow != null && parentWindow is MainWindow mainWindow)
-			{
-				mainWindow.mainFrame.Navigate(new PuntoVenta());
-			}
-		}
+            Orders = new ObservableCollection<Order>(Orders.OrderByDescending(o => o.CreationTime));
+            OrdersDataGrid.ItemsSource = Orders;
+        }
 
-		private void Button_Click_4(object sender, RoutedEventArgs e)
-		{
-			Window parentWindow = Window.GetWindow(this);
-			if (parentWindow != null && parentWindow is MainWindow mainWindow)
-			{
-				mainWindow.mainFrame.Navigate(new Facturacion());
-			}
-		}
-	}
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (OrdersDataGrid.SelectedItem is Order selectedOrder)
+            {
+                ordenesViewModel.EliminarOrden(selectedOrder.Id);
+                LoadOrders();
+            }
+        }
 
-	public class Order
-	{
-		public int Id { get; set; }
-		public string Estado { get; set; }
-		public DateTime CreationTime { get; set; }
-		public List<carritoItem> Productos { get; set; }
-	}
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = OrdersDataGrid.SelectedItem as Order;
+            Window parentWindow = Window.GetWindow(this);
+            if (parentWindow != null && parentWindow is MainWindow mainWindow && selectedItem != null)
+            {
+                mainWindow.mainFrame.Navigate(new PuntoVenta(selectedItem.Id));
+            }
+        }
 
-	public class carritoItem
-	{
-		public int Id { get; set; }
-		public string Nombre { get; set; }
-		public double Precio { get; set; }
-		public int Cantidad { get; set; }
-	}
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            Window parentWindow = Window.GetWindow(this);
+            if (parentWindow != null && parentWindow is MainWindow mainWindow)
+            {
+                mainWindow.mainFrame.Navigate(new PuntoVenta(0));
+            }
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            SelectedOrderService selectedOrderService = new SelectedOrderService();
+            var selectedOrder = OrdersDataGrid.SelectedItem as Order; 
+            if (selectedOrder != null)
+            {
+                NavigationService.Navigate(new Facturacion(selectedOrder.Id));
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Window parentWindow = Window.GetWindow(this);
+            if (parentWindow != null && parentWindow is MainWindow mainWindow)
+            {
+                mainWindow.mainFrame.Navigate(new ordenesListado());
+            }
+        }
+
+        private void OrdersDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+    }
+
+    public class ProductosOrden
+    {
+        public int Id { get; set; }
+        public int OrdenId { get; set; }
+        public int ProductoId { get; set; }
+        public string Nombre { get; set; }
+        public int Cantidad { get; set; }
+    }
+
+    public class Order
+    {
+        public int Id { get; set; }
+        public string Estado { get; set; }
+        public DateTime CreationTime { get; set; }
+        public List<ProductosOrden> Productos { get; set; }
+    }
 }
-

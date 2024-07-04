@@ -29,7 +29,7 @@ namespace FrontEndWPF
                     var producto = new Producto
                     {
                         Id = Convert.ToInt32(productoData["Id"]),
-                        Codigo = productoData["Codigo"].ToString(),
+                        Codigo = Convert.ToInt32(productoData["Codigo"]),
                         Nombre = productoData["Nombre"].ToString(),
                         Categoria = productoData["Categoria"].ToString(),
                         Precio = Convert.ToDecimal(productoData["Precio"]),
@@ -40,7 +40,29 @@ namespace FrontEndWPF
             }
         }
 
-        public bool EliminarProducto(int id)
+		public void LoadProductosDataActivo()
+		{
+			Productos.Clear();
+			var productosData = conexion.GetProductosActivos();
+			if (productosData != null && productosData.Count > 0)
+			{
+				foreach (var productoData in productosData)
+				{
+					var producto = new Producto
+					{
+						Id = Convert.ToInt32(productoData["Id"]),
+						Codigo = Convert.ToInt32(productoData["Codigo"]),
+						Nombre = productoData["Nombre"].ToString(),
+						Categoria = productoData["Categoria"].ToString(),
+						Precio = Convert.ToDecimal(productoData["Precio"]),
+						Activo = Convert.ToBoolean(productoData["Activo"])
+					};
+					Productos.Add(producto);
+				}
+			}
+		}
+
+		public bool EliminarProducto(int id)
         {
             bool eliminado = conexion.EliminarProducto(id);
             if (eliminado)
@@ -63,7 +85,7 @@ namespace FrontEndWPF
                 var producto = Productos.FirstOrDefault(p => p.Id == id);
                 if (producto != null)
                 {
-                    producto.Codigo = codigo.ToString();
+                    producto.Codigo = codigo;
                     producto.Nombre = nombre;
                     producto.Categoria = categoria;
                     producto.Precio = precio;
@@ -84,10 +106,11 @@ namespace FrontEndWPF
     public class Producto
     {
         public int Id { get; set; }
-        public string Codigo { get; set; }
+        public int Codigo { get; set; }
         public string Nombre { get; set; }
         public string Categoria { get; set; }
         public decimal Precio { get; set; }
         public bool Activo { get; set; }
+        public decimal Cantidad { get; internal set; }
     }
 }
