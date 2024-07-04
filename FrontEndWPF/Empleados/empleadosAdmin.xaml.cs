@@ -65,7 +65,10 @@ namespace FrontEndWPF
 				case "FAQ":
 					ContentArea.Content = new FAQ();
 					break;
-			}
+                case "Control de Planillas":
+                    ContentArea.Content = new ControlPlanillas();
+                    break;
+            }
 		}
 
 		private void Timer_Tick(object sender, EventArgs e)
@@ -213,6 +216,9 @@ namespace FrontEndWPF
 					break;
 				case "FAQ":
 					ContentArea.Content = new FAQ();
+					break;
+				case "Control de Planillas":
+					ContentArea.Content = new ControlPlanillas();
 					break;
 			}
 		}

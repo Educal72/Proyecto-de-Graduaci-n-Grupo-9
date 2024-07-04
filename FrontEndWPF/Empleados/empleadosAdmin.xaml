@@ -67,6 +67,7 @@
                         </Setter>
                     </Style>
                 </ListBox.Resources>
+
                 <ListBoxItem Content="Listado de Empleados" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,15,10,10" Selected="ListBoxItem_Selected_1"/>
                 <ListBoxItem Content="Fichajes" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
                 <ListBoxItem Content="Permisos de Tiempo" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
@@ -75,8 +76,15 @@
                 <ListBoxItem Content="Perfiles Competenciales" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
                 <ListBoxItem Content="Desvinculaciones" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10" />
                 <ListBoxItem Content="FAQ" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+
+                <ListBoxItem Content="Control de Planillas" FontFamily="Roboto"
+                                 FontSize="22" HorizontalContentAlignment="Center"
+                                 Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"
+                                 Selected="ListBoxItem_Selected_2"/>
+
             </ListBox>
             <ContentControl x:Name="ContentArea" Grid.Column="2" Margin="0,5,0,0" Height="Auto" Width="Auto"/>
         </Grid>
+
     </Grid>
 </Page>

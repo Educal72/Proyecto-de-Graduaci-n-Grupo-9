@@ -1,0 +1,63 @@
+﻿<Window x:Class="FrontEndWPF.añadirPlanilla"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FrontEndWPF"
+        mc:Ignorable="d"
+        Title="añadirPlanilla" Height="674" Width="655">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+
+    <Grid Margin="-2,10,2,9">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,564,0,0" Width="220">
+            <Button Content="Guardar" Click="Guardar_Click" Margin="5" Width="100"/>
+            <Button Content="Cancelar" Click="Cancelar_Click" Margin="5" Width="100
+                    "/>
+        </StackPanel>
+        <Label Content="Nueva Planilla" HorizontalAlignment="Left" Margin="10,-2,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="48" FontWeight="Bold"/>
+        <Label Content="Cédula:" HorizontalAlignment="Left" Margin="11,196,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Nombre:" HorizontalAlignment="Left" Margin="10,102,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Apellidos:" HorizontalAlignment="Left" Margin="8,146,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Correo Electrónico:" HorizontalAlignment="Left" Margin="8,285,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Ingrese los datos de la nueva planilla." HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="16" Foreground="#FF5D5D5D"/>
+        <TextBox x:Name="Correo" HorizontalAlignment="Left" Margin="226,289,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="Apellidos" HorizontalAlignment="Center" Margin="0,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="398" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="Nombre" 
+                 HorizontalAlignment="Left" 
+                 Margin="117,106,0,0" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="411" FontSize="24" 
+                 FontFamily="Roboto" 
+                 VerticalContentAlignment="Center"
+                 HorizontalContentAlignment="Center"/>
+        <TextBox x:Name="Cedula" HorizontalAlignment="Left" Margin="106,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="422" FontSize="24" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Label Content="Puesto:" HorizontalAlignment="Left" Margin="9,241,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <TextBox x:Name="Puesto" HorizontalAlignment="Left" Margin="105,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="421" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label Content="Fecha:" HorizontalAlignment="Left" Margin="13,335,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Button Content="Actual" HorizontalAlignment="Left" Margin="536,339,0,0" 
+                VerticalAlignment="Top" Height="31" Width="50" FontFamily="Roboto" Click="Button_Actual"/>
+        <Label x:Name="SSalarioTitulo" Content="Salario:" HorizontalAlignment="Left" Margin="15,396,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <TextBox x:Name="Salario" HorizontalAlignment="Left" Margin="111,400,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="423" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <DatePicker x:Name="Fecha" HorizontalAlignment="Left" Margin="98,339,0,0" VerticalAlignment="Top" Width="433" Height="30" VerticalContentAlignment="Center"/>
+    </Grid>
+</Window>
