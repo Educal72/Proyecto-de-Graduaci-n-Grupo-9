@@ -1,8 +1,8 @@
 ﻿<Page x:Class="FrontEndWPF.Facturacion"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:FrontEndWPF"
       mc:Ignorable="d"
       Title="Facturacion" Width="1920" Height="1080">
@@ -55,18 +55,18 @@
         <Label Content="Descuento: ₡ " HorizontalAlignment="Left" Margin="790,331,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.463,0.49"/>
         <Label Content="Impuesto: %" HorizontalAlignment="Left" Margin="790,421,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.531,0.49"/>
         <Label Content="Subtotal: ₡ " HorizontalAlignment="Left" Margin="790,512,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.463,0.49"/>
-        <TextBox x:Name="servicio" HorizontalAlignment="Left" Margin="925,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="345" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="descuento" HorizontalAlignment="Left" Margin="949,325,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="321" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="impuesto" HorizontalAlignment="Left" Margin="936,415,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="334" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="subtotal" HorizontalAlignment="Left" Margin="920,506,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="350" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="servicioTextBox" HorizontalAlignment="Left" Margin="925,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="345" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="descuentoTextBox" HorizontalAlignment="Left" Margin="949,325,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="321" Height="50" FontSize="36" FontFamily="Roboto" VerticalContentAlignment="Center" TextChanged="descuentoTextBox_TextChanged"/>
+        <TextBox x:Name="impuestoTextBox" HorizontalAlignment="Left" Margin="936,415,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="334" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="subtotalTextBox" HorizontalAlignment="Left" Margin="920,506,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="350" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center"/>
         <Label Content="Total: ₡ " HorizontalAlignment="Left" Margin="1302,472,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="48" RenderTransformOrigin="0.531,0.49" FontWeight="Bold"/>
-        <TextBox x:Name="total" HorizontalAlignment="Left" Margin="1487,456,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="418" Height="100" FontSize="72" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="totalTextBox" HorizontalAlignment="Left" Margin="1487,456,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="418" Height="100" FontSize="72" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center"/>
         <Label Content="Cantidad Pagada: ₡ " HorizontalAlignment="Left" Margin="790,662,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="48" RenderTransformOrigin="0.463,0.49"/>
-        <TextBox x:Name="pagado" HorizontalAlignment="Left" Margin="1232,655,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="475" Height="75" UndoLimit="106" FontFamily="Roboto" FontSize="48" VerticalContentAlignment="Center" />
+        <TextBox x:Name="pagado" HorizontalAlignment="Left" Margin="1232,655,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="475" Height="75" UndoLimit="106" FontFamily="Roboto" FontSize="48" VerticalContentAlignment="Center"/>
         <Button Content="Asociar Salonero" HorizontalAlignment="Left" Margin="765,815,0,0" VerticalAlignment="Top" Height="95" Width="565" FontFamily="Roboto" FontSize="70" Click="Button_Click_3"/>
         <Label Content="Cliente Asociado:" HorizontalAlignment="Left" Margin="1302,251,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.463,0.49"/>
         <TextBox x:Name="cliente" HorizontalAlignment="Left" Margin="1503,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" Text="Génerico N/A" VerticalContentAlignment="Center"/>
         <Label Content="Salonero Asociado:" HorizontalAlignment="Left" Margin="1302,331,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.463,0.49"/>
-        <TextBox x:Name="salonero" HorizontalAlignment="Left" Margin="1523,325,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="382" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center" Text="Ninguno"/>
+        <TextBox x:Name="salonero" HorizontalAlignment="Left" Margin="1523,325,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="382" Height="50" FontSize="36" FontFamily="Roboto" IsEnabled="False" Text="Génerico N/A" VerticalContentAlignment="Center"/>
     </Grid>
 </Page>

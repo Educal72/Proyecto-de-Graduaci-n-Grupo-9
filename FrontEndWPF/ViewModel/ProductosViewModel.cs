@@ -111,5 +111,6 @@ namespace FrontEndWPF
         public string Categoria { get; set; }
         public decimal Precio { get; set; }
         public bool Activo { get; set; }
+        public decimal Cantidad { get; internal set; }
     }
 }
