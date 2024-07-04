@@ -1,0 +1,63 @@
+﻿<Window x:Class="FrontEndWPF.eliminarPlanilla"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FrontEndWPF"
+        mc:Ignorable="d"
+        Title="eliminarPlanilla"  Height="728" Width="620">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="0,10,0,9">
+
+
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,618,0,0" Width="220">
+            <Button Content="Eliminar" Click="Eliminar_Click" Margin="5" Width="100"/>
+            <Button Content="Cancelar" Click="Cancelar_Click" Margin="5" Width="100
+                    "/>
+        </StackPanel>
+        <Label Content="Eliminar Planilla" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="48" FontWeight="Bold"/>
+        <Label Content="Cédula:" HorizontalAlignment="Left" Margin="10,218,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Nombre:" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Apellidos:" HorizontalAlignment="Left" Margin="10,172,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Correo:" HorizontalAlignment="Left" Margin="11,0,0,0" VerticalAlignment="Center" FontFamily="Roboto" FontSize="24"/>
+        <Label Content="Aviso importante: ¡Una vez confirmado la eliminación, &#xD;&#xA;se quitara de manera permanente!" HorizontalAlignment="Left" Margin="10,68,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="16" Foreground="#FF5D5D5D"/>
+        <TextBox x:Name="Correo" HorizontalAlignment="Left" Margin="106,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="423" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+        <TextBox x:Name="Apellidos" HorizontalAlignment="Left" Margin="130,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="398" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+        <TextBox x:Name="Nombre" HorizontalAlignment="Left" Margin="117,132,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="411" FontSize="24" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsReadOnly="True"/>
+        <TextBox x:Name="Cedula" HorizontalAlignment="Left" Margin="105,222,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="423" FontSize="24" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsReadOnly="True"/>
+        <Label Content="Puesto:" HorizontalAlignment="Left" Margin="10,273,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <TextBox x:Name="Puesto" HorizontalAlignment="Left" Margin="106,277,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="422" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+        <Label Content="Fecha:" HorizontalAlignment="Left" Margin="10,380,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <Label x:Name="___Sin_nombre_" Content="Salario:" HorizontalAlignment="Left" Margin="12,447,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
+        <TextBox x:Name="Salario" HorizontalAlignment="Left" Margin="108,451,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="423" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+        <!--
+            Se coloco asi para poder hacer que el campo fecha no pudiera ser editado.
+        -->
+        <DatePicker x:Name="Fecha" HorizontalAlignment="Left" Margin="95,384,0,0" VerticalAlignment="Top" Width="433" Height="30" VerticalContentAlignment="Center">
+            <DatePicker.Resources>
+                <Style TargetType="DatePickerTextBox">
+                    <Setter Property="IsReadOnly" Value="True"/>
+                </Style>
+            </DatePicker.Resources>
+        </DatePicker>
+    </Grid>
+</Window>

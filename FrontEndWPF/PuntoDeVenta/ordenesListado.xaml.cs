@@ -1,24 +1,20 @@
-﻿using FrontEndWPF.ViewModel;
+﻿using FrontEndWPF.Services;
+using FrontEndWPF.ViewModel;
+using FrontEndWPF.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
+using FrontEndWPF;
 using static FrontEndWPF.PuntoVenta;
 
 namespace FrontEndWPF
 {
+
 	/// <summary>
 	/// Lógica de interacción para ordenesListadoxaml.xaml
 	/// </summary>
@@ -157,6 +153,4 @@ namespace FrontEndWPF
 		public int Cantidad { get; set; }
 	}
 
-	
 }
-

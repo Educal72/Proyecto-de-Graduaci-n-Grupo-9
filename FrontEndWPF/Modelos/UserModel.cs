@@ -37,5 +37,20 @@ namespace FrontEndWPF.Modelos
             public DateTime FechaSalida { get; set; } // Fecha de la desvinculación
             public bool Reconocido { get; set; }
         }
+
+        /*
+         * Entidades que almacenan los datos de las -
+         * planillas.
+         */
+		public class ControlPlanilla
+		{
+            public string Nombre { get; set; }
+            public string Apellidos { get; set; }
+            public string Cedula { get; set; } 
+            public string Puesto { get; set; }
+            public string Correo { get; set; }
+            public DateTime FechaCreacion { get; set; } 
+            public decimal Salario { get; set; }
+        }
     }
 }

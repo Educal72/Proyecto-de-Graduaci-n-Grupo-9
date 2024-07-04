@@ -19,6 +19,9 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using static FrontEndWPF.PuntoVenta;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using FrontEndWPF.Services;
+using System.Globalization;
+using FrontEndWPF.ViewModel;
 
 namespace FrontEndWPF
 {
@@ -30,6 +33,7 @@ namespace FrontEndWPF
 		decimal Subtotal;
 		decimal Total;
 		private DispatcherTimer timer;
+
 		OrdenesViewModel Orden = new OrdenesViewModel();
 		FacturaViewModel Factura = new FacturaViewModel();
 		private decimal puntosDisponibles = 0;
@@ -49,12 +53,16 @@ namespace FrontEndWPF
 		{
 			this.idOrden = idOrden;
 			InitializeComponent();
-			timer = new DispatcherTimer();
+            viewModel = new FacturacionViewModel();
+            this.DataContext = viewModel;
+            viewModel.LoadProductosCarrito(orderId);
+
+            timer = new DispatcherTimer();
 			timer.Interval = TimeSpan.FromSeconds(1);
 			timer.Tick += Timer_Tick;
 			timer.Start();
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
-			LoadCarritoItems();
+			//LoadCarritoItems();
 			pagado.Focus();
 			FileRead();
 			RestauranteButton.IsChecked = true;
@@ -64,6 +72,7 @@ namespace FrontEndWPF
 			IdCliente = 0;
 			IdUsuario = SesionUsuario.Instance.id;
 		}
+
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
@@ -152,7 +161,7 @@ namespace FrontEndWPF
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			pagado.Text = Total.ToString();
+			pagado.Text = totalTextBox.ToString();
 		}
 
 		private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -194,6 +203,7 @@ namespace FrontEndWPF
 			}
 			else
 			{
+
 				var orden = Orden.GetOrdenById(idOrden);
 				bool resultadoCrear = Factura.CrearFactura(idOrden, Convert.ToDecimal(pagado.Text), Convert.ToInt32(Fiva), Convert.ToInt32(Fservicio), orden.Creacion, DateTime.Now, cajero, IdUsuario, IdCliente, Convert.ToDecimal(descuento.Text), puntosGanados, metodoPago, tipoVenta, Total);
                 if (resultadoCrear)
