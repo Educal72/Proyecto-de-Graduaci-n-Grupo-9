@@ -1,0 +1,97 @@
+﻿<Page x:Class="FrontEndWPF.Index.CambioContraseña"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FrontEndWPF.Index"
+      mc:Ignorable="d" 
+      Title="CambioContraseña" Width="Auto" Height="787" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="PasswordBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Height="777" Width="446" Background="Black">
+        <Rectangle Height="537" Stroke="Black" VerticalAlignment="Top" Fill="#FF171717" RadiusX="10" RadiusY="10" Margin="0,204,0,0" HorizontalAlignment="Center" Width="418"/>
+        <Label Content="Cambio de Contraseña" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Roboto Black" FontSize="36" Foreground="White" Height="48" Width="382" Margin="0,228,0,0" HorizontalContentAlignment="Center"/>
+        <Label Content="Correo Electrónico:" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto Medium" FontSize="16" Height="26" Width="143" RenderTransformOrigin="0.553,1.269" Margin="32,372,0,0"/>
+        <TextBox x:Name="Correo" VerticalContentAlignment="Center" VerticalAlignment="Top" 
+                     Width="382" Background="Black" FontFamily="Roboto" 
+                     FontSize="16" Foreground="White" 
+                     BorderBrush="#FF262626" Height="37" Padding="5,0,0,0" Margin="0,408,0,0" HorizontalAlignment="Center" IsReadOnly="True"/>
+
+        <Label Content="Contraseña Temporal: " HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto Medium" FontSize="16" Height="26" Width="178" RenderTransformOrigin="0.553,1.269" Margin="32,460,0,0"/>
+        <TextBox x:Name="Temporal" VerticalContentAlignment="Center" VerticalAlignment="Top" 
+             Width="382" Background="Black" FontFamily="Roboto" 
+             FontSize="16" Foreground="White" 
+             BorderBrush="#FF262626" Height="37" Padding="5,0,0,0" Margin="0,490,0,0" HorizontalAlignment="Center" IsReadOnly="True"/>
+
+        <Label Content="Contraseña Nueva: " HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto Medium" FontSize="16" Height="26" Width="143" RenderTransformOrigin="0.553,1.269" Margin="32,550,0,0"/>
+        <PasswordBox x:Name="NuevaContraseña" VerticalContentAlignment="Center" VerticalAlignment="Top" 
+                    Width="382" Background="Black" FontFamily="Roboto" 
+                    FontSize="16" Foreground="White" 
+                    BorderBrush="#FF262626" Height="37" Padding="5,0,0,0" Margin="0,584,0,0" HorizontalAlignment="Center"/>
+
+
+        <Button Content="Cambiar Contraseña"
+                VerticalAlignment="Top" FontFamily="Roboto Black"
+                FontSize="20" Background="#FF72A603" 
+                BorderBrush="#FF377D35" Width="246" 
+                Height="43" Click="CambiarContraseña" 
+                Foreground="White" Margin="150,676,0,0" 
+                HorizontalAlignment="Left"/>
+       
+        <Button Content="Salir"
+                VerticalAlignment="Top"
+                FontFamily="Roboto Black"
+                FontSize="20" 
+                Background="#FF72A603" 
+                BorderBrush="#FF377D35"
+                Width="74" Height="43"
+                Click="BotonParaVolver"
+                Foreground="White" 
+                Margin="56,676,0,0" 
+                HorizontalAlignment="Left"/>
+        <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" VerticalAlignment="Top" Foreground="White" Width="446" Height="31" Margin="0,746,0,0" HorizontalAlignment="Center"/>
+        <Image Height="245" VerticalAlignment="Top" Width="246" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" OpacityMask="Black" HorizontalAlignment="Center"/>
+        <Label Content="Por favor, introduzca el correo electrónico asociado&#xA;a la cuenta, la contraseña temporal y la nueva &#xD;&#xA;contraseña para poder acceder a la aplicación." HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto Medium" FontSize="16" Height="65" Width="382" RenderTransformOrigin="0.553,1.269" HorizontalContentAlignment="Center" Margin="0,294,0,0"/>
+        <Rectangle Height="1" Margin="0,286,0,0" Stroke="White" VerticalAlignment="Top" HorizontalAlignment="Center" Width="382"/>
+
+    </Grid>
+</Page>
