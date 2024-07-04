@@ -124,9 +124,10 @@ namespace FrontEndWPF
 		private void Button_Click_4(object sender, RoutedEventArgs e)
 		{
 			Window parentWindow = Window.GetWindow(this);
-			if (parentWindow != null && parentWindow is MainWindow mainWindow)
+			var selectedOrder = OrdersDataGrid.SelectedItem as Order;
+			if (parentWindow != null && parentWindow is MainWindow mainWindow && selectedOrder != null)
 			{
-				mainWindow.mainFrame.Navigate(new Facturacion());
+				mainWindow.mainFrame.Navigate(new Facturacion(selectedOrder.Id));
 			}
 		}
 	}

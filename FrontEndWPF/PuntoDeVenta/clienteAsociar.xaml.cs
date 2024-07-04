@@ -1,7 +1,9 @@
-﻿using System;
+﻿using FrontEndWPF.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,8 +25,13 @@ namespace FrontEndWPF
 	public partial class clienteAsociar : Window
 	{
 		private DispatcherTimer timer;
+		Conexion conexion = new Conexion();
+		ClienteViewModel clienteViewModel = new ClienteViewModel();
 		private ICollectionView customerView;
 		public string NombreCompleto { get; set; }
+		public int Cedula { get; set; }
+		public bool isAsociado { get; set; }
+		public decimal puntosDisponibles { get; set; }
 		public clienteAsociar()
 		{
 			InitializeComponent();
@@ -33,46 +40,53 @@ namespace FrontEndWPF
 			timer.Tick += Timer_Tick;
 			timer.Start();
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
-			LoadCustomers();
+			LoadData();
 		}
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 		}
 
-		private void LoadCustomers()
+		private void LoadData()
 		{
-			var cliente1 = new Cliente
+			string query = @"
+                SELECT Cedula, Nombre, Apellidos,
+				Telefono, CorreoElectronico,
+				Asociado, Puntos
+                FROM Cliente";
+
+			List<Cliente> usuariosEmpleados = new List<Cliente>();
+
+			using (SqlConnection connection = conexion.OpenConnection())
 			{
-				Cedula = "0000000000",
-				Nombre = "Génerico",
-				Apellidos = "N/A",
-				CorreoElectronico = "",
-				Telefono = "",
-				Asociado = false
-			};
-			var cliente2 = new Cliente
-			{
-				Cedula = "1234567890",
-				Nombre = "John",
-				Apellidos = "Doe",
-				CorreoElectronico = "john.doe@example.com",
-				Telefono = "123-456-7890",
-				Asociado = true
-			};
-			var cliente3 = new Cliente
-			{
-				Cedula = "0987654321",
-				Nombre = "Jane",
-				Apellidos = "Smith",
-				CorreoElectronico = "jane.smith@example.com",
-				Telefono = "987-654-3210",
-				Asociado = false
-			};
-			CustomerDataGrid.Items.Add(cliente1);
-			CustomerDataGrid.Items.Add(cliente2) ;
-			CustomerDataGrid.Items.Add(cliente3);
+				try
+				{
+					SqlCommand command = new SqlCommand(query, connection);
+					SqlDataReader reader = command.ExecuteReader();
+
+					while (reader.Read())
+					{
+						usuariosEmpleados.Add(new Cliente
+						{
+							Nombre = reader["Nombre"].ToString(),
+							Apellidos = reader["Apellidos"].ToString(),
+							CorreoElectronico = reader["CorreoElectronico"].ToString(),
+							Cedula = reader["Cedula"].ToString(),
+							Telefono = reader["Telefono"].ToString(),
+							Puntos = Convert.ToInt32(reader["Puntos"]),
+							Asociado = (bool)reader["Asociado"]
+						});
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: " + ex.Message);
+				}
+			}
+
+			CustomerDataGrid.ItemsSource = usuariosEmpleados;
 		}
+
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
@@ -81,6 +95,9 @@ namespace FrontEndWPF
 			if (selectedCustomer != null)
 			{
 				NombreCompleto = selectedCustomer.Nombre +" "+ selectedCustomer.Apellidos;
+				Cedula = Convert.ToInt32(selectedCustomer.Cedula);
+				isAsociado = selectedCustomer.Asociado;
+				puntosDisponibles = selectedCustomer.Puntos;
 				DialogResult = true;
 			}
 		}
@@ -92,6 +109,7 @@ namespace FrontEndWPF
 			public string CorreoElectronico { get; set; }
 			public string Telefono { get; set; }
 			public bool Asociado { get; set; }
+			public decimal Puntos { get; set; }
 		}
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -146,13 +164,19 @@ namespace FrontEndWPF
 			nuevoCliente.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 			if (nuevoCliente.ShowDialog() == true)
 			{
-				string cedula = nuevoCliente.cedula;
+				int cedula = Convert.ToInt32(nuevoCliente.cedula);
 				string nombre = nuevoCliente.nombre;
 				string apellidos = nuevoCliente.apellidos;
 				string correo = nuevoCliente.correo;
-				string telefono = nuevoCliente.telefono;
-				bool asociado = nuevoCliente.asociar;
-				CustomerDataGrid.Items.Add(new Cliente { Cedula = cedula, Nombre = nombre, Apellidos = apellidos, CorreoElectronico = correo, Telefono = telefono, Asociado = asociado });
+				int telefono = Convert.ToInt32(nuevoCliente.telefono);
+				int asociado;
+				if (nuevoCliente.asociar == true) {
+					asociado = 1;
+				} else {
+					asociado = 0;
+				}
+				clienteViewModel.CrearCliente(cedula, nombre, apellidos, correo, telefono, asociado, 0);
+				LoadData();
 			}
 		}
 
@@ -167,15 +191,11 @@ namespace FrontEndWPF
 			if (selectedItem != null) { 
 			verCliente verCliente = new verCliente(selectedItem.Nombre, selectedItem.Cedula, selectedItem.Apellidos, selectedItem.CorreoElectronico, selectedItem.Telefono, selectedItem.Asociado) ;
 			verCliente.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-			if (verCliente.ShowDialog() == true)
+	
+				if (verCliente.ShowDialog() == true)
 			{
-				selectedItem.Cedula = verCliente.cedula;
-				selectedItem.Nombre = verCliente.nombre;
-				selectedItem.Apellidos = verCliente.apellidos;
-				selectedItem.CorreoElectronico = verCliente.correo;
-				selectedItem.Telefono = verCliente.telefono;
-				selectedItem.Asociado = verCliente.asociar;
-				CustomerDataGrid.Items.Refresh();
+				clienteViewModel.EditarCliente(Convert.ToInt32(verCliente.cedula), verCliente.nombre, verCliente.apellidos, verCliente.correo, Convert.ToInt32(verCliente.telefono),verCliente.asociar);
+				LoadData();
 			}
 			}
 			
@@ -188,8 +208,15 @@ namespace FrontEndWPF
 			if (result == MessageBoxResult.Yes)
 			{
 				var selectedItem = CustomerDataGrid.SelectedItem as Cliente;
-				CustomerDataGrid.Items.Remove(selectedItem);
-				CustomerDataGrid.Items.Refresh();
+				if (selectedItem != null && selectedItem.Cedula != "0" && selectedItem.Nombre != "Generico")
+				{
+					clienteViewModel.EliminarCliente(Convert.ToInt32(selectedItem.Cedula));
+					LoadData();
+				}
+				else {
+					MessageBox.Show("El cliente que desea eliminar no es valido", "Error al Eliminar", MessageBoxButton.OK, MessageBoxImage.Warning);
+				}
+
 			}
 		}
 	}

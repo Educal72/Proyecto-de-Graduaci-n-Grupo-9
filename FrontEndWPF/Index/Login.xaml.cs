@@ -48,6 +48,9 @@ namespace FrontEndWPF
 		{
 			NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
 			SesionUsuario.Instance.rol = "Admin";
+			SesionUsuario.Instance.nombre = "Eduardo";
+			SesionUsuario.Instance.id = 6;
+			SesionUsuario.Instance.correo = "educall072@gmail.com";
 			//var con = conexion.SelectUser(correo.Text, conexion.HashPassword(cont.Password));
 			//if (con.Count() > 0)
 			//{
@@ -107,6 +110,7 @@ namespace FrontEndWPF
 					if (con != null)
 					{
 						SesionUsuario.Instance.correo = con["Correo"].ToString();
+						SesionUsuario.Instance.id = Convert.ToInt32(con["Id"]);
 						conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
 						SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
 						SesionUsuario.Instance.nombre = con["Nombre"].ToString();

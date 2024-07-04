@@ -63,10 +63,10 @@
             </Rectangle>
             <Label Content="Configura los agregados al precio." HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" Foreground="#FFC1C1C1" FontFamily="Roboto" FontSize="24"/>
             <Label Content="Impuesto de Venta (IVA)" HorizontalAlignment="Left" Margin="10,167,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox HorizontalAlignment="Left" Margin="10,211,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="950" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+            <TextBox x:Name="iva" HorizontalAlignment="Left" Margin="10,211,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="950" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
             <Label Content="Impuesto de Servicio" HorizontalAlignment="Left" Margin="10,288,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox HorizontalAlignment="Left" Margin="10,332,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="950" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black" BorderBrush="White"/>
-            <Button Content="Guardar" HorizontalAlignment="Left" Margin="835,490,0,0" VerticalAlignment="Top" Height="50" Width="125" Background="#FFABD904" FontFamily="Roboto" FontSize="24"/>
+            <TextBox x:Name="servicio" HorizontalAlignment="Left" Margin="10,332,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="950" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black" BorderBrush="White"/>
+            <Button Content="Guardar" HorizontalAlignment="Left" Margin="835,490,0,0" VerticalAlignment="Top" Height="50" Width="125" Background="#FFABD904" FontFamily="Roboto" FontSize="24" Click="Button_Click"/>
             <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" Foreground="White" Margin="46,573,46,0" FontFamily="Roboto" FontSize="24" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
         </Grid>
     </ScrollViewer>

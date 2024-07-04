@@ -42,7 +42,7 @@ namespace FrontEndWPF
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			if (!Nombre.Text.Equals("") || !Cedula.Text.Equals("") || !Apellidos.Text.Equals("") || !Correo.Text.Equals("") || !Telefono.Text.Equals("")) {
+			if (!Nombre.Text.Equals("") && !Cedula.Text.Equals("") && !Apellidos.Text.Equals("") && !Correo.Text.Equals("") && !Telefono.Text.Equals("")) {
 				nombre = Nombre.Text;
 				cedula = Cedula.Text;
 				apellidos = Apellidos.Text;

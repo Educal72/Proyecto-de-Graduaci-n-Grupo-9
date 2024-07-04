@@ -99,9 +99,10 @@ namespace FrontEndWPF.ViewModel
 
 			using (SqlConnection connection = conexion.OpenConnection())
 			{
-				using (var command = new SqlCommand("SELECT Id, FechaHoraCreacion, Estado FROM Orden WHERE Estado != @Estado", connection))
+				using (var command = new SqlCommand("SELECT Id, FechaHoraCreacion, Estado FROM Orden WHERE Estado != @Estado AND Estado != @Estado2", connection))
 				{
 					command.Parameters.Add(new SqlParameter("@Estado", "Eliminada"));
+					command.Parameters.Add(new SqlParameter("@Estado2", "Facturada"));
 					using (var reader = command.ExecuteReader())
 					{
 						while (reader.Read())
@@ -210,6 +211,63 @@ namespace FrontEndWPF.ViewModel
 					command.ExecuteNonQuery();
 				}
 			}
+		}
+
+		public Dictionary<string, object> GetOrdenConProductosById(int id)
+		{
+			var orden = GetOrdenById(id);
+			var productos = GetProductosByOrdenId(orden.Id);
+			return new Dictionary<string, object>
+		{
+			{ "Orden", orden },
+			{ "Productos", productos }
+		};
+		}
+
+		public Orden GetOrdenById(int id)
+		{
+			var orden = new Orden();
+
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				using (var command = new SqlCommand("SELECT Id, FechaHoraCreacion, Estado FROM Orden WHERE Estado != @Estado AND Id = @Id", connection))
+				{
+					command.Parameters.Add(new SqlParameter("@Estado", "Eliminada"));
+					command.Parameters.Add(new SqlParameter("@Id", id));
+					using (var reader = command.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							orden.Id = reader.GetInt32(0);
+							orden.Creacion = reader.GetDateTime(1);
+							orden.Estado = reader.GetString(2);
+						}
+					}
+				}
+			}
+
+			return orden;
+		}
+
+		public int GetProductIdByCodigo(int codigo)
+		{
+			int resultado = 0;
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				using (var command = new SqlCommand("SELECT Id FROM Productos WHERE Codigo = @Codigo", connection))
+				{
+					command.Parameters.Add(new SqlParameter("@Codigo", codigo));
+					using (var reader = command.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							resultado = reader.GetInt32(0);
+						}
+					}
+				}
+			}
+
+			return resultado;
 		}
 	}
 }

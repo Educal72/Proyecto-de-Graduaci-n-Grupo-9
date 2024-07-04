@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static FrontEndWPF.Modelos.UserModel;
 
 namespace FrontEndWPF
 {
@@ -22,8 +24,10 @@ namespace FrontEndWPF
 	public partial class saloneroAsociar : Window
 	{
 		private DispatcherTimer timer;
+		Conexion conexion = new Conexion();
 		private ICollectionView customerView;
 		public string NombreCompleto { get; set; }
+		public int IdUsuario { get; set; }
 		public saloneroAsociar()
 		{
 			InitializeComponent();
@@ -32,43 +36,51 @@ namespace FrontEndWPF
 			timer.Tick += Timer_Tick;
 			timer.Start();
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
-			LoadCustomers();
+			LoadData();
 		}
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 		}
 
-		private void LoadCustomers()
+		private void LoadData()
 		{
-			var cliente1 = new Cliente
+			string query = @"
+                SELECT IdUsuario, u.Nombre, u.PrimerApellido, u.SegundoApellido, u.Cedula, u.Telefono, u.Correo, u.Contraseña, u.IdRol, u.FechaCreacion, e.Puesto, e.Salario, e.Direccion, e.Activo
+                FROM Usuario u
+                JOIN Empleado e ON u.Id = e.IdUsuario";
+
+			List<Cliente> usuariosEmpleados = new List<Cliente>();
+
+			using (SqlConnection connection = conexion.OpenConnection())
 			{
-				Cedula = "1122334455",
-				Nombre = "Salonero 1",
-				Apellidos = "Salonero 1",
-				CorreoElectronico = "salonero1@gmail.com",
-				Telefono = "11223344",
-			};
-			var cliente2 = new Cliente
-			{
-				Cedula = "1234567890",
-				Nombre = "John",
-				Apellidos = "Doe",
-				CorreoElectronico = "john.doe@example.com",
-				Telefono = "123-456-7890",
-			};
-			var cliente3 = new Cliente
-			{
-				Cedula = "0987654321",
-				Nombre = "Jane",
-				Apellidos = "Smith",
-				CorreoElectronico = "jane.smith@example.com",
-				Telefono = "987-654-3210",
-			};
-			CustomerDataGrid.Items.Add(cliente1);
-			CustomerDataGrid.Items.Add(cliente2);
-			CustomerDataGrid.Items.Add(cliente3);
+				try
+				{
+					SqlCommand command = new SqlCommand(query, connection);
+					SqlDataReader reader = command.ExecuteReader();
+
+					while (reader.Read())
+					{
+						usuariosEmpleados.Add(new Cliente
+						{
+							Id = Convert.ToInt32(reader["IdUsuario"]),
+							Nombre = reader["Nombre"].ToString(),
+							Apellidos = reader["PrimerApellido"].ToString() + " " + reader["SegundoApellido"].ToString(),
+							CorreoElectronico = reader["Correo"].ToString(),
+							Cedula = reader["Cedula"].ToString(),
+							Telefono = reader["Telefono"].ToString()
+						});
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: " + ex.Message);
+				}
+			}
+
+			CustomerDataGrid.ItemsSource = usuariosEmpleados;
 		}
+
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
@@ -77,11 +89,13 @@ namespace FrontEndWPF
 			if (selectedCustomer != null)
 			{
 				NombreCompleto = selectedCustomer.Nombre + " " + selectedCustomer.Apellidos;
+				IdUsuario = selectedCustomer.Id;
 				DialogResult = true;
 			}
 		}
 		public class Cliente
 		{
+			public int Id { get; set; }
 			public string Cedula { get; set; }
 			public string Nombre { get; set; }
 			public string Apellidos { get; set; }

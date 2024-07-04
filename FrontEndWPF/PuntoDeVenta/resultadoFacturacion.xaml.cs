@@ -31,6 +31,11 @@ namespace FrontEndWPF
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			this.Close();
+			MainWindow mainWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+			if (mainWindow != null)
+			{
+				mainWindow.ChangePageToPuntoVenta();
+			}
 		}
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)

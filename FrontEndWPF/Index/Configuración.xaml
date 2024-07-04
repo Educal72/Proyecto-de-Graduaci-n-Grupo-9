@@ -56,7 +56,6 @@
             </ListBox.Resources>
             <ListBoxItem Content="Restaurante" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,15,10,10"/>
             <ListBoxItem Content="Perifericos" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-            <ListBoxItem Content="Base de Datos" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
             <ListBoxItem Content="Impuesto" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
         </ListBox>
         <ContentControl x:Name="ContentArea" Grid.Row="0" Margin="200,190,0,0"/>
