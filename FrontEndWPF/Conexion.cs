@@ -10,6 +10,7 @@ using System.IO;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Windows.Shapes;
 using System.Reflection.Metadata.Ecma335;
+using FrontEndWPF.Index;
 
 namespace FrontEndWPF
 {
@@ -819,6 +820,13 @@ namespace FrontEndWPF
             return success;
         }
 
+
+        /*
+         * Método que valida si el correo existe o no existe en la base de datos -
+         * de Molino Central de Coronado. Esto por medio de un procedimiento -
+         * almacenado conocido como: RecuperarContraseña, el cual es un procedimiento -
+         * almacenado que es compartido con el método: InsertarNuevaContraseña().
+         */
         public bool ValidarCorreo(string correo)
         {
             bool success = false;
@@ -827,19 +835,20 @@ namespace FrontEndWPF
             {
                 if (connection != null)
                 {
-                    string query = "Exec RecuperarContraseña @Correo";
+                    string query = "Exec RecuperarContraseña @Correo, @PermiteComando, @ContraseñaNueva";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Correo", correo);
-
+                        command.Parameters.AddWithValue("@PermiteComando", 0);
+                        command.Parameters.AddWithValue("@ContraseñaNueva", string.Empty);
 
                         object ValidaDato = command.ExecuteScalar();
                         success = (ValidaDato != null && ValidaDato != DBNull.Value);
 
                         if(success == false)
                         {
-                            MessageBox.Show("Error executing the select.", "¡Error!", MessageBoxButton.OK, MessageBoxImage.Error);
-                            //Console.WriteLine("Error executing the select.");
+                            MessageBox.Show("El correo no existe dentro de Molino Central de Coronado.",
+                                "¡Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                         } 
 
                     }
@@ -850,6 +859,66 @@ namespace FrontEndWPF
             return success;
         }
 
+        /*
+         * Método que sirve para poder registar la nueva contraseña que esta colocando el usuario, -
+         * además de su correo asociado, también se valida si la contraseña y el correo no son datos nulos, -
+         * esto por motivos de buenas prácticas, después de esto, si la contraseña y el correo no son nulos, -
+         * estos son enviados al procedimiento almacenado conocido como: RecuperarContraseña, el cual es un -
+         * procedimiento almacenado que es compartido con el método: ValidarCorreo().
+         */
+        public bool InsertarNuevaContraseña(string correo, string contraseña)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "Exec RecuperarContraseña @Correo, @PermiteComando, @ContraseñaNueva";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        if (contraseña != string.Empty && correo != string.Empty)
+                        {
+                            command.Parameters.AddWithValue("@Correo", correo);
+                            command.Parameters.AddWithValue("@PermiteComando", 1);
+                            command.Parameters.AddWithValue("@ContraseñaNueva", HashPassword(contraseña));
+                            try
+                            {
+                                int rowsAffected = command.ExecuteNonQuery();
+                                success = rowsAffected > 0;
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error executing insert query: " + ex.Message);
+                            }
+
+                            MessageBox.Show("El cambio de contraseña fue totalmente exitoso, inicie sesión nuevamente, gracias.",
+                                "Cambio de contraseña.", MessageBoxButton.OK, MessageBoxImage.Information);
+                            Envio(true);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Parece que hubo un error durante el proceso de cambiar su contraseña, intentelo de nuevo.",
+                            "¡Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                            Envio(false);
+                        }
+
+                    }
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+        public void Envio(bool dato)
+        {
+         /*
+         * Intancia a la clase de: CambioContraseña.
+         */
+            var cambioContraseña = new CambioContraseña();
+            cambioContraseña.ErrorEnvio(dato);
+        }
 
         public string HashPassword(string password)
         {

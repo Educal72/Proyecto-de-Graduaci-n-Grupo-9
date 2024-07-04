@@ -55,7 +55,15 @@
                      Width="382" Background="Black" FontFamily="Roboto" 
                      FontSize="16" Foreground="White" 
                      BorderBrush="#FF262626" Height="37" Padding="5,0,0,0" Margin="0,386,0,0" HorizontalAlignment="Center"/>
-        <Button Content="Recuperar Contraseña" VerticalAlignment="Top" FontFamily="Roboto Black" FontSize="20" Background="#FF72A603" BorderBrush="#FF377D35" Width="246" Height="43" Click="Button_Click_1" Foreground="White" Margin="150,458,0,0" HorizontalAlignment="Left"/>
+        
+        <Button Content="Recuperar Contraseña" VerticalAlignment="Top"
+                FontFamily="Roboto Black" FontSize="20" 
+                Background="#FF72A603" BorderBrush="#FF377D35" 
+                Width="246" Height="43" 
+                Click="Button_RecuperarContraseña" Foreground="White" 
+                Margin="150,458,0,0" HorizontalAlignment="Left"/>
+        
+        
         <Button Content="Salir"
                 VerticalAlignment="Top"
                 FontFamily="Roboto Black"
