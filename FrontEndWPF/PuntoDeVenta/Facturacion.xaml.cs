@@ -53,9 +53,6 @@ namespace FrontEndWPF
 		{
 			this.idOrden = idOrden;
 			InitializeComponent();
-            viewModel = new FacturacionViewModel();
-            this.DataContext = viewModel;
-            viewModel.LoadProductosCarrito(orderId);
 
             timer = new DispatcherTimer();
 			timer.Interval = TimeSpan.FromSeconds(1);
@@ -161,7 +158,7 @@ namespace FrontEndWPF
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			pagado.Text = totalTextBox.ToString();
+			pagado.Text = Total.ToString();
 		}
 
 		private void Button_Click_2(object sender, RoutedEventArgs e)

@@ -28,7 +28,6 @@ namespace FrontEndWPF.ViewModel
         public FacturacionViewModel()
         {
             // Inicializar la lista de productos en el carrito con los productos de la orden seleccionada
-            ProductosCarrito = new ObservableCollection<Producto>(SelectedOrderService.SelectedOrder?.Productos ?? new List<Producto>());
         }
     }
 }
