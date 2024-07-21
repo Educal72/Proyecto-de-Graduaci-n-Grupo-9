@@ -52,5 +52,22 @@ namespace FrontEndWPF.Modelos
             public DateTime FechaCreacion { get; set; } 
             public decimal Salario { get; set; }
         }
+
+        /*
+         * Entidades que almacenan los datos de los -
+         * incidentes.
+         */
+        public class Incidente
+        {
+            public string Usuario { get; set; } //Nombre del usuario (empleado) que tendra ese incidente.
+            public DateTime Fecha { get; set; }  // Fecha en que ocurrió el incidente.
+            public string Hora { get; set; }  // Hora del incidente.
+            public string Descripcion { get; set; }  // Descripción del incidente.
+            public string Tipo { get; set; }  // Si es un estado interno ó externo.
+            public string Estado { get; set; } // Si el incidente esta resuelto o no esta resuelto.
+
+
+        }
+        
     }
 }

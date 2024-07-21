@@ -15,6 +15,7 @@ namespace FrontEndWPF
     {
         Conexion conexion = new Conexion();
 
+        /*|==========================================================| ZONA DE MÉTODOS OBTENCIÓN DE DATOS |==========================================================*/
         public int GetUserIdByEmailCedula(string correo, string cedula)
         {
             using (SqlConnection connection = conexion.OpenConnection())
@@ -37,6 +38,39 @@ namespace FrontEndWPF
                         else
                         {
                             Console.WriteLine("Planilla no Existe.");
+                            return 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        return 0;
+                    }
+                }
+            }
+        }
+
+        public int GetUserIdByEmai(string correo)
+        {
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                int userId;
+                string query = "SELECT Id FROM Usuario WHERE Correo = @Correo";
+
+                using (SqlCommand userCommand = new SqlCommand(query, connection))
+                {
+                    userCommand.Parameters.AddWithValue("@Correo", correo);
+                    try
+                    {
+                        object result = userCommand.ExecuteScalar();
+                        if (result != null)
+                        {
+                            userId = Convert.ToInt32(result);
+                            return userId;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Usuario no existe para el incidente.");
                             return 0;
                         }
                     }
@@ -89,6 +123,140 @@ namespace FrontEndWPF
             return result;
         }
 
+
+        /* Método que trae todos los nombres de los usuarios -
+         * registrados y lo pone en una lista.*/
+        public List<string> Usuarios()
+        {
+            List<string> TodosLosUsuarios = new List<string>();
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT Nombre FROM Usuario";
+                    string NombreUsuarios;
+
+                    using (SqlCommand roleCommand = new SqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            SqlDataReader reader = roleCommand.ExecuteReader();
+
+                            while (reader.Read())
+                            {
+                                NombreUsuarios = reader["Nombre"].ToString()!;
+                                TodosLosUsuarios.Add(NombreUsuarios);
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
+                                "\nSi el error persiste, contacte con el soporte, muchas gracias.", "¡Error!: " + ex.Message,
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
+            }
+            return TodosLosUsuarios;
+        }
+
+        /* Método que se encarga de dar el ID del usuario -
+         * que se le esta pasando por párametro.*/
+        public string getIdUsuario(string Usuario)
+        {
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT Id FROM Usuario WHERE Nombre = @Nombre";
+                    string idUsuario;
+
+                    using (SqlCommand roleCommand = new SqlCommand(query, connection))
+                    {
+                        roleCommand.Parameters.AddWithValue("@Nombre", Usuario);
+
+                        try
+                        {
+                            object result = roleCommand.ExecuteScalar();
+                            if (result != null)
+                            {
+                                idUsuario = result.ToString()!;
+                                return idUsuario;
+                            }
+                            else
+                            {
+                                MessageBox.Show("El id del usuario no fue encontrado.", "¡Error!",
+                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                                return "";
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
+                                "\nSi el error persiste, contacte con el soporte, muchas gracias.", "¡Error!: " + ex.Message,
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+                            return "";
+                        }//Fin del Try Catch.
+                    }//Fin del usign (SqlCommand roleCommand = new SqlCommand(query, connection)).
+                }//Fin del if (connection != null).
+                else
+                {
+                    return "";
+
+                }//Fin del else.
+            }//Fin del using (SqlConnection connection = OpenConnection()).
+        }//Fin del método.
+
+
+        /* Método que trae el nombre del usuario por el id -
+         * que se pasa por parámetro de entrada.*/
+        public string UsuarioPorID(int id)
+        {
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT Nombre FROM Usuario Where Id = @ID";
+                    string NombreUsuario;
+
+                    using (SqlCommand roleCommand = new SqlCommand(query, connection))
+                    {
+                        roleCommand.Parameters.AddWithValue("ID", id);
+                        try
+                        {
+                            object result = roleCommand.ExecuteScalar();
+                            if (result != null)
+                            {
+                                NombreUsuario = result.ToString()!;
+                                return NombreUsuario;
+                            }
+                            else
+                            {
+                                MessageBox.Show("No hay un usuario con ese id proporcionado, intentelo de nuevo por favor.", "¡Error!", 
+                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                                Console.WriteLine("Nombres de los usuarios no se pudo hacer.");
+                                return "";
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
+                                "\nSi el error persiste, contacte con el soporte, muchas gracias.", "¡Error!: " + ex.Message,
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+                            return "";
+                        }
+                    }
+                }
+                else
+                {
+                    return "";
+
+                }
+            }
+        }
+
+        /*|==========================================================| ZONA DE MÉTODOS TIPO CRUD |==========================================================*/
         public bool AgregarPlanilla(string nombre, string apellidos, string cedula, string puesto, 
             string correo, DateTime fechaCreacion, double salario)
         {
@@ -209,19 +377,85 @@ namespace FrontEndWPF
         }
 
 
+        /* Método que agrega un nuevo incidente en la BD.*/
+        public bool AgregarIncidente(DateTime fecha, string hora, string descripcion, 
+            string tipoIncidente, string Usuario)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                if (connection != null)
+                {
+                    int idUsuario = Convert.ToInt32(Usuario);
+                    string query = "EXEC CrearIncidentes @Fecha, @Hora, @Descripcion, @Tipo, @IdUsuario";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Fecha", fecha);
+                        command.Parameters.AddWithValue("@Hora", hora);
+                        command.Parameters.AddWithValue("@Descripcion", descripcion);
+                        command.Parameters.AddWithValue("@Tipo", tipoIncidente);
+                        command.Parameters.AddWithValue("@IdUsuario", idUsuario);
 
 
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Hubo un problema en la inserción de los datos, intentelo de nuevo por favor.",
+                                "¡Error!" + ex, MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
 
 
+                    conexion.CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
 
 
+        /* Método que marca un incidente como: "Resuelto ó No resuelto" en la BD.*/
+        public bool MarcarIncidente(string estado, string Usuario)
+        {
+            bool success = false;
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                if (connection != null)
+                {
+                    int idUsuario = Convert.ToInt32(Usuario);
+                    string query = "Exec MarcarResueltoIncidente @Estado, @IdUsuario";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Estado", estado);
+                        command.Parameters.AddWithValue("@IdUsuario", idUsuario);
 
 
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Hubo un error en la marcación, intentelo de nuevo por favor.",
+                                "¡Error! \n" + ex + "\n", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                    conexion.CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
 
 
-
-
-
-
-    }
-}
+    }//Fin de la clase: ConexionEmpleado.
+}//Fin del namespace: FrontEndWPF.
