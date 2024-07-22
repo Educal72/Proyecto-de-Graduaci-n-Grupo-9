@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using System.Reflection.Metadata.Ecma335;
 using FrontEndWPF.Index;
 using FrontEndWPF.Modelos;
+using static FrontEndWPF.Modelos.UserModel;
 
 namespace FrontEndWPF
 {
@@ -837,16 +838,15 @@ namespace FrontEndWPF
 
             return success;
         }
-
-        public List<UserModel.UsuarioEmpleado> DropdownUsuarios()
+        public List<UsuarioEmpleado> DropdownUsuarios()
         {
-            List<UserModel.UsuarioEmpleado> usuarios = new List<UserModel.UsuarioEmpleado>();
+            List<UsuarioEmpleado> usuarios = new List<UsuarioEmpleado>();
 
             using (SqlConnection connection = OpenConnection())
             {
                 if (connection != null)
                 {
-                    string query = "SELECT Nombre, PrimerApellido, SegundoApellido FROM Usuario";
+                    string query = "SELECT Id, Nombre, PrimerApellido, SegundoApellido FROM Usuario";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         try
@@ -855,8 +855,9 @@ namespace FrontEndWPF
                             {
                                 while (reader.Read())
                                 {
-                                    UserModel.UsuarioEmpleado usuario = new UserModel.UsuarioEmpleado
+                                    UsuarioEmpleado usuario = new UsuarioEmpleado
                                     {
+                                        Id = Convert.ToInt32(reader["Id"]), // Asegúrate de convertir el ID a entero
                                         Nombre = reader["Nombre"].ToString(),
                                         PrimerApellido = reader["PrimerApellido"].ToString(),
                                         SegundoApellido = reader["SegundoApellido"].ToString()

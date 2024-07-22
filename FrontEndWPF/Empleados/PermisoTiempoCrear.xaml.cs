@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using FrontEndWPF.Modelos;
@@ -18,6 +17,7 @@ namespace FrontEndWPF
         {
             InitializeComponent();
             viewModel = new PermisoDeTiempoViewModel();
+            DataContext = viewModel; // Enlaza el ViewModel con el DataContext
             CargarUsuarios(); // Cargar los usuarios al inicializar la ventana
         }
 
@@ -29,8 +29,8 @@ namespace FrontEndWPF
 
             // Configura el ComboBox con la lista de usuarios
             UsuarioComboBox.ItemsSource = usuarios;
-            UsuarioComboBox.DisplayMemberPath = "Nombre"; // O el campo que desees mostrar
-            UsuarioComboBox.SelectedValuePath = "Cedula"; // O el campo que desees usar como valor
+            UsuarioComboBox.DisplayMemberPath = "Nombre"; // Campo para mostrar en el ComboBox
+            UsuarioComboBox.SelectedValuePath = "Id"; // Campo que se usará como valor
         }
 
         private void Button_Click_Crear(object sender, RoutedEventArgs e)
@@ -47,13 +47,33 @@ namespace FrontEndWPF
                 return;
             }
 
-            // Aquí puedes agregar la lógica para guardar los datos
-            // Aquí deberías llamar al método para guardar los datos en la base de datos, incluyendo el usuario seleccionado
+            if (fechaInicio == null || fechaFin == null || string.IsNullOrWhiteSpace(motivo))
+            {
+                MessageBox.Show("Por favor, complete todos los campos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
-            MessageBox.Show("Permiso de tiempo creado exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (fechaFin < fechaInicio)
+            {
+                MessageBox.Show("La fecha de fin no puede ser anterior a la fecha de inicio.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
-            // Cerrar la ventana después de crear el permiso
-            this.Close();
+            // Obtener el Id del usuario seleccionado
+            int idEmpleado = (int)UsuarioComboBox.SelectedValue;
+
+            // Llamar al método de creación en el ViewModel con los parámetros correctos
+            bool resultado = viewModel.CrearPermisoTiempo(idEmpleado, fechaInicio.Value, fechaFin.Value, motivo);
+
+            if (resultado)
+            {
+                MessageBox.Show("Permiso de tiempo creado exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close(); // Cerrar la ventana después de crear el permiso
+            }
+            else
+            {
+                MessageBox.Show("Hubo un error al crear el permiso de tiempo. Inténtelo nuevamente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Button_Click_Cancelar(object sender, RoutedEventArgs e)

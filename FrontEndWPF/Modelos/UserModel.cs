@@ -10,7 +10,8 @@ namespace FrontEndWPF.Modelos
 	{
 		public class UsuarioEmpleado
 		{
-			public string Nombre { get; set; }
+            public int Id { get; set; }
+            public string Nombre { get; set; }
 			public string PrimerApellido { get; set; }
 			public string SegundoApellido { get; set; }
 			public string Cedula { get; set; }
@@ -23,10 +24,7 @@ namespace FrontEndWPF.Modelos
 			public decimal Salario { get; set; }
             public string Direccion { get; set; }
             public bool Activo { get; set; }
-
-
         }
-
         public class EmpleadoDesvinculacion
         {
             public int Id { get; set; } // Identificador único de la desvinculación
