@@ -264,7 +264,54 @@ namespace FrontEndWPF
             return productos;
         }
 
-		public List<Dictionary<string, object>> GetProductosActivos()
+        public List<Dictionary<string, object>> GetPermisosDeTiempo()
+        {
+            var permisos = new List<Dictionary<string, object>>();
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT IdEmpleado, FechaInicio, FechaFin, Motivo, Estado FROM PermisosDeTiempo";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var permiso = new Dictionary<string, object>();
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        string fieldName = reader.GetName(i);
+                                        if (!reader.IsDBNull(i))
+                                        {
+                                            permiso[fieldName] = reader.GetValue(i);
+                                        }
+                                        else
+                                        {
+                                            permiso[fieldName] = null;
+                                        }
+                                    }
+                                    permisos.Add(permiso);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return permisos;
+        }
+
+        public List<Dictionary<string, object>> GetProductosActivos()
 		{
 			var productos = new List<Dictionary<string, object>>();
 

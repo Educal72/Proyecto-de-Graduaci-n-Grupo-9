@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrontEndWPF.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static FrontEndWPF.empleadosAdmin;
+using FrontEndWPF.Modelos;
 
 namespace FrontEndWPF
 {
@@ -21,45 +22,30 @@ namespace FrontEndWPF
 	/// </summary>
 	public partial class PermisoTiempo : UserControl
 	{
-		List<PermisoDeTiempo> permisos = new List<PermisoDeTiempo>();
-		public PermisoTiempo()
-		{
-			InitializeComponent();
-			PopulateDataGrid();
-		}
 
-		public void PopulateDataGrid()
+        public PermisoTiempo()
+        {
+            InitializeComponent();
+            this.DataContext = new PermisoDeTiempoViewModel();
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			permisos = new List<PermisoDeTiempo>
-			{
-			new PermisoDeTiempo { Empleado = "Nombre Apellidos", FechaInicio = DateTime.Now, FechaFin = DateTime.Now.AddDays(2), Motivo = "Inicio de Sesión", Aprobado = true },
-			new PermisoDeTiempo { Empleado = "Nombre Apellidos", FechaInicio = DateTime.Now, FechaFin = DateTime.Now.AddDays(1), Motivo = "Cerrado de Sesión", Aprobado = false },
-			new PermisoDeTiempo { Empleado = "Nombre Apellidos", FechaInicio = DateTime.Now, FechaFin = DateTime.Now.AddDays(3), Motivo = "Inicio de Sesión", Aprobado = true },
-			new PermisoDeTiempo { Empleado = "Nombre Apellidos", FechaInicio = DateTime.Now, FechaFin = DateTime.Now.AddDays(5), Motivo = "Inicio de Sesión", Aprobado = true },
-			new PermisoDeTiempo { Empleado = "Nombre Apellidos", FechaInicio = DateTime.Now, FechaFin = DateTime.Now.AddDays(4), Motivo = "Cerrado de Sesión", Aprobado = false } 
-			};
-
-			PermisoTiempoDataGrid.ItemsSource = permisos;
-		}
-
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeTiempo;
-			if (selectedItem != null)
-			{
-				selectedItem.Aprobado = false;
-				PermisoTiempoDataGrid.Items.Refresh();
-			}
-		}
+            var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeTiempo;
+            if (selectedItem != null)
+            {
+                selectedItem.Estado = "No aprobado"; // Cambiar el valor del estado a una cadena representativa
+                PermisoTiempoDataGrid.Items.Refresh();
+            }
+        }
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeTiempo;
-			if (selectedItem != null)
-			{
-				selectedItem.Aprobado = true;
-				PermisoTiempoDataGrid.Items.Refresh();
-			}
-		}
+            var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeTiempo;
+            if (selectedItem != null)
+            {
+                selectedItem.Estado = "Aprobado"; // Cambiar el valor del estado a una cadena representativa
+                PermisoTiempoDataGrid.Items.Refresh();
+            }
+        }
 	}
 }
