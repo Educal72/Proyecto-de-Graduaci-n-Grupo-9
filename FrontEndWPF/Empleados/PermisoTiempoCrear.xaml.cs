@@ -1,35 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using FrontEndWPF.Modelos;
+using FrontEndWPF.ViewModel;
+using static FrontEndWPF.Modelos.UserModel;
 
 namespace FrontEndWPF
 {
     public partial class PermisoTiempoCrear : Window
     {
+        private PermisoDeTiempoViewModel viewModel;
+        private List<UsuarioEmpleado> usuarios; // Lista de usuarios
+
         public PermisoTiempoCrear()
         {
             InitializeComponent();
+            viewModel = new PermisoDeTiempoViewModel();
+            CargarUsuarios(); // Cargar los usuarios al inicializar la ventana
+        }
+
+        private void CargarUsuarios()
+        {
+            // Llama al método dropdownUsuarios del ViewModel para obtener la lista de usuarios
+            Conexion conexion = new Conexion();
+            usuarios = conexion.DropdownUsuarios();
+
+            // Configura el ComboBox con la lista de usuarios
+            UsuarioComboBox.ItemsSource = usuarios;
+            UsuarioComboBox.DisplayMemberPath = "Nombre"; // O el campo que desees mostrar
+            UsuarioComboBox.SelectedValuePath = "Cedula"; // O el campo que desees usar como valor
         }
 
         private void Button_Click_Crear(object sender, RoutedEventArgs e)
         {
-            // Aquí puedes agregar la lógica para guardar los datos
+            // Obtener los datos del formulario
             var fechaInicio = FechaInicioPicker.SelectedDate;
             var fechaFin = FechaFinPicker.SelectedDate;
             var motivo = MotivoTextBox.Text;
+            var usuarioSeleccionado = UsuarioComboBox.SelectedItem as UsuarioEmpleado;
 
-            // Aquí deberías llamar al método para guardar los datos en la base de datos
+            if (usuarioSeleccionado == null)
+            {
+                MessageBox.Show("Por favor, seleccione un usuario.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Aquí puedes agregar la lógica para guardar los datos
+            // Aquí deberías llamar al método para guardar los datos en la base de datos, incluyendo el usuario seleccionado
 
             MessageBox.Show("Permiso de tiempo creado exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
 
