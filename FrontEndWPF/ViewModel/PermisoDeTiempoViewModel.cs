@@ -23,10 +23,24 @@ namespace FrontEndWPF.ViewModel
             }
         }
 
+        // Nueva propiedad para los usuarios
+        private ObservableCollection<UserModel.UsuarioEmpleado> _usuarios;
+        public ObservableCollection<UserModel.UsuarioEmpleado> Usuarios
+        {
+            get { return _usuarios; }
+            set
+            {
+                _usuarios = value;
+                OnPropertyChanged("Usuarios");
+            }
+        }
+
         public PermisoDeTiempoViewModel()
         {
             _permisosDeTiempo = new ObservableCollection<PermisoDeTiempo>();
+            _usuarios = new ObservableCollection<UserModel.UsuarioEmpleado>(); // Inicialización de la colección de usuarios
             LoadPermisosDeTiempo();
+            LoadUsuarios(); // Cargar usuarios al inicializar el ViewModel
         }
 
         private void LoadPermisosDeTiempo()
@@ -47,6 +61,18 @@ namespace FrontEndWPF.ViewModel
                 _permisosDeTiempo.Add(permiso);
             }
         }
+
+        private void LoadUsuarios()
+        {
+            Conexion conexion = new Conexion();
+            var usuariosList = conexion.DropdownUsuarios(); // Llamada al nuevo método DropdownUsuarios
+
+            foreach (var usuario in usuariosList)
+            {
+                Usuarios.Add(usuario); // Añadir usuarios a la colección
+            }
+        }
+
         public bool UpdateEstadoPermisoDeTiempo(int idEmpleado, string nuevoEstado)
         {
             Conexion conexion = new Conexion();
