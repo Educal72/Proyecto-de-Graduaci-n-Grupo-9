@@ -70,6 +70,7 @@ namespace FrontEndWPF
             if (resultado)
             {
                 MessageBox.Show("Permiso de tiempo actualizado exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                DialogResult = true;
                 this.Close(); // Cerrar la ventana después de actualizar el permiso
             }
             else
@@ -80,6 +81,7 @@ namespace FrontEndWPF
 
         private void Button_Click_Cancelar(object sender, RoutedEventArgs e)
         {
+            DialogResult = false;
             // Cerrar la ventana sin hacer cambios
             this.Close();
         }

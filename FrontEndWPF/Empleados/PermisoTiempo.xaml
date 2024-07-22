@@ -26,7 +26,7 @@
         </Style>
     </UserControl.Resources>
     <Grid Background="Black">
-        <DataGrid x:Name="PermisoTiempoDataGrid" AutoGenerateColumns="True" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*" ItemsSource="{Binding PermisosDeTiempo}" SelectionMode="Single" SelectionUnit="FullRow"/>
+        <DataGrid x:Name="PermisoTiempoDataGrid" AutoGenerateColumns="True" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*" ItemsSource="{Binding PermisosDeTiempo}" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="PermisoTiempoDataGrid_SelectionChanged"/>
 
         <!-- Botones -->
         <Button Content="No" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="58" FontFamily="Roboto" FontSize="18" Click="Button_Click" Margin="342,5,0,0"/>

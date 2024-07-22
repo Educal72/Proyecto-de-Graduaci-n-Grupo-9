@@ -68,6 +68,7 @@ namespace FrontEndWPF
             if (resultado)
             {
                 MessageBox.Show("Permiso de tiempo creado exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                DialogResult = true;
                 this.Close(); // Cerrar la ventana después de crear el permiso
             }
             else
@@ -79,6 +80,7 @@ namespace FrontEndWPF
         private void Button_Click_Cancelar(object sender, RoutedEventArgs e)
         {
             // Cerrar la ventana sin hacer cambios
+            DialogResult = false;
             this.Close();
         }
     }

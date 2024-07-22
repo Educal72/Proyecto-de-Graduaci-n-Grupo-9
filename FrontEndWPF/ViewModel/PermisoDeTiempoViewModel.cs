@@ -12,7 +12,7 @@ namespace FrontEndWPF.ViewModel
 {
     public class PermisoDeTiempoViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<PermisoDeTiempo> _permisosDeTiempo;
+        public ObservableCollection<PermisoDeTiempo> _permisosDeTiempo;
         public ObservableCollection<PermisoDeTiempo> PermisosDeTiempo
         {
             get { return _permisosDeTiempo; }
@@ -45,6 +45,7 @@ namespace FrontEndWPF.ViewModel
 
         private void LoadPermisosDeTiempo()
         {
+            _permisosDeTiempo.Clear();
             Conexion conexion = new Conexion();
             var permisosList = conexion.GetPermisosDeTiempo();
 

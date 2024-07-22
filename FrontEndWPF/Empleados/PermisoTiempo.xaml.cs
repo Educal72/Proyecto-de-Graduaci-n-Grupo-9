@@ -109,7 +109,12 @@ namespace FrontEndWPF
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             var permisoTiempoCrear = new PermisoTiempoCrear();
-             permisoTiempoCrear.Show();
+            if (permisoTiempoCrear.ShowDialog() == true)
+            {
+                _viewModel = new PermisoDeTiempoViewModel();
+                PermisoTiempoDataGrid.ItemsSource = _viewModel._permisosDeTiempo;
+            }
+
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
@@ -121,8 +126,11 @@ namespace FrontEndWPF
             {
                 // Abrir la ventana de edición y pasar el permiso seleccionado
                 PermisoTiempoEditar editarVentana = new PermisoTiempoEditar(selectedItem);
-                editarVentana.ShowDialog(); // Mostrar la ventana como un cuadro de diálogo modal
-
+                if (editarVentana.ShowDialog() == true)
+                {
+                    _viewModel = new PermisoDeTiempoViewModel();
+                    PermisoTiempoDataGrid.ItemsSource = _viewModel._permisosDeTiempo;
+                }
                 // Refrescar el DataGrid después de cerrar la ventana de edición
                 // Esto asegura que se actualicen los cambios realizados
                 PermisoTiempoDataGrid.Items.Refresh();
@@ -133,5 +141,9 @@ namespace FrontEndWPF
             }
         }
 
+        private void PermisoTiempoDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
