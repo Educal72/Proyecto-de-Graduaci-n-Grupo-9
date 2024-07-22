@@ -634,7 +634,45 @@ namespace FrontEndWPF
             return success;
         }
 
-		public bool ActualizarProducto(int id, int codigo, string nombre, string categoria, decimal precio, bool activo)
+        public bool CrearPermisoTiempo(int idEmpleado, DateTime fechaInicio, DateTime fechaFin, string motivo)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        string query = "INSERT INTO PermisosDeTiempo (IdEmpleado, FechaInicio, FechaFin, Motivo, Estado) VALUES (@IdEmpleado, @FechaInicio, @FechaFin, @Motivo, @Estado)";
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+                            command.Parameters.AddWithValue("@FechaInicio", fechaInicio);
+                            command.Parameters.AddWithValue("@FechaFin", fechaFin);
+                            command.Parameters.AddWithValue("@Motivo", motivo);
+                            command.Parameters.AddWithValue("@Estado", "Pendiente"); // Estado por defecto
+
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error executing insert query: " + ex.Message);
+                        // Lanza la excepción para que quien llama pueda manejarla adecuadamente.
+                        throw;
+                    }
+                    finally
+                    {
+                        CloseConnection(connection);
+                    }
+                }
+            }
+
+            return success;
+        }
+        public bool ActualizarProducto(int id, int codigo, string nombre, string categoria, decimal precio, bool activo)
         {
             bool success = false;
 

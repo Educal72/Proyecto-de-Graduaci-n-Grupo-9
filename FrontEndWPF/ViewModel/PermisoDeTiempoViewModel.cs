@@ -94,6 +94,26 @@ namespace FrontEndWPF.ViewModel
             return eliminado;
         }
 
+        // Nuevo método para crear permisos de tiempo
+        public bool CrearPermisoTiempo(int idEmpleado, DateTime fechaInicio, DateTime fechaFin, string motivo)
+        {
+            Conexion conexion = new Conexion();
+            bool creado = conexion.CrearPermisoTiempo(idEmpleado, fechaInicio, fechaFin, motivo);
+            if (creado)
+            {
+                PermisoDeTiempo nuevoPermiso = new PermisoDeTiempo
+                {
+                    IdEmpleado = idEmpleado,
+                    FechaInicio = fechaInicio,
+                    FechaFin = fechaFin,
+                    Motivo = motivo,
+                    Estado = "Pendiente" // Estado por defecto
+                };
+                _permisosDeTiempo.Add(nuevoPermiso);
+            }
+            return creado;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
         {

@@ -74,7 +74,7 @@
         <TextBox x:Name="MotivoTextBox" Grid.Row="3" Grid.Column="1" Height="79" AcceptsReturn="True" VerticalAlignment="Top" Margin="5,5,33,0"/>
 
         <!-- Dropdown de Usuarios -->
-        <Label Content="Seleccionar Usuario:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Margin="0,91,10,0" Height="39"/>
+        <Label Content="Seleccionar colaborador:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Margin="0,91,10,0" Height="39"/>
         <ComboBox x:Name="UsuarioComboBox" Grid.Row="3" Grid.Column="1" Width="200" HorizontalAlignment="Left" Margin="3,94,0,10"
                   ItemsSource="{Binding Usuarios}" 
                   DisplayMemberPath="Nombre" />
