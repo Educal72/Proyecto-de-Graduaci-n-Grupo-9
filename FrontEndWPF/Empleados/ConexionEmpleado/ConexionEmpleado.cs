@@ -457,5 +457,125 @@ namespace FrontEndWPF
         }
 
 
+        /* Método que agrega un nuevo perfil competencial a la BD.*/
+        public bool AgregarPerfilCompetencial(string titulo, string descripcion, string experiencia,
+            string requisitos, string ubicacion, double salario)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "EXEC CrearPerfilCompetencial @Titulo, @Descripcion, @Experiencia, @Requisitos, @Ubicacion, @Salario";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Titulo", titulo);
+                        command.Parameters.AddWithValue("@Descripcion", descripcion);
+                        command.Parameters.AddWithValue("@Experiencia", experiencia);
+                        command.Parameters.AddWithValue("@Requisitos", requisitos);
+                        command.Parameters.AddWithValue("@Ubicacion", ubicacion);
+                        command.Parameters.AddWithValue("@Salario", salario);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("La creación del perfil competencial no se pudo completar en este momento debido a un problema técnico. " +
+                                "\nSi el problema persiste, se sugiere intentarlo más tarde o contactar al soporte técnico respectivamente.",
+                                "¡Error!" + ex, MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+
+                    conexion.CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+
+        /* Método que actualiza un perfil competencial que fue seleccionado y lo lleva a la BD.*/
+        public bool ActualizarPerfilCompetencial(int idPerfilCompetencial, string titulo, string descripcion, string experiencia,
+            string requisitos, string ubicacion, double salario)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                if (connection != null)
+                {                    
+                    string query = "Exec ActualizarPerfilCompetencial @Id, @Titulo, @Descripcion, @Experiencia, @Requisitos, @Ubicacion, @Salario";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", idPerfilCompetencial);
+                        command.Parameters.AddWithValue("@Titulo", titulo);
+                        command.Parameters.AddWithValue("@Descripcion", descripcion);
+                        command.Parameters.AddWithValue("@Experiencia", experiencia);
+                        command.Parameters.AddWithValue("@Requisitos", requisitos);
+                        command.Parameters.AddWithValue("@Ubicacion", ubicacion);
+                        command.Parameters.AddWithValue("@Salario", salario);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("La actualización del perfil competencial no se pudo completar en este momento debido a un problema técnico. " +
+                                "\nSi el problema persiste, se sugiere intentarlo más tarde o contactar al soporte técnico respectivamente.",
+                                "¡Error! \n" + ex + "\n", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                    conexion.CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+
+        /* Método que elimina un perfil competencial que fue seleccionado y lo lleva a la BD.*/
+        public bool EliminarPerfilCompetencial(int idPerfilCompetencial)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                if (connection != null)
+                {                    
+                    string query = "Exec EliminarPerfilCompetencial @Id";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", idPerfilCompetencial);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("La eliminación del perfil competencial no se pudo completar en este momento debido a un problema técnico. " +
+                                "\nSi el problema persiste, se sugiere intentarlo más tarde o contactar al soporte técnico respectivamente.",
+                                "¡Error! \n" + ex + "\n", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                    conexion.CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+
     }//Fin de la clase: ConexionEmpleado.
 }//Fin del namespace: FrontEndWPF.
