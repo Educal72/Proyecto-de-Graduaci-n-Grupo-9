@@ -125,6 +125,36 @@ namespace FrontEndWPF.ViewModel
             }
         }
 
+        // Método para actualizar permisos de tiempo
+        public bool ActualizarPermisoTiempo(int idEmpleado, DateTime nuevaFechaInicio, DateTime nuevaFechaFin, string nuevoMotivo)
+        {
+            try
+            {
+                Conexion conexion = new Conexion();
+                bool actualizado = conexion.ActualizarPermisoTiempo(idEmpleado, nuevaFechaInicio, nuevaFechaFin, nuevoMotivo);
+
+                if (actualizado)
+                {
+                    var permiso = PermisosDeTiempo.FirstOrDefault(p => p.IdEmpleado == idEmpleado);
+                    if (permiso != null)
+                    {
+                        permiso.FechaInicio = nuevaFechaInicio;
+                        permiso.FechaFin = nuevaFechaFin;
+                        permiso.Motivo = nuevoMotivo;
+                        // El estado se mantiene igual
+                    }
+                }
+
+                return actualizado;
+            }
+            catch (Exception ex)
+            {
+                // Manejo de la excepción (puedes registrar el error o mostrar un mensaje al usuario)
+                Console.WriteLine("Error al actualizar el permiso de tiempo: " + ex.Message);
+                return false;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
         {

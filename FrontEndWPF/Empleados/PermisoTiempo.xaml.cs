@@ -111,5 +111,22 @@ namespace FrontEndWPF
             var permisoTiempoCrear = new PermisoTiempoCrear();
              permisoTiempoCrear.Show();
         }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            // Obtener el permiso seleccionado en el DataGrid
+            var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeTiempo;
+
+            if (selectedItem != null)
+            {
+                // Abrir la ventana de edición y pasar el permiso seleccionado
+                PermisoTiempoEditar editarVentana = new PermisoTiempoEditar(selectedItem);
+                editarVentana.ShowDialog(); // Mostrar la ventana como un cuadro de diálogo modal
+            }
+            else
+            {
+                MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
     }
 }
