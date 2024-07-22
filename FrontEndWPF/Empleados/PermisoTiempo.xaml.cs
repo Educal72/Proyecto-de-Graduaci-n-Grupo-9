@@ -22,19 +22,28 @@ namespace FrontEndWPF
 	/// </summary>
 	public partial class PermisoTiempo : UserControl
 	{
+        private PermisoDeTiempoViewModel _viewModel;
 
         public PermisoTiempo()
         {
             InitializeComponent();
-            this.DataContext = new PermisoDeTiempoViewModel();
+            _viewModel = new PermisoDeTiempoViewModel();
+            this.DataContext = _viewModel;
         }
         private void Button_Click(object sender, RoutedEventArgs e)
 		{
             var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeTiempo;
             if (selectedItem != null)
             {
-                selectedItem.Estado = "No aprobado"; // Cambiar el valor del estado a una cadena representativa
-                PermisoTiempoDataGrid.Items.Refresh();
+                if (_viewModel.UpdateEstadoPermisoDeTiempo(selectedItem.IdEmpleado, "No aprobado"))
+                {
+                    selectedItem.Estado = "No aprobado"; // Cambiar el valor del estado a una cadena representativa
+                    PermisoTiempoDataGrid.Items.Refresh();
+                }
+                else
+                {
+                    MessageBox.Show("Error al actualizar el estado en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             else
             {
@@ -47,8 +56,15 @@ namespace FrontEndWPF
             var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeTiempo;
             if (selectedItem != null)
             {
-                selectedItem.Estado = "Aprobado"; // Cambiar el valor del estado a una cadena representativa
-                PermisoTiempoDataGrid.Items.Refresh();
+                if (_viewModel.UpdateEstadoPermisoDeTiempo(selectedItem.IdEmpleado, "Aprobado"))
+                {
+                    selectedItem.Estado = "Aprobado"; // Cambiar el valor del estado a una cadena representativa
+                    PermisoTiempoDataGrid.Items.Refresh();
+                }
+                else
+                {
+                    MessageBox.Show("Error al actualizar el estado en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             else
             {

@@ -47,6 +47,11 @@ namespace FrontEndWPF.ViewModel
                 _permisosDeTiempo.Add(permiso);
             }
         }
+        public bool UpdateEstadoPermisoDeTiempo(int idEmpleado, string nuevoEstado)
+        {
+            Conexion conexion = new Conexion();
+            return conexion.UpdateEstadoPermisosTiempo(idEmpleado, nuevoEstado);
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)

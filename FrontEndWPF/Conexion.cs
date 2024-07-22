@@ -736,7 +736,37 @@ namespace FrontEndWPF
 
             return success;
         }
+        public bool UpdateEstadoPermisosTiempo(int idEmpleado, string nuevoEstado)
+        {
+            bool success = false;
 
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "UPDATE PermisosDeTiempo SET Estado = @Estado WHERE IdEmpleado = @IdEmpleado";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+                        command.Parameters.AddWithValue("@Estado", nuevoEstado);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing update query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
         /* 
 		 * Método que sirve para enviar los datos que se quiere actualizar de un empleado -
 		 * hacia la base de datos que esta en SQL Server.
