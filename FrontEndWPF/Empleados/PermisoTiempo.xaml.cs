@@ -36,6 +36,10 @@ namespace FrontEndWPF
                 selectedItem.Estado = "No aprobado"; // Cambiar el valor del estado a una cadena representativa
                 PermisoTiempoDataGrid.Items.Refresh();
             }
+            else
+            {
+                MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -45,6 +49,10 @@ namespace FrontEndWPF
             {
                 selectedItem.Estado = "Aprobado"; // Cambiar el valor del estado a una cadena representativa
                 PermisoTiempoDataGrid.Items.Refresh();
+            }
+            else
+            {
+                MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 	}
