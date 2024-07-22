@@ -767,6 +767,37 @@ namespace FrontEndWPF
 
             return success;
         }
+
+        public bool EliminarPermisosTiempo(int idEmpleado)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "DELETE FROM PermisosDeTiempo WHERE IdEmpleado = @IdEmpleado";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing delete query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
         /* 
 		 * Método que sirve para enviar los datos que se quiere actualizar de un empleado -
 		 * hacia la base de datos que esta en SQL Server.

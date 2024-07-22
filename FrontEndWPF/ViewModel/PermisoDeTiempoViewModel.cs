@@ -53,6 +53,21 @@ namespace FrontEndWPF.ViewModel
             return conexion.UpdateEstadoPermisosTiempo(idEmpleado, nuevoEstado);
         }
 
+        public bool EliminarPermisoDeTiempo(int idEmpleado)
+        {
+            Conexion conexion = new Conexion();
+            bool eliminado = conexion.EliminarPermisosTiempo(idEmpleado);
+            if (eliminado)
+            {
+                var permiso = PermisosDeTiempo.FirstOrDefault(p => p.IdEmpleado == idEmpleado);
+                if (permiso != null)
+                {
+                    PermisosDeTiempo.Remove(permiso);
+                }
+            }
+            return eliminado;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
         {

@@ -38,7 +38,7 @@ namespace FrontEndWPF
                 if (_viewModel.UpdateEstadoPermisoDeTiempo(selectedItem.IdEmpleado, "No aprobado"))
                 {
                     selectedItem.Estado = "No aprobado"; // Cambiar el valor del estado a una cadena representativa
-                    MessageBox.Show("El permiso fue rechazado.");
+                    MessageBox.Show("El permiso fue rechazado.", "Rechazado", MessageBoxButton.OK, MessageBoxImage.Information);
                     PermisoTiempoDataGrid.Items.Refresh();
                 }
                 else
@@ -60,7 +60,7 @@ namespace FrontEndWPF
                 if (_viewModel.UpdateEstadoPermisoDeTiempo(selectedItem.IdEmpleado, "Aprobado"))
                 {
                     selectedItem.Estado = "Aprobado"; // Cambiar el valor del estado a una cadena representativa
-                    MessageBox.Show("¡Permiso Aprobado exitosamente!");
+                    MessageBox.Show("Permiso Aprobado exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
                     PermisoTiempoDataGrid.Items.Refresh();
                 }
                 else
@@ -73,5 +73,36 @@ namespace FrontEndWPF
                 MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-	}
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeTiempo;
+
+            if (selectedItem != null)
+            {
+                // Preguntar al usuario si está seguro de que desea eliminar el registro
+                var result = MessageBox.Show("¿Está seguro de que desea eliminar el permiso?", "Confirmar eliminación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    // Intentar eliminar el registro de la base de datos
+                    if (_viewModel.EliminarPermisoDeTiempo(selectedItem.IdEmpleado))
+                    {
+                        // Eliminar el registro de la colección si la eliminación en la base de datos fue exitosa
+                        _viewModel.PermisosDeTiempo.Remove(selectedItem);
+                        MessageBox.Show("Permiso eliminado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al eliminar el permiso en la base de datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                // Si el usuario selecciona No, simplemente no hacer nada y cerrar el cuadro de diálogo
+            }
+            else
+            {
+                MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+    }
 }
