@@ -11,7 +11,6 @@ namespace FrontEndWPF
     public partial class PermisoTiempoEditar : Window
     {
         private PermisoDeTiempoViewModel viewModel;
-        private List<UsuarioEmpleado> usuarios; // Lista de usuarios
         private PermisoDeTiempo permisoActual; // Permiso actual que se está editando
 
         public PermisoTiempoEditar(PermisoDeTiempo permiso)
@@ -24,34 +23,23 @@ namespace FrontEndWPF
             // Inicializa los campos de la ventana con los datos del permiso actual
             InicializarCampos();
 
-            // Deshabilita el ComboBox y muestra el nombre del empleado seleccionado
+            // Deshabilita el ComboBox si el ComboBox no es necesario para editar el empleado
             UsuarioComboBox.IsEnabled = false;
         }
 
         private void InicializarCampos()
         {
-            // Cargar la lista de usuarios
-            CargarUsuarios();
-
             // Configurar los campos del formulario con los datos del permiso actual
             FechaInicioPicker.SelectedDate = permisoActual.FechaInicio;
             FechaFinPicker.SelectedDate = permisoActual.FechaFin;
             MotivoTextBox.Text = permisoActual.Motivo;
 
             // Configura el ComboBox para mostrar el empleado seleccionado
-            UsuarioComboBox.SelectedValue = permisoActual.IdEmpleado;
-        }
-
-        private void CargarUsuarios()
-        {
-            // Llama al método dropdownUsuarios del ViewModel para obtener la lista de usuarios
-            Conexion conexion = new Conexion();
-            usuarios = conexion.DropdownUsuarios();
-
-            // Configura el ComboBox con la lista de usuarios
-            UsuarioComboBox.ItemsSource = usuarios;
+            // Debes asegurarte de que `Usuarios` esté cargado antes de asignar `SelectedValue`
+            UsuarioComboBox.ItemsSource = viewModel.Usuarios;
             UsuarioComboBox.DisplayMemberPath = "Nombre"; // Campo para mostrar en el ComboBox
             UsuarioComboBox.SelectedValuePath = "Id"; // Campo que se usará como valor
+            UsuarioComboBox.SelectedValue = permisoActual.IdEmpleado;
         }
 
         private void Button_Click_Actualizar(object sender, RoutedEventArgs e)

@@ -122,11 +122,16 @@ namespace FrontEndWPF
                 // Abrir la ventana de edición y pasar el permiso seleccionado
                 PermisoTiempoEditar editarVentana = new PermisoTiempoEditar(selectedItem);
                 editarVentana.ShowDialog(); // Mostrar la ventana como un cuadro de diálogo modal
+
+                // Refrescar el DataGrid después de cerrar la ventana de edición
+                // Esto asegura que se actualicen los cambios realizados
+                PermisoTiempoDataGrid.Items.Refresh();
             }
             else
             {
                 MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
     }
 }

@@ -75,7 +75,7 @@
 
         <!-- Dropdown de Usuarios -->
         <Label Content="Seleccionar colaborador:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Margin="9,93,1,0" Height="39"/>
-        <ComboBox x:Name="UsuarioComboBox" Grid.Row="3" Grid.Column="1" Width="150" HorizontalAlignment="Left" Margin="10,99,0,18"
+        <ComboBox x:Name="UsuarioComboBox" Grid.Row="3" Grid.Column="1" Width="150" HorizontalAlignment="Left" Margin="10,99,0,10"
                   ItemsSource="{Binding Usuarios}" 
                   DisplayMemberPath="Nombre" 
                   SelectedValuePath="Id"/>

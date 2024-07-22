@@ -880,7 +880,7 @@ namespace FrontEndWPF
             return usuarios;
         }
 
-        public bool ActualizarPermisoTiempo(int id, DateTime fechaInicio, DateTime fechaFin, string motivo)
+        public bool ActualizarPermisoTiempo(int idEmpleado, DateTime fechaInicio, DateTime fechaFin, string motivo)
         {
             bool success = false;
 
@@ -889,12 +889,12 @@ namespace FrontEndWPF
                 if (connection != null)
                 {
                     // Query para actualizar los permisos de tiempo
-                    string query = "UPDATE PermisosDeTiempo SET FechaInicio = @FechaInicio, FechaFin = @FechaFin, Motivo = @Motivo WHERE Id = @Id";
+                    string query = "UPDATE PermisosDeTiempo SET FechaInicio = @FechaInicio, FechaFin = @FechaFin, Motivo = @Motivo WHERE IdEmpleado = @IdEmpleado";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         // Añade los parámetros al comando SQL
-                        command.Parameters.AddWithValue("@Id", id);
+                        command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
                         command.Parameters.AddWithValue("@FechaInicio", fechaInicio);
                         command.Parameters.AddWithValue("@FechaFin", fechaFin);
                         command.Parameters.AddWithValue("@Motivo", motivo);
@@ -917,6 +917,7 @@ namespace FrontEndWPF
 
             return success;
         }
+
         /* 
 		 * Método que sirve para enviar los datos que se quiere actualizar de un empleado -
 		 * hacia la base de datos que esta en SQL Server.

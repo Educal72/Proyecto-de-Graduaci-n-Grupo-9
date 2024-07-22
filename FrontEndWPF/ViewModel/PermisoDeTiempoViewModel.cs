@@ -135,6 +135,7 @@ namespace FrontEndWPF.ViewModel
 
                 if (actualizado)
                 {
+                    // Encuentra el permiso en la colección y actualiza los valores
                     var permiso = PermisosDeTiempo.FirstOrDefault(p => p.IdEmpleado == idEmpleado);
                     if (permiso != null)
                     {
@@ -149,8 +150,9 @@ namespace FrontEndWPF.ViewModel
             }
             catch (Exception ex)
             {
-                // Manejo de la excepción (puedes registrar el error o mostrar un mensaje al usuario)
+                // Manejo de la excepción
                 Console.WriteLine("Error al actualizar el permiso de tiempo: " + ex.Message);
+                // Considera registrar el error en un archivo o base de datos, o mostrar un mensaje al usuario
                 return false;
             }
         }
