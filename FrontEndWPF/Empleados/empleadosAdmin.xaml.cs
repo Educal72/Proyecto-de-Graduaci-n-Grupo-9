@@ -148,15 +148,7 @@ namespace FrontEndWPF
 			public bool Aprobado { get; set; }  // Estado del permiso (aprobado o no)
 		}
 
-		public class Incidente
-		{
-			public int Id { get; set; }  // Identificador único del incidente
-			public DateTime Fecha { get; set; }  // Fecha en que ocurrió el incidente
-			public string Descripcion { get; set; }  // Descripción del incidente
-			public string Tipo { get; set; }  // Tipo de incidente (por ejemplo, "Entre Empleados", "Con Cliente")
-			public bool Estado { get; set; }
-		}
-		public class FAQS
+        public class FAQS
 		{
 			public int Id { get; set; }  // Identificador único del incidente
 			public string Pregunta { get; set; }  // Fecha en que ocurrió el incidente

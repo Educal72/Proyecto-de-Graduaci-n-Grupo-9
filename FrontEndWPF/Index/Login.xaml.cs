@@ -43,12 +43,12 @@ namespace FrontEndWPF
 		CambioContraseña cambioContraseña = new CambioContraseña();
 
 
-		/*
+        /*
 		 * Este dato global sirve para poder guardar -
 		 * las contraseñas temporales para poder ayudar -
 		 * en una validación [Ver 1.0].
 		 */
-		static string ContraseñaTemporalGuardada;
+        static string ContraseñaTemporalGuardada;
 
 
 		public Login()
@@ -84,39 +84,86 @@ namespace FrontEndWPF
          * esta colocando un dato nulo, entonces el sistema toma acentado que el usuario no -
          * necesita cambiar su contraseña por el momento.
          */
-		private void Button_Click_1(object sender, RoutedEventArgs e)
-		{
-			var verif = cont.Password;
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var verif = cont.Password;
 
-			// [1.0]
-			if (verif == ContraseñaTemporalGuardada)
-			{
-				var Correo = correo.Text;
-				cambioContraseña.Carga(Correo, verif);
-				NavigationService.Navigate(new Uri("Index/CambioContraseña.xaml", UriKind.Relative));
-			}
-			else
-			{
-				var con = conexion.SelectUser(correo.Text, conexion.HashPassword(cont.Password));
-				if (con.Count() > 0)
-				{
-					MainWindow mainWindow = new MainWindow();
-					mainWindow.Usuario = con["Correo"].ToString();
-					if (con != null)
-					{
-						SesionUsuario.Instance.correo = con["Correo"].ToString();
-						conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
-						SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
-						SesionUsuario.Instance.nombre = con["Nombre"].ToString();
-					}
-					NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
-				}
-				else
-				{
-					MessageBox.Show("Usuario o Contraseña Incorrecta", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-				}
-			}
-		}
+            // [1.0]
+            if (verif == ContraseñaTemporalGuardada)
+            {
+                var Correo = correo.Text;
+                cambioContraseña.Carga(Correo, verif);
+                NavigationService.Navigate(new Uri("Index/CambioContraseña.xaml", UriKind.Relative));
+            }
+            else
+            {
+                var con = conexion.SelectUser(correo.Text, conexion.HashPassword(cont.Password));
+                if (con.Count() > 0)
+                {
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Usuario = con["Correo"].ToString();
+                    if (con != null)
+                    {
+                        SesionUsuario.Instance.correo = con["Correo"].ToString();
+                        conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
+                        SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
+                        SesionUsuario.Instance.nombre = con["Nombre"].ToString();
+                    }
+                    NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
+                }
+                else
+                {
+                    MessageBox.Show("Usuario o Contraseña Incorrecta", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+
+        /*
+         * Método que esta asociado al botón: ¿Olvidaste tu contraseña?
+         * 
+         * Lo que hace este método es que valida si el usuario quiere recuperar -
+         * su contraseña de su cuenta ó si quiere registrar un nuevo usuario.
+         */
+        private void Button_Click(object sender, RoutedEventArgs e)
+
+        {
+            if (conexion.HasEntries())
+            {
+                NavigationService.Navigate(new Uri("Index/RecuperarContraseña.xaml", UriKind.Relative));
+            }
+            else
+            {
+                var nuevoEmpleado = new añadirEmpleado();
+                nuevoEmpleado.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                if (nuevoEmpleado.ShowDialog() == true)
+                {
+
+                    string Cedula = nuevoEmpleado.cedula;
+                    string Nombre = nuevoEmpleado.nombre;
+                    string Apellidos = nuevoEmpleado.apellidos;
+                    string Puesto = nuevoEmpleado.puesto;
+                    DateTime Fecha = nuevoEmpleado.fechaContratación;
+                    double Salario = nuevoEmpleado.salario;
+                    string Correo = nuevoEmpleado.correo;
+                    string Contraseña = nuevoEmpleado.contraseña;
+                    string Telefono = nuevoEmpleado.telefono;
+                    string Direccion = nuevoEmpleado.direccion;
+                    string Rol = nuevoEmpleado.rol;
+
+                    conexion.AddUser(Nombre, Apellidos, Apellidos, Cedula, Telefono,
+                        Correo, Contraseña, Rol, Fecha, Puesto, Salario, Direccion);
+                    var con = conexion.SelectUser(Correo, conexion.HashPassword(Contraseña));
+                    if (con != null)
+                    {
+                        SesionUsuario.Instance.correo = con["Correo"].ToString();
+                        SesionUsuario.Instance.id = Convert.ToInt32(con["Id"]);
+                        conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
+                        SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
+                        SesionUsuario.Instance.nombre = con["Nombre"].ToString();
+                        NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
+                    }
+                }
 
             /*
 			 *  [1.0]
