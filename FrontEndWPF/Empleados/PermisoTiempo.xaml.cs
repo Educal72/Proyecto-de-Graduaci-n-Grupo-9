@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FrontEndWPF.Modelos;
+using FrontEndWPF.Empleados;
 
 namespace FrontEndWPF
 {
@@ -103,6 +104,12 @@ namespace FrontEndWPF
             {
                 MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            var permisoTiempoCrear = new PermisoTiempoCrear();
+             permisoTiempoCrear.Show();
         }
     }
 }
