@@ -38,6 +38,7 @@ namespace FrontEndWPF
                 if (_viewModel.UpdateEstadoPermisoDeTiempo(selectedItem.IdEmpleado, "No aprobado"))
                 {
                     selectedItem.Estado = "No aprobado"; // Cambiar el valor del estado a una cadena representativa
+                    MessageBox.Show("El permiso fue rechazado.");
                     PermisoTiempoDataGrid.Items.Refresh();
                 }
                 else
@@ -59,6 +60,7 @@ namespace FrontEndWPF
                 if (_viewModel.UpdateEstadoPermisoDeTiempo(selectedItem.IdEmpleado, "Aprobado"))
                 {
                     selectedItem.Estado = "Aprobado"; // Cambiar el valor del estado a una cadena representativa
+                    MessageBox.Show("¡Permiso Aprobado exitosamente!");
                     PermisoTiempoDataGrid.Items.Refresh();
                 }
                 else
