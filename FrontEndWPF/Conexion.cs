@@ -11,6 +11,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Windows.Shapes;
 using System.Reflection.Metadata.Ecma335;
 using FrontEndWPF.Index;
+using FrontEndWPF.Modelos;
 
 namespace FrontEndWPF
 {
@@ -797,6 +798,47 @@ namespace FrontEndWPF
             }
 
             return success;
+        }
+
+        public List<UserModel.UsuarioEmpleado> DropdownUsuarios()
+        {
+            List<UserModel.UsuarioEmpleado> usuarios = new List<UserModel.UsuarioEmpleado>();
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT Nombre, PrimerApellido, SegundoApellido FROM Usuario";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    UserModel.UsuarioEmpleado usuario = new UserModel.UsuarioEmpleado
+                                    {
+                                        Nombre = reader["Nombre"].ToString(),
+                                        PrimerApellido = reader["PrimerApellido"].ToString(),
+                                        SegundoApellido = reader["SegundoApellido"].ToString()
+                                    };
+
+                                    usuarios.Add(usuario);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return usuarios;
         }
         /* 
 		 * Método que sirve para enviar los datos que se quiere actualizar de un empleado -
