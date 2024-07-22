@@ -557,14 +557,14 @@ namespace FrontEndWPF
                     }
 
                     /*
-					 * Nota Importante:
-					 * Si notaron que en los métodos loadData y para añadir empleado se especificaba el campo activo, -
-					 * pero no se usaba como parámetro [VER 0.1 y 0.2] es porque cuando se crea un nuevo empleado, aquí en -
-					 * visual, se le da directamente el dato 1 (que significa que si esta activo) para evitar un error en la lectura -
-					 * de los datos (tanto en el programa, como en la BD), esto también porque a nivel de lógica del negocio, si yo como -
-					 * 3ra persona (digamos un administrador) estoy agregando un nuevo empleado que acaba de ser contratado, dicho empleado -
-					 * entonces debe estar activo, ya que esta trabajando en el negocio, por eso no se coloca el activo como parámetro.
-					 */
+                     * Nota Importante:
+                     * Si notaron que en los métodos loadData y para añadir empleado se especificaba el campo activo, -
+                     * pero no se usaba como parámetro [VER 0.1 y 0.2] es porque cuando se crea un nuevo empleado, aquí en -
+                     * visual, se le da directamente el dato 1 (que significa que si esta activo) para evitar un error en la lectura -
+                     * de los datos (tanto en el programa, como en la BD), esto también porque a nivel de lógica del negocio, si yo como -
+                     * 3ra persona (digamos un administrador) estoy agregando un nuevo empleado que acaba de ser contratado, dicho empleado -
+                     * entonces debe estar activo, ya que esta trabajando en el negocio, por eso no se coloca el activo como parámetro.
+                     */
                     string query2 = "INSERT INTO Empleado (Puesto, FechaContratacion, Salario, FechaDespido, IdUsuario, Activo, Direccion) " +
                                    "VALUES (@Puesto, @FechaContratacion, @Salario, @FechaDespido, @IdUsuario, @Activo, @Direccion)";
 
@@ -1194,7 +1194,7 @@ namespace FrontEndWPF
             cambioContraseña.ErrorEnvio(dato);
         }
 
-    public string HashPassword(string password)
+        public string HashPassword(string password)
 		{
 			using (SHA256 sha256Hash = SHA256.Create())
 			{
@@ -1464,8 +1464,7 @@ namespace FrontEndWPF
 
 			return success;
 		}
-	}
-
+    }
 }
 
 
