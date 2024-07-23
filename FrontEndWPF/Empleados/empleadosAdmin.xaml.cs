@@ -148,15 +148,7 @@ namespace FrontEndWPF
 			public bool Aprobado { get; set; }  // Estado del permiso (aprobado o no)
 		}
 
-		public class Incidente
-		{
-			public int Id { get; set; }  // Identificador único del incidente
-			public DateTime Fecha { get; set; }  // Fecha en que ocurrió el incidente
-			public string Descripcion { get; set; }  // Descripción del incidente
-			public string Tipo { get; set; }  // Tipo de incidente (por ejemplo, "Entre Empleados", "Con Cliente")
-			public bool Estado { get; set; }
-		}
-		public class FAQS
+        public class FAQS
 		{
 			public int Id { get; set; }  // Identificador único del incidente
 			public string Pregunta { get; set; }  // Fecha en que ocurrió el incidente
@@ -173,17 +165,6 @@ namespace FrontEndWPF
 			public string Motivo { get; set; } // Motivo de la desvinculación
 			public string Comentarios { get; set; } // Comentarios adicionales sobre la desvinculación
 			public bool Reconocido { get; set; }
-		}
-
-		public class PerfilEmpleoBuscado
-		{
-			public int Id { get; set; } // Identificador único del perfil de empleo buscado
-			public string Titulo { get; set; } // Título del perfil de empleo
-			public string Descripcion { get; set; } // Descripción del perfil de empleo
-			public string NivelExperiencia { get; set; } // Nivel de experiencia requerido
-			public string Requisitos { get; set; } // Requisitos del perfil de empleo
-			public string Ubicacion { get; set; } // Ubicación del trabajo
-			public double Salario{ get; set; } // Salario mínimo ofrecido
 		}
 
         private void MenuListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

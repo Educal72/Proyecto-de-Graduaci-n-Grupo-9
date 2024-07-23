@@ -1,0 +1,108 @@
+﻿<Window x:Class="FrontEndWPF.eliminarPerfilCompetencial"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FrontEndWPF"
+        mc:Ignorable="d"
+        Title="eliminarPerfilCompetencial"  Height="750" Width="500" Background="#f4f4f4">
+    <Window.Resources>
+        <!-- Estilos -->
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#005A9E"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Eliminar Perfil Competencial" Grid.Row="0" Grid.ColumnSpan="3" FontSize="36" FontWeight="Bold" Margin="0,0,0,20"/>
+        <Label Content="Una vez aceptado, se eliminara permanentemente." Grid.ColumnSpan="2" FontSize="16" Foreground="#FF5D5D5D" Margin="0,73,0,0" Grid.RowSpan="2"/>
+
+
+        <Label Content="Titulo:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Titulo_TextBox" Grid.Row="2" Grid.Column="1" Width="278" 
+                 HorizontalAlignment="Left" IsReadOnly="True"/>
+
+        <Label Content="Descripción:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Descripcion_TextBox" Grid.Row="3" Grid.Column="1" Width="278" HorizontalAlignment="Left" IsReadOnly="True"/>
+
+
+        <Label Content="Experiencia:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Experiencia_TextBox" Grid.Row="4" Grid.Column="1" Width="278" HorizontalAlignment="Left" IsReadOnly="True"/>
+
+
+        <Label Content="Requisitos:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Requisitos_TextBox" Grid.Row="5" Grid.Column="1" Width="278" HorizontalAlignment="Left" IsReadOnly="True"/>
+
+
+        <Label Content="Ubicacion:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Ubicacion_TextBox" Grid.Row="6" Grid.Column="1" Width="278" HorizontalAlignment="Left" IsReadOnly="True"/>
+
+        <Label Content="Salario:" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Salario_TextBox" Grid.Row="7" Grid.Column="1" Width="278" HorizontalAlignment="Left" IsReadOnly="True"/>
+
+
+
+        <!-- Buttons -->
+        <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button Content="Eliminar" Click="Eliminar_Click" Background="#FF04CC00"/>
+            <Button Content="Cancelar" Click="Cancelar_Click" Background="#FF007ACC"/>
+        </StackPanel>
+    </Grid>
+</Window>
