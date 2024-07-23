@@ -12,6 +12,6 @@ namespace FrontEndWPF.Modelos
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
         public string Motivo { get; set; }
-        public string Estado { get; set; } // Cambiar de int a string por eso se me cae
+        public string Estado { get; set; }
     }
 }

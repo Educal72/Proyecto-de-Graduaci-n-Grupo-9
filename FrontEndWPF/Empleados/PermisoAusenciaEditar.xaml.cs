@@ -6,17 +6,20 @@ using FrontEndWPF.Modelos;
 using FrontEndWPF.ViewModel;
 using static FrontEndWPF.Modelos.UserModel;
 
-namespace FrontEndWPF
-{
-    public partial class PermisoTiempoEditar : Window
-    {
-        private PermisoDeTiempoViewModel viewModel;
-        private PermisoDeTiempo permisoActual; // Permiso actual que se está editando
 
-        public PermisoTiempoEditar(PermisoDeTiempo permiso)
+namespace FrontEndWPF.Empleados
+{
+    /// <summary>
+    /// Interaction logic for PermisoAusenciaEditar.xaml
+    /// </summary>
+    public partial class PermisoAusenciaEditar : Window
+    {
+        private PermisoDeAusenciaViewModel viewModel;
+        private PermisoDeAusencia permisoActual; // Permiso actual que se está editando
+        public PermisoAusenciaEditar(PermisoDeAusencia permiso)
         {
             InitializeComponent();
-            viewModel = new PermisoDeTiempoViewModel();
+            viewModel = new PermisoDeAusenciaViewModel();
             DataContext = viewModel; // Enlaza el ViewModel con el DataContext
             permisoActual = permiso;
 
@@ -26,7 +29,6 @@ namespace FrontEndWPF
             // Deshabilita el ComboBox si el ComboBox no es necesario para editar el empleado
             UsuarioComboBox.IsEnabled = false;
         }
-
         private void InicializarCampos()
         {
             // Configurar los campos del formulario con los datos del permiso actual
@@ -41,7 +43,6 @@ namespace FrontEndWPF
             UsuarioComboBox.SelectedValuePath = "Id"; // Campo que se usará como valor
             UsuarioComboBox.SelectedValue = permisoActual.IdEmpleado;
         }
-
         private void Button_Click_Actualizar(object sender, RoutedEventArgs e)
         {
             // Obtener los datos del formulario
@@ -65,18 +66,19 @@ namespace FrontEndWPF
             int idEmpleado = permisoActual.IdEmpleado;
 
             // Llamar al método de actualización en el ViewModel con los parámetros correctos
-            bool resultado = viewModel.ActualizarPermisoTiempo(idEmpleado, fechaInicio.Value, fechaFin.Value, motivo);
+            bool resultado = viewModel.ActualizarPermisoAusencia(idEmpleado, fechaInicio.Value, fechaFin.Value, motivo);
 
             if (resultado)
             {
-                MessageBox.Show("Permiso de tiempo actualizado exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Permiso de ausencia actualizado exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
                 DialogResult = true;
                 this.Close(); // Cerrar la ventana después de actualizar el permiso
             }
             else
             {
-                MessageBox.Show("Hubo un error al actualizar el permiso de tiempo. Inténtelo nuevamente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Hubo un error al actualizar el permiso de ausencia. Inténtelo nuevamente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
         }
         private void Button_Click_Cancelar(object sender, RoutedEventArgs e)
         {
