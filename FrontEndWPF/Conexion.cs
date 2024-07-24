@@ -602,6 +602,7 @@ namespace FrontEndWPF
                         }
                     }
 
+
                     /*
                      * Nota Importante:
                      * Si notaron que en los métodos loadData y para añadir empleado se especificaba el campo activo, -
@@ -718,6 +719,147 @@ namespace FrontEndWPF
             }
 
             return success;
+        }
+        public bool RegistrarUsuarioAdmin(int idUsuario, DateTime fechaIngreso, DateTime fechaInicioSesion)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        string query = "INSERT INTO InicioSesion (Id, FechaIngreso, FechaInicioSesion) VALUES (@IdUsuario, @FechaIngreso, @FechaInicioSesion)";
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                            command.Parameters.AddWithValue("@FechaIngreso", fechaIngreso);
+                            command.Parameters.AddWithValue("@FechaInicioSesion", fechaInicioSesion);
+
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error executing insert query: " + ex.Message);
+                        throw;
+                    }
+                    finally
+                    {
+                        CloseConnection(connection);
+                    }
+                }
+            }
+
+            return success;
+        }
+
+        public bool RegistrarInicioSesion(int idUsuario, DateTime fechaIngreso, DateTime fechaInicioSesion)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        string query = "INSERT INTO InicioSesion (Id, FechaIngreso, FechaInicioSesion) VALUES (@IdUsuario, @FechaIngreso, @FechaInicioSesion)";
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                            command.Parameters.AddWithValue("@FechaIngreso", fechaIngreso);
+                            command.Parameters.AddWithValue("@FechaInicioSesion", fechaInicioSesion);
+
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error executing insert query: " + ex.Message);
+                        throw;
+                    }
+                    finally
+                    {
+                        CloseConnection(connection);
+                    }
+                }
+            }
+
+            return success;
+        }
+
+        public bool ActualizarUltimaDesconexion(int idUsuario, DateTime ultimaDesconexion)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        string query = "UPDATE InicioSesion SET UltimaDesconexion = @UltimaDesconexion WHERE Id = @IdUsuario AND FechaIngreso = (SELECT MAX(FechaIngreso) FROM InicioSesion WHERE Id = @IdUsuario)";
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@UltimaDesconexion", ultimaDesconexion);
+                            command.Parameters.AddWithValue("@IdUsuario", idUsuario);
+
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error executing update query: " + ex.Message);
+                        throw;
+                    }
+                    finally
+                    {
+                        CloseConnection(connection);
+                    }
+                }
+            }
+
+            return success;
+        }
+
+        public int GetLastInsertedUserId()
+        {
+            int idUsuario = -1;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        string query = "SELECT TOP 1 Id FROM Usuarios ORDER BY Id DESC";
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            var result = command.ExecuteScalar();
+                            if (result != null)
+                            {
+                                idUsuario = Convert.ToInt32(result);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error retrieving last inserted user ID: " + ex.Message);
+                        throw;
+                    }
+                    finally
+                    {
+                        CloseConnection(connection);
+                    }
+                }
+            }
+
+            return idUsuario;
         }
 
         public bool CrearPermisoAusencia(int idEmpleado, DateTime fechaInicio, DateTime fechaFin, string motivo)
