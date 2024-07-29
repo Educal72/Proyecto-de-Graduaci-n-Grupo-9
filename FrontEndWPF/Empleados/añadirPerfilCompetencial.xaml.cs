@@ -19,12 +19,12 @@ namespace FrontEndWPF
     /// </summary>
     public partial class añadirPerfilCompetencial : Window
     {
-        public string titulo_añadirPerfilCompetencial { get; set; } // Título del perfil de empleo.
-        public string descripcion_añadirPerfilCompetencial { get; set; } // Descripción del perfil de empleo.
-        public string experiencia_añadirPerfilCompetencial { get; set; } // Nivel de experiencia requerido (Básico, Intermedio o Avanzado).
-        public string requisitos_añadirPerfilCompetencial { get; set; } // Requisitos del perfil de empleo.
-        public string ubicacion_añadirPerfilCompetencial { get; set; } // Ubicación del trabajo.
-        public double salario_añadirPerfilCompetencial { get; set; } // Salario mínimo ofrecido.
+        public string? titulo_añadirPerfilCompetencial { get; set; }
+        public string? descripcion_añadirPerfilCompetencial { get; set; }
+        public string? experiencia_añadirPerfilCompetencial { get; set; }
+        public string? requisitos_añadirPerfilCompetencial { get; set; }
+        public string? ubicacion_añadirPerfilCompetencial { get; set; }
+        public double salario_añadirPerfilCompetencial { get; set; }
 
 
         //Instancia a la clase: Conexion.

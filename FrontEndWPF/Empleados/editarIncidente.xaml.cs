@@ -21,8 +21,8 @@ namespace FrontEndWPF
 
 	public partial class editarIncidente : Window
 	{
-		public string tipo { get; set; }
-		public string descripcion { get; set; }
+		public string? tipo { get; set; }
+		public string? descripcion { get; set; }
 		public DateTime fecha { get; set; }
 		public bool estado { get; set; }
 		public editarIncidente()

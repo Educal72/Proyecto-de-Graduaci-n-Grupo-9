@@ -79,24 +79,18 @@
         <DatePicker x:Name="Fecha" Grid.Row="8" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
         <Button Content="Actual" Grid.Row="8" Grid.Column="2" Click="FechaActual_Click" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
 
-        <Label Content="Contraseña:" Grid.Row="9" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="Contraseña" Grid.Row="9" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
+        <Label Content="Rol:" Grid.Row="9" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="RolMuestra" Grid.Row="9" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
 
-        <Label Content="Salario:" Grid.Row="10" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="Salario" Grid.Row="10" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
-
-        <Label Content="Rol:" Grid.Row="11" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="RolMuestra" Grid.Row="11" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
-
-        <Label Content="Dirección:" Grid.Row="12" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="DireccionTexto" Grid.Row="12" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
+        <Label Content="Dirección:" Grid.Row="10" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Direccion_TextBox" Grid.Row="10" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
 
         <!-- Activo CheckBox -->
-        <Label Content="Activo:" Grid.Row="13" Grid.Column="0" VerticalAlignment="Center"/>
-        <CheckBox x:Name="Activo" Grid.Row="13" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <Label Content="Activo:" Grid.Row="11" Grid.Column="0" VerticalAlignment="Center"/>
+        <CheckBox x:Name="Activo" Grid.Row="11" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
         <!-- Buttons -->
-        <StackPanel Orientation="Horizontal" Grid.Row="13" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,20,0,0">
+        <StackPanel Orientation="Vertical" Grid.Row="12" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,20,0,0">
             <Button Content="Guardar" Click="Guardar_Click" Background="#FF04CC00" FontFamily="Arial"/>
             <Button Content="Cancelar" Click="Cancelar_Click" Background="#FF007ACC"/>
         </StackPanel>

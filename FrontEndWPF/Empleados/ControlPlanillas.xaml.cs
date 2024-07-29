@@ -110,8 +110,8 @@ namespace FrontEndWPF
 
             if (selectedPlanilla != null)
             {
-                string oldCorreo = selectedPlanilla.Correo;
-                string oldCedula = selectedPlanilla.Cedula;
+                string oldCorreo = selectedPlanilla.Correo!;
+                string oldCedula = selectedPlanilla.Cedula!;
                 var editarPlanilla = new editarPlanilla();
                 editarPlanilla.WindowStartupLocation =
                 WindowStartupLocation.CenterScreen;
