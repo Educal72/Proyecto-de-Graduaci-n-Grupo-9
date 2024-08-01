@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrontEndWPF.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -80,12 +81,25 @@ namespace FrontEndWPF
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			NavigationService.Navigate(new Uri("Index/Login.xaml", UriKind.Relative));
-		}
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //InicioSesionViewModel inicioSesionViewModel = new InicioSesionViewModel();
 
-		private void Button_Click_1(object sender, RoutedEventArgs e)
+            //// Obtener el IdUsuario del usuario actual
+            //int idUsuario = SesionUsuario.Instance.IdUsuario;
+
+            //// Actualizar la última desconexión
+            //if (!inicioSesionViewModel.ActualizarUltimaDesconexion(idUsuario))
+            //{
+            //    MessageBox.Show("Error al actualizar la última desconexión", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
+
+            // Redireccionar a la vista de Login
+            NavigationService.Navigate(new Uri("Index/Login.xaml", UriKind.Relative));
+        }
+
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 			Window parentWindow = Window.GetWindow(this);
 			if (parentWindow != null && parentWindow is MainWindow mainWindow)

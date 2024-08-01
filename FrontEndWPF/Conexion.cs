@@ -406,7 +406,106 @@ namespace FrontEndWPF
 			return productos;
 		}
 
-		public bool EliminarProducto(int id)
+        public List<Dictionary<string, object>> ListarInicioSesion()
+        {
+            var sesiones = new List<Dictionary<string, object>>();
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT IdUsuario, FechaIngreso, FechaInicioSesion, UltimaDesconexion FROM InicioSesion";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var sesion = new Dictionary<string, object>();
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        string fieldName = reader.GetName(i);
+                                        if (!reader.IsDBNull(i))
+                                        {
+                                            sesion[fieldName] = reader.GetValue(i);
+                                        }
+                                        else
+                                        {
+                                            sesion[fieldName] = null;
+                                        }
+                                    }
+                                    sesiones.Add(sesion);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return sesiones;
+        }
+
+        public List<Dictionary<string, object>> BuscarInicioSesionPorFecha(DateTime fechaInicioSesion)
+        {
+            var registros = new List<Dictionary<string, object>>();
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT IdUsuario, FechaIngreso, FechaInicioSesion, UltimaDesconexion " +
+                                   "FROM InicioSesion " +
+                                   "WHERE FechaInicioSesion = @FechaInicioSesion";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@FechaInicioSesion", fechaInicioSesion);
+
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var registro = new Dictionary<string, object>();
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        string fieldName = reader.GetName(i);
+                                        if (!reader.IsDBNull(i))
+                                        {
+                                            registro[fieldName] = reader.GetValue(i);
+                                        }
+                                        else
+                                        {
+                                            registro[fieldName] = null;
+                                        }
+                                    }
+                                    registros.Add(registro);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return registros;
+        }
+
+        public bool EliminarProducto(int id)
         {
             bool eliminado = false;
 

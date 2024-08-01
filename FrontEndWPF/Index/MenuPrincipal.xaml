@@ -41,7 +41,7 @@
             <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" HorizontalAlignment="Center" Foreground="White" Width="870" Margin="0,989,0,0" FontFamily="Roboto" FontSize="24" Height="39" VerticalAlignment="Top"/>
             <Grid Margin="0,103,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="380">
                 <Button
-                    HorizontalAlignment="Left" Width="90" VerticalAlignment="Top" Margin="290,0,0,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Salir" Background="#FFABD904" Click="Button_Click"/>
+                    HorizontalAlignment="Left" Width="90" Margin="290,0,0,0" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Salir" Background="#FFABD904" Click="Button_Click" Height="66" VerticalAlignment="Top"/>
                 <Button
                     HorizontalAlignment="Center" Width="190" VerticalAlignment="Top" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Configuración" Background="#FFABD904" Click="Button_Click_5"/>
                 <Button
