@@ -25,6 +25,7 @@ using Application = System.Windows.Application;
 
 namespace FrontEndWPF
 {
+
     /// <summary>
     /// Lógica de interacción para EmployeeListControl.xaml
     /// </summary>
@@ -63,69 +64,59 @@ namespace FrontEndWPF
 
         /* 0.1 */
         private void LoadData()
-        {
-            /* Aquí se agrego la dirección y el activo, la dirección fue porque uno de los -
-             * escenarios que presenta la historia: CTE001 lo menciona, y el activo se agrego -
-             * porque cuando se agrega un nuevo empleado se necesita saber si esta laborando -
-             * en el negocio, cosa que debería estarlo porque se esta agregando al sistema, -
-             * por ende, debe estar activo al inicio. */
-            string query = @"EXEC LeerUsuariosEmpleados";
-            List<UsuarioEmpleadoSoloMostrar> usuariosEmpleados = new List<UsuarioEmpleadoSoloMostrar>();
-            List<UsuarioEmpleado> usuariosEmpleadosUno = new List<UsuarioEmpleado>();
+		{
+            /*
+			* Aquí se agrego la dirección y el activo, la dirección -
+			* fue porque uno de los escenarios que presenta la historia: CTE001 -
+			* lo menciona, y el activo se agrego porque cuando se agrega un nuevo empleado -
+			* se necesita saber si esta laborando en el negocio, cosa que debería estarlo -
+			* porque se esta agregando al sistema, por ende, debe estar activo al inicio.
+			*/
+            string query = @"
+                SELECT u.Id, u.Nombre, u.PrimerApellido, u.SegundoApellido, u.Cedula, u.Telefono, u.Correo, u.Contraseña, u.IdRol, u.FechaCreacion, e.Puesto, e.Salario, e.Direccion, e.Activo
+                FROM Usuario u
+                JOIN Empleado e ON u.Id = e.IdUsuario";
 
-            using (SqlConnection connection = conexion.OpenConnection())
-            {
-                try
-                {
-                    SqlCommand command = new SqlCommand(query, connection);
-                    SqlDataReader reader = command.ExecuteReader();
+			List<UsuarioEmpleado> usuariosEmpleados = new List<UsuarioEmpleado>();
 
-                    while (reader.Read())
-                    {
-                        usuariosEmpleados.Add(new UsuarioEmpleadoSoloMostrar
-                        {
-                            Nombre = reader["Nombre"].ToString()!,
-                            Apellido = reader["Apellido"].ToString()!,
-                            Cedula = reader["Cedula"].ToString()!,
-                            Telefono = reader["Telefono"].ToString()!,
-                            Correo = reader["Correo"].ToString()!,
-                            FechaCreacion = Convert.ToDateTime(reader["FechaCreacion"]),
-                            Puesto = reader["Puesto"].ToString()!,
-                            Rol = conexionEmpleado.ObtenerNombreRol_X_ID(Convert.ToInt32(reader["IdRol"].ToString())),
-                            Direccion = reader["Direccion"].ToString()!,
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				try
+				{
+					SqlCommand command = new SqlCommand(query, connection);
+					SqlDataReader reader = command.ExecuteReader();
+
+					while (reader.Read())
+					{
+						usuariosEmpleados.Add(new UsuarioEmpleado
+						{
+							Id = Convert.ToInt32(reader["Id"]),
+							Nombre = reader["Nombre"].ToString(),
+							PrimerApellido = reader["PrimerApellido"].ToString(),
+							SegundoApellido = reader["SegundoApellido"].ToString(),
+							Cedula = reader["Cedula"].ToString(),
+							Telefono = reader["Telefono"].ToString(),
+							Correo = reader["Correo"].ToString(),
+							Contraseña = reader["Contraseña"].ToString(),
+							IdRol = Convert.ToInt32(reader["IdRol"]),
+							NombreRol = conexion.getRoleName(Convert.ToInt32(reader["IdRol"])),
+							FechaCreacion = Convert.ToDateTime(reader["FechaCreacion"]),
+							Puesto = reader["Puesto"].ToString(),
+							Salario = Convert.ToDecimal(reader["Salario"]),
+                            Direccion = reader["Direccion"].ToString(),
                             Activo = Convert.ToBoolean(reader["Activo"])
                         });
+						
+	}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: " + ex.Message);
+				}
+			}
 
-
-                        /* Esto es para poder hacer una copia de los datos que se están pasando -
-                         * por la entidad UsuarioEmpleadoSoloMostrar. */
-                        usuariosEmpleadosUno.Add(new UsuarioEmpleado
-                        {
-                            Id = Convert.ToInt32(reader["Id"]),
-                            Nombre = reader["Nombre"].ToString()!,
-                            Apellido = reader["Apellido"].ToString()!,
-                            Cedula = reader["Cedula"].ToString()!,
-                            Telefono = reader["Telefono"].ToString()!,
-                            Correo = reader["Correo"].ToString()!,
-                            Contraseña = reader["Contraseña"].ToString()!,
-                            FechaCreacion = Convert.ToDateTime(reader["FechaCreacion"]),
-                            Puesto = reader["Puesto"].ToString()!,
-                            IdRol = Convert.ToInt32(reader["IdRol"].ToString()),
-                            Direccion = reader["Direccion"].ToString()!,
-                            Activo = Convert.ToBoolean(reader["Activo"])
-                        });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("No se pueden mostrar los datos de los empleados.", "¡Error!: " + ex,
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-                    empleadosAdmin.Enviar(true);
-                }
-            }
-
-            EmployeeDataGrid.ItemsSource = usuariosEmpleados;            
-        }
+			EmployeeDataGrid.ItemsSource = usuariosEmpleados;
+		}
 
 
         /* Aqui lo que hace es cargar todos los permisos de la BD hacia la entidad.
@@ -556,16 +547,26 @@ namespace FrontEndWPF
                      }
                  }
             }
-        }
 
+		}
 
-        /* Este método es para la historia laboral del empleado. (PENDIENTE)*/
-        private void Button_Click_6(object sender, RoutedEventArgs e)
-        {
+		/* 
+		 * Este método es para la historia laboral del empleado.
+		 */
+		private void Button_Click_6(object sender, RoutedEventArgs e)
+		{
+			var selectedEmpleado = EmployeeDataGrid.SelectedItem as UsuarioEmpleado;
+			if (selectedEmpleado != null)
+			{
+				MainWindow mainWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+				if (mainWindow != null)
+				{
+					mainWindow.ChangePageToMetricas(selectedEmpleado.Id);
+				}
 
-        }
+			}
+		}
+	}
+	}
 
-
-    }
-}
 

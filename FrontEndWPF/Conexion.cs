@@ -313,6 +313,52 @@ namespace FrontEndWPF
             return permisos;
         }
 
+        public List<Dictionary<string, object>> GetPermisosDeAusencia()
+        {
+            var permisos = new List<Dictionary<string, object>>();
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT IdEmpleado, FechaInicio, FechaFin, Motivo, Estado FROM PermisosDeAusencia";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var permiso = new Dictionary<string, object>();
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        string fieldName = reader.GetName(i);
+                                        if (!reader.IsDBNull(i))
+                                        {
+                                            permiso[fieldName] = reader.GetValue(i);
+                                        }
+                                        else
+                                        {
+                                            permiso[fieldName] = null;
+                                        }
+                                    }
+                                    permisos.Add(permiso);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return permisos;
+        }
         public List<Dictionary<string, object>> GetProductosActivos()
         {
             var productos = new List<Dictionary<string, object>>();
@@ -718,6 +764,45 @@ namespace FrontEndWPF
 
             return success;
         }
+
+        public bool CrearPermisoAusencia(int idEmpleado, DateTime fechaInicio, DateTime fechaFin, string motivo)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        string query = "INSERT INTO PermisosDeAusencia (IdEmpleado, FechaInicio, FechaFin, Motivo, Estado) VALUES (@IdEmpleado, @FechaInicio, @FechaFin, @Motivo, @Estado)";
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+                            command.Parameters.AddWithValue("@FechaInicio", fechaInicio);
+                            command.Parameters.AddWithValue("@FechaFin", fechaFin);
+                            command.Parameters.AddWithValue("@Motivo", motivo);
+                            command.Parameters.AddWithValue("@Estado", "Pendiente"); // Estado por defecto
+
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error executing insert query: " + ex.Message);
+                        // Lanza la excepción para que quien llama pueda manejarla adecuadamente.
+                        throw;
+                    }
+                    finally
+                    {
+                        CloseConnection(connection);
+                    }
+                }
+            }
+
+            return success;
+        }
         public bool ActualizarProducto(int id, int codigo, string nombre, string categoria, decimal precio, bool activo)
         {
             bool success = false;
@@ -853,6 +938,38 @@ namespace FrontEndWPF
             return success;
         }
 
+        public bool UpdateEstadoPermisosAusencia(int idEmpleado, string nuevoEstado)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "UPDATE PermisosDeAusencia SET Estado = @Estado WHERE IdEmpleado = @IdEmpleado";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+                        command.Parameters.AddWithValue("@Estado", nuevoEstado);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing update query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
         public bool EliminarPermisosTiempo(int idEmpleado)
         {
             bool success = false;
@@ -862,6 +979,37 @@ namespace FrontEndWPF
                 if (connection != null)
                 {
                     string query = "DELETE FROM PermisosDeTiempo WHERE IdEmpleado = @IdEmpleado";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing delete query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+        public bool EliminarPermisosAusencia(int idEmpleado)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "DELETE FROM PermisosDeAusencia WHERE IdEmpleado = @IdEmpleado";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
@@ -961,6 +1109,165 @@ namespace FrontEndWPF
 
             return success;
         }
+
+        public bool ActualizarPermisoAusencia(int idEmpleado, DateTime fechaInicio, DateTime fechaFin, string motivo)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    // Query para actualizar los permisos de tiempo
+                    string query = "UPDATE PermisosDeAusencia SET FechaInicio = @FechaInicio, FechaFin = @FechaFin, Motivo = @Motivo WHERE IdEmpleado = @IdEmpleado";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        // Añade los parámetros al comando SQL
+                        command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+                        command.Parameters.AddWithValue("@FechaInicio", fechaInicio);
+                        command.Parameters.AddWithValue("@FechaFin", fechaFin);
+                        command.Parameters.AddWithValue("@Motivo", motivo);
+
+                        try
+                        {
+                            // Ejecuta la consulta y obtiene el número de filas afectadas
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0; // Si se afectó al menos una fila, el éxito es true
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing update query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+        /* 
+		 * Método que sirve para enviar los datos que se quiere actualizar de un empleado -
+		 * hacia la base de datos que esta en SQL Server.
+		 */
+        public bool UpdateEmployee(string cedula, string nombre,
+            string primerApellido, string segundoApellido,
+            string puesto, DateTime fechaContratacion, decimal salario,
+            string correo, string contraseña, string telefono, bool activo,
+            string direccion, int idrol, string oldCedula, string oldCorreo)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    /*
+					 * Aquí lo que hace es incrementar el idusuario en 1 en 1, -
+					 * esto porque en el comando donde se manda la instrucción de ejecución -
+					 * a la BD (el cual se llama: query), tiene un procedimiento almacenado que -
+					 * necesita dicho campo, además que este es necesario para realizar una actualización -
+					 * que se encuentra dentro del procedimiento almacenado que se esta utilizando.
+					 * 
+					 * [2.1]
+					 * También la variable idusuario es global para que se pueda tomar en cuenta el incremento -
+					 * que se esta indicando en el comando (idusuario++), además porque dicho dato en la BD es un -
+					 * IDENTITY que va de uno en uno.
+					 * 
+					 * También, en la BD, se encuentran los procedimientos almacenados con documentación integrada, -
+					 * por lo que si quieren ver más detallado su funcionamiento, entonces pueden checar dicho procedimiento -
+					 * en la BD.
+					 */
+                    int idUsuario = GetUserIdByEmailCedula(oldCorreo, oldCedula);
+                    string query = "Exec ActualizarListadoEmpleados @IdUsuario, @Cedula, @Nombre, @PrimerApellido, @SegundoApellido, @Contraseña, @Puesto, @FechaContratacion, @Salario, @Correo, @Telefono, @Direccion, @Activo, @IdRol";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                        command.Parameters.AddWithValue("@Cedula", cedula);
+                        command.Parameters.AddWithValue("@Nombre", nombre);
+                        command.Parameters.AddWithValue("@PrimerApellido", primerApellido);
+                        command.Parameters.AddWithValue("@SegundoApellido", segundoApellido);
+                        command.Parameters.AddWithValue("@Contraseña", contraseña);
+                        command.Parameters.AddWithValue("@Puesto", puesto);
+                        command.Parameters.AddWithValue("@FechaContratacion", fechaContratacion);
+                        command.Parameters.AddWithValue("@Salario", salario);
+                        command.Parameters.AddWithValue("@Correo", correo);
+                        command.Parameters.AddWithValue("@Telefono", telefono);
+                        command.Parameters.AddWithValue("@Direccion", direccion);
+                        command.Parameters.AddWithValue("@Activo", activo);
+                        command.Parameters.AddWithValue("@IdRol", idrol);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing insert query: " + ex.Message);
+                        }
+                    }
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+        /* 
+		 * Método que sirve para enviar los datos que se quiere eliminar de un empleado -
+		 * hacia la base de datos que esta en SQL Server.
+		 */
+        public bool DeleteEmployee(int idrol, string correo, string cedula)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    /* 
+					 * Aquí sucede algo similar al del método de actualizar un empleado, -
+					 * solo que aquí es para eliminar un empleado.
+					 * 
+					 * Nota: VER el comentario [2.1]. 
+					 */
+                    int idUsuario = GetUserIdByEmailCedula(correo, cedula);
+                    string query = "Exec EliminarListadoEmpleados @IdRol, @IdUsuario";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdRol", idrol);
+                        command.Parameters.AddWithValue("@IdUsuario", idUsuario);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing insert query: " + ex.Message);
+                        }
+                    }
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+        public bool AddDesvinculacion(DateTime FechaInicio, string Motivo,
+                                      string Comentarios, DateTime FechaSalida)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query1 = "Exec CreacionSolicitudDesvinculacion @FechaInicio, @Motivo, @Comentarios, @FechaSalida";
 
 
         /* Método que valida si el correo existe o no existe en la base de datos -

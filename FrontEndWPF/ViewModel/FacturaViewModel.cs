@@ -13,11 +13,11 @@ namespace FrontEndWPF.ViewModel
     class FacturaViewModel
     {
 		Conexion conexion = new Conexion();
-		public bool CrearFactura(int IdOrden, decimal CantidadPagada, int Impuestos, int Servicio, DateTime FechaCreacion, DateTime FechaCierre, string Cajero, int IdEmpleado, int IdCliente, decimal Descuento, decimal PuntosGanados, string MetodoPago, string TipoVenta, decimal Total)
+		public int CrearFactura(int IdOrden, decimal CantidadPagada, int Impuestos, int Servicio, DateTime FechaCreacion, DateTime FechaCierre, string Cajero, int IdEmpleado, int IdCliente, decimal Descuento, decimal PuntosGanados, string MetodoPago, string TipoVenta, decimal Total)
 		{
 			using (SqlConnection connection = conexion.OpenConnection())
 			{
-				string query = "INSERT INTO Factura (IdOrden, CantidadPagada, Impuestos, Servicio, FechaCreacion, FechaCierre, Cajero, IdEmpleado, IdCliente, Descuento, PuntosGanados, MetodoPago, TipoVenta, Total) " +
+				string query = "INSERT INTO Factura (IdOrden, CantidadPagada, Impuestos, Servicio, FechaCreacion, FechaCierre, Cajero, IdEmpleado, IdCliente, Descuento, PuntosGanados, MetodoPago, TipoVenta, Total)  OUTPUT INSERTED.Id " +
 					"VALUES (@IdOrden, @CantidadPagada, @Impuestos, @Servicio, @FechaCreacion, @FechaCierre, @Cajero, @IdEmpleado, @IdCliente, @Descuento, @PuntosGanados, @MetodoPago, @TipoVenta, @Total)";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
@@ -35,16 +35,8 @@ namespace FrontEndWPF.ViewModel
 					command.Parameters.Add(new SqlParameter("@MetodoPago", MetodoPago));
 					command.Parameters.Add(new SqlParameter("@TipoVenta", TipoVenta));
 					command.Parameters.Add(new SqlParameter("@Total", Total));
-					int rowsAffected = command.ExecuteNonQuery();
-						if (rowsAffected > 0)
-						{
-							return true;
-						}
-						else { 
-							return false;
-						}
-					
-
+					int idFactura = (int)command.ExecuteScalar();
+					return idFactura;
 				}
 			}
 		}

@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace FrontEndWPF
 {
@@ -21,10 +22,13 @@ namespace FrontEndWPF
     /// </summary>
     public partial class nuevaFAQ : Window
     {
-		public string? titulo {  get; set; }
-		public string? pregunta { get; set; }
-		public string? respuesta { get; set; }
-		public string? documento { get; set; }
+
+		public string titulo { get; set; }
+		public string pregunta { get; set; }
+		public string respuesta { get; set; }
+		public string nombre { get; set; } = string.Empty;
+		public byte[] documento { get; set; } = new byte[0];
+
 
 
 		public nuevaFAQ()
@@ -46,11 +50,15 @@ namespace FrontEndWPF
 
 		private void Button_Click_2(object sender, RoutedEventArgs e)
 		{
-			OpenFileDialog openFileDialog = new OpenFileDialog();
-			if (openFileDialog.ShowDialog() == true)
+			Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+			dlg.Filter = "All Files|*.*";
+
+			if (dlg.ShowDialog() == true)
 			{
-				documento = openFileDialog.FileName;
-				Doc.Content = "Documento Subido Exitosamente";
+				string filePath = dlg.FileName;
+				documento = File.ReadAllBytes(filePath);
+				nombre = System.IO.Path.GetFileName(filePath);
+				Doc.Content = "¡Documento Subido Exitosamente!";
 			}
 		}
 	}

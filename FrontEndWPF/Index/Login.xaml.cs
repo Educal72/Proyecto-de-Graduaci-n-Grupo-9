@@ -21,6 +21,7 @@ using FrontEndWPF.Index;
 
 namespace FrontEndWPF
 {
+
     /// <summary>
     /// Lógica de interacción para ExtraPagina.xaml
     /// </summary>
@@ -28,19 +29,18 @@ namespace FrontEndWPF
     {
         //private PosExplorer _posExplorer;
         //private PosPrinter _printer;
-
-        /*
+		/*
 		 * Instancia para poder usar los procedimientos almacenados -
 		 * ubicados en los métodos de la clase Conexión.
 		 */
-        Conexion conexion = new Conexion();
+		Conexion conexion = new Conexion();
 
 
-        /*
+		/*
 		 * Instancia para poder enviar el correo y la contraseña -
 		 * temporal a la clase llamada: CambioContraseña.
 		 */
-        CambioContraseña cambioContraseña = new CambioContraseña();
+		CambioContraseña cambioContraseña = new CambioContraseña();
 
 
         /*
@@ -51,21 +51,23 @@ namespace FrontEndWPF
         static string ContraseñaTemporalGuardada;
 
 
-        public Login()
-        {
-            InitializeComponent();
-            conexion.OpenConnection();
-            if (conexion.HasEntries() || !File.Exists(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/db_config.txt"))
-            {
-                Opcion1.Content = "¿Olvidaste tu contraseña?";
-            }
-            else
-            {
-                Opcion1.Content = "Crear Usuario Admin";
-            }
-        }
 
-        /*
+		public Login()
+		{
+			InitializeComponent();
+			conexion.OpenConnection();
+			if (conexion.HasEntries() || !File.Exists(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/db_config.txt"))
+			{
+				Opcion1.Content = "¿Olvidaste tu contraseña?";
+			}
+			else
+			{
+				Opcion1.Content = "Crear Usuario Admin";
+			}
+		}
+
+
+		/*
          * Método que esta asociado al botón llamado: Iniciar sesión.
          * 
          * Este método lo que hace es que primero registra la contraseña -
@@ -169,6 +171,7 @@ namespace FrontEndWPF
                 }
             }
         }
+
 
 
         /*

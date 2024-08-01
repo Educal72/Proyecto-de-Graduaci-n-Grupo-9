@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FrontEndWPF.Index"
              mc:Ignorable="d" 
-                            Background="Black" Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                            Background="Black" Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     <UserControl.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -48,27 +48,35 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <ScrollViewer>
-        <Grid VerticalAlignment="Center" Background="Black">
-            <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" Foreground="White" Margin="10,880,10,0" FontFamily="Roboto" FontSize="24" Height="39" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
-            <Label Content="Perifericos" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Background="Black" Foreground="White" FontFamily="Roboto" FontWeight="Bold" FontSize="48"/>
-            <Rectangle Height="1" Margin="10,136,10,0" Stroke="White" VerticalAlignment="Top" Fill="#00000000"/>
-            <Label Content="Configurar Perifericos" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" Foreground="#FFC1C1C1" FontFamily="Roboto" FontSize="24"/>
-            <Button Content="Guardar" Margin="725,794,0,0" VerticalAlignment="Top" Height="50" Background="#FFABD904" FontFamily="Roboto" FontSize="24" HorizontalAlignment="Left" Width="125"/>
-            <Label Content="Impresora" HorizontalAlignment="Left" Margin="10,164,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="36" FontWeight="Bold"/>
-            <Label Content="Nombre Virtual" HorizontalAlignment="Left" Margin="10,222,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox HorizontalAlignment="Left" Margin="10,266,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
-            <Label Content="Puerto" HorizontalAlignment="Left" Margin="445,222,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox HorizontalAlignment="Left" Margin="445,266,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
-            <Label Content="Descargar como:" HorizontalAlignment="Left" Margin="10,348,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox HorizontalAlignment="Left" Margin="10,387,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
-            <Label Content="Gabinete" HorizontalAlignment="Left" Margin="10,492,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="36" FontWeight="Bold"/>
-            <Label Content="Codigo de Control" HorizontalAlignment="Left" Margin="10,550,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox HorizontalAlignment="Left" Margin="10,594,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
-            <Label Content="Puerto" HorizontalAlignment="Left" Margin="445,550,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox HorizontalAlignment="Left" Margin="445,594,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
-            <Label Content="Balance Inicial" HorizontalAlignment="Left" Margin="10,671,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
-            <TextBox HorizontalAlignment="Left" Margin="10,715,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
-        </Grid>
-    </ScrollViewer>
+    <Grid VerticalAlignment="Top" Background="Black">
+        <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" Foreground="White" Margin="10,635,10,0" FontFamily="Roboto" FontSize="24" HorizontalContentAlignment="Center" Height="39" VerticalAlignment="Top"/>
+        <Label Content="Perifericos" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Background="Black" Foreground="White" FontFamily="Roboto" FontWeight="Bold" FontSize="48"/>
+        <Rectangle Height="1" Margin="10,136,10,0" Stroke="White" VerticalAlignment="Top" Fill="#00000000"/>
+        <Label Content="Configurar Perifericos" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" Foreground="#FFC1C1C1" FontFamily="Roboto" FontSize="24"/>
+        <Button Content="Guardar" Margin="720,552,0,0" VerticalAlignment="Top" Height="50" Background="#FFABD904" FontFamily="Roboto" FontSize="24" HorizontalAlignment="Left" Width="125" Click="Button_Click_1"/>
+        <Label Content="Impresora" HorizontalAlignment="Left" Margin="10,164,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="36" FontWeight="Bold"/>
+        <Label Content="Nombre Virtual" HorizontalAlignment="Left" Margin="10,222,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+        <TextBox x:Name="nombre" HorizontalAlignment="Left" Margin="10,266,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+        <Label Content="Descargar como:" HorizontalAlignment="Left" Margin="445,222,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+        <Label Content="Gabinete" HorizontalAlignment="Left" Margin="10,341,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="36" FontWeight="Bold"/>
+        <Label Content="Codigo de Control" HorizontalAlignment="Left" Margin="10,399,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+        <TextBox x:Name="codigo" HorizontalAlignment="Left" Margin="10,443,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+        <Label Content="Balance Inicial" HorizontalAlignment="Left" Margin="445,399,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" FontFamily="Roboto" FontWeight="Bold"/>
+        <TextBox x:Name="balanceinicial" HorizontalAlignment="Left" Margin="445,443,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" Foreground="White" Background="Black"/>
+        <Label Content="No Tocar sin Conocimiento" HorizontalAlignment="Left" Margin="10,493,0,0" VerticalAlignment="Top" Foreground="Red" FontSize="20" FontFamily="Roboto" FontWeight="Bold"/>
+        <ComboBox x:Name="descargar"
+                  Height="50"
+                  VerticalAlignment="Top"
+                  Margin="445,266,0,0"
+                  BorderThickness="1" Width="400" HorizontalAlignment="Left" FontSize="18" FontFamily="Roboto" VerticalContentAlignment="Center">
+            <ComboBox.Background>
+                <LinearGradientBrush EndPoint="0,1">
+                    <GradientStop Color="#FFF0F0F0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </ComboBox.Background>
+            <ComboBoxItem Content=".pdf (PDF)" />
+            <ComboBoxItem Content=".xlsx (Excel)" />
+        </ComboBox>
+    </Grid>
 </UserControl>

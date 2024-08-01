@@ -62,10 +62,8 @@ namespace FrontEndWPF
 
         public class Fichajes
 		{
-			public int Id { get; set; }
-			public int Cedula { get; set; }
+			public string Cedula { get; set; }
 			public string Nombre { get; set; }
-			public string Puesto { get; set; }
 			public DateTime Fecha { get; set; }
 			public string Tipo { get; set; }
 											 
@@ -88,13 +86,30 @@ namespace FrontEndWPF
 			public bool Aprobado { get; set; } 
 		}
 
-        public class FAQS
+		public class PermisoDeTiempo
+		{
+			public int Id { get; set; }  // Identificador único del permiso
+			public string Empleado { get; set; }  // Nombre del empleado solicitante
+			public DateTime FechaInicio { get; set; }  // Fecha de inicio del permiso
+			public DateTime FechaFin { get; set; }  // Fecha de fin del permiso
+			public string Motivo { get; set; }  // Motivo del permiso
+			public bool Aprobado { get; set; }  // Estado del permiso (aprobado o no)
+		}
+
+		public class Incidente
 		{
 			public int Id { get; set; }  // Identificador único del incidente
+			public DateTime Fecha { get; set; }  // Fecha en que ocurrió el incidente
+			public string Descripcion { get; set; }  // Descripción del incidente
+			public string Tipo { get; set; }  // Tipo de incidente (por ejemplo, "Entre Empleados", "Con Cliente")
+			public bool Estado { get; set; }
+		}
+		public class FAQS
+		{  
+			public int Id { get; set; }
 			public string Pregunta { get; set; }  // Fecha en que ocurrió el incidente
 			public string Respuesta { get; set; }  // Descripción del incidente
-			public string? Documento { get; set; }
-
+			public string Nombre { get; set; }
 		}
 
         private void MenuListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
