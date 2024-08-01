@@ -27,13 +27,19 @@
         </Style>
     </UserControl.Resources>
     <Grid Background="Black">
-        <DataGrid x:Name="dataGrid" AutoGenerateColumns="True" Margin="0,54,415,35" FontFamily="Roboto" FontSize="20" ColumnWidth="*"/>
+        <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0,54,415,35" FontFamily="Roboto" FontSize="20" ColumnWidth="*">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" Width="*"/>
+                <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha}" Width="*"/>
+                <DataGridTextColumn Header="Descripción" Binding="{Binding Descripcion}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <Button Content="Volver al listado" Margin="0,0,16,35" Click="Button_Click" FontFamily="Roboto" FontSize="16" HorizontalAlignment="Right" Width="127" Height="45" VerticalAlignment="Bottom"/>
         <Label Content="Historial Laboral" HorizontalAlignment="Left" Margin="0,4,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontWeight="Bold" FontSize="36" Foreground="White" Height="50" VerticalContentAlignment="Center" Width="400"/>
         <Label Content="Métricas" Margin="0,4,10,0" VerticalAlignment="Top" FontFamily="Roboto" FontWeight="Bold" FontSize="36" Foreground="White" Height="50" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="400"/>
-        <Label Content="Horas Trabajadas:" Grid.Row="0" Margin="0,79,183,0" FontWeight="Bold" FontFamily="Roboto" FontSize="24" Background="#00000000" Foreground="White" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="220" Height="57" VerticalAlignment="Top"/>
+        <Label Content="Dias Trabajados:" Grid.Row="0" Margin="0,79,183,0" FontWeight="Bold" FontFamily="Roboto" FontSize="24" Background="#00000000" Foreground="White" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="220" Height="57" VerticalAlignment="Top"/>
         <Label Content="Productividad:" Margin="0,146,175,0" HorizontalAlignment="Right" Width="228" FontWeight="Bold" FontFamily="Roboto" FontSize="24" Background="#00000000" Foreground="White" VerticalContentAlignment="Center" Height="53" VerticalAlignment="Top"/>
-        <Label Content="Ventas Realizadas:" Margin="0,209,183,0" Width="220" HorizontalAlignment="Right" FontWeight="Bold" FontSize="24" FontFamily="Roboto" Background="#00000000" Foreground="White" VerticalContentAlignment="Center" Height="58" VerticalAlignment="Top"/>
+        <Label Content="Facturas Asociadas:" Margin="0,209,183,0" Width="220" HorizontalAlignment="Right" FontWeight="Bold" FontSize="24" FontFamily="Roboto" Background="#00000000" Foreground="White" VerticalContentAlignment="Center" Height="58" VerticalAlignment="Top"/>
         <Label Content="Incidentes:" Margin="0,272,183,0" FontWeight="Bold" FontFamily="Roboto" FontSize="24" Background="#00000000" Foreground="White" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="220" Height="53" VerticalAlignment="Top"/>
         <TextBox x:Name="total" Grid.Row="0" Margin="0,83,16,0" FontFamily="Roboto" FontSize="36" TextAlignment="Right" Height="50" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" IsEnabled="False" Text="512" HorizontalAlignment="Right" Width="162" VerticalAlignment="Top">
             <TextBox.BorderBrush>

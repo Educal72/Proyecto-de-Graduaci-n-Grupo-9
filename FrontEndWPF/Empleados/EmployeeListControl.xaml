@@ -26,10 +26,39 @@
         </Style>
     </UserControl.Resources>
     <Grid Background="Black" Width="Auto" Height="Auto">
-        <DataGrid x:Name="EmployeeDataGrid" AutoGenerateColumns="True" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*"/>
+        <DataGrid x:Name="EmployeeDataGrid" AutoGenerateColumns="False" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Cedula" Binding="{Binding Cedula}" Width="*"/>
+                <DataGridTemplateColumn Header="Nombre Completo" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} {1}">
+                                        <Binding Path="Nombre"/>
+                                        <Binding Path="PrimerApellido"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Correo Electronico" Binding="{Binding Correo}" Width="*"/>
+                <DataGridTextColumn Header="Telefono" Binding="{Binding Telefono}" Width="*"/>
+                <DataGridTextColumn Header="Puesto" Binding="{Binding Puesto}" Width="*"/>
+                <DataGridTextColumn Header="Rol" Binding="{Binding NombreRol}" Width="*"/>
+                <DataGridTemplateColumn Header="Activo" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Activo}" IsEnabled="False" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
         <Button Content="Eliminar" Margin="180,0,0,0" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Left" Width="80" Click="Button_Click_1"/>
         <Button Content="Editar" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Button_Click_2"/>
         <Button Content="Añadir" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Button_Click" Margin="10,0,0,0"/>
-        <Button Content="Historial Laboral" Margin="0,0,385,0" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" Click="Button_Click_6" HorizontalAlignment="Right" Width="150"/>
+        <Button Content="Historial Laboral" Margin="0,0,10,0" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" Click="Button_Click_6" HorizontalAlignment="Right" Width="150"/>
     </Grid>
 </UserControl>
