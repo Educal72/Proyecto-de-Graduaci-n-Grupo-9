@@ -83,16 +83,19 @@ namespace FrontEndWPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //InicioSesionViewModel inicioSesionViewModel = new InicioSesionViewModel();
+            InicioSesionViewModel inicioSesionViewModel = new InicioSesionViewModel();
 
             //// Obtener el IdUsuario del usuario actual
-            //int idUsuario = SesionUsuario.Instance.IdUsuario;
-
-            //// Actualizar la última desconexión
-            //if (!inicioSesionViewModel.ActualizarUltimaDesconexion(idUsuario))
-            //{
-            //    MessageBox.Show("Error al actualizar la última desconexión", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
+            int idUsuario = SesionUsuario.Instance.id;
+			int resultado = inicioSesionViewModel.ExisteInicioSesion(idUsuario);
+			//// Actualizar la última desconexión
+			if (resultado == 0)
+            {
+                MessageBox.Show("Error al actualizar la última desconexión", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            } else {
+				
+				inicioSesionViewModel.UltimaDesconexion(resultado);
+			}
 
             // Redireccionar a la vista de Login
             NavigationService.Navigate(new Uri("Index/Login.xaml", UriKind.Relative));

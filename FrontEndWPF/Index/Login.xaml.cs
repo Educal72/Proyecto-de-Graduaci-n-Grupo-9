@@ -35,6 +35,7 @@ namespace FrontEndWPF
 		 * ubicados en los métodos de la clase Conexión.
 		 */
 		Conexion conexion = new Conexion();
+        InicioSesionViewModel inicioSesionViewModel = new InicioSesionViewModel();
 
 
 		/*
@@ -112,9 +113,10 @@ namespace FrontEndWPF
                         SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
                         SesionUsuario.Instance.nombre = con["Nombre"].ToString()!;
                         var conexionEmpleado = new ConexionEmpleado();
-                        
-                        //Envia el nombre del usuario a la clase de conexion empleado.
-                        conexionEmpleado.NombreUsuario(SesionUsuario.Instance.nombre = con["Nombre"].ToString()!);
+                        SesionUsuario.Instance.id = Convert.ToInt32(con["Id"]);
+						//Envia el nombre del usuario a la clase de conexion empleado.
+						conexionEmpleado.NombreUsuario(SesionUsuario.Instance.nombre = con["Nombre"].ToString()!);
+                        inicioSesionViewModel.CrearRegistroInicio(Convert.ToInt32(con["Id"]), DateTime.Today, DateTime.Now);
                     }
                     NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
                 }

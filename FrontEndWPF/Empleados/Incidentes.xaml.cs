@@ -48,7 +48,7 @@ namespace FrontEndWPF
         {
             InitializeComponent();
             conexion.OpenConnection();
-            MessageBox.Show("Bienvenido(a) al apartado de incidentes", "¡Aviso!", MessageBoxButton.OK, MessageBoxImage.Information);
+            //MessageBox.Show("Bienvenido(a) al apartado de incidentes", "¡Aviso!", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
 

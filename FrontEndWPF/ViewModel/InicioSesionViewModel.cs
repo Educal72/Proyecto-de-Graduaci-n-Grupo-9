@@ -18,6 +18,9 @@ using iText.Kernel.Pdf.Canvas;
 using iText.Kernel.Pdf.Canvas.Parser;
 using iText.Kernel.Pdf.Canvas.Parser.Listener;
 using iText.IO.Image;
+using System.Data.SqlClient;
+using HorizontalAlignment = iText.Layout.Properties.HorizontalAlignment;
+using VerticalAlignment = iText.Layout.Properties.VerticalAlignment;
 
 
 
@@ -25,6 +28,7 @@ namespace FrontEndWPF.ViewModel
 {
     public class InicioSesionViewModel : INotifyPropertyChanged
     {
+        private Conexion conexion = new Conexion();
         private ObservableCollection<InicioSesion> _inicioSesiones;
         private ObservableCollection<InicioSesion> _registros;
 
@@ -95,97 +99,94 @@ namespace FrontEndWPF.ViewModel
             }
         }
 
-        public void GenerarPDF()
-        {
-            // Ruta base para guardar el archivo PDF
-            string rutaBase = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string nombreArchivoBase = "InformeInicioSesion";
-            string extensionArchivo = ".pdf";
+		public void GenerarPDF()
+		{
+			// Ruta base para guardar el archivo PDF
+			string rutaBase = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+			string nombreArchivoBase = "InformeInicioSesion";
+			string extensionArchivo = ".pdf";
 
-            // Encontrar el siguiente número consecutivo disponible
-            int numeroConsecutivo = 1;
-            string archivoPdf;
-            do
-            {
-                archivoPdf = System.IO.Path.Combine(rutaBase, $"{nombreArchivoBase}_{numeroConsecutivo}{extensionArchivo}");
-                numeroConsecutivo++;
-            }
-            while (File.Exists(archivoPdf));
+			// Encontrar el siguiente número consecutivo disponible
+			int numeroConsecutivo = 1;
+			string archivoPdf;
+			do
+			{
+				archivoPdf = System.IO.Path.Combine(rutaBase, $"{nombreArchivoBase}_{numeroConsecutivo}{extensionArchivo}");
+				numeroConsecutivo++;
+			}
+			while (File.Exists(archivoPdf));
 
-            // Generar el archivo PDF
-            using (var writer = new PdfWriter(archivoPdf))
-            using (var pdf = new PdfDocument(writer))
-            using (var document = new Document(pdf))
-            {
-                // Crear fuentes para negrita y normal
-                PdfFont boldFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
-                PdfFont normalFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
+			// Generar el archivo PDF
+			using (var writer = new PdfWriter(archivoPdf))
+			using (var pdf = new PdfDocument(writer))
+			using (var document = new Document(pdf))
+			{
+				// Crear fuentes para negrita y normal
+				PdfFont boldFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
+				PdfFont normalFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
 
-                // Ruta de la imagen
-                string imagePath = "C:\\Users\\Usuario\\source\\repos\\Proyecto-de-Graduaci-n-Grupo-9\\FrontEndWPF\\323715758_861857158399502_6847062045596271805_n-removebg-preview.png";
-                ImageData imageData = ImageDataFactory.Create(imagePath);
-                Image image = new Image(imageData)
-                    .ScaleToFit(60, 60); // Ajustar tamaño de la imagen
+				// Ruta de la imagen
+				string imagePath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/323715758_861857158399502_6847062045596271805_n-removebg-preview.png";
+				ImageData imageData = ImageDataFactory.Create(imagePath);
+				Image image = new Image(imageData)
+					.ScaleToFit(120, 120); // Ajustar tamaño de la imagen
 
-                // Añadir los encabezados y calcular la altura total de los encabezados
-                float headerHeight = 60; // Estimación fija para la altura de los encabezados
+				// Crear una tabla para el encabezado con dos columnas
+				Table headerTable = new Table(UnitValue.CreatePercentArray(new float[] { 70, 30 }));
+				headerTable.SetWidth(UnitValue.CreatePercentValue(100));
 
-                // Obtener el tamaño de la página
-                Rectangle pageSize = document.GetPageEffectiveArea(PageSize.A4);
-                float pageWidth = pageSize.GetWidth();
-                float pageHeight = pageSize.GetHeight();
+				// Primera celda con los subtítulos
+				Cell textCell = new Cell()
+					.Add(new Paragraph("Informes de Inicios de Sesión").SetFont(boldFont).SetFontSize(14))
+					.Add(new Paragraph("Empresa: El Molino").SetFont(normalFont).SetFontSize(12))
+					.Add(new Paragraph($"Fecha de Impresión: {DateTime.Now:yyyy-MM-dd}").SetFont(normalFont).SetFontSize(12))
+					.Add(new Paragraph($"Hora de Impresión: {DateTime.Now:hh:mm:ss tt}").SetFont(normalFont).SetFontSize(12))
+					.Add(new Paragraph($"Total de Registros: {_inicioSesiones.Count}").SetFont(normalFont).SetFontSize(12))
+					.Add(new Paragraph("\n")); // Espacio
+				textCell.SetBorder(Border.NO_BORDER);
+				textCell.SetPadding(0);
+				headerTable.AddCell(textCell);
 
-                // Calcular la posición para la imagen
-                float imageWidth = image.GetImageWidth();
-                float imageHeight = image.GetImageHeight();
-                float x = pageWidth - imageWidth - 300; // Ajustar el margen derecho según sea necesario
-                float y = pageHeight - imageHeight - 30; // Ajustar el margen superior según sea necesario
+				// Segunda celda con la imagen
+				Cell imageCell = new Cell().Add(image);
+				imageCell.SetBorder(Border.NO_BORDER);
+				imageCell.SetHorizontalAlignment(HorizontalAlignment.RIGHT);
+				imageCell.SetVerticalAlignment(VerticalAlignment.TOP);
+				imageCell.SetPaddingRight(20);
+				headerTable.AddCell(imageCell);
 
-                // Posicionar la imagen
-                image.SetFixedPosition(x, y);
-                document.Add(image);
+				// Añadir la tabla de encabezado al documento
+				document.Add(headerTable);
 
-                // Encabezados
-                document.Add(new Paragraph("Informes de Inicios de Sesión")
-                   .SetFont(boldFont).SetFontSize(14));
-                document.Add(new Paragraph("Empresa: El Molino")
-                    .SetFont(normalFont).SetFontSize(12));
-                document.Add(new Paragraph($"Fecha de Impresión: {DateTime.Now.ToString("yyyy-MM-dd")}")
-                    .SetFont(normalFont).SetFontSize(12));
-                document.Add(new Paragraph($"Hora de Impresión: {DateTime.Now.ToString("hh:mm:ss tt")}")
-                    .SetFont(normalFont).SetFontSize(12));
-                document.Add(new Paragraph($"Total de Registros: {_inicioSesiones.Count}")
-                    .SetFont(normalFont).SetFontSize(12));
-                document.Add(new Paragraph("\n")); // Espacio
+				// Encabezados de la tabla
+				var table = new Table(4); // 4 columnas
+				table.AddHeaderCell(new Cell().Add(new Paragraph("Id Usuario").SetFont(boldFont)));
+				table.AddHeaderCell(new Cell().Add(new Paragraph("Fecha de Ingreso").SetFont(boldFont)));
+				table.AddHeaderCell(new Cell().Add(new Paragraph("Fecha de Inicio de Sesión").SetFont(boldFont)));
+				table.AddHeaderCell(new Cell().Add(new Paragraph("Última Fecha de Desconexión").SetFont(boldFont)));
 
-                // Encabezados de la tabla
-                var table = new Table(4); // 4 columnas
-                table.AddHeaderCell(new Cell().Add(new Paragraph("Id Usuario").SetFont(boldFont)));
-                table.AddHeaderCell(new Cell().Add(new Paragraph("Fecha de Ingreso").SetFont(boldFont)));
-                table.AddHeaderCell(new Cell().Add(new Paragraph("Fecha de Inicio de Sesión").SetFont(boldFont)));
-                table.AddHeaderCell(new Cell().Add(new Paragraph("Última Fecha de Desconexión").SetFont(boldFont)));
+				// Datos de la tabla
+				foreach (var sesion in _inicioSesiones)
+				{
+					table.AddCell(new Cell().Add(new Paragraph(sesion.IdUsuario.ToString()).SetFont(normalFont)));
+					table.AddCell(new Cell().Add(new Paragraph(sesion.FechaIngreso.ToString("yyyy-MM-dd")).SetFont(normalFont)));
+					table.AddCell(new Cell().Add(new Paragraph(sesion.FechaInicioSesion.ToString("yyyy-MM-dd")).SetFont(normalFont)));
+					table.AddCell(new Cell().Add(new Paragraph(sesion.UltimaDesconexion.HasValue ?
+						sesion.UltimaDesconexion.Value.ToString("yyyy-MM-dd") : "N/A").SetFont(normalFont)));
+				}
+
+				document.Add(table);
+
+				// Añadir números de página
+				AddPageNumbers(pdf);
+			}
+
+			MessageBox.Show($"El informe se ha generado y guardado en: {archivoPdf}", "Informe Generado", MessageBoxButton.OK, MessageBoxImage.Information);
+		}
 
 
-                // Datos de la tabla
-                foreach (var sesion in _inicioSesiones)
-                {
-                    table.AddCell(new Cell().Add(new Paragraph(sesion.IdUsuario.ToString()).SetFont(normalFont)));
-                    table.AddCell(new Cell().Add(new Paragraph(sesion.FechaIngreso.ToString("yyyy-MM-dd")).SetFont(normalFont)));
-                    table.AddCell(new Cell().Add(new Paragraph(sesion.FechaInicioSesion.ToString("yyyy-MM-dd")).SetFont(normalFont)));
-                    table.AddCell(new Cell().Add(new Paragraph(sesion.UltimaDesconexion.HasValue ?
-                        sesion.UltimaDesconexion.Value.ToString("yyyy-MM-dd") : "N/A").SetFont(normalFont)));
-                }
 
-                document.Add(table);
-
-                // Añadir números de página
-                AddPageNumbers(pdf);
-            }
-
-            MessageBox.Show($"El informe se ha generado y guardado en: {archivoPdf}", "Informe Generado", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        private void AddPageNumbers(PdfDocument pdfDoc)
+		private void AddPageNumbers(PdfDocument pdfDoc)
         {
             int numberOfPages = pdfDoc.GetNumberOfPages();
             PdfFont font = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
@@ -212,5 +213,81 @@ namespace FrontEndWPF.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-    }
+        public bool CrearRegistroInicio(int IdUsuario, DateTime FechaIngreso, DateTime FechaInicioSesion)
+        {
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                string query = "INSERT INTO InicioSesion (IdUsuario, FechaIngreso, FechaInicioSesion) VALUES (@IdUsuario, @FechaIngreso, @FechaInicioSesion)";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@IdUsuario", IdUsuario));
+                    command.Parameters.Add(new SqlParameter("@FechaIngreso", FechaIngreso));
+                    command.Parameters.Add(new SqlParameter("@FechaInicioSesion", FechaInicioSesion));
+                    int rowsAffected = (int)command.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                }
+            }
+        }
+        public bool UltimaDesconexion(int id)
+        {
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                string query = "UPDATE InicioSesion SET UltimaDesconexion = @UltimaDesconexion WHERE Id = @Id";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@Id", id));
+                    command.Parameters.Add(new SqlParameter("@UltimaDesconexion", DateTime.Now));
+                    int rowsAffected = (int)command.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+		public int ExisteInicioSesion(int IdUsuario)
+		{
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				string query = @"
+    SELECT 
+        Id
+    FROM 
+        InicioSesion
+    WHERE 
+        IdUsuario = @IdUsuario AND
+        UltimaDesconexion IS NULL";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.Add(new SqlParameter("@IdUsuario", IdUsuario));
+					using (SqlDataReader reader = command.ExecuteReader())
+					{
+						if (reader.Read())
+						{
+							int entradaId = reader.GetInt32(0);
+							return entradaId;
+						}
+						else
+						{
+							int entradaId = 0;
+							return entradaId;
+						}
+					}
+
+				}
+			}
+		}
+	}
 }
