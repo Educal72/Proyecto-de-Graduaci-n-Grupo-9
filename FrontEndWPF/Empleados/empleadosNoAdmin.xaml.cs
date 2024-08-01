@@ -22,6 +22,11 @@ namespace FrontEndWPF
     /// </summary>
     public partial class empleadosNoAdmin : Page
     {
+        private DispatcherTimer timer;
+
+        //Variable estatica booleana.
+        static bool a;
+
         public empleadosNoAdmin()
         {
             InitializeComponent();
@@ -31,22 +36,15 @@ namespace FrontEndWPF
             timer.Start();
             fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
         }
+        
 
-        private DispatcherTimer timer;
-
-        private void MenuListBox_SelectionChanged(object sender, RoutedEventArgs e)
+        /* Este método sirve para poder saber si el usuario administrador quiere o no entrar -
+         * a algún apartado de la sección de empleados.*/
+        public void Enviar(bool dato)
         {
-
-            ContentArea.Content = null;
-            var selectedItem = (MenuListBox.SelectedItem as ListBoxItem)?.Content.ToString();
-
-            switch (selectedItem)
-            {
-                case "Desvinculaciones":
-                    ContentArea.Content = new Desvinculaciones();
-                    break;
-            }
+            a = dato;
         }
+
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -63,35 +61,6 @@ namespace FrontEndWPF
             NavigationService.Navigate(new Uri("Index/Perfil.xaml", UriKind.Relative));
         }
 
-        public class Metrica
-        {
-            public string Empleado { get; set; }
-            public int HorasTrabajadas { get; set; }
-            public int Productividad { get; set; }
-            public int VentasRealizadas { get; set; }
-        }
-     
-        public class Desvinculacion
-        {
-            public int Id { get; set; } // Identificador único de la desvinculación
-            public string Empleado { get; set; } // Nombre del empleado desvinculado
-            public DateTime Fecha { get; set; } // Fecha de la desvinculación
-            public string Motivo { get; set; } // Motivo de la desvinculación
-            public string Comentarios { get; set; } // Comentarios adicionales sobre la desvinculación
-            public bool Reconocido { get; set; }
-        }
-
-        public class PerfilEmpleoBuscado
-        {
-            public int Id { get; set; } // Identificador único del perfil de empleo buscado
-            public string Titulo { get; set; } // Título del perfil de empleo
-            public string Descripcion { get; set; } // Descripción del perfil de empleo
-            public string NivelExperiencia { get; set; } // Nivel de experiencia requerido
-            public string Requisitos { get; set; } // Requisitos del perfil de empleo
-            public string Ubicacion { get; set; } // Ubicación del trabajo
-            public double Salario { get; set; } // Salario mínimo ofrecido
-        }
-
         private void MenuListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ContentArea.Content = null;
@@ -101,6 +70,10 @@ namespace FrontEndWPF
             {
                 case "Desvinculaciones":
                     ContentArea.Content = new Desvinculaciones();
+                    if (a == true)
+                    {
+                        ContentArea.Content = new PantallaOscura();
+                    }
                     break;
             }
         }

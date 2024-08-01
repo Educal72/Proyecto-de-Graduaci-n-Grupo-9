@@ -1,7 +1,8 @@
 ﻿<Window x:Class="FrontEndWPF.añadirDesvinculaciones"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Añadir Desvinculaciones" Height="750" Width="500" Background="#f4f4f4">
+        Title="Añadir Desvinculaciones" Height="551" Width="559" 
+        Background="#f4f4f4">
     <Window.Resources>
         <!-- Estilos -->
         <Style TargetType="TextBox">
@@ -73,24 +74,29 @@
         <!-- Instructions -->
         <Label Content="Ingrese los datos para la solicitud de desvinculación." Grid.Row="1" Grid.ColumnSpan="3" FontSize="16" Foreground="#FF5D5D5D" Margin="0,0,0,20"/>
 
-        <!-- Form Fields -->
-        <Label Content="Empleado:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="EmpleadoTextBox" Grid.Row="2" Grid.Column="1" Width="278" HorizontalAlignment="Left" FontSize="18" Padding="5" Margin="5"/>
+        <Label Content="Nombre:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Nombre_TextBox" Grid.Row="2" Grid.Column="1" Width="278" HorizontalAlignment="Left" FontSize="18" Padding="5" Margin="5"/>
 
-        <Label Content="Fecha inicio:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
-        <DatePicker x:Name="FechaInicioPicker" Grid.Row="3" Grid.Column="1" Width="278" HorizontalAlignment="Left" FontSize="18" Padding="5" Margin="5"/>
+        <Label Content="Apellido:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Apellido_TextBox" Grid.Row="3" Grid.Column="1" Width="278" HorizontalAlignment="Left" FontSize="18" Padding="5" Margin="5"/>
 
-        <Label Content="Motivo:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="MotivoTextbox" Grid.Row="4" Grid.Column="1" Width="278" HorizontalAlignment="Left" FontSize="18" Padding="5" Margin="5"/>
+        <Label Content="Fecha inicio:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
+        <DatePicker x:Name="FechaInicio_Picker" Grid.Row="4" Grid.Column="1" Width="278" HorizontalAlignment="Left" FontSize="18" Padding="5" Margin="5"/>
+        <Button Content="Actual" Grid.Row="4" Grid.Column="3" Click="FechaActual_Inicio_Click" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
 
-        <Label Content="Comentarios:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="ComentariosTextbox" Grid.Row="5" Grid.Column="1" Width="278" HorizontalAlignment="Left" FontSize="18" Padding="5" Margin="5"/>
+        <Label Content="Motivo:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Motivo_Textbox" Grid.Row="5" Grid.Column="1" Width="278" HorizontalAlignment="Left" FontSize="18" Padding="5" Margin="5"/>
 
-        <Label Content="Fecha salida:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"/>
-        <DatePicker x:Name="FechaSalidaPicker" Grid.Row="6" Grid.Column="1" Width="278" HorizontalAlignment="Left" FontSize="18" Padding="5" Margin="5"/>
+        <Label Content="Comentarios:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Comentarios_Textbox" Grid.Row="6" Grid.Column="1" Width="278" HorizontalAlignment="Left" FontSize="18" Padding="5" Margin="5"/>
 
+        <Label Content="Fecha salida:" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center"/>
+        <DatePicker x:Name="FechaSalida_Picker" Grid.Row="7" Grid.Column="1" Width="278" HorizontalAlignment="Left" FontSize="18" Padding="5" Margin="5"/>
+        <Button Content="Actual" Grid.Row="7" Grid.Column="3" Click="FechaActual_Salida_Click" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        
+        
         <!-- Buttons -->
-        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,20,0,0">
+        <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,20,0,0">
             <Button Content="Guardar" Click="Guardar_Click" Background="#FF04CC00"/>
             <Button Content="Cancelar" Click="Cancelar_Click" Background="#FF007ACC"/>
         </StackPanel>

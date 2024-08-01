@@ -21,11 +21,11 @@ namespace FrontEndWPF
     /// </summary>
     public partial class editarPerfilCompetencial : Window
     {
-        public string titulo_editarPerfilCompetencial { get; set; } // Título del perfil de empleo.
-        public string descripcion_editarPerfilCompetencial { get; set; } // Descripción del perfil de empleo.
-        public string experiencia_editarPerfilCompetencial { get; set; } // Nivel de experiencia requerido.
-        public string requisitos_editarPerfilCompetencial { get; set; } // Requisitos del perfil de empleo (Básico, Intermedio o Avanzado).
-        public string ubicacion_editarPerfilCompetencial { get; set; } // Ubicación del trabajo.
+        public string? titulo_editarPerfilCompetencial { get; set; } // Título del perfil de empleo.
+        public string? descripcion_editarPerfilCompetencial { get; set; } // Descripción del perfil de empleo.
+        public string? experiencia_editarPerfilCompetencial { get; set; } // Nivel de experiencia requerido.
+        public string? requisitos_editarPerfilCompetencial { get; set; } // Requisitos del perfil de empleo (Básico, Intermedio o Avanzado).
+        public string? ubicacion_editarPerfilCompetencial { get; set; } // Ubicación del trabajo.
         public double salario_editarPerfilCompetencial { get; set; } // Salario mínimo ofrecido.
 
 

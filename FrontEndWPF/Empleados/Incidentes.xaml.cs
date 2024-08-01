@@ -63,7 +63,7 @@ namespace FrontEndWPF
                 FROM Incidentes 
                 WHERE Tipo = 'Interno'";
 
-            List<Incidente> incidentes = new List<Incidente>();
+            List<Modelos.UserModel.Incidente> incidentes = new List<Modelos.UserModel.Incidente>();
 
             using (SqlConnection connection = conexion.OpenConnection())
             {
@@ -74,7 +74,7 @@ namespace FrontEndWPF
 
                     while (reader.Read())
                     {
-                        incidentes.Add(new Incidente
+                        incidentes.Add(new Modelos.UserModel.Incidente
                         {
                             Usuario = conexionEmpleado.UsuarioPorID(Convert.ToInt32(reader["IdUsuario"].ToString())),
                             Fecha = Convert.ToDateTime(reader["Fecha"]),
@@ -120,7 +120,7 @@ namespace FrontEndWPF
                 FROM Incidentes 
                 WHERE Tipo = 'Externo'";
 
-            List<Incidente> incidentes = new List<Incidente>();
+            List<Modelos.UserModel.Incidente> incidentes = new List<Modelos.UserModel.Incidente>();
 
             using (SqlConnection connection = conexion.OpenConnection())
             {
@@ -131,7 +131,7 @@ namespace FrontEndWPF
 
                     while (reader.Read())
                     {
-                        incidentes.Add(new Incidente
+                        incidentes.Add(new Modelos.UserModel.Incidente
                         {
                             Usuario = conexionEmpleado.UsuarioPorID(Convert.ToInt32(reader["IdUsuario"].ToString())),
                             Fecha = Convert.ToDateTime(reader["Fecha"]),
@@ -249,7 +249,7 @@ namespace FrontEndWPF
         {
             /* Esto sirve para poder detectar si el usuario esta -
              * seleccionando un incidente que se le muestra en pantalla.*/
-            Incidente selectedIncidente = IncidenteDataGrid.SelectedItem as Incidente;
+            Modelos.UserModel.Incidente selectedIncidente = IncidenteDataGrid.SelectedItem as Modelos.UserModel.Incidente;
             MessageBoxResult result = MessageBox.Show("¿Quieres marcar este dato como resuelto?",
                 "¡Confirmación!", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
@@ -279,7 +279,7 @@ namespace FrontEndWPF
         {
             /* Esto sirve para poder detectar si el usuario esta -
              * seleccionando un incidente que se le muestra en pantalla.*/
-            Incidente selectedIncidente = IncidenteDataGrid.SelectedItem as Incidente;
+            Modelos.UserModel.Incidente selectedIncidente = IncidenteDataGrid.SelectedItem as Modelos.UserModel.Incidente;
             MessageBoxResult result = MessageBox.Show("¿Quieres marcar este dato como no resuelto?",
                 "¡Confirmación!", MessageBoxButton.YesNo, MessageBoxImage.Question);
 

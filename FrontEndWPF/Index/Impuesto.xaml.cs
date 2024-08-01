@@ -54,7 +54,7 @@ namespace FrontEndWPF.Index
 			try
 			{
 				File.WriteAllText(filePath, content);
-				MessageBox.Show($"Configuración guardada exitosamente en el archivo!\nRuta: {filePath}", "Resultado", MessageBoxButton.OK, MessageBoxImage.Information);
+				MessageBox.Show($"Configuración guardada exitosamente", "Resultado", MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			catch (Exception ex)
 			{
