@@ -22,6 +22,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using FrontEndWPF.Services;
 using System.Globalization;
 using FrontEndWPF.ViewModel;
+using System.Text.RegularExpressions;
 
 namespace FrontEndWPF
 {
@@ -33,7 +34,7 @@ namespace FrontEndWPF
 		decimal Subtotal;
 		decimal Total;
 		private DispatcherTimer timer;
-
+		List<carritoItem> carritoItems = new List<carritoItem>();
 		OrdenesViewModel Orden = new OrdenesViewModel();
 		FacturaViewModel Factura = new FacturaViewModel();
 		private decimal puntosDisponibles = 0;
@@ -48,23 +49,21 @@ namespace FrontEndWPF
 		private string metodoPago;
 		private string cajero = SesionUsuario.Instance.nombre;
 		private decimal puntosGanados;
+		private decimal impuestosGenerados = 0;
+		private decimal servicioI;
 
 		public Facturacion(int idOrden)
 		{
 			this.idOrden = idOrden;
 			InitializeComponent();
-            viewModel = new FacturacionViewModel();
-            this.DataContext = viewModel;
-            viewModel.LoadProductosCarrito(orderId);
-
             timer = new DispatcherTimer();
 			timer.Interval = TimeSpan.FromSeconds(1);
 			timer.Tick += Timer_Tick;
 			timer.Start();
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
-			//LoadCarritoItems();
-			pagado.Focus();
 			FileRead();
+			LoadCarritoItems();
+			pagado.Focus();
 			RestauranteButton.IsChecked = true;
 			tipoVenta = "Restaurante";
 			EfectivoButton.IsChecked = true;
@@ -106,8 +105,8 @@ namespace FrontEndWPF
 						}
 					}
 				}
-				impuesto.Text = Fiva;
-				servicio.Text = Fservicio;
+				impuestoT.Content = "Impuesto: " + Fiva + "%";
+				servicioT.Content = "Servicio: " + Fservicio + "%";
 			}
 			catch (Exception ex)
 			{
@@ -120,6 +119,7 @@ namespace FrontEndWPF
 			var orden = Orden.GetOrdenConProductosById(idOrden);
 			if (orden != null && orden.ContainsKey("Productos")) {
 				var productos = orden["Productos"] as List<OrdenesViewModel.ProductosOrden>;
+				
 				if (productos != null)
 				{
 					foreach (var producto in productos)
@@ -130,18 +130,32 @@ namespace FrontEndWPF
 							Precio = producto.Precio,
 							Cantidad = producto.Cantidad
 						};
+						var PrecioIMP = (decimal)System.Math.Round(producto.Precio - (producto.Precio * (Convert.ToDecimal(Fiva)/100.00m)), 2);
+						for (int i = 0; i < producto.Cantidad; i++) { 
+							impuestosGenerados = (decimal)System.Math.Round(impuestosGenerados + (producto.Precio * (Convert.ToDecimal(Fiva) / 100.00m)), 2);
+						}
 						carrito.Items.Add(cartItem);
-						Subtotal = Subtotal + (producto.Cantidad * producto.Precio);
-
+						carritoItems.Add(cartItem);
+						Subtotal = Subtotal + (producto.Cantidad * PrecioIMP);
 					}
+					impuesto.Text = impuestosGenerados.ToString();
 				}
 			}
 				subtotal.Text = Subtotal.ToString();
 				descuento.Text = puntosDisponibles.ToString();
-				Total = Subtotal + Subtotal * 0.10m;
+				servicioI = ((decimal)System.Math.Round((Subtotal + impuestosGenerados) * (Convert.ToDecimal(Fservicio) / 100.00m)));
+				servicio.Text = servicioI.ToString();
+				Total = Subtotal + impuestosGenerados + Convert.ToDecimal(servicio.Text);
 			    Total = (decimal)System.Math.Round(Total, 2);
+				Total = Redondear(Total);
 				total.Text = Total.ToString();
-			} 
+			    
+			}
+
+		static decimal Redondear(decimal value)
+		{
+			return (value % 5 == 0) ? value : (value + (5 - value % 5));
+		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
@@ -161,7 +175,7 @@ namespace FrontEndWPF
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			pagado.Text = totalTextBox.ToString();
+			pagado.Text = Total.ToString();
 		}
 
 		private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -171,14 +185,15 @@ namespace FrontEndWPF
 			clienteAsociado.WindowState = WindowState.Maximized;
 			if (clienteAsociado.ShowDialog() == true)
 			{
+				total.Text = (Total + puntosDisponibles).ToString();
 				string NombreCompleto = clienteAsociado.NombreCompleto;
 				IdCliente = clienteAsociado.Cedula;
 				cliente.Text = NombreCompleto;
-
-				if (clienteAsociado.isAsociado) {
-					puntosDisponibles = clienteAsociado.puntosDisponibles;
-					isAsociado = clienteAsociado.isAsociado;
-				}
+				puntosDisponibles = clienteAsociado.puntosDisponibles;
+				isAsociado = clienteAsociado.isAsociado;
+				descuento.Text = "0";
+				puntos.Content = "Usar Puntos";
+				
 			}
 		}
 
@@ -205,12 +220,12 @@ namespace FrontEndWPF
 			{
 
 				var orden = Orden.GetOrdenById(idOrden);
-				bool resultadoCrear = Factura.CrearFactura(idOrden, Convert.ToDecimal(pagado.Text), Convert.ToInt32(Fiva), Convert.ToInt32(Fservicio), orden.Creacion, DateTime.Now, cajero, IdUsuario, IdCliente, Convert.ToDecimal(descuento.Text), puntosGanados, metodoPago, tipoVenta, Total);
-                if (resultadoCrear)
+				int resultadoCrear = Factura.CrearFactura(idOrden, Convert.ToDecimal(pagado.Text), Convert.ToInt32(Fiva), Convert.ToInt32(Fservicio), orden.Creacion, DateTime.Now, cajero, IdUsuario, IdCliente, Convert.ToDecimal(descuento.Text), puntosGanados, metodoPago, tipoVenta, Total);
+                if (resultadoCrear != 0)
                 {
 					Factura.TerminarOrden(idOrden);
                 }
-                resultadoFacturacion resultado = new resultadoFacturacion(total.Text, pagado.Text);
+                resultadoFacturacion resultado = new resultadoFacturacion(isAsociado, total.Text, pagado.Text, carritoItems, Convert.ToDecimal(pagado.Text), Convert.ToInt32(Fiva), Convert.ToInt32(Fservicio), orden.Creacion, cajero, Convert.ToDecimal(descuento.Text), puntosGanados, metodoPago, tipoVenta, Total, Subtotal, cliente.Text, resultadoCrear, salonero.Text, Convert.ToDecimal(servicio.Text), impuestosGenerados);
 				resultado.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 				resultado.Show();
 
@@ -255,15 +270,56 @@ namespace FrontEndWPF
 
 		private void Button_Click_5(object sender, RoutedEventArgs e)
 		{
-			if (!isAsociado) {
+			if (!isAsociado)
+			{
 				MessageBox.Show("No hay un cliente asociado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-			} else { 
-				descuento.Text = puntosDisponibles.ToString();
-				Total = Total - puntosDisponibles;
-				puntosGanados = Total * 0.01m;
-				total.Text = Total.ToString();
 			}
+			else
+			{
+				if (puntos.Content.ToString() == "Usar Puntos")
+				{
+					descuento.Text = puntosDisponibles.ToString();
+					Total = Total - puntosDisponibles;
+					puntosGanados = (decimal)System.Math.Round(Total * 0.01m, 2);
+					total.Text = Total.ToString();
+					puntos.Content = "No Usar Puntos";
+				}
+				else if (puntos.Content.ToString() == "No Usar Puntos")
+				{
+					descuento.Text = "0";
+					Total = Total + puntosDisponibles;
+					puntosGanados = (decimal)System.Math.Round(Total * 0.01m, 2);
+					total.Text = Total.ToString();
+					puntos.Content = "Usar Puntos";
+				}
+
+			}
+		}
+
+
+		private void servicio_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			if (string.IsNullOrEmpty(servicio.Text)) { 
+				servicio.Text = "0";
+				servicio.CaretIndex = servicio.Text.Length;
+				
+			}
+			total.Text = Redondear((Total - servicioI) + Convert.ToDecimal(servicio.Text)).ToString();
+			//servicioI = Convert.ToDecimal(servicio.Text);
 			
 		}
+		private void NumericTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+		{
+			// Verificar si el texto ingresado es un número
+			e.Handled = !IsTextNumeric(e.Text);
+		}
+
+		private bool IsTextNumeric(string text)
+		{
+			// Usar expresión regular para verificar si el texto es numérico
+			Regex regex = new Regex("[^0-9]");
+			return !regex.IsMatch(text);
+		}
+
 	}
 }

@@ -1,0 +1,4 @@
+NombreImpresora: SAT 37TUSE
+DescargarComo: .xlsx (Excel)
+CodigoDeControl: \x1B\x70\x01\x32\x32
+BalanceInicial: 69,75

@@ -46,7 +46,7 @@
 
             <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding Orders}"
                   HorizontalScrollBarVisibility="Auto" IsReadOnly="True" SelectionMode="Single" Margin="10"
-                  Grid.Column="0" SelectionChanged="OrdersDataGrid_SelectionChanged">
+                  Grid.Column="0">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
                     <DataGridTemplateColumn Header="Productos" Width="*">

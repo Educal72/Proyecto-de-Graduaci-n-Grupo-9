@@ -112,10 +112,8 @@ namespace FrontEndWPF
 
         public class Fichajes
 		{
-			public int Id { get; set; }
-			public int Cedula { get; set; }
+			public string Cedula { get; set; }
 			public string Nombre { get; set; }
-			public string Puesto { get; set; }
 			public DateTime Fecha { get; set; }
 			public string Tipo { get; set; }
 											 
@@ -157,12 +155,11 @@ namespace FrontEndWPF
 			public bool Estado { get; set; }
 		}
 		public class FAQS
-		{
-			public int Id { get; set; }  // Identificador único del incidente
+		{  
+			public int Id { get; set; }
 			public string Pregunta { get; set; }  // Fecha en que ocurrió el incidente
 			public string Respuesta { get; set; }  // Descripción del incidente
-			public string? Documento { get; set; }
-
+			public string Nombre { get; set; }
 		}
 
 		public class Desvinculacion

@@ -10,6 +10,7 @@ namespace FrontEndWPF.Modelos
 	{
 		public class UsuarioEmpleado
 		{
+            public int Id { get; set; }
 			public string Nombre { get; set; }
 			public string PrimerApellido { get; set; }
 			public string SegundoApellido { get; set; }
@@ -18,6 +19,7 @@ namespace FrontEndWPF.Modelos
 			public string Correo { get; set; }
 			public string Contraseña { get; set; }
 			public int IdRol { get; set; }
+            public string? NombreRol {  get; set; }
 			public DateTime FechaCreacion { get; set; }
 			public string Puesto { get; set; }
 			public decimal Salario { get; set; }

@@ -6,29 +6,36 @@
              xmlns:local="clr-namespace:FrontEndWPF.Empleados"
              mc:Ignorable="d" 
                       d:DesignHeight="450" d:DesignWidth="800">
-<UserControl.Resources>
-    <Style TargetType="Button">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="LightBlue"/>
-                            <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-</UserControl.Resources>
-<Grid Background="Black">
-    <DataGrid x:Name="FAQDataGrid" AutoGenerateColumns="True" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*"/>
+    <UserControl.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="Black">
+        <DataGrid x:Name="FAQDataGrid" AutoGenerateColumns="False" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Pregunta" Binding="{Binding Pregunta}" Width="*"/>
+                <DataGridTextColumn Header="Respuesta" Binding="{Binding Respuesta}" Width="*"/>
+                <DataGridTextColumn Header="Documento Asociado" Binding="{Binding Nombre}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <Button Content="Eliminar" Margin="180,0,0,0" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Left" Width="80" Click="Button_Click_1"/>
         <Button Content="Editar" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Button_Click_2"/>
         <Button Content="Añadir" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Button_Click" Margin="10,0,0,0"/>
+        <Button Content="Descargar Documento Asociado" Margin="0,0,10,0" VerticalAlignment="Top" Height="45" FontFamily="Roboto" Click="Button_Click_3" HorizontalAlignment="Right" Width="190"/>
     </Grid>
 </UserControl>

@@ -66,5 +66,7 @@ namespace FrontEndWPF
 		{
 			NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
 		}
+
+		
 	}
 }

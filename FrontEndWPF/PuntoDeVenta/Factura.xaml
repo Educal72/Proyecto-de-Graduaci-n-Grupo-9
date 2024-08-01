@@ -1,0 +1,64 @@
+﻿<Window x:Class="FrontEndWPF.PuntoDeVenta.Factura"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FrontEndWPF.PuntoDeVenta"
+        mc:Ignorable="d"
+        Title="Factura" Height="Auto" Width="Auto">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="10">
+            <TextBlock Text="Molino Central de Coronado" FontSize="16" FontWeight="Bold" TextAlignment="Center"/>
+            <TextBlock Name="Tel" TextAlignment="Center"/>
+            <TextBlock Name="TipoOrden" TextAlignment="Center"/>
+            <TextBlock Text="Nº Factura" TextAlignment="Center"/>
+            <TextBlock Name="MetodoPago" TextAlignment="Center"/>
+            <TextBlock Name="NumeroFactura" TextAlignment="Center"/>
+            <TextBlock Name="Recepcionista" TextAlignment="Center"/>
+            <TextBlock Name="Salonero" TextAlignment="Center"/>
+            <TextBlock Name="Cliente" TextAlignment="Center"/>
+            <TextBlock Name="Fecha" TextAlignment="Center"/>
+            <TextBlock Name="Correo" TextAlignment="Center" FontWeight="Bold" Margin="10,0"/>
+            <Separator/>
+
+            <StackPanel Name="DetallesStackPanel" Margin="0,10">
+                <!-- Aquí se añadirán los detalles de los productos -->
+            </StackPanel>
+
+            <Separator/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Sub-total:"/>
+                <TextBlock Name="SubTotal" HorizontalAlignment="Right" Width="100"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Impuesto:"/>
+                <TextBlock Name="Impuesto" HorizontalAlignment="Right" Width="100"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Total:" FontWeight="Bold"/>
+                <TextBlock Name="Total" HorizontalAlignment="Right" Width="100" FontWeight="Bold"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Puntos Ganadas:" FontWeight="Bold"/>
+                <TextBlock Name="PuntosGanados" HorizontalAlignment="Right" Width="100" FontWeight="Bold"/>
+            </StackPanel>
+            <Separator/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Pagado:"/>
+                <TextBlock Name="Pagado" HorizontalAlignment="Right" Width="100"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Cambio:"/>
+                <TextBlock Name="Cambio" HorizontalAlignment="Right" Width="100"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Servicio:"/>
+                <TextBlock Name="Servicio" HorizontalAlignment="Right" Width="100"/>
+            </StackPanel>
+            <Separator/>
+            <TextBlock Text="Mensaje Personalizable" TextAlignment="Center"/>
+            <TextBlock Text="WIFI BURGERKING-PASSWORD: 123456789" TextAlignment="Center"/>
+            <TextBlock Text="WIFI BURGERKING-PASSWORD: 123456789" TextAlignment="Center"/>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

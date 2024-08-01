@@ -52,7 +52,7 @@ namespace FrontEndWPF
 			* porque se esta agregando al sistema, por ende, debe estar activo al inicio.
 			*/
             string query = @"
-                SELECT u.Nombre, u.PrimerApellido, u.SegundoApellido, u.Cedula, u.Telefono, u.Correo, u.Contraseña, u.IdRol, u.FechaCreacion, e.Puesto, e.Salario, e.Direccion, e.Activo
+                SELECT u.Id, u.Nombre, u.PrimerApellido, u.SegundoApellido, u.Cedula, u.Telefono, u.Correo, u.Contraseña, u.IdRol, u.FechaCreacion, e.Puesto, e.Salario, e.Direccion, e.Activo
                 FROM Usuario u
                 JOIN Empleado e ON u.Id = e.IdUsuario";
 
@@ -69,6 +69,7 @@ namespace FrontEndWPF
 					{
 						usuariosEmpleados.Add(new UsuarioEmpleado
 						{
+							Id = Convert.ToInt32(reader["Id"]),
 							Nombre = reader["Nombre"].ToString(),
 							PrimerApellido = reader["PrimerApellido"].ToString(),
 							SegundoApellido = reader["SegundoApellido"].ToString(),
@@ -77,13 +78,15 @@ namespace FrontEndWPF
 							Correo = reader["Correo"].ToString(),
 							Contraseña = reader["Contraseña"].ToString(),
 							IdRol = Convert.ToInt32(reader["IdRol"]),
+							NombreRol = conexion.getRoleName(Convert.ToInt32(reader["IdRol"])),
 							FechaCreacion = Convert.ToDateTime(reader["FechaCreacion"]),
 							Puesto = reader["Puesto"].ToString(),
 							Salario = Convert.ToDecimal(reader["Salario"]),
                             Direccion = reader["Direccion"].ToString(),
                             Activo = Convert.ToBoolean(reader["Activo"])
                         });
-					}
+						
+	}
 				}
 				catch (Exception ex)
 				{
@@ -282,13 +285,13 @@ namespace FrontEndWPF
 		 */
 		private void Button_Click_6(object sender, RoutedEventArgs e)
 		{
-			Empleado selectedEmpleado = EmployeeDataGrid.SelectedItem as Empleado;
+			var selectedEmpleado = EmployeeDataGrid.SelectedItem as UsuarioEmpleado;
 			if (selectedEmpleado != null)
 			{
 				MainWindow mainWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
 				if (mainWindow != null)
 				{
-					mainWindow.ChangePageToMetricas();
+					mainWindow.ChangePageToMetricas(selectedEmpleado.Id);
 				}
 
 			}
