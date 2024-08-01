@@ -406,6 +406,106 @@ namespace FrontEndWPF
             return productos;
         }
 
+        public List<Dictionary<string, object>> ListarInicioSesion()
+        {
+            var sesiones = new List<Dictionary<string, object>>();
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT IdUsuario, FechaIngreso, FechaInicioSesion, UltimaDesconexion FROM InicioSesion";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var sesion = new Dictionary<string, object>();
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        string fieldName = reader.GetName(i);
+                                        if (!reader.IsDBNull(i))
+                                        {
+                                            sesion[fieldName] = reader.GetValue(i);
+                                        }
+                                        else
+                                        {
+                                            sesion[fieldName] = null;
+                                        }
+                                    }
+                                    sesiones.Add(sesion);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return sesiones;
+        }
+
+        public List<Dictionary<string, object>> BuscarInicioSesionPorFecha(DateTime fechaInicioSesion)
+        {
+            var registros = new List<Dictionary<string, object>>();
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT IdUsuario, FechaIngreso, FechaInicioSesion, UltimaDesconexion " +
+                                   "FROM InicioSesion " +
+                                   "WHERE FechaInicioSesion = @FechaInicioSesion";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@FechaInicioSesion", fechaInicioSesion);
+
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var registro = new Dictionary<string, object>();
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        string fieldName = reader.GetName(i);
+                                        if (!reader.IsDBNull(i))
+                                        {
+                                            registro[fieldName] = reader.GetValue(i);
+                                        }
+                                        else
+                                        {
+                                            registro[fieldName] = null;
+                                        }
+                                    }
+                                    registros.Add(registro);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return registros;
+        }
+
+
         public bool EliminarProducto(int id)
         {
             bool eliminado = false;
@@ -637,6 +737,7 @@ namespace FrontEndWPF
                     }
 
 
+
                     /*==============================================================================================================================================*/
 
 
@@ -763,6 +864,147 @@ namespace FrontEndWPF
             }
 
             return success;
+        }
+        public bool RegistrarUsuarioAdmin(int idUsuario, DateTime fechaIngreso, DateTime fechaInicioSesion)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        string query = "INSERT INTO InicioSesion (Id, FechaIngreso, FechaInicioSesion) VALUES (@IdUsuario, @FechaIngreso, @FechaInicioSesion)";
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                            command.Parameters.AddWithValue("@FechaIngreso", fechaIngreso);
+                            command.Parameters.AddWithValue("@FechaInicioSesion", fechaInicioSesion);
+
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error executing insert query: " + ex.Message);
+                        throw;
+                    }
+                    finally
+                    {
+                        CloseConnection(connection);
+                    }
+                }
+            }
+
+            return success;
+        }
+
+        public bool RegistrarInicioSesion(int idUsuario, DateTime fechaIngreso, DateTime fechaInicioSesion)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        string query = "INSERT INTO InicioSesion (Id, FechaIngreso, FechaInicioSesion) VALUES (@IdUsuario, @FechaIngreso, @FechaInicioSesion)";
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                            command.Parameters.AddWithValue("@FechaIngreso", fechaIngreso);
+                            command.Parameters.AddWithValue("@FechaInicioSesion", fechaInicioSesion);
+
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error executing insert query: " + ex.Message);
+                        throw;
+                    }
+                    finally
+                    {
+                        CloseConnection(connection);
+                    }
+                }
+            }
+
+            return success;
+        }
+
+        public bool ActualizarUltimaDesconexion(int idUsuario, DateTime ultimaDesconexion)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        string query = "UPDATE InicioSesion SET UltimaDesconexion = @UltimaDesconexion WHERE Id = @IdUsuario AND FechaIngreso = (SELECT MAX(FechaIngreso) FROM InicioSesion WHERE Id = @IdUsuario)";
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@UltimaDesconexion", ultimaDesconexion);
+                            command.Parameters.AddWithValue("@IdUsuario", idUsuario);
+
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error executing update query: " + ex.Message);
+                        throw;
+                    }
+                    finally
+                    {
+                        CloseConnection(connection);
+                    }
+                }
+            }
+
+            return success;
+        }
+
+        public int GetLastInsertedUserId()
+        {
+            int idUsuario = -1;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        string query = "SELECT TOP 1 Id FROM Usuarios ORDER BY Id DESC";
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            var result = command.ExecuteScalar();
+                            if (result != null)
+                            {
+                                idUsuario = Convert.ToInt32(result);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error retrieving last inserted user ID: " + ex.Message);
+                        throw;
+                    }
+                    finally
+                    {
+                        CloseConnection(connection);
+                    }
+                }
+            }
+
+            return idUsuario;
         }
 
         public bool CrearPermisoAusencia(int idEmpleado, DateTime fechaInicio, DateTime fechaFin, string motivo)

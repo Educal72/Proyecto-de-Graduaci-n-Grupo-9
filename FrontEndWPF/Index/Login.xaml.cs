@@ -17,6 +17,7 @@ using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.IO.Ports;
 using FrontEndWPF.Index;
+using FrontEndWPF.ViewModel;
 //using Microsoft.PointOfService;
 
 namespace FrontEndWPF
@@ -123,7 +124,6 @@ namespace FrontEndWPF
                 }
             }
         }
-
 
         /*
          * Método que esta asociado al botón: ¿Olvidaste tu contraseña?

@@ -4,23 +4,22 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:FrontEndWPF.Reporteria"
+      xmlns:local="clr-namespace:FrontEndWPF.ViewModel"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="InicioDeSesion" Width="Auto" Height="Auto">
 
     <Grid>
-        <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="10,65,10,10" ItemsSource="{Binding Empleados}" SelectionChanged="dataGrid_SelectionChanged">
+        <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="10,65,10,10" ItemsSource="{Binding InicioSesiones}" SelectionChanged="dataGrid_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}"/>
-                <DataGridTextColumn Header="Rol Asignado" Binding="{Binding RolAsignado}"/>
+                <DataGridTextColumn Header="ID Usuario" Binding="{Binding IdUsuario}"/>
                 <DataGridTextColumn Header="Fecha de Ingreso" Binding="{Binding FechaIngreso}"/>
                 <DataGridTextColumn Header="Fecha de Inicio de Sesión" Binding="{Binding FechaInicioSesion}"/>
-                <DataGridTextColumn Header="Última Fecha de Desconexión" Binding="{Binding UltimaFechaDesconexion}"/>
+                <DataGridTextColumn Header="Última Fecha de Desconexión" Binding="{Binding UltimaDesconexion}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <!-- Botón "Generar Informe" -->
 
+        <!-- Botón "Generar Informe" -->
         <!-- Modal para generar informe -->
         <Popup x:Name="informePopup" Placement="Center" IsOpen="False">
             <Border BorderBrush="Gray" BorderThickness="1" Background="White" CornerRadius="5">
@@ -39,16 +38,16 @@
                 <StackPanel Margin="20">
                     <!-- Aquí se mostrarán los detalles del registro seleccionado -->
                     <!-- Por ejemplo, TextBoxes para los campos -->
-                    <TextBox x:Name="txtNombre" Text="{Binding SelectedItem.Nombre, ElementName=dataGrid}"/>
-                    <TextBox x:Name="txtRol" Text="{Binding SelectedItem.RolAsignado, ElementName=dataGrid}"/>
+                    <TextBox x:Name="txtIdUsuario" Text="{Binding SelectedItem.IdUsuario, ElementName=dataGrid}"/>
                     <TextBox x:Name="txtFechaIngreso" Text="{Binding SelectedItem.FechaIngreso, ElementName=dataGrid}"/>
                     <TextBox x:Name="txtFechaInicioSesion" Text="{Binding SelectedItem.FechaInicioSesion, ElementName=dataGrid}"/>
-                    <TextBox x:Name="txtUltimaFechaDesconexion" Text="{Binding SelectedItem.UltimaFechaDesconexion, ElementName=dataGrid}"/>
+                    <TextBox x:Name="txtUltimaDesconexion" Text="{Binding SelectedItem.UltimaDesconexion, ElementName=dataGrid}"/>
                     <!-- Botón para actualizar -->
                     <Button Content="Actualizar" Click="Actualizar_Click"/>
                 </StackPanel>
             </Border>
         </Popup>
+
         <Label Content="Informes &quot;Inicio de Sesion&quot;" Margin="297,0,269,0" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Background="#FF18A20C" FontSize="18">
             <Label.BorderBrush>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -57,16 +56,9 @@
                 </LinearGradientBrush>
             </Label.BorderBrush>
         </Label>
-        <TextBox HorizontalAlignment="Left" Margin="10,44,0,0" TextWrapping="Wrap" Text="Buscar..." VerticalAlignment="Top" Width="216" Height="16" RenderTransformOrigin="0.5,0.5">
-            <TextBox.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </TextBox.RenderTransform>
-        </TextBox>
-        <Button Content="Generar Informe" Click="GenerarInforme_Click" HorizontalAlignment="Left" Margin="244,43,0,0" VerticalAlignment="Top" Height="18" Width="98"/>
+        <Button Content="Generar Informe" Click="GenerarInforme_Click" HorizontalAlignment="Left" Margin="263,39,0,0" VerticalAlignment="Top" Height="18" Width="98"/>
+        <Button Content="Buscar" Click="ActualizarInforme_Click" HorizontalAlignment="Left" Margin="160,39,0,0" VerticalAlignment="Top" Height="18" Width="98"/>
+        <DatePicker x:Name="fechaInforme" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,36,0,0"/>
+
     </Grid>
 </Page>
