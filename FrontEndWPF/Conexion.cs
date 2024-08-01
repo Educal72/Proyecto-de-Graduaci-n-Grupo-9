@@ -11,6 +11,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Windows.Shapes;
 using System.Reflection.Metadata.Ecma335;
 using FrontEndWPF.Index;
+using FrontEndWPF.Modelos;
+using static FrontEndWPF.Modelos.UserModel;
 
 namespace FrontEndWPF
 {
@@ -264,7 +266,54 @@ namespace FrontEndWPF
             return productos;
         }
 
-		public List<Dictionary<string, object>> GetProductosActivos()
+        public List<Dictionary<string, object>> GetPermisosDeTiempo()
+        {
+            var permisos = new List<Dictionary<string, object>>();
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT IdEmpleado, FechaInicio, FechaFin, Motivo, Estado FROM PermisosDeTiempo";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var permiso = new Dictionary<string, object>();
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        string fieldName = reader.GetName(i);
+                                        if (!reader.IsDBNull(i))
+                                        {
+                                            permiso[fieldName] = reader.GetValue(i);
+                                        }
+                                        else
+                                        {
+                                            permiso[fieldName] = null;
+                                        }
+                                    }
+                                    permisos.Add(permiso);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return permisos;
+        }
+
+        public List<Dictionary<string, object>> GetProductosActivos()
 		{
 			var productos = new List<Dictionary<string, object>>();
 
@@ -508,14 +557,14 @@ namespace FrontEndWPF
                     }
 
                     /*
-					 * Nota Importante:
-					 * Si notaron que en los métodos loadData y para añadir empleado se especificaba el campo activo, -
-					 * pero no se usaba como parámetro [VER 0.1 y 0.2] es porque cuando se crea un nuevo empleado, aquí en -
-					 * visual, se le da directamente el dato 1 (que significa que si esta activo) para evitar un error en la lectura -
-					 * de los datos (tanto en el programa, como en la BD), esto también porque a nivel de lógica del negocio, si yo como -
-					 * 3ra persona (digamos un administrador) estoy agregando un nuevo empleado que acaba de ser contratado, dicho empleado -
-					 * entonces debe estar activo, ya que esta trabajando en el negocio, por eso no se coloca el activo como parámetro.
-					 */
+                     * Nota Importante:
+                     * Si notaron que en los métodos loadData y para añadir empleado se especificaba el campo activo, -
+                     * pero no se usaba como parámetro [VER 0.1 y 0.2] es porque cuando se crea un nuevo empleado, aquí en -
+                     * visual, se le da directamente el dato 1 (que significa que si esta activo) para evitar un error en la lectura -
+                     * de los datos (tanto en el programa, como en la BD), esto también porque a nivel de lógica del negocio, si yo como -
+                     * 3ra persona (digamos un administrador) estoy agregando un nuevo empleado que acaba de ser contratado, dicho empleado -
+                     * entonces debe estar activo, ya que esta trabajando en el negocio, por eso no se coloca el activo como parámetro.
+                     */
                     string query2 = "INSERT INTO Empleado (Puesto, FechaContratacion, Salario, FechaDespido, IdUsuario, Activo, Direccion) " +
                                    "VALUES (@Puesto, @FechaContratacion, @Salario, @FechaDespido, @IdUsuario, @Activo, @Direccion)";
 
@@ -586,7 +635,45 @@ namespace FrontEndWPF
             return success;
         }
 
-		public bool ActualizarProducto(int id, int codigo, string nombre, string categoria, decimal precio, bool activo)
+        public bool CrearPermisoTiempo(int idEmpleado, DateTime fechaInicio, DateTime fechaFin, string motivo)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        string query = "INSERT INTO PermisosDeTiempo (IdEmpleado, FechaInicio, FechaFin, Motivo, Estado) VALUES (@IdEmpleado, @FechaInicio, @FechaFin, @Motivo, @Estado)";
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+                            command.Parameters.AddWithValue("@FechaInicio", fechaInicio);
+                            command.Parameters.AddWithValue("@FechaFin", fechaFin);
+                            command.Parameters.AddWithValue("@Motivo", motivo);
+                            command.Parameters.AddWithValue("@Estado", "Pendiente"); // Estado por defecto
+
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error executing insert query: " + ex.Message);
+                        // Lanza la excepción para que quien llama pueda manejarla adecuadamente.
+                        throw;
+                    }
+                    finally
+                    {
+                        CloseConnection(connection);
+                    }
+                }
+            }
+
+            return success;
+        }
+        public bool ActualizarProducto(int id, int codigo, string nombre, string categoria, decimal precio, bool activo)
         {
             bool success = false;
 
@@ -680,6 +767,147 @@ namespace FrontEndWPF
                         catch (Exception ex)
                         {
                             Console.WriteLine("Error al ejecutar la consulta de actualización: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+        public bool UpdateEstadoPermisosTiempo(int idEmpleado, string nuevoEstado)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "UPDATE PermisosDeTiempo SET Estado = @Estado WHERE IdEmpleado = @IdEmpleado";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+                        command.Parameters.AddWithValue("@Estado", nuevoEstado);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing update query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+
+        public bool EliminarPermisosTiempo(int idEmpleado)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "DELETE FROM PermisosDeTiempo WHERE IdEmpleado = @IdEmpleado";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+
+                        try
+                        {
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing delete query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return success;
+        }
+        public List<UsuarioEmpleado> DropdownUsuarios()
+        {
+            List<UsuarioEmpleado> usuarios = new List<UsuarioEmpleado>();
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT Id, Nombre, PrimerApellido, SegundoApellido FROM Usuario";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    UsuarioEmpleado usuario = new UsuarioEmpleado
+                                    {
+                                        Id = Convert.ToInt32(reader["Id"]), // Asegúrate de convertir el ID a entero
+                                        Nombre = reader["Nombre"].ToString(),
+                                        PrimerApellido = reader["PrimerApellido"].ToString(),
+                                        SegundoApellido = reader["SegundoApellido"].ToString()
+                                    };
+
+                                    usuarios.Add(usuario);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
+
+                    CloseConnection(connection);
+                }
+            }
+
+            return usuarios;
+        }
+
+        public bool ActualizarPermisoTiempo(int idEmpleado, DateTime fechaInicio, DateTime fechaFin, string motivo)
+        {
+            bool success = false;
+
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    // Query para actualizar los permisos de tiempo
+                    string query = "UPDATE PermisosDeTiempo SET FechaInicio = @FechaInicio, FechaFin = @FechaFin, Motivo = @Motivo WHERE IdEmpleado = @IdEmpleado";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        // Añade los parámetros al comando SQL
+                        command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+                        command.Parameters.AddWithValue("@FechaInicio", fechaInicio);
+                        command.Parameters.AddWithValue("@FechaFin", fechaFin);
+                        command.Parameters.AddWithValue("@Motivo", motivo);
+
+                        try
+                        {
+                            // Ejecuta la consulta y obtiene el número de filas afectadas
+                            int rowsAffected = command.ExecuteNonQuery();
+                            success = rowsAffected > 0; // Si se afectó al menos una fila, el éxito es true
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing update query: " + ex.Message);
                         }
                     }
 
@@ -966,7 +1194,7 @@ namespace FrontEndWPF
             cambioContraseña.ErrorEnvio(dato);
         }
 
-    public string HashPassword(string password)
+        public string HashPassword(string password)
 		{
 			using (SHA256 sha256Hash = SHA256.Create())
 			{
@@ -1236,8 +1464,7 @@ namespace FrontEndWPF
 
 			return success;
 		}
-	}
-
+    }
 }
 
 

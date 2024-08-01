@@ -172,17 +172,6 @@ namespace FrontEndWPF
 			public bool Reconocido { get; set; }
 		}
 
-		public class PerfilEmpleoBuscado
-		{
-			public int Id { get; set; } // Identificador único del perfil de empleo buscado
-			public string Titulo { get; set; } // Título del perfil de empleo
-			public string Descripcion { get; set; } // Descripción del perfil de empleo
-			public string NivelExperiencia { get; set; } // Nivel de experiencia requerido
-			public string Requisitos { get; set; } // Requisitos del perfil de empleo
-			public string Ubicacion { get; set; } // Ubicación del trabajo
-			public double Salario{ get; set; } // Salario mínimo ofrecido
-		}
-
         private void MenuListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 			ContentArea.Content = null;
