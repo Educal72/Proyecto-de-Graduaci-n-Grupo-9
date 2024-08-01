@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FrontEndWPF.Modelos
 {
-    public class PermisoDeTiempo
+    public class PermisoDeAusencia
     {
         public int IdEmpleado { get; set; }
         public DateTime FechaInicio { get; set; }
