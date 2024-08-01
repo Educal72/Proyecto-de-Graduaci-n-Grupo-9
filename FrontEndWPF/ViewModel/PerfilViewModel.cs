@@ -79,8 +79,7 @@ namespace FrontEndWPF
             if (userData != null)
             {
                 Nombre = userData["Nombre"].ToString();
-                PrimerApellido = userData["PrimerApellido"].ToString();
-                SegundoApellido = userData["SegundoApellido"].ToString();
+                PrimerApellido = userData["Apellido"].ToString();
                 Cedula = userData["Cedula"].ToString();
                 Telefono = userData["Telefono"].ToString();
                 Correo = userData["Correo"].ToString();

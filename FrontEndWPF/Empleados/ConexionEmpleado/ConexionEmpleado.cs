@@ -1101,7 +1101,7 @@ namespace FrontEndWPF
                         catch (Exception ex)
                         {
                             MessageBox.Show("Hubo un problema en la inserción de los datos, intentelo de nuevo por favor.",
-                                "¡Error!" + ex, MessageBoxButton.OK, MessageBoxImage.Error);
+                                "¡Error!" + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
 

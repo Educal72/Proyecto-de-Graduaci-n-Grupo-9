@@ -28,7 +28,15 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <DataGrid x:Name="FichajesDataGrid" FontFamily="Roboto" FontSize="24" ColumnWidth="*" Margin="0,50,0,0" IsEnabled="False"/>
+        <DataGrid x:Name="FichajesDataGrid" FontFamily="Roboto" FontSize="24" ColumnWidth="*" Margin="0,50,0,0" IsEnabled="False" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Cédula" Binding="{Binding Cedula}" Width="*"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
+                <DataGridTextColumn Header="Entrada" Binding="{Binding Fecha}" Width="*"/>
+                <DataGridTextColumn Header="Salida" Binding="{Binding FechaSalida}" Width="*"/>
+                <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <Label Content="Cedula: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="20" Foreground="White"/>
         <TextBox x:Name="cedula" HorizontalAlignment="Left" Margin="91,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190" Height="34" FontSize="16" FontFamily="Roboto" VerticalContentAlignment="Center" TextChanged="cedula_TextChanged"/>
         <ComboBox x:Name="combo" Margin="0,10,18,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="200" Height="34" SelectionChanged="ComboBox_SelectionChanged" VerticalContentAlignment="Center" FontFamily="Roboto" FontSize="18"/>

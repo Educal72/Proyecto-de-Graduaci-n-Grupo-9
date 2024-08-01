@@ -61,6 +61,7 @@ namespace FrontEndWPF
 			{
 				fichajesViewModel.CrearFichaje(Convert.ToInt32(scannedCode));
 				PopulateFichajesDataGrid();
+				cedula.Clear();
 			}
 			catch (Exception ex) {
 				MessageBox.Show("Cédula en formato inválido o de empleado inexistente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -73,9 +74,10 @@ namespace FrontEndWPF
 			string query = @"
             SELECT 
                 Fichajes.FechaHora,
+				Fichajes.FechaSalida,
                 Fichajes.Tipo,
                 Usuario.Nombre,
-                Usuario.PrimerApellido,
+                Usuario.Apellido,
 				Usuario.Cedula
             FROM 
                 Fichajes
@@ -96,8 +98,9 @@ namespace FrontEndWPF
 						fichajes.Add(new Fichajes()
 						{
 							Cedula = reader["Cedula"].ToString(),
-							Nombre = reader["Nombre"].ToString() + " " +reader["PrimerApellido"].ToString(),
+							Nombre = reader["Nombre"].ToString() + " " +reader["Apellido"].ToString(),
 							Fecha = (DateTime)reader["FechaHora"],
+							FechaSalida = reader["FechaSalida"] != DBNull.Value ? (DateTime?)reader["FechaSalida"] : null,
 							Tipo = reader["Tipo"].ToString()
 						});
 					}
@@ -116,10 +119,16 @@ namespace FrontEndWPF
             SELECT 
                 Cedula, 
                 Nombre, 
-                PrimerApellido
+                Apellido
             FROM 
                 Usuario"
             ;
+
+			combo.Items.Add(new ComboBoxItem
+			{
+				Content = "Todos",
+				Tag = 1 // Usar el Tag para almacenar la cédula asociada
+			});
 
 			using (SqlConnection connection = conexion.OpenConnection())
 			{
@@ -132,7 +141,7 @@ namespace FrontEndWPF
 					{
 						string cedula = reader["Cedula"].ToString();
 						string nombre = reader["Nombre"].ToString();
-						string primerApellido = reader["PrimerApellido"].ToString();
+						string primerApellido = reader["Apellido"].ToString();
 
 						// Formatear la opción del ComboBox
 						string displayText = $"{nombre} {primerApellido}";
@@ -156,18 +165,16 @@ namespace FrontEndWPF
 		{
 			Fichajes fichajes = item as Fichajes;
 			if (fichajes == null)
-				return false;
+			return false;
 
 			string clienteCedulaMin = fichajes.Cedula.ToLower();
 			if (combo.SelectedItem is ComboBoxItem selectedItem)
-			{ 
-				if (!string.IsNullOrEmpty(selectedItem.Tag.ToString()) && !clienteCedulaMin.Contains(selectedItem.Tag.ToString()))
+			{
+				if (!string.IsNullOrEmpty(selectedItem.Tag.ToString()) && clienteCedulaMin != selectedItem.Tag.ToString())
 				return false;
-				cedula.Focus();
 			}
-			cedula.Focus();
-			return true;
 
+			return true;
 		}
 
 
@@ -178,11 +185,24 @@ namespace FrontEndWPF
 
 		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (customerView == null)
-				customerView = CollectionViewSource.GetDefaultView(FichajesDataGrid.Items);
+			if (combo.SelectedItem is ComboBoxItem selectedItem && selectedItem.Content.ToString() == "Todos")
+			{
+				if (customerView != null)
+				{
+					customerView.Filter = null; // Eliminar el filtro para mostrar todas las entradas
+					cedula.Focus();
+				}
+			}
+			else
+			{
+				if (customerView == null)
+					customerView = CollectionViewSource.GetDefaultView(FichajesDataGrid.Items);
 
-			customerView.Filter = FilterCustomers;
-			cedula.Focus();
+				customerView.Filter = FilterCustomers; // Aplicar el filtro personalizado
+				cedula.Focus();
+			}
+
+			cedula.Focus(); // Mover el foco al TextBox
 		}
 	}
 

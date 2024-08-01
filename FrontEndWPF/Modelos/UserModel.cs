@@ -18,8 +18,9 @@ namespace FrontEndWPF.Modelos
 			public string? Apellido { get; set; }                   //Apellido del empleado.
 			public string? Cedula { get; set; }                     //Cédula del empleado.
 			public string? Telefono { get; set; }                   //Teléfono del empleado.
-			public string? Correo { get; set; }                     //Correo del empleado.
-            public string? Contraseña { get; set; }                 //Contraseña del empleado.
+			public string? Correo { get; set; }
+			public string? NombreRol { get; set; }   //Correo del empleado.
+			public string? Contraseña { get; set; }                 //Contraseña del empleado.
             public int IdRol { get; set; }                          //Rol del empleado.
             public DateTime FechaCreacion { get; set; }             //Fecha cuando ingreso el empleado al sistema y el negocio.
 			public string? Puesto { get; set; }                     //Posición del empleado (o puesto).

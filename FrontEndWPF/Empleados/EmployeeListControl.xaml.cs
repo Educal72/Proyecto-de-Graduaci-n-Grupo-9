@@ -73,7 +73,7 @@ namespace FrontEndWPF
 			* porque se esta agregando al sistema, por ende, debe estar activo al inicio.
 			*/
             string query = @"
-                SELECT u.Id, u.Nombre, u.PrimerApellido, u.SegundoApellido, u.Cedula, u.Telefono, u.Correo, u.Contraseña, u.IdRol, u.FechaCreacion, e.Puesto, e.Salario, e.Direccion, e.Activo
+                SELECT u.Id, u.Nombre, u.Apellido, u.Cedula, u.Telefono, u.Correo, u.Contraseña, u.IdRol, u.FechaCreacion, e.Puesto, e.Salario, e.Direccion, e.Activo
                 FROM Usuario u
                 JOIN Empleado e ON u.Id = e.IdUsuario";
 
@@ -92,8 +92,7 @@ namespace FrontEndWPF
 						{
 							Id = Convert.ToInt32(reader["Id"]),
 							Nombre = reader["Nombre"].ToString(),
-							PrimerApellido = reader["PrimerApellido"].ToString(),
-							SegundoApellido = reader["SegundoApellido"].ToString(),
+							Apellido = reader["Apellido"].ToString(),
 							Cedula = reader["Cedula"].ToString(),
 							Telefono = reader["Telefono"].ToString(),
 							Correo = reader["Correo"].ToString(),
@@ -102,7 +101,6 @@ namespace FrontEndWPF
 							NombreRol = conexion.getRoleName(Convert.ToInt32(reader["IdRol"])),
 							FechaCreacion = Convert.ToDateTime(reader["FechaCreacion"]),
 							Puesto = reader["Puesto"].ToString(),
-							Salario = Convert.ToDecimal(reader["Salario"]),
                             Direccion = reader["Direccion"].ToString(),
                             Activo = Convert.ToBoolean(reader["Activo"])
                         });
@@ -250,7 +248,7 @@ namespace FrontEndWPF
         {
             /* Aqui pasa lo mismo que en el método enfocado para eliminar -
 			 * a un empleado, [VER el comentario: 1.1] */
-            UsuarioEmpleadoSoloMostrar? selectedEmpleadoMostrar = EmployeeDataGrid.SelectedItem as UsuarioEmpleadoSoloMostrar;
+            UsuarioEmpleado? selectedEmpleadoMostrar = EmployeeDataGrid.SelectedItem as UsuarioEmpleado;
 
             /* Aquí tiene un comportamiento similar al del método de eliminar -
 			 * [VER el comentario 1.2], salgo con la clara diferencia que aquí -
@@ -292,7 +290,7 @@ namespace FrontEndWPF
                     editarEmpleado.Telefono.Text = selectedEmpleadoMostrar.Telefono;
                     editarEmpleado.Activo.IsChecked = selectedEmpleadoMostrar.Activo;
 
-                    editarEmpleado.RolMuestra.Text = selectedEmpleadoMostrar.Rol;
+                    editarEmpleado.RolMuestra.Text = selectedEmpleadoMostrar.NombreRol;
                     editarEmpleado.Direccion_TextBox.Text = selectedEmpleadoMostrar.Direccion;
 
 
@@ -312,7 +310,7 @@ namespace FrontEndWPF
                         selectedEmpleadoMostrar.Telefono = editarEmpleado.telefono_editarEmpleado;
                         selectedEmpleadoMostrar.Activo = editarEmpleado.activo_editarEmpleado;
 
-                        selectedEmpleadoMostrar.Rol = editarEmpleado.rol_editarEmpleado;
+                        selectedEmpleadoMostrar.NombreRol = editarEmpleado.rol_editarEmpleado;
                         selectedEmpleadoMostrar.Direccion = editarEmpleado.direccion_editarEmpleado;
 
 
@@ -322,7 +320,7 @@ namespace FrontEndWPF
                         EmployeeDataGrid.Items.Refresh();
                         conexionEmpleado.UpdateEmployee(selectedEmpleadoMostrar.Cedula, selectedEmpleadoMostrar.Nombre,
                             selectedEmpleadoMostrar.Apellido!, selectedEmpleadoMostrar.Puesto, selectedEmpleadoMostrar.FechaCreacion, selectedEmpleadoMostrar.Correo,
-                            selectedEmpleadoMostrar.Telefono, selectedEmpleadoMostrar.Activo, selectedEmpleadoMostrar.Rol, selectedEmpleadoMostrar.Direccion, oldCedula, oldCorreo);
+                            selectedEmpleadoMostrar.Telefono, selectedEmpleadoMostrar.Activo, selectedEmpleadoMostrar.NombreRol, selectedEmpleadoMostrar.Direccion, oldCedula, oldCorreo);
 
 
                         /* Si todo salio bien en el proceso del método encargado de la BD, entonces -
@@ -429,7 +427,7 @@ namespace FrontEndWPF
          * que tiene cada usuario en el sistema. */
         private void Permisos_Button(object sender, RoutedEventArgs e)
         {
-            UsuarioEmpleadoSoloMostrar? selectedEmpleadoMostrar = EmployeeDataGrid.SelectedItem as UsuarioEmpleadoSoloMostrar;
+            UsuarioEmpleado? selectedEmpleadoMostrar = EmployeeDataGrid.SelectedItem as UsuarioEmpleado;
 
 
             if (selectedEmpleadoMostrar == null)

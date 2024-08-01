@@ -98,7 +98,7 @@ namespace FrontEndWPF
                     catch (Exception ex)
                     {
                         MessageBox.Show("La lectura de las solicitudes de desvinculación no se pudo completar en este momento debido a un problema técnico." +
-                            "\nIntentelo de nuevo más tarde, ó, puede contactar al soporte técnico si el problema persiste, muchas gracias.", "¡Error!: " + ex,
+                            "\nIntentelo de nuevo más tarde, ó, puede contactar al soporte técnico si el problema persiste, muchas gracias.", "¡Error!: " + ex.Message,
                             MessageBoxButton.OK, MessageBoxImage.Error);
                         empleadosAdmin.Enviar(true);
                         empleadosNoAdmin.Enviar(true);

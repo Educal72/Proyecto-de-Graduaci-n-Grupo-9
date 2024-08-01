@@ -47,11 +47,12 @@ namespace FrontEndWPF.ViewModel
 		{
 			using (SqlConnection connection = conexion.OpenConnection())
 			{
-				string query = "UPDATE Fichajes SET Tipo = @Tipo WHERE Id = @Id";
+				string query = "UPDATE Fichajes SET Tipo = @Tipo, FechaSalida = @Fecha WHERE Id = @Id";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					command.Parameters.Add(new SqlParameter("@Id", IdFichaje));
 					command.Parameters.Add(new SqlParameter("@Tipo", "Salida"));
+					command.Parameters.Add(new SqlParameter("@Fecha", DateTime.Now));
 					int rowsAffected = (int)command.ExecuteNonQuery();
 					if (rowsAffected > 0)
 					{

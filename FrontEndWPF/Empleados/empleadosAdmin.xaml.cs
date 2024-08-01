@@ -65,6 +65,7 @@ namespace FrontEndWPF
 			public string Cedula { get; set; }
 			public string Nombre { get; set; }
 			public DateTime Fecha { get; set; }
+			public DateTime? FechaSalida { get; set; }
 			public string Tipo { get; set; }
 											 
 		}
@@ -157,6 +158,9 @@ namespace FrontEndWPF
 			}
 		}
 
-		
+		private void ListBoxItem_Selected(object sender, RoutedEventArgs e)
+		{
+
+        }
     }
 }
