@@ -24,8 +24,8 @@ namespace FrontEndWPF
         private string nombre;
         private string usuario;
         private string contraseña;
-        int idusuario = 0;
-        int idusuario2 = 0;
+        static int Si_Prosigue = 0;
+        static int No_Prosigue = 0;
 
         public Conexion()
         {
@@ -360,53 +360,53 @@ namespace FrontEndWPF
             return permisos;
         }
         public List<Dictionary<string, object>> GetProductosActivos()
-		{
-			var productos = new List<Dictionary<string, object>>();
+        {
+            var productos = new List<Dictionary<string, object>>();
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				if (connection != null)
-				{
-					string query = "SELECT Id, Codigo, Nombre, Categoria, Precio, Activo FROM Productos Where Activo = 1";
-					using (SqlCommand command = new SqlCommand(query, connection))
-					{
-						try
-						{
-							using (SqlDataReader reader = command.ExecuteReader())
-							{
-								while (reader.Read())
-								{
-									var producto = new Dictionary<string, object>();
-									for (int i = 0; i < reader.FieldCount; i++)
-									{
-										string fieldName = reader.GetName(i);
-										if (!reader.IsDBNull(i))
-										{
-											producto[fieldName] = reader.GetValue(i);
-										}
-										else
-										{
-											producto[fieldName] = null;
-										}
-									}
-									productos.Add(producto);
-								}
-							}
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine("Error executing query: " + ex.Message);
-						}
-					}
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT Id, Codigo, Nombre, Categoria, Precio, Activo FROM Productos Where Activo = 1";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var producto = new Dictionary<string, object>();
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        string fieldName = reader.GetName(i);
+                                        if (!reader.IsDBNull(i))
+                                        {
+                                            producto[fieldName] = reader.GetValue(i);
+                                        }
+                                        else
+                                        {
+                                            producto[fieldName] = null;
+                                        }
+                                    }
+                                    productos.Add(producto);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
 
-					CloseConnection(connection);
-				}
-			}
+                    CloseConnection(connection);
+                }
+            }
 
-			return productos;
-		}
+            return productos;
+        }
 
-		public bool EliminarProducto(int id)
+        public bool EliminarProducto(int id)
         {
             bool eliminado = false;
 
@@ -509,19 +509,18 @@ namespace FrontEndWPF
             return hasEntries;
         }
 
-        /* 
-		 * Método que sirve para poder añadir nuevos empleados a la BD.
-		 */
-        public bool AddUser(string nombre, string primerApellido, string segundoApellido, string cedula, string telefono, string correo, string contraseña, string rol, DateTime fechaCreacion, string puesto, double salario, string direccion)
+        /* Método que sirve para poder añadir nuevos empleados a la BD. */
+        public bool AddUser(string nombre, string apellido, string cedula, string telefono, string correo, string contraseña,  string rol,
+            DateTime fechaCreacion, string puesto, double salario, string direccion)
         {
+            var conexion_Empleado = new ConexionEmpleado();
             bool success = false;
-
             using (SqlConnection connection = OpenConnection())
             {
                 if (connection != null)
                 {
-                    // Find the role ID
-                    string roleQuery = "SELECT Id FROM roles WHERE Nombre = @Rol";
+                    //Obtiene el ID a través del rol que se envia por parámetro.
+                    string roleQuery = "Exec ObtenerID_X_Rol @Rol";
                     int roleId = -1;
 
                     using (SqlCommand roleCommand = new SqlCommand(roleQuery, connection))
@@ -533,29 +532,41 @@ namespace FrontEndWPF
                             if (result != null)
                             {
                                 roleId = Convert.ToInt32(result);
+                                Si_Prosigue = 1;
                             }
                             else
                             {
-                                Console.WriteLine("Role not found.");
+                                No_Prosigue = 1;
+                                MessageBox.Show("El rol no fue encontrado.", "¡Error!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                                Si_Prosigue = 0;
+                                No_Prosigue = 0;
                                 return false;
                             }
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("Error executing role query: " + ex.Message);
+                            No_Prosigue = 1;
+                            MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
+                            "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos, muchas gracias.",
+                            "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            Si_Prosigue = 0;
+                            No_Prosigue = 0;
                             return false;
                         }
                     }
+                    
 
-                    // Insert the new user
-                    string query = "INSERT INTO Usuario (Nombre, PrimerApellido, SegundoApellido, Cedula, Telefono, Correo, Contraseña, IdRol, FechaCreacion) " +
-                                   "VALUES (@Nombre, @PrimerApellido, @SegundoApellido, @Cedula, @Telefono, @Correo, @Contraseña, @IdRol, @FechaCreacion)";
+                    /*==============================================================================================================================================*/
 
+
+                    //Inserta un nuevo usuario en la base de datos, esto a través de los datos enviados por los párametros:
+                    string query = "Exec CrearUsuarios @Nombre, @Apellido, @Cedula, @Telefono, @Correo, @Contraseña, @IdRol, @FechaCreacion";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Nombre", nombre);
-                        command.Parameters.AddWithValue("@PrimerApellido", primerApellido);
-                        command.Parameters.AddWithValue("@SegundoApellido", segundoApellido);
+                        command.Parameters.AddWithValue("@Apellido", apellido);
                         command.Parameters.AddWithValue("@Cedula", cedula);
                         command.Parameters.AddWithValue("@Telefono", telefono);
                         command.Parameters.AddWithValue("@Correo", correo);
@@ -567,16 +578,27 @@ namespace FrontEndWPF
                         {
                             int rowsAffected = command.ExecuteNonQuery();
                             success = rowsAffected > 0;
+                            Si_Prosigue = 2;
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("Error executing insert query: " + ex.Message);
+                            No_Prosigue = 1;
+                            MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
+                            "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos, muchas gracias.",
+                            "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            Si_Prosigue = 0;
+                            No_Prosigue = 0;
+                            return false;
                         }
                     }
 
 
-                    // Find the role ID
-                    string userQuery = "SELECT Id FROM Usuario WHERE Cedula = @Cedula";
+                    /*==============================================================================================================================================*/
+
+
+                    //Obtiene el ID a través de la cédula que se envia por parámetro.
+                    string userQuery = "Exec ObtenerID_X_Cedula @Cedula";
                     int userId = -1;
 
                     using (SqlCommand userCommand = new SqlCommand(userQuery, connection))
@@ -588,32 +610,44 @@ namespace FrontEndWPF
                             if (result != null)
                             {
                                 userId = Convert.ToInt32(result);
+                                Si_Prosigue = 3;
                             }
                             else
                             {
-                                Console.WriteLine("User not found.");
+                                No_Prosigue = 1;
+                                MessageBox.Show("La cédula no fue encontrada.", "¡Error!",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                                conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                                Si_Prosigue = 0;
+                                No_Prosigue = 0;
                                 return false;
                             }
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("Error executing role query: " + ex.Message);
+                            No_Prosigue = 1;
+                            MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
+                            "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos, muchas gracias.",
+                            "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            Si_Prosigue = 0;
+                            No_Prosigue = 0;
                             return false;
                         }
                     }
 
-                    /*
-                     * Nota Importante:
+
+                    /*==============================================================================================================================================*/
+
+
+                    /* Nota Importante:
                      * Si notaron que en los métodos loadData y para añadir empleado se especificaba el campo activo, -
                      * pero no se usaba como parámetro [VER 0.1 y 0.2] es porque cuando se crea un nuevo empleado, aquí en -
                      * visual, se le da directamente el dato 1 (que significa que si esta activo) para evitar un error en la lectura -
                      * de los datos (tanto en el programa, como en la BD), esto también porque a nivel de lógica del negocio, si yo como -
                      * 3ra persona (digamos un administrador) estoy agregando un nuevo empleado que acaba de ser contratado, dicho empleado -
-                     * entonces debe estar activo, ya que esta trabajando en el negocio, por eso no se coloca el activo como parámetro.
-                     */
-                    string query2 = "INSERT INTO Empleado (Puesto, FechaContratacion, Salario, FechaDespido, IdUsuario, Activo, Direccion) " +
-                                   "VALUES (@Puesto, @FechaContratacion, @Salario, @FechaDespido, @IdUsuario, @Activo, @Direccion)";
-
+                     * entonces debe estar activo, ya que esta trabajando en el negocio, por eso no se coloca el activo como parámetro. */
+                    string query2 = "Exec CrearEmpleados @Puesto, @FechaContratacion, @Salario, @FechaDespido, @IdUsuario, @Activo, @Direccion";
                     using (SqlCommand command = new SqlCommand(query2, connection))
                     {
                         command.Parameters.AddWithValue("@Puesto", puesto);
@@ -628,17 +662,28 @@ namespace FrontEndWPF
                         {
                             int rowsAffected = command.ExecuteNonQuery();
                             success = rowsAffected > 0;
+                            Si_Prosigue = 4;
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("Error executing insert query: " + ex.Message);
+                            No_Prosigue = 1;
+                            MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
+                            "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos, muchas gracias.",
+                            "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            Si_Prosigue = 0;
+                            No_Prosigue = 0;
+                            return false;
                         }
                     }
 
                     CloseConnection(connection);
                 }
             }
-
+            
+            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+            Si_Prosigue = 0;
+            No_Prosigue = 0;
             return success;
         }
 
@@ -994,7 +1039,7 @@ namespace FrontEndWPF
             {
                 if (connection != null)
                 {
-                    string query = "SELECT Id, Nombre, PrimerApellido, SegundoApellido FROM Usuario";
+                    string query = "SELECT Id, Nombre, Apellido FROM Usuario";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         try
@@ -1006,9 +1051,8 @@ namespace FrontEndWPF
                                     UsuarioEmpleado usuario = new UsuarioEmpleado
                                     {
                                         Id = Convert.ToInt32(reader["Id"]), // Asegúrate de convertir el ID a entero
-                                        Nombre = reader["Nombre"].ToString(),
-                                        PrimerApellido = reader["PrimerApellido"].ToString(),
-                                        SegundoApellido = reader["SegundoApellido"].ToString()
+                                        Nombre = reader["Nombre"].ToString()!,
+                                        Apellido = reader["Apellido"].ToString()!
                                     };
 
                                     usuarios.Add(usuario);
@@ -1225,68 +1269,11 @@ namespace FrontEndWPF
                 {
                     string query1 = "Exec CreacionSolicitudDesvinculacion @FechaInicio, @Motivo, @Comentarios, @FechaSalida";
 
-                    using (SqlCommand command = new SqlCommand(query1, connection))
-                    {
-                        command.Parameters.AddWithValue("@FechaInicio", FechaInicio);
-                        command.Parameters.AddWithValue("@Motivo", Motivo);
-                        command.Parameters.AddWithValue("@Comentarios", Comentarios);
-                        command.Parameters.AddWithValue("@FechaSalida", FechaSalida);
 
-                        try
-                        {
-                            int rowsAffected = command.ExecuteNonQuery();
-                            success = rowsAffected > 0;
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("Error executing insert query: " + ex.Message);
-                        }
-                    }
-
-                    CloseConnection(connection);
-                }
-            }
-
-            return success;
-        }
-
-        public bool DeleteDesvinculaciones(int id)
-        {
-            bool success = false;
-
-            using (SqlConnection connection = OpenConnection())
-            {
-                if (connection != null)
-                {
-                    string query = "Exec EliminarSolicitudDesvinculacion @Id";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@Id", id);
-
-                        try
-                        {
-                            int rowsAffected = command.ExecuteNonQuery();
-                            success = rowsAffected > 0;
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("Error executing insert query: " + ex.Message);
-                        }
-                    }
-                    CloseConnection(connection);
-                }
-            }
-
-            return success;
-        }
-
-
-        /*
-         * Método que valida si el correo existe o no existe en la base de datos -
+        /* Método que valida si el correo existe o no existe en la base de datos -
          * de Molino Central de Coronado. Esto por medio de un procedimiento -
          * almacenado conocido como: RecuperarContraseña, el cual es un procedimiento -
-         * almacenado que es compartido con el método: InsertarNuevaContraseña().
-         */
+         * almacenado que es compartido con el método: InsertarNuevaContraseña(). */
         public bool ValidarCorreo(string correo)
         {
             bool success = false;
@@ -1319,13 +1306,11 @@ namespace FrontEndWPF
             return success;
         }
 
-        /*
-         * Método que sirve para poder registar la nueva contraseña que esta colocando el usuario, -
+        /* Método que sirve para poder registar la nueva contraseña que esta colocando el usuario, -
          * además de su correo asociado, también se valida si la contraseña y el correo no son datos nulos, -
          * esto por motivos de buenas prácticas, después de esto, si la contraseña y el correo no son nulos, -
          * estos son enviados al procedimiento almacenado conocido como: RecuperarContraseña, el cual es un -
-         * procedimiento almacenado que es compartido con el método: ValidarCorreo().
-         */
+         * procedimiento almacenado que es compartido con el método: ValidarCorreo(). */
         public bool InsertarNuevaContraseña(string correo, string contraseña)
         {
             bool success = false;

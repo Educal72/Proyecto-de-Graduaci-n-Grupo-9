@@ -20,151 +20,170 @@ namespace FrontEndWPF
 	/// </summary>
 	public partial class añadirEmpleado : Window
 	{
-		public string nombre { get; set; }
-		public string apellidos { get; set; }
-		public string cedula { get; set; }
-		public double salario { get; set; }
-		public string puesto { get; set; }
-		public DateTime fechaContratación { get; set; }
-		public string correo { get; set; }
-		public string contraseña { get; set; }
-		public string telefono { get; set; }
-        public string direccion { get; set; } //Se coloco la dirección porque en la historia: CTE001 lo mencionaba en uno de sus escenarios.
-        public string rol { get; set; }
+
+		/* Propiedades para poder guardar todos los datos solicitados -
+		 * al usuario administrador para añadir a un nuevo empleado al sistema.*/
+		public string nombre_añadirEmpleado { get; set; }
+		public string apellidos_añadirEmpleado { get; set; }
+		public string cedula_añadirEmpleado { get; set; }
+		public double salario_añadirEmpleado { get; set; }
+		public string puesto_añadirEmpleado { get; set; }
+		public DateTime fechaContratacion_añadirEmpleado { get; set; }
+		public string correo_añadirEmpleado { get; set; }
+		public string contraseña_añadirEmpleado { get; set; }
+		public string telefono_añadirEmpleado { get; set; }
+        public string direccion_añadirEmpleado { get; set; } //Se coloco la dirección porque en la historia: CTE001 lo mencionaba en uno de sus escenarios.
+        public string rol_añadirEmpleado { get; set; } 
 
 
+        //Constructor vacio.
         public añadirEmpleado()
 		{
 			InitializeComponent();
 		}
 
+
+		/* Método que se encarga de validar los espacios correspondientes en -
+		 * donde el usuario administrador agregara los datos del nuevo empleado al sistema.*/
 		private bool ValidateInputs(out string errorMessage)
 		{
 			errorMessage = string.Empty;
 
-			// Validar Nombre
+			// Validar Nombre:
 			if (string.IsNullOrWhiteSpace(Nombre.Text) && Nombre.Text.Length > 3)
 			{
 				errorMessage = "El campo Nombre es obligatorio.";
 				return false;
 			}
 
-			// Validar Apellidos
-			if (string.IsNullOrWhiteSpace(Apellidos.Text) && Apellidos.Text.Length > 6)
+            // Validar Apellidos:
+            if (string.IsNullOrWhiteSpace(Apellidos.Text) && Apellidos.Text.Length > 6)
 			{
 				errorMessage = "El campo Apellidos es obligatorio.";
 				return false;
 			}
 
-			// Validar Cedula
-			if (!int.TryParse(Cedula.Text, out _) && Cedula.Text.Length > 5)
+            // Validar Cedula:
+            if (!int.TryParse(Cedula.Text, out _) && Cedula.Text.Length > 5)
 			{
 				errorMessage = "El campo Cedula es obligatorio y debe ser válido (sin guiones).";
 				return false;
 			}
 
-			// Validar Salario
-			if (!double.TryParse(Salario.Text, out _))
+            // Validar Salario:
+            if (!double.TryParse(Salario.Text, out _))
 			{
 				errorMessage = "El campo Salario debe ser un número válido.";
 				return false;
 			}
 
-			// Validar Puesto
-			if (string.IsNullOrWhiteSpace(Puesto.Text) || Puesto.Text.Length < 3)
+            // Validar Puesto:
+            if (string.IsNullOrWhiteSpace(Puesto.Text) || Puesto.Text.Length < 3)
 			{
 				errorMessage = "El campo Puesto es obligatorio.";
 				return false;
 			}
 
-			// Validar Fecha de Contratación
-			if (!Fecha.SelectedDate.HasValue)
+            // Validar Fecha de Contratación:
+            if (!Fecha.SelectedDate.HasValue)
 			{
 				errorMessage = "El campo Fecha de Contratación es obligatorio.";
 				return false;
 			}
 
-			int index = Correo.Text.IndexOf("@");
-			// Validar Correo
-			if (string.IsNullOrWhiteSpace(Correo.Text) && index > 0)
+            // Validar Correo:
+            int index = Correo.Text.IndexOf("@");            
+            if (string.IsNullOrWhiteSpace(Correo.Text) && index > 0)
 			{
 				errorMessage = "El campo Correo es obligatorio.";
 				return false;
 			}
 
-			// Validar Contraseña
-			if (string.IsNullOrWhiteSpace(Contraseña.Text))
+            /* Esta valicación en la historia CTE001, corresponde al 4rto escenario, -
+             * en donde se explica que debe de dar un mensaje de advertencia porque -
+             * hay datos que están haciendo conflictos en la BD. */
+            Conexion conexion = new Conexion();
+            var con = conexion.SelectUserCedula(Correo.Text, Convert.ToInt32(Cedula.Text));
+            if (con.Count() > 0)
+            {
+                errorMessage = "El usuario a crear ya existe.";
+                return false;
+            }
+
+            // Validar Contraseña:
+            if (string.IsNullOrWhiteSpace(Contraseña.Text))
 			{
 				errorMessage = "El campo Contraseña es obligatorio.";
 				return false;
 			}
 
-			// Validar Telefono
-			if (!int.TryParse(Telefono.Text, out _) && Telefono.Text.Length > 8)
+            // Validar Teléfono:
+            if (!int.TryParse(Telefono.Text, out _) && Telefono.Text.Length > 8)
 			{
 				errorMessage = "El campo Telefono es obligatorio y debe ser válido.";
 				return false;
 			}
 
-			// Validar Rol
-			if (string.IsNullOrWhiteSpace(Rol.Text))
+            // Validar Rol:
+            if (string.IsNullOrWhiteSpace(Rol.Text))
 			{
 				errorMessage = "El campo Rol es obligatorio.";
 				return false;
 			}
-			Conexion conexion = new Conexion();
-			var con = conexion.SelectUserCedula(Correo.Text, Convert.ToInt32(Cedula.Text));
-			if (con.Count() > 0)
-			{
-				errorMessage = "El usuario a crear ya existe.";
-				return false;
-			}
 
-				// Todas las validaciones realizadas
-				return true;
+			// Todas las validaciones realizadas
+			return true;
 		}
 
+
+		/* Método en donde el usuario administrador le dara en confirmar -
+		 * para poder guardar los datos que ingreso del nuevo empleado.*/
 		private void Guardar_Click(object sender, RoutedEventArgs e)
 		{
 			if (!ValidateInputs(out string errorMessage))
 			{
-				MessageBox.Show(errorMessage);
-				return;
-			}
+                MessageBox.Show("Hay un conflicto de datos o estás omitiendo un campo obligatorio.\n"
+                    + errorMessage, "Alerta", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
+
 			DateTime? selectedDate = Fecha.SelectedDate;
-			nombre = Nombre.Text;
-			apellidos = Apellidos.Text;
-			cedula = Cedula.Text;
-			salario = double.Parse(Salario.Text);
-			puesto = Puesto.Text;
-			fechaContratación = selectedDate.Value;
-			correo = Correo.Text;
-			contraseña = Contraseña.Text;
-			telefono = Telefono.Text;
-            direccion = DireccionTo.Text; //Toma el dato que esta en el espacio llamado Direccion, el cual aparece cuando se quiere agregar un nuevo empleado.
-            rol = Rol.Text;
+            fechaContratacion_añadirEmpleado = selectedDate!.Value;
+
+            nombre_añadirEmpleado = Nombre.Text;
+            apellidos_añadirEmpleado = Apellidos.Text;
+
+            cedula_añadirEmpleado = Cedula.Text;
+            salario_añadirEmpleado = double.Parse(Salario.Text);
+
+            puesto_añadirEmpleado = Puesto.Text;
+            correo_añadirEmpleado = Correo.Text;
+            
+			contraseña_añadirEmpleado = Contraseña.Text;
+            telefono_añadirEmpleado = Telefono.Text;
+            
+			direccion_añadirEmpleado = DireccionTo.Text;
+            rol_añadirEmpleado = Rol.Text;
+			
 			DialogResult = true;
-            MessageBox.Show("Empleado guardado exitosamente.");
-
-
         }
 
+
+        /* Método en donde el usuario administrador le dara en confirmar -
+		 * para poder cancelar los datos que ingreso del nuevo empleado.*/
         private void Cancelar_Click(object sender, RoutedEventArgs e)
 		{
 			this.DialogResult = false;
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			Fecha.SelectedDate = DateTime.Now;
-		}
 
+        /* Método en donde el usuario administrador le dara en el botón "Actual" -
+		 * para poder guardar la fecha actual que contrato al nuevo empleado.*/
         private void FechaActual_Click(object sender, RoutedEventArgs e)
         {
             Fecha.SelectedDate = DateTime.Now;
        
         }
-
 
     }
 }

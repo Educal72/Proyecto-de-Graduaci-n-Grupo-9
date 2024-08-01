@@ -24,6 +24,10 @@ namespace FrontEndWPF
 	public partial class empleadosAdmin : Page
 	{
 		private DispatcherTimer timer;
+        
+		//Variable estatica booleana.
+        static bool a; 
+
 		public empleadosAdmin()
 		{
 			InitializeComponent();
@@ -33,44 +37,14 @@ namespace FrontEndWPF
 			timer.Start();
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 		}
-		private void MenuListBox_SelectionChanged(object sender, RoutedEventArgs e)
+
+		/* Este método sirve para poder saber si el usuario administrador quiere o no entrar -
+		 * a algún apartado de la sección de empleados.*/
+		public void Enviar(bool dato)
 		{
-
-			ContentArea.Content = null;
-			var selectedItem = (MenuListBox.SelectedItem as ListBoxItem)?.Content.ToString();
-
-			switch (selectedItem)
-			{
-				case "Listado de Empleados":
-					ContentArea.Content = new EmployeeListControl();
-					break;
-				case "Fichajes":
-					ContentArea.Content = new FichajesControl();
-					break;
-				case "Permisos de Tiempo":
-					ContentArea.Content = new PermisoTiempo();
-					break;
-				case "Permisos de Ausencia":
-					ContentArea.Content = new PermisosAusencia();
-					break;
-				case "Incidentes":
-					ContentArea.Content = new Incidentes();
-					break;
-				case "Perfiles Competenciales":
-					ContentArea.Content = new PerfilesComp();
-					break;
-				case "Desvinculaciones":
-					ContentArea.Content = new Desvinculaciones();
-					break;
-				case "FAQ":
-					ContentArea.Content = new FAQ();
-					break;
-                case "Control de Planillas":
-                    ContentArea.Content = new ControlPlanillas();
-                    break;
-            }
+			a = dato;
 		}
-
+		
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
@@ -84,30 +58,6 @@ namespace FrontEndWPF
 		private void Button_Click_2(object sender, RoutedEventArgs e)
 		{
 			NavigationService.Navigate(new Uri("Index/Perfil.xaml", UriKind.Relative));
-		}
-
-		public class Metrica
-		{
-			public string Empleado { get; set; }
-			public int HorasTrabajadas { get; set; }
-			public int Productividad { get; set; }
-			public int VentasRealizadas { get; set; }
-		}
-		public class Empleado
-		{
-			// Propiedades del empleado			
-			public string? Nombre { get; set; }
-			public string? PrimerApellido { get; set; }
-            public string? SegundoApellido { get; set; }           
-			public string? Cedula { get; set; }
-            public string? Telefono { get; set; }
-            public string? Correo { get; set; }
-            public string? Contraseña { get; set; }
-            public string IdRol { get; set; }            
-			public DateTime FechaCreacion { get; set; }
-            public string? Puesto { get; set; }
-            public double Salario { get; set; }
-			//public bool Activo { get; set; }
 		}
 
         public class Fichajes
@@ -162,16 +112,6 @@ namespace FrontEndWPF
 			public string Nombre { get; set; }
 		}
 
-		public class Desvinculacion
-		{
-			public int Id { get; set; } // Identificador único de la desvinculación
-			public string Empleado { get; set; } // Nombre del empleado desvinculado
-			public DateTime Fecha { get; set; } // Fecha de la desvinculación
-			public string Motivo { get; set; } // Motivo de la desvinculación
-			public string Comentarios { get; set; } // Comentarios adicionales sobre la desvinculación
-			public bool Reconocido { get; set; }
-		}
-
         private void MenuListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 			ContentArea.Content = null;
@@ -181,7 +121,11 @@ namespace FrontEndWPF
 			{
 				case "Listado de Empleados":
 					ContentArea.Content = new EmployeeListControl();
-					break;
+                    if (a == true)
+                    {
+                        ContentArea.Content = new PantallaOscura();
+                    }
+                    break;
 				case "Fichajes":
 					ContentArea.Content = new FichajesControl();
 					break;
@@ -199,7 +143,11 @@ namespace FrontEndWPF
 					break;
 				case "Desvinculaciones":
 					ContentArea.Content = new Desvinculaciones();
-					break;
+                    if (a == true)
+                    {
+                        ContentArea.Content = new PantallaOscura();
+                    }
+                    break;
 				case "FAQ":
 					ContentArea.Content = new FAQ();
 					break;
@@ -208,16 +156,6 @@ namespace FrontEndWPF
 					break;
 			}
 		}
-
-        private void ListBoxItem_Selected(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ListBoxItem_Selected_1(object sender, RoutedEventArgs e)
-        {
-
-        }
 
 		
     }

@@ -22,11 +22,13 @@ namespace FrontEndWPF
     /// </summary>
     public partial class nuevaFAQ : Window
     {
+
 		public string titulo { get; set; }
 		public string pregunta { get; set; }
 		public string respuesta { get; set; }
 		public string nombre { get; set; } = string.Empty;
 		public byte[] documento { get; set; } = new byte[0];
+
 
 
 		public nuevaFAQ()

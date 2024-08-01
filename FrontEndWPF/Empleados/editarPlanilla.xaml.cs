@@ -19,11 +19,11 @@ namespace FrontEndWPF
     /// </summary>
     public partial class editarPlanilla : Window
     {
-        public string nombre { get; set; }
-        public string apellidos { get; set; }
-        public string cedula { get; set; }
-        public string puesto { get; set; }
-        public string correo { get; set; }
+        public string? nombre { get; set; }
+        public string? apellidos { get; set; }
+        public string? cedula { get; set; }
+        public string? puesto { get; set; }
+        public string? correo { get; set; }
         public DateTime fechacreacion { get; set; }
         public double salario { get; set; }
 

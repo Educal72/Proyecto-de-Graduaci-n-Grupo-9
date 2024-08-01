@@ -103,13 +103,17 @@ namespace FrontEndWPF
                 if (con.Count() > 0)
                 {
                     MainWindow mainWindow = new MainWindow();
-                    mainWindow.Usuario = con["Correo"].ToString();
+                    mainWindow.Usuario = con["Correo"].ToString()!;
                     if (con != null)
                     {
-                        SesionUsuario.Instance.correo = con["Correo"].ToString();
+                        SesionUsuario.Instance.correo = con["Correo"].ToString()!;
                         conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
                         SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
-                        SesionUsuario.Instance.nombre = con["Nombre"].ToString();
+                        SesionUsuario.Instance.nombre = con["Nombre"].ToString()!;
+                        var conexionEmpleado = new ConexionEmpleado();
+                        
+                        //Envia el nombre del usuario a la clase de conexion empleado.
+                        conexionEmpleado.NombreUsuario(SesionUsuario.Instance.nombre = con["Nombre"].ToString()!);
                     }
                     NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
                 }
@@ -140,28 +144,28 @@ namespace FrontEndWPF
                 if (nuevoEmpleado.ShowDialog() == true)
                 {
 
-                    string Cedula = nuevoEmpleado.cedula;
-                    string Nombre = nuevoEmpleado.nombre;
-                    string Apellidos = nuevoEmpleado.apellidos;
-                    string Puesto = nuevoEmpleado.puesto;
-                    DateTime Fecha = nuevoEmpleado.fechaContratación;
-                    double Salario = nuevoEmpleado.salario;
-                    string Correo = nuevoEmpleado.correo;
-                    string Contraseña = nuevoEmpleado.contraseña;
-                    string Telefono = nuevoEmpleado.telefono;
-                    string Direccion = nuevoEmpleado.direccion;
-                    string Rol = nuevoEmpleado.rol;
+                    string Cedula = nuevoEmpleado.cedula_añadirEmpleado;
+                    string Nombre = nuevoEmpleado.nombre_añadirEmpleado;
+                    string Apellidos = nuevoEmpleado.apellidos_añadirEmpleado;
+                    string Puesto = nuevoEmpleado.puesto_añadirEmpleado;
+                    DateTime Fecha = nuevoEmpleado.fechaContratacion_añadirEmpleado;
+                    double Salario = nuevoEmpleado.salario_añadirEmpleado;
+                    string Correo = nuevoEmpleado.correo_añadirEmpleado;
+                    string Contraseña = nuevoEmpleado.contraseña_añadirEmpleado;
+                    string Telefono = nuevoEmpleado.telefono_añadirEmpleado;
+                    string Direccion = nuevoEmpleado.direccion_añadirEmpleado;
+                    string Rol = nuevoEmpleado.rol_añadirEmpleado;
 
-                    conexion.AddUser(Nombre, Apellidos, Apellidos, Cedula, Telefono,
+                    conexion.AddUser(Nombre, Apellidos, Cedula, Telefono,
                         Correo, Contraseña, Rol, Fecha, Puesto, Salario, Direccion);
                     var con = conexion.SelectUser(Correo, conexion.HashPassword(Contraseña));
                     if (con != null)
                     {
-                        SesionUsuario.Instance.correo = con["Correo"].ToString();
+                        SesionUsuario.Instance.correo = con["Correo"].ToString()!;
                         SesionUsuario.Instance.id = Convert.ToInt32(con["Id"]);
                         conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
                         SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
-                        SesionUsuario.Instance.nombre = con["Nombre"].ToString();
+                        SesionUsuario.Instance.nombre = con["Nombre"].ToString()!;
                         NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
                     }
                 }

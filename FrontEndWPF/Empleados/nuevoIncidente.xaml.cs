@@ -20,8 +20,8 @@ namespace FrontEndWPF.Empleados
 	/// </summary>
 	public partial class nuevoIncidente : Window
 	{
-		public string tipo { get; set; }
-		public string descripcion { get; set; }
+		public string? tipo { get; set; }
+		public string? descripcion { get; set; }
 		public DateTime fecha { get; set; }
 
 
@@ -35,7 +35,7 @@ namespace FrontEndWPF.Empleados
 			DateTime? selectedDate = Fecha.SelectedDate;
 			tipo = Tipo.Text;
 			descripcion = Desc.Text;
-			fecha = selectedDate.Value;
+			fecha = selectedDate!.Value;
 			DialogResult = true;
 		}
 

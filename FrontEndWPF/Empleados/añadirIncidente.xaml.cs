@@ -21,12 +21,12 @@ namespace FrontEndWPF
     /// </summary>
     public partial class añadirIncidente : Window
     {        
-        public DateTime fecha_añadirIncidente { get; set; }  // Fecha en que ocurrió el incidente.
-        public string hora_añadirIncidente { get; set; }  // Hora del incidente.
-        public string descripcion_añadirIncidente { get; set; }  // Descripción del incidente.
-        public string tipo_añadirIncidente { get; set; }  // Si el incidente es de tipo: Interno ó Externo.
-        public string estado_añadirIncidente { get; set; } //Si el incidente esta resuelto o no esta resuelto.
-        public string Usuario_añadirIncidente { get; set; }  //Nombre del empleado que fue seleccionado.
+        public DateTime fecha_añadirIncidente { get; set; }
+        public string? hora_añadirIncidente { get; set; }
+        public string? descripcion_añadirIncidente { get; set; }
+        public string? tipo_añadirIncidente { get; set; }
+        public string? estado_añadirIncidente { get; set; }
+        public string? Usuario_añadirIncidente { get; set; }
         
 
         //Instancia a la clase: Conexion.
