@@ -100,5 +100,48 @@ namespace FrontEndWPF
 				command.ExecuteNonQuery();
 			}
 		}
+
+		public void InsertarAutorizacionEmpleado(int idUsuario)
+		{
+			string connectionString = "your_connection_string_here";
+			string query = @"
+        INSERT INTO [dbo].[Autorizacion]
+               ([IdUsuario]
+               ,[LeerDesvinculacion]
+               ,[CrearDesvinculacion]
+               ,[EliminarDesvinculacion])
+         VALUES
+               (@IdUsuario
+               ,0
+               ,0
+               ,0)";
+
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				SqlCommand command = new SqlCommand(query, connection);
+				command.Parameters.AddWithValue("@IdUsuario", idUsuario);
+				command.ExecuteNonQuery();
+			}
+		}
+		public bool SeleccionarTodasLasAutorizaciones()
+		{
+			string query = "SELECT * FROM [dbo].[Autorizacion]";
+
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				SqlCommand command = new SqlCommand(query, connection);
+
+				using (SqlDataReader reader = command.ExecuteReader())
+				{
+                    if (reader.HasRows)
+                    {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+				}
+			}
+		}
 	}
 }

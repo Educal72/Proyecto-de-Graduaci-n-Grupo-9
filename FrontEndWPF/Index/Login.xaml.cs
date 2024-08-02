@@ -110,6 +110,7 @@ namespace FrontEndWPF
                     mainWindow.Usuario = con["Correo"].ToString()!;
                     if (con != null)
                     {
+
                         SesionUsuario.Instance.correo = con["Correo"].ToString()!;
                         conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
                         SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
@@ -165,7 +166,9 @@ namespace FrontEndWPF
                     var con = conexion.SelectUser(Correo, conexion.HashPassword(Contraseña));
                     if (con != null)
                     {
-                        sesionUsuario.InsertarAutorizacion((int)con["id"]);
+                        if (!sesionUsuario.SeleccionarTodasLasAutorizaciones()) { 
+                                sesionUsuario.InsertarAutorizacion((int)con["id"]);
+                        }  
                         SesionUsuario.Instance.correo = con["Correo"].ToString()!;
                         SesionUsuario.Instance.id = Convert.ToInt32(con["Id"]);
                         conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
