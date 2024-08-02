@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +16,8 @@ namespace FrontEndWPF
         public string rol { get; set; }
         public string nombre { get; set; }
         public int id { get; set; }
-
-        SesionUsuario()
+        Conexion conexion = new Conexion();
+        public SesionUsuario()
         {
         }
 
@@ -34,5 +35,70 @@ namespace FrontEndWPF
                 }
             }
         }
-    }
+
+        public void CrearUsuarioGenerico() {
+			string query = @"
+        INSERT INTO [dbo].[Cliente]
+               ([Cedula]
+               ,[Nombre]
+               ,[Apellidos]
+               ,[CorreoElectronico]
+               ,[Telefono]
+               ,[Asociado]
+               ,[Puntos])
+         VALUES
+               (0
+               ,'Generico'
+               ,'N/A'
+               ,'generico@email.com'
+               ,0
+               ,0
+               ,0)";
+
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				SqlCommand command = new SqlCommand(query, connection);
+				command.ExecuteNonQuery();
+			}
+		}
+
+		public void InsertarRoles()
+		{
+			string query = @"
+        INSERT INTO [dbo].[Roles] (Nombre)
+        VALUES 
+            ('Admin'),
+            ('Cajero'),
+            ('Salonero'),
+            ('Contador')";
+
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				SqlCommand command = new SqlCommand(query, connection);
+				command.ExecuteNonQuery();
+			}
+		}
+		public void InsertarAutorizacion(int idUsuario)
+		{
+			string connectionString = "your_connection_string_here";
+			string query = @"
+        INSERT INTO [dbo].[Autorizacion]
+               ([IdUsuario]
+               ,[LeerDesvinculacion]
+               ,[CrearDesvinculacion]
+               ,[EliminarDesvinculacion])
+         VALUES
+               (@IdUsuario
+               ,1
+               ,1
+               ,1)";
+
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				SqlCommand command = new SqlCommand(query, connection);
+				command.Parameters.AddWithValue("@IdUsuario", idUsuario);
+				command.ExecuteNonQuery();
+			}
+		}
+	}
 }

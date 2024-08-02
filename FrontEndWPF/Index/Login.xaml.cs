@@ -36,7 +36,7 @@ namespace FrontEndWPF
 		 */
 		Conexion conexion = new Conexion();
         InicioSesionViewModel inicioSesionViewModel = new InicioSesionViewModel();
-
+        SesionUsuario sesionUsuario = new SesionUsuario();
 
 		/*
 		 * Instancia para poder enviar el correo y la contraseña -
@@ -56,7 +56,7 @@ namespace FrontEndWPF
 
 		public Login()
 		{
-			InitializeComponent();
+            InitializeComponent();
 			conexion.OpenConnection();
 			if (conexion.HasEntries() || !File.Exists(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/db_config.txt"))
 			{
@@ -64,6 +64,8 @@ namespace FrontEndWPF
 			}
 			else
 			{
+				sesionUsuario.InsertarRoles();
+				sesionUsuario.CrearUsuarioGenerico();
 				Opcion1.Content = "Crear Usuario Admin";
 			}
 		}
@@ -163,6 +165,7 @@ namespace FrontEndWPF
                     var con = conexion.SelectUser(Correo, conexion.HashPassword(Contraseña));
                     if (con != null)
                     {
+                        sesionUsuario.InsertarAutorizacion((int)con["id"]);
                         SesionUsuario.Instance.correo = con["Correo"].ToString()!;
                         SesionUsuario.Instance.id = Convert.ToInt32(con["Id"]);
                         conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
