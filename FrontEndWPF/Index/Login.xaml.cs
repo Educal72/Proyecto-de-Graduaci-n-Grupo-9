@@ -166,9 +166,7 @@ namespace FrontEndWPF
                     var con = conexion.SelectUser(Correo, conexion.HashPassword(Contraseña));
                     if (con != null)
                     {
-                        if (!sesionUsuario.SeleccionarTodasLasAutorizaciones()) { 
-                                sesionUsuario.InsertarAutorizacionEmpleado((int)con["id"]);
-                        }  
+                         
                         SesionUsuario.Instance.correo = con["Correo"].ToString()!;
                         SesionUsuario.Instance.id = Convert.ToInt32(con["Id"]);
                         conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
