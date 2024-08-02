@@ -548,7 +548,7 @@ namespace FrontEndWPF
             {
                 if (connection != null)
                 {
-                    string query = "SELECT * FROM Usuario WHERE Correo = @Correo AND Cedula = @Cedula";
+                    string query = "SELECT Id FROM Usuario WHERE Correo = @Correo AND Cedula = @Cedula";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Correo", correo);

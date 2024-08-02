@@ -96,7 +96,7 @@ namespace FrontEndWPF
              * hay datos que están haciendo conflictos en la BD. */
             Conexion conexion = new Conexion();
             var con = conexion.SelectUserCedula(Correo.Text, Convert.ToInt32(Cedula.Text));
-            if (con.Count() > 0)
+            if (con.Count() > 1)
             {
                 errorMessage = "El usuario a crear ya existe.";
                 return false;
