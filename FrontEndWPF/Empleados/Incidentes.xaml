@@ -26,7 +26,16 @@
         </Style>
     </UserControl.Resources>
     <Grid Background="Black">
-        <DataGrid x:Name="IncidenteDataGrid" AutoGenerateColumns="True" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*"/>
+        <DataGrid x:Name="IncidenteDataGrid" AutoGenerateColumns="False" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nombre Completo" Binding="{Binding Usuario}" Width="*"/>
+                <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha}" Width="*"/>
+                <DataGridTextColumn Header="Hora" Binding="{Binding Hora}" Width="*"/>
+                <DataGridTextColumn Header="Descripción" Binding="{Binding Descripcion}" Width="*"/>
+                <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" Width="*"/>
+                <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <Button Content="No" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="100" FontFamily="Roboto" FontSize="18" Click="No_Click" Margin="1146,0,0,0"/>
         <Button Content="Sí" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="100" FontFamily="Roboto" FontSize="18" Click="Si_Click" Margin="1041,0,0,0"/>
         <Label Content="Marcar Solucionado: " HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="24" Height="45" VerticalContentAlignment="Center" Margin="800,0,0,0"/>

@@ -46,7 +46,7 @@ namespace FrontEndWPF
 		private void LoadData()
 		{
 			string query = @"
-                SELECT IdUsuario, u.Nombre, u.PrimerApellido, u.SegundoApellido, u.Cedula, u.Telefono, u.Correo, u.Contraseña, u.IdRol, u.FechaCreacion, e.Puesto, e.Salario, e.Direccion, e.Activo
+                SELECT IdUsuario, u.Nombre, u.Apellido, u.Cedula, u.Telefono, u.Correo, u.Contraseña, u.IdRol, u.FechaCreacion, e.Puesto, e.Salario, e.Direccion, e.Activo
                 FROM Usuario u
                 JOIN Empleado e ON u.Id = e.IdUsuario";
 
@@ -65,7 +65,7 @@ namespace FrontEndWPF
 						{
 							Id = Convert.ToInt32(reader["IdUsuario"]),
 							Nombre = reader["Nombre"].ToString(),
-							Apellidos = reader["PrimerApellido"].ToString() + " " + reader["SegundoApellido"].ToString(),
+							Apellidos = reader["Apellido"].ToString(),
 							CorreoElectronico = reader["Correo"].ToString(),
 							Cedula = reader["Cedula"].ToString(),
 							Telefono = reader["Telefono"].ToString()

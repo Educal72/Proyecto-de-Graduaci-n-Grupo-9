@@ -26,8 +26,15 @@
         </Style>
     </UserControl.Resources>
     <Grid Background="Black">
-        <DataGrid x:Name="PermisoAusenciaDataGrid" AutoGenerateColumns="True" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*" ItemsSource="{Binding PermisosDeAusencia}" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="PermisoAusenciaDataGrid_SelectionChanged"/>
-
+        <DataGrid x:Name="PermisoAusenciaDataGrid" AutoGenerateColumns="False" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*" ItemsSource="{Binding PermisosDeAusencia}" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="PermisoAusenciaDataGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nombre Completo" Binding="{Binding NombreCompleto}" Width="*"/>
+                <DataGridTextColumn Header="Fecha de Inicio" Binding="{Binding FechaInicio}" Width="*"/>
+                <DataGridTextColumn Header="Fecha de Finalización" Binding="{Binding FechaFin}" Width="*"/>
+                <DataGridTextColumn Header="Motivo" Binding="{Binding Motivo}" Width="*"/>
+                <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="*"/>
+                </DataGrid.Columns>
+        </DataGrid>
         <!-- Botones -->
         <Button Content="No" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="58" FontFamily="Roboto" FontSize="18" Click="Button_Click" Margin="342,5,0,0"/>
         <Button Content="Sí" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="51" FontFamily="Roboto" FontSize="18" Click="Button_Click_1" Margin="279,5,0,0"/>

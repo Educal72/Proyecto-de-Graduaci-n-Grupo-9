@@ -587,14 +587,18 @@ namespace FrontEndWPF
             {
                 if (connection != null)
                 {
-                    string query = "SELECT Id FROM Usuario WHERE Nombre = @Nombre";
+                    string query = "SELECT Id FROM Usuario WHERE Nombre = @Nombre AND Apellido = @Apellido";
                     string idUsuario;
+                    var SplitString = SplitStringAtFirstSpace(Usuario);
+                    string Nombre = SplitString.Item1;
+                    string Apellido = SplitString.Item2;
 
                     using (SqlCommand roleCommand = new SqlCommand(query, connection))
                     {
-                        roleCommand.Parameters.AddWithValue("@Nombre", Usuario);
+                        roleCommand.Parameters.AddWithValue("@Nombre", Nombre);
+						roleCommand.Parameters.AddWithValue("@Apellido", Apellido);
 
-                        try
+						try
                         {
                             object result = roleCommand.ExecuteScalar();
                             if (result != null)
@@ -626,16 +630,83 @@ namespace FrontEndWPF
             }//Fin del using (SqlConnection connection = OpenConnection()).
         }//Fin del método.
 
+		public string getIdUsuario2(string Usuario)
+		{
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				if (connection != null)
+				{
+					string query = "SELECT Id FROM Usuario WHERE Nombre = @Nombre";
+					string idUsuario;
+					var SplitString = SplitStringAtFirstSpace(Usuario);
+					string Nombre = SplitString.Item1;
+					string Apellido = SplitString.Item2;
 
-        /* Método que trae el nombre del usuario por el id -
+					using (SqlCommand roleCommand = new SqlCommand(query, connection))
+					{
+						roleCommand.Parameters.AddWithValue("@Nombre", Nombre);
+
+						try
+						{
+							object result = roleCommand.ExecuteScalar();
+							if (result != null)
+							{
+								idUsuario = result.ToString()!;
+								return idUsuario;
+							}
+							else
+							{
+								MessageBox.Show("El id del usuario no fue encontrado.", "¡Error!",
+									MessageBoxButton.OK, MessageBoxImage.Error);
+								return "";
+							}
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
+								"\nSi el error persiste, contacte con el soporte, muchas gracias.", "¡Error!: " + ex.Message,
+								MessageBoxButton.OK, MessageBoxImage.Error);
+							return "";
+						}//Fin del Try Catch.
+					}//Fin del usign (SqlCommand roleCommand = new SqlCommand(query, connection)).
+				}//Fin del if (connection != null).
+				else
+				{
+					return "";
+
+				}//Fin del else.
+			}//Fin del using (SqlConnection connection = OpenConnection()).
+		}//Fin del método.
+
+		public (string, string) SplitStringAtFirstSpace(string input)
+		{
+			if (string.IsNullOrEmpty(input))
+			{
+				return (string.Empty, string.Empty); // Retornar cadena vacía si la entrada está vacía o es null
+			}
+
+			int index = input.IndexOf(' ');
+
+			if (index == -1)
+			{
+				return (input, string.Empty); // Retornar toda la cadena como la primera parte si no hay espacio
+			}
+
+			string firstPart = input.Substring(0, index);
+			string secondPart = input.Substring(index + 1);
+
+			return (firstPart, secondPart);
+		}
+
+		/* Método que trae el nombre del usuario por el id -
          * que se pasa por parámetro de entrada.*/
-        public string UsuarioPorID(int id)
+		public string UsuarioPorID(int id)
         {
             using (SqlConnection connection = conexion.OpenConnection())
             {
                 if (connection != null)
                 {
-                    string query = "SELECT Nombre FROM Usuario Where Id = @ID";
+                    string query = "SELECT Nombre, Apellido FROM Usuario Where Id = @ID";
                     string NombreUsuario;
 
                     using (SqlCommand roleCommand = new SqlCommand(query, connection))
@@ -643,12 +714,18 @@ namespace FrontEndWPF
                         roleCommand.Parameters.AddWithValue("ID", id);
                         try
                         {
-                            object result = roleCommand.ExecuteScalar();
-                            if (result != null)
+
+                            using (SqlDataReader reader = roleCommand.ExecuteReader())
                             {
-                                NombreUsuario = result.ToString()!;
-                                return NombreUsuario;
-                            }
+                                if (reader.Read())
+                                {
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        NombreUsuario = reader["Nombre"].ToString() + " " + reader["Apellido"].ToString();
+                                        return NombreUsuario;
+                                    }
+                                }
+                            
                             else
                             {
                                 MessageBox.Show("No hay un usuario con ese id proporcionado, intentelo de nuevo por favor.", "¡Error!",
@@ -656,7 +733,9 @@ namespace FrontEndWPF
                                 Console.WriteLine("Nombres de los usuarios no se pudo hacer.");
                                 return "";
                             }
+                                return "";
                         }
+                        } 
                         catch (Exception ex)
                         {
                             MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
@@ -1123,6 +1202,8 @@ namespace FrontEndWPF
                 if (connection != null)
                 {
                     int idUsuario = Convert.ToInt32(Usuario);
+                    
+                    
                     string query = "Exec MarcarResueltoIncidente @Estado, @IdUsuario";
 
                     using (SqlCommand command = new SqlCommand(query, connection))

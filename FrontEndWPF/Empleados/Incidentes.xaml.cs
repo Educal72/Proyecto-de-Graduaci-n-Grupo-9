@@ -76,7 +76,8 @@ namespace FrontEndWPF
                     {
                         incidentes.Add(new Modelos.UserModel.Incidente
                         {
-                            Usuario = conexionEmpleado.UsuarioPorID(Convert.ToInt32(reader["IdUsuario"].ToString())),
+                            Id = Convert.ToInt32(reader["IdUsuario"]),
+							Usuario = conexionEmpleado.UsuarioPorID(Convert.ToInt32(reader["IdUsuario"].ToString())),
                             Fecha = Convert.ToDateTime(reader["Fecha"]),
                             Hora = reader["Hora"].ToString()!,
                             Descripcion = reader["Descripcion"].ToString()!,
@@ -134,7 +135,7 @@ namespace FrontEndWPF
                         incidentes.Add(new Modelos.UserModel.Incidente
                         {
                             Usuario = conexionEmpleado.UsuarioPorID(Convert.ToInt32(reader["IdUsuario"].ToString())),
-                            Fecha = Convert.ToDateTime(reader["Fecha"]),
+							Fecha = Convert.ToDateTime(reader["Fecha"]),
                             Hora = reader["Hora"].ToString()!,
                             Descripcion = reader["Descripcion"].ToString()!,
                             Tipo = reader["Tipo"].ToString()!,
@@ -197,7 +198,7 @@ namespace FrontEndWPF
                      * esto con la finalidad de que pueda ser enviado y registrado a la -
                      * base de datos que esta en SQL Server.
                      */
-                    conexionEmpleado.AgregarIncidente(Fecha, Hora, Descripcion, Tipo, conexionEmpleado.getIdUsuario(Usuario));
+                    conexionEmpleado.AgregarIncidente(Fecha, Hora, Descripcion, Tipo, conexionEmpleado.getIdUsuario2(Usuario));
                     LoadDataInterno();
                 }
             }
@@ -224,7 +225,7 @@ namespace FrontEndWPF
                      * esto con la finalidad de que pueda ser enviado y registrado a la -
                      * base de datos que esta en SQL Server.
                      */
-                    conexionEmpleado.AgregarIncidente(Fecha, Hora, Descripcion, Tipo, conexionEmpleado.getIdUsuario(Usuario));
+                    conexionEmpleado.AgregarIncidente(Fecha, Hora, Descripcion, Tipo, conexionEmpleado.getIdUsuario2(Usuario));
                     LoadDataExterno();
                 }
             }

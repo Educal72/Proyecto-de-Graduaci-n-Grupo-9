@@ -85,7 +85,7 @@ namespace FrontEndWPF
                             desvinculacionEmpleados.Add(new EmpleadoDesvinculacion
                             {
                                 Id = Convert.ToInt32(reader["Id"]),
-                                Nombre = reader["Nombre"].ToString(),
+                                Nombre = reader["Nombre"].ToString() + " " + reader["Apellido"].ToString(),
                                 Apellido = reader["Apellido"].ToString(),
                                 FechaInicio = Convert.ToDateTime(reader["FechaInicio"]),
                                 Motivo = reader["Motivo"].ToString()!,

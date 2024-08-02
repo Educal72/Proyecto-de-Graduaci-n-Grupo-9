@@ -26,7 +26,16 @@
         </Style>
     </UserControl.Resources>
     <Grid Background="Black">
-        <DataGrid x:Name="PerfilesDataGrid" AutoGenerateColumns="True" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*"/>
+        <DataGrid x:Name="PerfilesDataGrid" AutoGenerateColumns="False" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Título" Binding="{Binding Titulo}" Width="*"/>
+                <DataGridTextColumn Header="Descripción" Binding="{Binding Descripcion}" Width="*"/>
+                <DataGridTextColumn Header="Experiencia" Binding="{Binding Experiencia}" Width="*"/>
+                <DataGridTextColumn Header="Requisitos" Binding="{Binding Requisitos}" Width="*"/>
+                <DataGridTextColumn Header="Ubicación" Binding="{Binding Ubicacion}" Width="*"/>
+                <DataGridTextColumn Header="Salario" Binding="{Binding Salario}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <Button Content="Eliminar" Margin="180,0,0,0" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Left" Width="80" Click="Eliminar_Click"/>
         <Button Content="Editar" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Editar_Click"/>
         <Button Content="Añadir" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Margin="10,0,0,0" Click="Añadir_Click"/>

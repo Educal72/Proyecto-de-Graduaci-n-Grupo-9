@@ -91,7 +91,10 @@ namespace FrontEndWPF.Modelos
          * incidentes. */
         public class Incidente
         {
-            public string? Usuario { get; set; }                    //Nombre del usuario (empleado) que tendra ese incidente.
+            public int? Id { get; set; }
+            public string? Usuario { get; set; }
+			public string? Apellido { get; set; }
+			public string? Nombre { get; set; } //Nombre del usuario (empleado) que tendra ese incidente.
             public DateTime Fecha { get; set; }                     //Fecha en que ocurrió el incidente.
             public string? Hora { get; set; }                       //Hora del incidente.
             public string? Descripcion { get; set; }                //Descripción del incidente.

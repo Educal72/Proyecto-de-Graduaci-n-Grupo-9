@@ -9,6 +9,7 @@ namespace FrontEndWPF.Modelos
     public class PermisoDeAusencia
     {
         public int IdEmpleado { get; set; }
+        public string? NombreCompleto { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
         public string Motivo { get; set; }

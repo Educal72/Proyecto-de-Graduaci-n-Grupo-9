@@ -55,7 +55,7 @@ namespace FrontEndWPF
                     {
                         planillas.Add(new ControlPlanilla
                         {
-                            Nombre = reader["Nombre"].ToString()!,
+                            Nombre = reader["Nombre"].ToString()! + " " + reader["Apellido"].ToString()!,
                             Apellidos = reader["Apellido"].ToString()!,                            
                             Cedula = reader["Cedula"].ToString()!,
                             Puesto = reader["Puesto"].ToString()!,

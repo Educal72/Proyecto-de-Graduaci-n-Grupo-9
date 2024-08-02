@@ -26,7 +26,16 @@
         </Style>
     </UserControl.Resources>
     <Grid Background="Black">
-        <DataGrid x:Name="DesvinculacionesDataGrid" AutoGenerateColumns="True" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*" IsReadOnly="True" IsHitTestVisible="True"/>
+        <DataGrid x:Name="DesvinculacionesDataGrid" AutoGenerateColumns="False" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*" IsReadOnly="True" IsHitTestVisible="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nombre Completo" Binding="{Binding Nombre}" Width="*"/>
+                <DataGridTextColumn Header="Fecha de Creación" Binding="{Binding FechaInicio}" Width="*"/>
+                <DataGridTextColumn Header="Fecha de Salida" Binding="{Binding FechaSalida}" Width="*"/>
+                <DataGridTextColumn Header="Comentarios" Binding="{Binding Comentarios}" Width="*"/>
+                <DataGridTextColumn Header="Motivo" Binding="{Binding Motivo}" Width="*"/>
+                <DataGridTextColumn Header="Estado" Binding="{Binding Reconocido}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <Button Content="No" HorizontalAlignment="Left" VerticalAlignment="Top"
                 Height="45" Width="100" FontFamily="Roboto" FontSize="18" Click="No_Desvinculaciones_Click"
                 Margin="395,0,0,0"/>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FrontEndWPF.Modelos;
+using System.Data.SqlClient;
 
 namespace FrontEndWPF.ViewModel
 {
@@ -54,6 +55,7 @@ namespace FrontEndWPF.ViewModel
                 PermisoDeTiempo permiso = new PermisoDeTiempo
                 {
                     IdEmpleado = (int)permisoDict["IdEmpleado"],
+                    NombreCompleto = GetUserByEmpleadoId((int)permisoDict["IdEmpleado"]),
                     FechaInicio = (DateTime)permisoDict["FechaInicio"],
                     FechaFin = (DateTime)permisoDict["FechaFin"],
                     Motivo = (string)permisoDict["Motivo"],
@@ -163,5 +165,35 @@ namespace FrontEndWPF.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-    }
+		public string GetUserByEmpleadoId(int id)
+		{
+			Conexion conexion = new Conexion();
+			string NombreCompleto = "";
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				string query = @"SELECT 
+    Usuario.Nombre, 
+    Usuario.Apellido
+FROM 
+    Usuario
+JOIN 
+    Empleado ON Usuario.Id = Empleado.IdUsuario
+WHERE 
+    Empleado.Id = @IdEmpleado";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.Add(new SqlParameter("@IdEmpleado", id));
+					using (var reader = command.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							NombreCompleto = reader["Nombre"].ToString() + " " + reader["Apellido"].ToString();
+							return NombreCompleto;
+						}
+					}
+				}
+			}
+			return NombreCompleto;
+		}
+	}
 }
