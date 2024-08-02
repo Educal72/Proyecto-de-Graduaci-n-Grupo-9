@@ -167,7 +167,7 @@ namespace FrontEndWPF
                     if (con != null)
                     {
                         if (!sesionUsuario.SeleccionarTodasLasAutorizaciones()) { 
-                                sesionUsuario.InsertarAutorizacion((int)con["id"]);
+                                sesionUsuario.InsertarAutorizacionEmpleado((int)con["id"]);
                         }  
                         SesionUsuario.Instance.correo = con["Correo"].ToString()!;
                         SesionUsuario.Instance.id = Convert.ToInt32(con["Id"]);

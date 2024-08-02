@@ -103,7 +103,7 @@ namespace FrontEndWPF
 
 		public void InsertarAutorizacionEmpleado(int idUsuario)
 		{
-			string connectionString = "your_connection_string_here";
+
 			string query = @"
         INSERT INTO [dbo].[Autorizacion]
                ([IdUsuario]
