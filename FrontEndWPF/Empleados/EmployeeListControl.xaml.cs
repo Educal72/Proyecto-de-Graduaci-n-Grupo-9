@@ -77,7 +77,7 @@ namespace FrontEndWPF
        e.FechaContratacion, e.Puesto, e.Salario, e.Direccion, e.Activo
 FROM Usuario u
 JOIN Empleado e ON u.Id = e.IdUsuario
-WHERE AND u.Id != @Id ORDER BY e.Activo DESC;";
+WHERE u.Id != @Id ORDER BY e.Activo DESC;";
 
 
 			List<UsuarioEmpleado> usuariosEmpleados = new List<UsuarioEmpleado>();
