@@ -26,9 +26,47 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#f9f9f9"/>
+            <Setter Property="Foreground" Value="#333"/>
+            <Setter Property="BorderBrush" Value="#ddd"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="FontWeight" Value="Normal"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="FontSize" Value="24"/>
+                        <Setter Property="Background" Value="#f1f1f1"/>
+                        <Setter Property="Foreground" Value="#333"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid>
-        <DataGrid x:Name="FichajesDataGrid" FontFamily="Roboto" FontSize="24" ColumnWidth="*" Margin="0,50,0,0" IsEnabled="False" AutoGenerateColumns="False">
+        <DataGrid HorizontalScrollBarVisibility="Hidden" x:Name="FichajesDataGrid" FontFamily="Roboto" FontSize="24" ColumnWidth="*" Margin="0,50,0,0" IsEnabled="False" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Cédula" Binding="{Binding Cedula}" Width="*"/>
                 <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
@@ -37,9 +75,9 @@
                 <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Label Content="Cedula: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="20" Foreground="White"/>
-        <TextBox x:Name="cedula" HorizontalAlignment="Left" Margin="91,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190" Height="34" FontSize="16" FontFamily="Roboto" VerticalContentAlignment="Center" TextChanged="cedula_TextChanged"/>
-        <ComboBox x:Name="combo" Margin="0,10,18,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="200" Height="34" SelectionChanged="ComboBox_SelectionChanged" VerticalContentAlignment="Center" FontFamily="Roboto" FontSize="18"/>
-        <Label Content="Filtrar: " Margin="0,11,223,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="20" Foreground="White" HorizontalAlignment="Right" Width="71"/>
+        <Label Content="Cedula: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" Foreground="White" Height="45" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="cedula" HorizontalAlignment="Left" Margin="106,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="225" Height="45" FontSize="16" FontFamily="Roboto" VerticalContentAlignment="Center" TextChanged="cedula_TextChanged"/>
+        <ComboBox x:Name="combo" Margin="0,1,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="208" Height="45" SelectionChanged="ComboBox_SelectionChanged" VerticalContentAlignment="Center" FontFamily="Roboto" FontSize="18"/>
+        <Label Content="Filtrar: " Margin="0,0,223,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24" Foreground="White" HorizontalAlignment="Right" Width="85" Height="45" VerticalContentAlignment="Center"/>
     </Grid>
 </UserControl>

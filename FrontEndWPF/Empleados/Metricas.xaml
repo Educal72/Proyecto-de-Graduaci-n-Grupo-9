@@ -25,9 +25,47 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#f9f9f9"/>
+            <Setter Property="Foreground" Value="#333"/>
+            <Setter Property="BorderBrush" Value="#ddd"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="FontWeight" Value="Normal"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="FontSize" Value="24"/>
+                        <Setter Property="Background" Value="#f1f1f1"/>
+                        <Setter Property="Foreground" Value="#333"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid Background="Black">
-        <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0,54,415,35" FontFamily="Roboto" FontSize="20" ColumnWidth="*">
+        <DataGrid x:Name="dataGrid" AutoGenerateColumns="False" Margin="0,54,415,35" FontFamily="Roboto" FontSize="20" ColumnWidth="*" IsReadOnly="True" HorizontalScrollBarVisibility="Hidden" IsHitTestVisible="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" Width="*"/>
                 <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha}" Width="*"/>

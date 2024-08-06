@@ -47,8 +47,54 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!-- Estilo para el Thumb -->
+        <Style x:Key="CustomThumb" TargetType="Thumb">
+            <Setter Property="Height" Value="Auto"/>
+            <!-- Tamaño original -->
+            <Setter Property="Width" Value="15"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Estilo para el ScrollBar -->
+        <Style x:Key="CustomScrollBar" TargetType="ScrollBar">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="0,5,5,5"/>
+            <Setter Property="Opacity" Value="0.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid x:Name="GridRoot" Background="Transparent">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Track x:Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
+                                <Track.Thumb>
+                                    <Thumb Style="{StaticResource CustomThumb}"/>
+                                </Track.Thumb>
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.PageUpCommand" Visibility="Collapsed"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.PageDownCommand" Visibility="Collapsed"/>
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <ScrollViewer>
+        <ScrollViewer.Resources>
+            <Style TargetType="ScrollBar" BasedOn="{StaticResource CustomScrollBar}"/>
+        </ScrollViewer.Resources>
         <Grid VerticalAlignment="Center" Background="Black">
             <Label Content="Copyrights © 2024. Todos los derechos reservados - Molino Central de Coronado" Foreground="White" Margin="45,981,45,0" FontFamily="Roboto" FontSize="24" Height="39" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
             <Label Content="Restaurante" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Background="Black" Foreground="White" FontFamily="Roboto" FontWeight="Bold" FontSize="48"/>

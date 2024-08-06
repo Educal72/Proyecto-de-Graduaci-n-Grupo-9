@@ -5,50 +5,97 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrontEndWPF.Empleados"
         mc:Ignorable="d"
-            Title="nuevoPerfilComp" Height="610" Width="550">
+        Title="Nuevo Perfil" Height="550" Width="600"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="White"
+        BorderBrush="Black"
+        BorderThickness="1">
     <Window.Resources>
+        <!-- Estilos -->
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
         <Style TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                                <Setter TargetName="border" Property="Background" Value="#005A9E"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <ControlTemplate x:Key="ValidationTemplate">
-            <DockPanel>
-                <TextBlock Foreground="Red" FontSize="12">!</TextBlock>
-                <AdornedElementPlaceholder/>
-            </DockPanel>
-        </ControlTemplate>
     </Window.Resources>
-    <Grid>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="tituloPagina" Content="Nuevo Perfil" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="48" FontWeight="Bold"/>
-        <Label Content="Titulo:" HorizontalAlignment="Left" Margin="10,112,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <Label Content="Descripción:" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <Label Content="Experiencia:" HorizontalAlignment="Left" Margin="10,334,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <TextBox x:Name="Exp" HorizontalAlignment="Left" Margin="154,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="374" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="Desc" HorizontalAlignment="Left" Margin="10,195,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="518" FontSize="24" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="134"/>
-        <TextBox x:Name="Titulo" HorizontalAlignment="Left" Margin="105,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="423" FontSize="24" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <Label Content="Requisitos:" HorizontalAlignment="Left" Margin="10,380,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <TextBox x:Name="Req" HorizontalAlignment="Left" Margin="143,384,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="385" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Label Content="Ubicación:" HorizontalAlignment="Left" Margin="10,425,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <TextBox x:Name="Ubicacion" HorizontalAlignment="Left" Margin="137,429,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="391" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Label x:Name="___Sin_nombre_" Content="Salario:" HorizontalAlignment="Left" Margin="10,470,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="24"/>
-        <TextBox x:Name="Salario" HorizontalAlignment="Left" Margin="106,474,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="422" FontSize="24" FontFamily="Roboto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Button Content="Agregar" HorizontalAlignment="Left" Margin="448,529,0,0" VerticalAlignment="Top" Height="25" Width="80" FontFamily="Roboto" Click="Button_Click"/>
-        <Button Content="Cancelar" HorizontalAlignment="Left" Margin="363,529,0,0" VerticalAlignment="Top" Height="25" Width="80" FontFamily="Roboto" Click="Button_Click_1"/>
+
+        <!-- Title -->
+        <Label Content="Nuevo Perfil" Grid.Row="0" Grid.ColumnSpan="2" FontSize="36" FontWeight="Bold" Margin="0,0,0,20" VerticalContentAlignment="Bottom"/>
+
+        <!-- Form Fields -->
+        <Label Content="Título:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Titulo" Grid.Row="1" Grid.Column="1" Width="400" FontFamily="Roboto" FontSize="18" VerticalContentAlignment="Center" Margin="5"/>
+
+        <Label Content="Descripción:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top"/>
+        <TextBox x:Name="Desc" Grid.Row="2" Grid.Column="1" Width="400" Height="100" TextWrapping="Wrap" VerticalContentAlignment="Top" FontFamily="Roboto" FontSize="18" Margin="5"/>
+
+        <Label Content="Experiencia:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Exp" Grid.Row="3" Grid.Column="1" Width="400" FontFamily="Roboto" FontSize="18" VerticalContentAlignment="Center" Margin="5"/>
+
+        <Label Content="Requisitos:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Req" Grid.Row="4" Grid.Column="1" Width="400" FontFamily="Roboto" FontSize="18" VerticalContentAlignment="Center" Margin="5"/>
+
+        <Label Content="Ubicación:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Ubicacion" Grid.Row="5" Grid.Column="1" Width="400" FontFamily="Roboto" FontSize="18" VerticalContentAlignment="Center" Margin="5"/>
+
+        <Label Content="Salario:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Salario" Grid.Row="6" Grid.Column="1" Width="400" FontFamily="Roboto" FontSize="18" VerticalContentAlignment="Center" Margin="5"/>
+
+        <!-- Buttons -->
+        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button Content="Agregar" Click="Button_Click" Foreground="#fafafa" Background="#28a745" Height="40" Width="100"/>
+            <Button Content="Cancelar" Click="Button_Click_1" Foreground="#fafafa" Background="#dc3545" Height="40" Width="100"/>
+        </StackPanel>
     </Grid>
 </Window>

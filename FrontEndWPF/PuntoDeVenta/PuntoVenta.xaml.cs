@@ -218,6 +218,10 @@ namespace FrontEndWPF
 				selectedItem.Cantidad += 1;
 				carrito.Items.Refresh();
 			}
+			else
+			{
+				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+			}
 		}
 
 		private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -237,6 +241,10 @@ namespace FrontEndWPF
 					carrito.Items.Refresh();
 				}
 			}
+			else
+			{
+				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+			}
 		}
 
 		private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -248,6 +256,10 @@ namespace FrontEndWPF
 					carrito.Items.Remove(selectedItem);
 
 				}
+			else
+			{
+				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+			}
 		}
 
 		private void Button_Click_4(object sender, RoutedEventArgs e)
@@ -258,8 +270,17 @@ namespace FrontEndWPF
 			{
 				string itemName = nuevoItem.Nombre;
 				decimal itemPrice = nuevoItem.Precio;
-				int idProducto = ordenes.InsertarProductoUnico(itemName, "Historial", itemPrice, true);
+				carritoItem existingProduct = carrito.Items.OfType<carritoItem>().FirstOrDefault(p => p.Nombre == itemName);
+				if (existingProduct != null ) {
+					existingProduct.Cantidad += 1;
+					carrito.Items.Refresh();
+				} else { 
+				int idProducto = ordenes.InsertarProductoUnico(itemName, "Historial", itemPrice, false);
 				carrito.Items.Add(new carritoItem { Id=idProducto ,Nombre = itemName, Precio = itemPrice, Cantidad = 1 });
+				}
+				
+				
+				
 			}
 		}
 

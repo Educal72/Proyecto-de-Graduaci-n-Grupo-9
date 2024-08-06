@@ -1,6 +1,7 @@
 ﻿using FrontEndWPF.Empleados;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
@@ -36,6 +37,64 @@ namespace FrontEndWPF
 			timer.Tick += Timer_Tick;
 			timer.Start();
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
+			switch (SesionUsuario.Instance.rol)
+			{
+				case "Admin":
+					ListadodeEmpleados.Visibility = Visibility.Visible;
+					FichajesItem.Visibility = Visibility.Visible;
+					PermisosdeTiempo.Visibility = Visibility.Visible;
+					PermisosdeAusencia.Visibility = Visibility.Visible;
+					Incidentes.Visibility = Visibility.Visible;
+					PerfilesCompetenciales.Visibility = Visibility.Visible;
+					Desvinculaciones.Visibility = Visibility.Visible;
+					FAQ.Visibility = Visibility.Visible;
+					ControldePlanillas.Visibility = Visibility.Visible;
+					break;
+				case "Cajero":
+					ListadodeEmpleados.Visibility = Visibility.Hidden;
+					FichajesItem.Visibility = Visibility.Visible;
+					PermisosdeTiempo.Visibility = Visibility.Visible;
+					PermisosdeAusencia.Visibility = Visibility.Visible;
+					Incidentes.Visibility = Visibility.Visible;
+					PerfilesCompetenciales.Visibility = Visibility.Hidden;
+					Desvinculaciones.Visibility = Visibility.Visible;
+					FAQ.Visibility = Visibility.Visible;
+					ControldePlanillas.Visibility = Visibility.Hidden;
+					break;
+				case "Salonero":
+					ListadodeEmpleados.Visibility = Visibility.Hidden;
+					FichajesItem.Visibility = Visibility.Visible;
+					PermisosdeTiempo.Visibility = Visibility.Visible;
+					PermisosdeAusencia.Visibility = Visibility.Visible;
+					Incidentes.Visibility = Visibility.Visible;
+					PerfilesCompetenciales.Visibility = Visibility.Hidden;
+					Desvinculaciones.Visibility = Visibility.Visible;
+					FAQ.Visibility = Visibility.Visible;
+					ControldePlanillas.Visibility = Visibility.Hidden;
+					break;
+				case "Contador":
+					ListadodeEmpleados.Visibility = Visibility.Visible;
+					FichajesItem.Visibility = Visibility.Visible;
+					PermisosdeTiempo.Visibility = Visibility.Visible;
+					PermisosdeAusencia.Visibility = Visibility.Visible;
+					Incidentes.Visibility = Visibility.Visible;
+					PerfilesCompetenciales.Visibility = Visibility.Visible;
+					Desvinculaciones.Visibility = Visibility.Visible;
+					FAQ.Visibility = Visibility.Visible;
+					ControldePlanillas.Visibility = Visibility.Visible;
+					break;
+				default:
+					ListadodeEmpleados.Visibility = Visibility.Visible;
+					FichajesItem.Visibility = Visibility.Visible;
+					PermisosdeTiempo.Visibility = Visibility.Visible;
+					PermisosdeAusencia.Visibility = Visibility.Visible;
+					Incidentes.Visibility = Visibility.Visible;
+					PerfilesCompetenciales.Visibility = Visibility.Visible;
+					Desvinculaciones.Visibility = Visibility.Visible;
+					FAQ.Visibility = Visibility.Visible;
+					ControldePlanillas.Visibility = Visibility.Visible;
+					break;
+			}
 		}
 
 		/* Este método sirve para poder saber si el usuario administrador quiere o no entrar -
@@ -106,11 +165,12 @@ namespace FrontEndWPF
 			public bool Estado { get; set; }
 		}
 		public class FAQS
-		{  
+		{
 			public int Id { get; set; }
 			public string Pregunta { get; set; }  // Fecha en que ocurrió el incidente
 			public string Respuesta { get; set; }  // Descripción del incidente
 			public string Nombre { get; set; }
+			public byte[]? Documento { get; set; }
 		}
 
         private void MenuListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -139,15 +199,11 @@ namespace FrontEndWPF
 				case "Incidentes":
 					ContentArea.Content = new Incidentes();
 					break;
-				case "Perfiles Competenciales":
+				case "Talento Humano":
 					ContentArea.Content = new PerfilesComp();
 					break;
 				case "Desvinculaciones":
 					ContentArea.Content = new Desvinculaciones();
-                    if (a == true)
-                    {
-                        ContentArea.Content = new PantallaOscura();
-                    }
                     break;
 				case "FAQ":
 					ContentArea.Content = new FAQ();

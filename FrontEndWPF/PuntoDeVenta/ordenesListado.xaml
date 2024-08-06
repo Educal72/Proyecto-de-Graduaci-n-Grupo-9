@@ -27,6 +27,44 @@
         <Style TargetType="DataGridCell">
             <Setter Property="FontSize" Value="32"/>
         </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#f9f9f9"/>
+            <Setter Property="Foreground" Value="#333"/>
+            <Setter Property="BorderBrush" Value="#ddd"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="FontWeight" Value="Normal"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="FontSize" Value="24"/>
+                        <Setter Property="Background" Value="#f1f1f1"/>
+                        <Setter Property="Foreground" Value="#333"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
     <Grid Width="Auto" Height="Auto" VerticalAlignment="Stretch" Background="White" HorizontalAlignment="Stretch">
         <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727" d:IsLocked="True"/>
@@ -44,8 +82,8 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding Orders}"
-                  HorizontalScrollBarVisibility="Auto" IsReadOnly="True" SelectionMode="Single" Margin="10"
+            <DataGrid HorizontalScrollBarVisibility="Hidden" x:Name="OrdersDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding Orders}"
+                  IsReadOnly="True" SelectionMode="Single" Margin="10" IsHitTestVisible="True"
                   Grid.Column="0">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>

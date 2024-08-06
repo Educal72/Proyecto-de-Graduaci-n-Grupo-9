@@ -18,8 +18,8 @@ namespace FrontEndWPF.Reporteria
     /// <summary>
     /// Interaction logic for InformeNormativa.xaml
     /// </summary>
-    public partial class InformeNormativa : Page
-    {
+    public partial class InformeNormativa : UserControl
+	{
         public InformeNormativa()
         {
             InitializeComponent();

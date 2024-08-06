@@ -4,9 +4,31 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Creación de Permisos de Ausencia" Height="406" Width="510" Background="#f4f4f4">
+        Title="Creación de Permisos de Ausencia" Height="450" Width="600"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="White"
+        BorderBrush="Black"
+        BorderThickness="1">
 
     <Window.Resources>
+        <!-- Estilos -->
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
         <Style TargetType="Button">
             <Setter Property="Background" Value="#007ACC"/>
             <Setter Property="Foreground" Value="White"/>
@@ -30,21 +52,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <Style TargetType="TextBox">
-            <Setter Property="FontFamily" Value="Roboto"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
-
-        <Style TargetType="Label">
-            <Setter Property="FontFamily" Value="Roboto"/>
-            <Setter Property="FontSize" Value="24"/>
-            <Setter Property="Margin" Value="5"/>
-        </Style>
     </Window.Resources>
 
     <Grid Margin="20">
@@ -52,38 +59,38 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition />
-            <RowDefinition Height="Auto" MinHeight="49.2"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Title -->
-        <Label x:Name="Titulo" Content="Crear Permisos de Ausencia" Grid.Row="0" Grid.ColumnSpan="2" FontSize="36" FontWeight="Bold" Margin="9,0,0,20" HorizontalAlignment="Left" Width="452"/>
+        <Label x:Name="Titulo" Content="Crear Permisos de Ausencia" Grid.Row="0" Grid.ColumnSpan="2" FontSize="36" FontWeight="Bold" Margin="0,0,0,20"/>
 
         <!-- Form Fields -->
-        <Label Content="Fecha de Inicio:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Height="39" Margin="5,0,5,0"/>
-        <DatePicker x:Name="FechaInicioPicker" Grid.Row="1" Grid.Column="1" Width="150" HorizontalAlignment="Left" Margin="5,5,0,5"/>
+        <Label Content="Fecha de Inicio:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+        <DatePicker x:Name="FechaInicioPicker" Grid.Row="1" Grid.Column="1" Width="Auto" HorizontalAlignment="Stretch" Margin="5,5,0,5" VerticalContentAlignment="Center" FontSize="16"/>
 
-        <Label Content="Fecha Fin:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Height="39" Margin="5,0,5,0"/>
-        <DatePicker x:Name="FechaFinPicker" Grid.Row="2" Grid.Column="1" Width="150" HorizontalAlignment="Left" Margin="5,5,0,5"/>
+        <Label Content="Fecha Fin:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+        <DatePicker x:Name="FechaFinPicker" Grid.Row="2" Grid.Column="1" Width="Auto" HorizontalAlignment="Stretch" Margin="5,5,0,5" VerticalContentAlignment="Center" FontSize="16"/>
 
-        <Label Content="Motivo:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Margin="5,18,5,0" Height="39"/>
-        <TextBox x:Name="MotivoTextBox" Grid.Row="3" Grid.Column="1" Height="79" AcceptsReturn="True" VerticalAlignment="Top" Margin="5,5,33,0"/>
+        <Label Content="Motivo:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top"/>
+        <TextBox x:Name="MotivoTextBox" Grid.Row="3" Grid.Column="1" Height="100" AcceptsReturn="True" TextWrapping="Wrap" VerticalAlignment="Top" Margin="5,5,0,5" VerticalContentAlignment="Top" FontSize="16"/>
 
-        <!-- Dropdown de Usuarios -->
-        <Label Content="Seleccionar colaborador:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Margin="5,89,5,0" Height="39"/>
-        <ComboBox x:Name="UsuarioComboBox" Grid.Row="3" Grid.Column="1" Width="150" HorizontalAlignment="Left" Margin="7,100,0,11"
+        <Label Content="Seleccionar colaborador:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
+        <ComboBox x:Name="UsuarioComboBox" Grid.Row="4" Grid.Column="1" Width="Auto" Margin="5,5,0,5" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" FontSize="16"
                   ItemsSource="{Binding Usuarios}" 
                   DisplayMemberPath="Nombre" 
                   SelectedValuePath="Id"/>
 
         <!-- Buttons -->
-        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="176,20,0,0" Width="118">
-            <Button Content="Crear" Click="Button_Click_Crear" Background="#04CC00"/>
-            <Button Content="Cancelar" Click="Button_Click_Cancelar" Background="#007ACC"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button Content="Crear" Click="Button_Click_Crear" Foreground="#fafafa" Background="#28a745" Height="40" Width="100"/>
+            <Button Content="Cancelar" Click="Button_Click_Cancelar" Foreground="#fafafa" Background="#dc3545" Height="40" Width="100"/>
         </StackPanel>
     </Grid>
 </Window>

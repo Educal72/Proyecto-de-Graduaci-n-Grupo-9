@@ -5,8 +5,41 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FrontEndWPF.Empleados"
              mc:Ignorable="d" 
-                      d:DesignHeight="450" d:DesignWidth="800">
+                      d:DesignHeight="450" d:DesignWidth="800" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     <UserControl.Resources>
+        <local:NullOrEmptyToVisibilityConverter x:Key="NullOrEmptyToVisibilityConverter"/>
+        <local:RoleToVisibilityConverter x:Key="RoleToVisibilityConverter"/>
+        <DataTemplate x:Key="CardTemplate">
+            <Border BorderBrush="#abdb04" BorderThickness="1" CornerRadius="5" Margin="10" Background="Black" Width="385" Height="325">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="10" VerticalAlignment="Stretch">
+                            <TextBlock Text="{Binding Pregunta}" FontWeight="Bold" FontSize="18" Foreground="White" Margin="0,0,0,10" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding Respuesta}" FontSize="16" Foreground="White" Margin="0,0,0,10" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1">
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Descargar Documento Asociado" Visibility="{Binding Nombre, Converter={StaticResource NullOrEmptyToVisibilityConverter}}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Height="40" Width="370" Margin="0,0,0,5" Background="#007bff" FontSize="18"  Foreground="White" Click="Button_Click_3"/>
+                            <Button x:Name="btnEditar" Content="Editar" Grid.Row="1" Grid.Column="0" Height="40" HorizontalAlignment="Left" Width="180" Margin="0,0,5,5" Click="Button_Click_2" Background="#ffc107" FontSize="18" Foreground="#343a40" Visibility="{Binding DataContext.UserRole, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource RoleToVisibilityConverter}}"/>
+                            <Button x:Name="btnEliminar" Content="Eliminar" Grid.Row="1" Grid.Column="1" Height="40" HorizontalAlignment="Right" Width="180" Margin="5,0,0,5" Click="Button_Click_1" Padding="0,0,0,0"  Background="#dc3545" FontSize="18"  Foreground="White" Visibility="{Binding DataContext.UserRole, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource RoleToVisibilityConverter}}"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
         <Style TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -24,18 +57,63 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!-- Estilo para el Thumb -->
+        <Style x:Key="CustomThumb" TargetType="Thumb">
+            <Setter Property="Height" Value="Auto"/>
+            <!-- Tamaño original -->
+            <Setter Property="Width" Value="10"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Estilo para el ScrollBar -->
+        <Style x:Key="CustomScrollBar" TargetType="ScrollBar">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="0,5,5,5"/>
+            <Setter Property="Opacity" Value="0.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid x:Name="GridRoot" Background="Transparent">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Track x:Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
+                                <Track.Thumb>
+                                    <Thumb Style="{StaticResource CustomThumb}"/>
+                                </Track.Thumb>
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.PageUpCommand" Visibility="Collapsed"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.PageDownCommand" Visibility="Collapsed"/>
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
-    <Grid Background="Black">
-        <DataGrid x:Name="FAQDataGrid" AutoGenerateColumns="False" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Pregunta" Binding="{Binding Pregunta}" Width="*"/>
-                <DataGridTextColumn Header="Respuesta" Binding="{Binding Respuesta}" Width="*"/>
-                <DataGridTextColumn Header="Documento Asociado" Binding="{Binding Nombre}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button Content="Eliminar" Margin="180,0,0,0" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Left" Width="80" Click="Button_Click_1"/>
-        <Button Content="Editar" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Button_Click_2"/>
-        <Button Content="Añadir" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Button_Click" Margin="10,0,0,0"/>
-        <Button Content="Descargar Documento Asociado" Margin="0,0,10,0" VerticalAlignment="Top" Height="45" FontFamily="Roboto" Click="Button_Click_3" HorizontalAlignment="Right" Width="190"/>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer.Resources>
+            <Style TargetType="ScrollBar" BasedOn="{StaticResource CustomScrollBar}"/>
+        </ScrollViewer.Resources>
+        <Grid Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ItemsControl x:Name="FAQItemsControl" ItemsSource="{Binding FAQItems}" ItemTemplate="{StaticResource CardTemplate}" Margin="0,50,0,0" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+            <Button x:Name="btnAnadir" Content="Añadir" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Button_Click" Margin="10,0,0,0" Background="#28a745" Foreground="White"  Visibility="{Binding DataContext.UserRole, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource RoleToVisibilityConverter}}"/>
     </Grid>
+    </ScrollViewer>
 </UserControl>

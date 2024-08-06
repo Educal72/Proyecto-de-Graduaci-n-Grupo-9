@@ -27,6 +27,44 @@
         <Style TargetType="DataGridCell">
             <Setter Property="FontSize" Value="32"/>
         </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="True"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#f9f9f9"/>
+            <Setter Property="Foreground" Value="#333"/>
+            <Setter Property="BorderBrush" Value="#ddd"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="FontWeight" Value="Normal"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="FontSize" Value="24"/>
+                        <Setter Property="Background" Value="#f1f1f1"/>
+                        <Setter Property="Foreground" Value="#333"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
     <Grid Width="Auto" Height="Auto" VerticalAlignment="Stretch" Background="White">
         <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727" d:IsLocked="True"/>
@@ -49,85 +87,62 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <DataGrid x:Name="carrito" AutoGenerateColumns="false" Margin="10,0,10,10" Grid.Column="0" Grid.Row="0" Grid.RowSpan="11" >
+            <DataGrid x:Name="carrito" AutoGenerateColumns="false" Margin="10,0,10,10" Grid.Column="0" Grid.Row="0" Grid.RowSpan="11" IsReadOnly="True" IsHitTestVisible="True"  HorizontalScrollBarVisibility="Hidden">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Cantidad" Binding="{Binding Cantidad}" IsReadOnly="False" Width="60"/>
                     <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" IsReadOnly="False" Width="*"/>
                     <DataGridTextColumn Header="Precio /u" Binding="{Binding Precio}" IsReadOnly="False" Width="150"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Grid Grid.Column="1" Height="39" VerticalAlignment="Center" Margin="10,0,10,0">
-                <Label x:Name="servicioT" Content="Servicio: 10%" VerticalAlignment="Center" FontFamily="Roboto" FontSize="24" HorizontalAlignment="Left" Width="153"/>
-                <TextBox x:Name="servicio" Margin="153,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" FontSize="18" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="377" TextChanged="servicio_TextChanged" PreviewTextInput="NumericTextBox_PreviewTextInput"/>
-
-            </Grid>
-            <Grid Grid.Column="1" Height="39" Grid.Row="1" VerticalAlignment="Center" Margin="10,0,10,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Label Content="Descuento: ₡ " VerticalAlignment="Center" FontFamily="Roboto" FontSize="24" HorizontalAlignment="Left" Width="155" Grid.ColumnSpan="2" Height="39"/>
-                <TextBox x:Name="descuento" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" FontSize="18" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center" Grid.Column="1" HorizontalAlignment="Left" Width="222" Margin="154,0,0,0"/>
-                <Button x:Name="puntos" Content="Usar Puntos" VerticalAlignment="Center" Height="30" FontFamily="Roboto" FontSize="18" RenderTransformOrigin="0.517,0.579" Grid.Column="1" Click="Button_Click_5" Margin="381,0,0,0" HorizontalAlignment="Left" Width="149"/>
-            </Grid>
-            <Grid Grid.Column="1" Height="39" Grid.Row="2" VerticalAlignment="Center" Margin="10,0,10,0">
-
-                <Label x:Name="impuestoT" Content="Impuesto: 13%" VerticalAlignment="Center" FontFamily="Roboto" FontSize="24" HorizontalAlignment="Left" Width="175"/>
-                <TextBox x:Name="impuesto" Margin="175,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="29" FontSize="18" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="355" IsEnabled="False"/>
-
-            </Grid>
-            <Grid Grid.Column="1" Height="39" Grid.Row="3" VerticalAlignment="Center" Margin="10,0,10,0">
-
-                <Label Content="Subtotal: ₡ " VerticalAlignment="Center" FontFamily="Roboto" FontSize="24" HorizontalAlignment="Left" Width="130"/>
-                <TextBox x:Name="subtotal" Margin="130,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="28" FontSize="18" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="400"/>
-
-            </Grid>
-            <Grid Grid.Column="2" Height="78" Grid.RowSpan="2" Grid.Row="2" VerticalAlignment="Center" Margin="10,0,10,0">
-
-                <Label Content="Total: ₡ " FontFamily="Roboto" FontSize="48" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="179"/>
-                <TextBox x:Name="total" TextWrapping="Wrap" VerticalAlignment="Center" Height="64" FontSize="24" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center" Margin="179,0,0,0" HorizontalAlignment="Left" Width="369"/>
-            </Grid>
+            <Label Grid.Column="1" x:Name="servicioT" Content="Servicio: 10%" VerticalAlignment="Center" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Left" Width="130" Height="30" Margin="0,0,0,5"/>
+            <TextBox  Grid.Column="1" x:Name="servicio" Margin="130,0,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" FontSize="18" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="275" TextChanged="servicio_TextChanged" PreviewTextInput="NumericTextBox_PreviewTextInput"/>
+            <Label Grid.Column="1" Grid.Row="1" Content="Descuento: ₡ " VerticalAlignment="Center" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Left" Width="130" Height="30" Margin="0,0,0,5"/>
+            <TextBox Grid.Column="1" Grid.Row="1" x:Name="descuento" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" FontSize="18" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center" Margin="130,0,0,5" HorizontalAlignment="Left" Width="150"/>
+            <Button Grid.Column="1" Grid.Row="1" x:Name="puntos" Content="Usar Puntos" VerticalAlignment="Center" Width="120" Height="30" FontFamily="Roboto" FontSize="18" RenderTransformOrigin="0.517,0.579" Click="Button_Click_5" Margin="285,0,0,5" HorizontalAlignment="Left"/>
+            <Label Grid.Column="1" Grid.Row="2" x:Name="impuestoT" Content="Impuesto: 13%" VerticalAlignment="Center" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Left" Width="130" Height="30" Margin="0,0,0,5"/>
+            <TextBox Grid.Column="1" Grid.Row="2" x:Name="impuesto" Margin="130,0,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" FontSize="18" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="275" IsEnabled="False"/>
+            <Label Grid.Column="1" Grid.Row="3" Content="Subtotal: ₡ " VerticalAlignment="Center" FontFamily="Roboto" FontSize="24" HorizontalAlignment="Left" Width="130" Height="35" Margin="0,0,0,5"/>
+            <TextBox Grid.Column="1" Grid.Row="3" x:Name="subtotal" Margin="130,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" FontSize="18" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="275"/>
+            <Label Grid.Column="2" Height="65" Grid.RowSpan="2" Grid.Row="2"  Content="Total: ₡ " FontFamily="Roboto" FontSize="48" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="175" Margin="-1,0,0,5"/>
+            <TextBox Grid.Column="2" Height="65" Grid.RowSpan="2" Grid.Row="2"  x:Name="total" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center" Margin="172,2,0,5" HorizontalAlignment="Left" Width="348"/>
             <Grid Grid.Column="1" Grid.ColumnSpan="2" Height="68" Margin="10,0,10,0" Grid.Row="6" VerticalAlignment="Center">
-
-                <Label Content="Cantidad Pagada: ₡ " VerticalAlignment="Center" FontFamily="Roboto" FontSize="48" HorizontalAlignment="Left" Width="429"/>
-                <TextBox x:Name="pagado" Margin="429,0,195,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="56" FontFamily="Roboto" FontSize="48" VerticalContentAlignment="Center"/>
-
-                <Button Content="Pago Exacto" VerticalAlignment="Center" Height="56" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.517,0.579" Click="Button_Click_1" HorizontalAlignment="Right" Width="190"/>
-
+                <Label Content="Cantidad Pagada: ₡ " VerticalAlignment="Center" FontFamily="Roboto" FontSize="48" HorizontalAlignment="Left" Width="400"/>
+                <TextBox x:Name="pagado" Margin="400,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="56" FontFamily="Roboto" FontSize="48" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="340"/>
+                <Button Content="Pago Exacto" VerticalAlignment="Center" Height="56" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.517,0.579" Click="Button_Click_1" HorizontalAlignment="Left" Width="190" Margin="745,0,0,0"/>
             </Grid>
-            <Grid Grid.Column="2" Height="39" Margin="10,0,0,0" VerticalAlignment="Center">
-
-                <Label Content="Cliente Asociado:" VerticalAlignment="Center" FontFamily="Roboto" FontSize="24" HorizontalAlignment="Left" Width="196"/>
-                <TextBox x:Name="cliente" Margin="201,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" FontSize="18" FontFamily="Roboto" IsEnabled="False" Text="Génerico N/A" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="347"/>
-
-            </Grid>
-            <Grid Grid.Column="2" Height="39" Margin="10,0,10,0" Grid.Row="1" VerticalAlignment="Center">
-
-                <Label Content="Salonero Asociado:" VerticalAlignment="Center" FontFamily="Roboto" FontSize="24" HorizontalAlignment="Left" Width="215"/>
-                <TextBox x:Name="salonero" Margin="220,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="29" FontSize="18" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center" Text="Ninguno" HorizontalAlignment="Left" Width="328"/>
-
-
-            </Grid>
-            <Grid Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" Grid.ColumnSpan="2">
+            <Label Grid.Column="2" Grid.Row="0" Content="Cliente Asociado:" VerticalAlignment="Center" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Left" Width="165" Height="30" Margin="0,0,0,5"/>
+            <TextBox Grid.Column="2" Grid.Row="0" x:Name="cliente" Margin="165,0,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" FontSize="18" FontFamily="Roboto" IsEnabled="False" Text="Génerico N/A" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="354"/>
+            <Label Grid.Column="2" Grid.Row="1" Content="Salonero Asociado:" VerticalAlignment="Center" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Left" Width="165" Margin="0,0,0,5"/>
+            <TextBox Grid.Column="2" Grid.Row="1" x:Name="salonero" Margin="165,0,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" FontSize="18" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center" Text="Ninguno" HorizontalAlignment="Left" Width="354"/>
+            <Grid Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" Grid.ColumnSpan="2" Height="91">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <RadioButton x:Name="UberEatsButton" Checked="ToggleButton_Checked" Content="Uber Eats" VerticalAlignment="Center" Height="Auto" FontFamily="Roboto" FontSize="24" Grid.Column="0" Margin="10" VerticalContentAlignment="Center"/>
-                <RadioButton x:Name="PedidosYaButton" Checked="ToggleButton_Checked" Content="PedidosYa" VerticalAlignment="Center" Height="Auto" FontFamily="Roboto" FontSize="24" Grid.Column="1" Margin="10" VerticalContentAlignment="Center"/>
-                <RadioButton x:Name="RestauranteButton" Checked="ToggleButton_Checked" Content="Restaurante" VerticalAlignment="Center" Height="Auto" FontFamily="Roboto" FontSize="24" Grid.Column="2" Margin="10" VerticalContentAlignment="Center"/>
-                <RadioButton x:Name="ParaLlevarButton" Checked="ToggleButton_Checked" Content="Para Llevar" VerticalAlignment="Center" FontFamily="Roboto" FontSize="24" Grid.Column="3" Margin="10" VerticalContentAlignment="Center"/>
+                <GroupBox Header="Método de Entrega" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="10">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <RadioButton x:Name="UberEatsButton" Checked="ToggleButton_Checked" Content="Uber Eats" Margin="10" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center"/>
+                        <RadioButton x:Name="PedidosYaButton" Checked="ToggleButton_Checked" Content="PedidosYa" Margin="10" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center"/>
+                        <RadioButton x:Name="RestauranteButton" Checked="ToggleButton_Checked" Content="Restaurante" Margin="10" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center"/>
+                        <RadioButton x:Name="ParaLlevarButton" Checked="ToggleButton_Checked" Content="Para Llevar" Margin="10" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                </GroupBox>
             </Grid>
-            <RadioButton Checked="ToggleButton_Checked_1" x:Name="EfectivoButton" Content="Efectivo" VerticalAlignment="Center" Height="Auto" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="8"/>
-            <RadioButton Checked="ToggleButton_Checked_1" Content="Tarjeta" VerticalAlignment="Center" Height="Auto" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="8"/>
-            <Button Content="Asociar Salonero" Grid.Row="9" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" Height="95" FontFamily="Roboto" FontSize="36" Click="Button_Click_3"/>
-            <Button Content="Asociar Cliente" Grid.Row="9" Grid.Column="2" Margin="10,0,10,0" VerticalAlignment="Center" Height="95" FontFamily="Roboto" FontSize="36" Click="Button_Click_2"/>
+            <GroupBox Header="Método de Pago" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,10,10,10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <RadioButton Checked="ToggleButton_Checked_1" x:Name="EfectivoButton" Content="Efectivo" Margin="10" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center"/>
+                    <RadioButton Checked="ToggleButton_Checked_1" Content="Tarjeta" Margin="10" FontFamily="Roboto" FontSize="24" VerticalContentAlignment="Center"/>
+
+                </StackPanel>
+            </GroupBox>
+
+            <Button Content="Asociar Salonero" Grid.Row="9" Grid.Column="2" Margin="62,0,10,0" VerticalAlignment="Center" Height="95" FontFamily="Roboto" FontSize="36" Click="Button_Click_3"/>
+            <Button Content="Asociar Cliente" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,0,482,0" VerticalAlignment="Center" Height="95" FontFamily="Roboto" FontSize="36" Click="Button_Click_2" Width="465"/>
             <Button Content="Procesar" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,10,10,10" FontFamily="Roboto" FontSize="36" Background="#FFABD904" Click="Button_Click_4"/>
         </Grid>
 

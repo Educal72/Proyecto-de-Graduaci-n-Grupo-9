@@ -24,23 +24,61 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#f9f9f9"/>
+            <Setter Property="Foreground" Value="#333"/>
+            <Setter Property="BorderBrush" Value="#ddd"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="FontWeight" Value="Normal"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="FontSize" Value="24"/>
+                        <Setter Property="Background" Value="#f1f1f1"/>
+                        <Setter Property="Foreground" Value="#333"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid Background="Black">
-        <DataGrid x:Name="PermisoAusenciaDataGrid" AutoGenerateColumns="False" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*" ItemsSource="{Binding PermisosDeAusencia}" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="PermisoAusenciaDataGrid_SelectionChanged">
+        <DataGrid HorizontalScrollBarVisibility="Hidden" x:Name="PermisoAusenciaDataGrid" AutoGenerateColumns="False" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*" ItemsSource="{Binding PermisosDeAusencia}" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="PermisoAusenciaDataGrid_SelectionChanged" IsReadOnly="True" IsHitTestVisible="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nombre Completo" Binding="{Binding NombreCompleto}" Width="*"/>
                 <DataGridTextColumn Header="Fecha de Inicio" Binding="{Binding FechaInicio}" Width="*"/>
                 <DataGridTextColumn Header="Fecha de Finalización" Binding="{Binding FechaFin}" Width="*"/>
                 <DataGridTextColumn Header="Motivo" Binding="{Binding Motivo}" Width="*"/>
                 <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="*"/>
-                </DataGrid.Columns>
+            </DataGrid.Columns>
         </DataGrid>
         <!-- Botones -->
-        <Button Content="No" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="58" FontFamily="Roboto" FontSize="18" Click="Button_Click" Margin="342,5,0,0"/>
-        <Button Content="Sí" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="51" FontFamily="Roboto" FontSize="18" Click="Button_Click_1" Margin="279,5,0,0"/>
-        <Label Content="Reconocer Seleccionado: " HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="24" Height="45" VerticalContentAlignment="Center"/>
-        <Button Content="Eliminar" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="83" FontFamily="Roboto" FontSize="18" Click="Button_Click_2" Margin="707,0,0,0"/>
-        <Button Content="Crear" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="83" FontFamily="Roboto" FontSize="18" Click="Button_Click_3" Margin="443,2,0,0"/>
-        <Button Content="Editar" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="83" FontFamily="Roboto" FontSize="18" Click="Button_Click_4" Margin="531,2,0,0"/>
+        <Button Content="No" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" Click="Button_Click" Margin="0,0,10,0" Foreground="#fafafa" Background="#dc3545" HorizontalAlignment="Right" Width="60"/>
+        <Button Content="Sí" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" Click="Button_Click_1" Margin="0,0,75,0" Foreground="#fafafa" Background="#28a745" HorizontalAlignment="Right" Width="60"/>
+        <Label Content="Reconocer Seleccionado: " VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="24" Height="44" VerticalContentAlignment="Center" Margin="0,1,140,0" HorizontalAlignment="Right" Width="285"/>
+        <Button Content="Eliminar" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Button_Click_2" Margin="180,0,0,0"  Foreground="#fafafa" Background="#dc3545"/>
+        <Button Content="Añadir" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Button_Click_3" Margin="10,0,0,0" Foreground="#fafafa" Background="#28a745"/>
+        <Button Content="Editar" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Button_Click_4" Margin="95,0,0,0" Foreground="#343a40" Background="#ffc107"/>
     </Grid>
 </UserControl>

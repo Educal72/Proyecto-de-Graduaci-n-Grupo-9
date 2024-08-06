@@ -32,6 +32,7 @@ namespace FrontEndWPF
 			Correo.Text = oldCorreo;
 			Telefono.Text = oldTelefono;
 			Asociar.IsChecked = oldAsociar;
+			Cedula.IsEnabled = false;
 
 		}
 

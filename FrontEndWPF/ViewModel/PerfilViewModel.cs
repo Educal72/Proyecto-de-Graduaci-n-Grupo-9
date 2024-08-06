@@ -89,7 +89,7 @@ namespace FrontEndWPF
 
         public void ActualizarUsuario()
         {
-            bool actualizado = conexion.ActualizarUsuario(Correo, Nombre, PrimerApellido, SegundoApellido, Cedula, Telefono, Rol);
+            bool actualizado = conexion.ActualizarUsuario(Correo, Nombre, PrimerApellido, Cedula, Telefono, Rol);
             if (actualizado)
             {
                 // Usuario actualizado exitosamente

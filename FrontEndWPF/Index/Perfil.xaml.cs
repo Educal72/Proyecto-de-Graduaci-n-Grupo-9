@@ -79,7 +79,6 @@ namespace FrontEndWPF
                     correo.Text,
                     Nombre.Text,
                     primerApellido.Text,
-                    segundoApellido.Text,
                     Cedula.Text,
                     Telefono.Text,
                     comboRol.Text
@@ -97,5 +96,7 @@ namespace FrontEndWPF
         {
             NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
         }
-    }
+
+		
+	}
 }

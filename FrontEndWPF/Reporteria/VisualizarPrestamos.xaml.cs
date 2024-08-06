@@ -18,7 +18,7 @@ namespace FrontEndWPF.Reporteria
     /// <summary>
     /// Interaction logic for VisualizarPrestamos.xaml
     /// </summary>
-    public partial class VisualizarPrestamos : Page
+    public partial class VisualizarPrestamos : UserControl
     {
         public VisualizarPrestamos()
         {

@@ -20,7 +20,7 @@ namespace FrontEndWPF.Reporteria
     /// <summary>
     /// Interaction logic for InicioDeSesion.xaml
     /// </summary>
-    public partial class InicioDeSesion : Page
+    public partial class InicioDeSesion : UserControl
     {
         private InicioSesionViewModel viewModel;
 

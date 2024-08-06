@@ -39,7 +39,7 @@
             <Button
                 HorizontalAlignment="Left" Width="90" VerticalAlignment="Center" Margin="290,0,0,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Salir" Grid.ColumnSpan="2" Background="#FFABD904" Click="Button_Click"/>
         </Grid>
-        <Grid Margin="0,189,0,0" HorizontalAlignment="Left" Width="Auto" VerticalAlignment="Stretch">
+        <Grid Margin="0,189,0,0" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -67,22 +67,15 @@
                         </Setter>
                     </Style>
                 </ListBox.Resources>
-
-                <ListBoxItem Content="Listado de Empleados" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,15,10,10"/>
-                <ListBoxItem Content="Fichajes" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-                <ListBoxItem Content="Permisos de Tiempo" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-                <ListBoxItem Content="Permisos de Ausencia" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-                <ListBoxItem Content="Incidentes" FontFamily="Roboto" 
-                             FontSize="22" HorizontalContentAlignment="Center" 
-                             Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-                <ListBoxItem Content="Perfiles Competenciales" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-                <ListBoxItem Content="Desvinculaciones" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10" Selected="ListBoxItem_Selected" />
-                <ListBoxItem Content="FAQ" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-
-                <ListBoxItem Content="Control de Planillas" FontFamily="Roboto"
-                                 FontSize="22" HorizontalContentAlignment="Center"
-                                 Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-
+                <ListBoxItem x:Name="ListadodeEmpleados" Content="Listado de Empleados" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,15,10,10"/>
+                <ListBoxItem x:Name="ControldePlanillas" Content="Control de Planillas" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="FichajesItem" Content="Fichajes" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="PermisosdeTiempo" Content="Permisos de Tiempo" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="PermisosdeAusencia" Content="Permisos de Ausencia" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="Incidentes" Content="Incidentes" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="Desvinculaciones" Content="Desvinculaciones" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10" Selected="ListBoxItem_Selected" />
+                <ListBoxItem x:Name="PerfilesCompetenciales" Content="Talento Humano" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="FAQ" Content="FAQ" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
             </ListBox>
             <ContentControl x:Name="ContentArea" Grid.Column="2" Margin="0,5,0,0" Height="Auto" Width="Auto"/>
         </Grid>

@@ -28,36 +28,29 @@
     </Page.Resources>
     <Grid Width="Auto" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Black">
         <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727"/>
-        <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="0,-12,0,0"/>
+        <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
         <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="280" RenderTransformOrigin="0.5,1.289"/>
         <Label x:Name="user" Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="175" RenderTransformOrigin="0.514,0.567"/>
-        <Grid Margin="1525,106,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="380">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0*"/>
-                <ColumnDefinition Width="380"/>
-            </Grid.ColumnDefinitions>
-            <Button
-                HorizontalAlignment="Left" Width="90" VerticalAlignment="Center" Margin="290,0,0,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Salir" Grid.ColumnSpan="2" Background="#FFABD904" Click="Button_Click"/>
-        </Grid>
-        <Grid Margin="0,195,0,0" HorizontalAlignment="Left" Width="Auto">
+
+        <Button
+                 Width="90" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,112,10,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Salir" Background="#FFABD904" Click="Button_Click"/>
+
+        <Grid Margin="0,189,0,0" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Frame x:Name="MainFrame" Grid.Column="1" Margin="300,0,0,0"/>
-
-            <ListBox x:Name="MenuListBox" Visibility="Collapsed"  Grid.Column="0" SelectionChanged="MenuListBox_SelectionChanged" Grid.ColumnSpan="2" Margin="0,-15,1620,0" Foreground="White" Background="#FF272727" BorderBrush="#FF272727">
+            <ListBox x:Name="MenuListBox" Grid.Column="0" SelectionChanged="MenuListBox_SelectionChanged" Grid.ColumnSpan="1" Margin="0,-15,0,0" Foreground="White" Background="#FF272727" BorderBrush="#FF272727" VerticalAlignment="Stretch" Padding="0,0,0,0">
                 <ListBox.Resources>
-
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
                                     <Border x:Name="Border" 
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="5" Padding="0,10">
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="5" Padding="10,10,10,10">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                     <ControlTemplate.Triggers>
@@ -70,107 +63,17 @@
                         </Setter>
                     </Style>
                 </ListBox.Resources>
-                <ListBoxItem Content="Inicios de sesion" FontFamily="Roboto" FontSize="15" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,15,10,10"/>
-                <ListBoxItem Content="Gestion de Ordenes" FontFamily="Roboto" FontSize="15" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-                <ListBoxItem Content="Flujos Financieros" FontFamily="Roboto" FontSize="15" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="IniciosSesion" Content="Inicios de Sesión" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,15,10,10"/>
+                <ListBoxItem x:Name="GestionOrdenes" Content="Gestión de Ordenes" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="FlujosFinancieros" Content="Flujos Financieros" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="Prestamos" Content="Préstamos" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="Financiamientos" Content="Financiamientos" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="Inversiones" Content="Inversiones" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="Auditorias" Content="Auditorías" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="Normativa" Content="Normativa" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
             </ListBox>
-
-            <ListBox x:Name="MenuListBox1" Visibility="Collapsed"  Grid.Column="0" SelectionChanged="MenuListBox_SelectionChanged" Grid.ColumnSpan="2" Margin="0,-15,1620,0" Foreground="White" Background="#FF272727" BorderBrush="#FF272727">
-                <ListBox.Resources>
-
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <Border x:Name="Border" 
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="5" Padding="0,10">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="Border" Property="Background" Value="LightBlue" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.Resources>
-                <ListBoxItem Content="Visualizar Prestamos" FontFamily="Roboto" FontSize="15" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,15,10,10"/>
-                <ListBoxItem Content="Visualizar Financiamientos" FontFamily="Roboto" FontSize="15" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-                <ListBoxItem Content="Visualizar Inversiones" FontFamily="Roboto" FontSize="15" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-                <ListBoxItem Content="Crear Prestamo" FontFamily="Roboto" FontSize="15" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,15,10,10"/>
-                <ListBoxItem Content="Crear Financiamiento" FontFamily="Roboto" FontSize="15" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-                <ListBoxItem Content="Crear Inversion" FontFamily="Roboto" FontSize="15" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-
-            </ListBox>
-
-            <ListBox x:Name="MenuListBox2" Visibility="Collapsed"  Grid.Column="0" SelectionChanged="MenuListBox_SelectionChanged" Grid.ColumnSpan="2" Margin="0,-15,1620,0" Foreground="White" Background="#FF272727" BorderBrush="#FF272727">
-                <ListBox.Resources>
-
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <Border x:Name="Border" 
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="5" Padding="0,10">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="Border" Property="Background" Value="LightBlue" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.Resources>
-                <ListBoxItem Content="Visualizar Auditorias" FontFamily="Roboto" FontSize="15" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,15,10,10"/>
-                <ListBoxItem Content="Crear Informe de Auditoria" FontFamily="Roboto" FontSize="15" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-            </ListBox>
-
-            <ListBox x:Name="MenuListBox3" Visibility="Collapsed"  Grid.Column="0" SelectionChanged="MenuListBox_SelectionChanged" Grid.ColumnSpan="2" Margin="0,-15,1620,0" Foreground="White" Background="#FF272727" BorderBrush="#FF272727">
-                <ListBox.Resources>
-
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <Border x:Name="Border" 
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="5" Padding="0,10">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="Border" Property="Background" Value="LightBlue" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.Resources>
-                <ListBoxItem Content="Visualizar Normativas" FontFamily="Roboto" FontSize="15" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,15,10,10"/>
-                <ListBoxItem Content="Crear Informe de Normativa" FontFamily="Roboto" FontSize="15" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-            </ListBox>
-
-            <ContentControl x:Name="ContentArea" Grid.Column="1" Margin="300,0,0,0"/>
+            <ContentControl x:Name="ContentArea" Grid.Column="1" Height="Auto" Width="Auto"/>
         </Grid>
-        <ComboBox Text="Selecciona una opción..." x:Name="comboBox" HorizontalAlignment="Left" Margin="17,158,0,0" VerticalAlignment="Top" Width="173" SelectionChanged="ComboBox_SelectionChanged" Height="20">
-            <TextBox  IsEnabled="False" Text="Selecciona una opción..." Foreground="Gray"/>
-        </ComboBox>
-        <Image HorizontalAlignment="Left" Height="138" Margin="751,34,0,0" VerticalAlignment="Top" Width="575" Source="/Reporteria/reportes.jpg"/>
-        <Label Content="Opciones..." HorizontalAlignment="Left" Margin="17,132,0,0" VerticalAlignment="Top" Foreground="#FFFBFBFB"/>
     </Grid>
 
 </Page>

@@ -1,4 +1,4 @@
-﻿<Page x:Class="FrontEndWPF.Reporteria.CrearNormativa"
+﻿<UserControl x:Class="FrontEndWPF.Reporteria.CrearNormativa"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,9 +6,9 @@
       xmlns:local="clr-namespace:FrontEndWPF.Reporteria"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="CrearNormativa">
+      >
 
-    <Page.Resources>
+    <UserControl.Resources>
         <!-- Estilo para los TextBox -->
         <Style TargetType="TextBox" x:Key="TextBoxStyle">
             <Setter Property="Margin" Value="5"/>
@@ -64,7 +64,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-    </Page.Resources>
+    </UserControl.Resources>
 
     <Grid Margin="0,0,0,-98">
         <Grid.RowDefinitions>
@@ -94,4 +94,4 @@
         <Button Grid.Row="5" Content="Agregar Normativa"  Style="{StaticResource ButtonStyle}" Margin="-5,379,15,-368" Background="#FFABD904" FontFamily="Roboto" FontSize="24"/>
         <Label Content="Nueva Normativa" HorizontalAlignment="Left" Margin="290,6,0,0" VerticalAlignment="Top" Foreground="#FFEAB41F" FontSize="20" Grid.RowSpan="2"/>
     </Grid>
-</Page>
+</UserControl>

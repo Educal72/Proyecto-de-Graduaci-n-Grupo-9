@@ -30,7 +30,7 @@ namespace FrontEndWPF.Empleados
 
             // Configura el ComboBox con la lista de usuarios
             UsuarioComboBox.ItemsSource = usuarios;
-            UsuarioComboBox.DisplayMemberPath = "Nombre"; // Campo para mostrar en el ComboBox
+            UsuarioComboBox.DisplayMemberPath = "Display"; // Campo para mostrar en el ComboBox
             UsuarioComboBox.SelectedValuePath = "Id"; // Campo que se usará como valor
         }
 

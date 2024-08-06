@@ -92,6 +92,10 @@ namespace FrontEndWPF
 				IdUsuario = selectedCustomer.Id;
 				DialogResult = true;
 			}
+			else
+			{
+				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+			}
 		}
 		public class Cliente
 		{
@@ -132,8 +136,6 @@ namespace FrontEndWPF
 			if (!string.IsNullOrEmpty(cedulaF.Text) && !clienteCedulaMin.Contains(cedulaF.Text.ToLower()))
 				return false;
 
-			if (!string.IsNullOrEmpty(nombreF.Text) && !clienteNombreMin.Contains(nombreF.Text.ToLower()))
-				return false;
 
 			return true;
 		}
@@ -145,7 +147,7 @@ namespace FrontEndWPF
 				customerView.Filter = null;
 
 				cedulaF.Text = "";
-				nombreF.Text = "";
+
 			}
 		}
 

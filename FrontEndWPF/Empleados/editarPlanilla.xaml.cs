@@ -44,15 +44,12 @@ namespace FrontEndWPF
                 apellidos = Apellidos.Text;
                 cedula = Cedula.Text;
                 puesto = Puesto.Text;
-                correo = Correo.Text;
                 fechacreacion = selectedDate.Value;
                 salario = double.Parse(Salario.Text);
                 DialogResult = true;
             }
             else
             {
-                MessageBox.Show("Se cancelo la solicitud, muchas gracias",
-                    "¡Aviso!", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = false;
             }
 
@@ -60,8 +57,6 @@ namespace FrontEndWPF
 
         private void Cancelar_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Se cancelo la solicitud, muchas gracias",
-                "¡Aviso!", MessageBoxButton.OK, MessageBoxImage.Information);
             this.DialogResult = false;
         }
 

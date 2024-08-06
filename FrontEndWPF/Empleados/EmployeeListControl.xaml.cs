@@ -55,7 +55,7 @@ namespace FrontEndWPF
         //Constructor vacio.
         public EmployeeListControl()
         {
-            empleadosAdmin.Enviar(false);
+            //empleadosAdmin.Enviar(false);
             InitializeComponent();
             conexion.OpenConnection();
             LoadData();
@@ -73,9 +73,12 @@ namespace FrontEndWPF
 			* porque se esta agregando al sistema, por ende, debe estar activo al inicio.
 			*/
             string query = @"
-                SELECT u.Id, u.Nombre, u.Apellido, u.Cedula, u.Telefono, u.Correo, u.Contraseña, u.IdRol, u.FechaCreacion, e.Puesto, e.Salario, e.Direccion, e.Activo
-                FROM Usuario u
-                JOIN Empleado e ON u.Id = e.IdUsuario";
+                SELECT u.Id, u.Nombre, u.Apellido, u.Cedula, u.Telefono, u.Correo, u.Contraseña, u.IdRol, 
+       e.FechaContratacion, e.Puesto, e.Salario, e.Direccion, e.Activo
+FROM Usuario u
+JOIN Empleado e ON u.Id = e.IdUsuario
+WHERE AND u.Id != @Id ORDER BY e.Activo DESC;";
+
 
 			List<UsuarioEmpleado> usuariosEmpleados = new List<UsuarioEmpleado>();
 
@@ -84,6 +87,7 @@ namespace FrontEndWPF
 				try
 				{
 					SqlCommand command = new SqlCommand(query, connection);
+					command.Parameters.AddWithValue("@Id", SesionUsuario.Instance.id);
 					SqlDataReader reader = command.ExecuteReader();
 
 					while (reader.Read())
@@ -99,7 +103,7 @@ namespace FrontEndWPF
 							Contraseña = reader["Contraseña"].ToString(),
 							IdRol = Convert.ToInt32(reader["IdRol"]),
 							NombreRol = conexion.getRoleName(Convert.ToInt32(reader["IdRol"])),
-							FechaCreacion = Convert.ToDateTime(reader["FechaCreacion"]),
+							FechaCreacion = Convert.ToDateTime(reader["FechaContratacion"]),
 							Puesto = reader["Puesto"].ToString(),
                             Direccion = reader["Direccion"].ToString(),
                             Activo = Convert.ToBoolean(reader["Activo"])
@@ -232,7 +236,8 @@ namespace FrontEndWPF
 				 * esto con la finalidad de que pueda ser enviado y registrado a la -
 				 * base de datos que esta en SQL Server. */
                 conexion.AddUser(Nombre, Apellidos, Cedula, Telefono, Correo, Contraseña, Rol, Fecha, Puesto, Salario, Direccion);
-                if (SeProsigue == true)
+				
+				if (SeProsigue == true)
                 {
                     MessageBox.Show("Empleado guardado exitosamente.", "Añadir empleado.",
                         MessageBoxButton.OK, MessageBoxImage.Information);
@@ -264,12 +269,12 @@ namespace FrontEndWPF
 
             if (selectedEmpleadoMostrar != null)
             {
-                MessageBoxResult result =
-                    MessageBox.Show("¿Está seguro de actualizar la información del empleado(a)?",
-                    "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                //MessageBoxResult result =
+                //    MessageBox.Show("¿Está seguro de actualizar la información del empleado(a)?",
+                //    "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-                if (result == MessageBoxResult.Yes)
-                {
+                //if (result == MessageBoxResult.Yes)
+                //{
                     /* Aqui pinta los datos del empleado seleccionado, además de guardar el correo y la cédula para -
                      * obtener el id del empleado al cual se esta actualizando. */
                     string oldCorreo = selectedEmpleadoMostrar.Correo!;
@@ -277,21 +282,16 @@ namespace FrontEndWPF
 
                     var editarEmpleado = new editarEmpleado();
                     editarEmpleado.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
                     editarEmpleado.Cedula.Text = selectedEmpleadoMostrar.Cedula;
                     editarEmpleado.Nombre.Text = selectedEmpleadoMostrar.Nombre;
-
                     editarEmpleado.Apellidos.Text = selectedEmpleadoMostrar.Apellido;
                     editarEmpleado.Puesto.Text = selectedEmpleadoMostrar.Puesto;
-
-                    editarEmpleado.Fecha.SelectedDate = selectedEmpleadoMostrar.FechaCreacion;
                     editarEmpleado.Correo.Text = selectedEmpleadoMostrar.Correo;
-
                     editarEmpleado.Telefono.Text = selectedEmpleadoMostrar.Telefono;
                     editarEmpleado.Activo.IsChecked = selectedEmpleadoMostrar.Activo;
-
-                    editarEmpleado.RolMuestra.Text = selectedEmpleadoMostrar.NombreRol;
-                    editarEmpleado.Direccion_TextBox.Text = selectedEmpleadoMostrar.Direccion;
+                    editarEmpleado.Rol.Text = selectedEmpleadoMostrar.NombreRol;
+                    editarEmpleado.DireccionTo.Text = selectedEmpleadoMostrar.Direccion;
+         
 
 
                     /* Aqui es donde el usuario pondra los nuevos datos que desee modificar del -
@@ -300,16 +300,11 @@ namespace FrontEndWPF
                     {
                         selectedEmpleadoMostrar.Cedula = editarEmpleado.cedula_editarEmpleado;
                         selectedEmpleadoMostrar.Nombre = editarEmpleado.nombre_editarEmpleado;
-
                         selectedEmpleadoMostrar.Apellido = editarEmpleado.apellidos_editarEmpleado;
                         selectedEmpleadoMostrar.Puesto = editarEmpleado.puesto_editarEmpleado;
-
-                        selectedEmpleadoMostrar.FechaCreacion = editarEmpleado.fechaContratacion_editarEmpleado;
                         selectedEmpleadoMostrar.Correo = editarEmpleado.correo_editarEmpleado;
-
                         selectedEmpleadoMostrar.Telefono = editarEmpleado.telefono_editarEmpleado;
                         selectedEmpleadoMostrar.Activo = editarEmpleado.activo_editarEmpleado;
-
                         selectedEmpleadoMostrar.NombreRol = editarEmpleado.rol_editarEmpleado;
                         selectedEmpleadoMostrar.Direccion = editarEmpleado.direccion_editarEmpleado;
 
@@ -332,7 +327,7 @@ namespace FrontEndWPF
 
                         LoadData();
                     }
-                }
+                //}
             }
         }
 
@@ -352,7 +347,7 @@ namespace FrontEndWPF
 			 * con los datos que uno coloca en un formulario o campos de datos, -
 			 * este puede tener diferentes nombres, por lo que no necesariamente -
 			 * va a llamarse: "EmployeeDataGrid". */
-            UsuarioEmpleadoSoloMostrar? selectedEmpleadoMostrar = EmployeeDataGrid.SelectedItem as UsuarioEmpleadoSoloMostrar;
+            UsuarioEmpleado? selectedEmpleadoMostrar = EmployeeDataGrid.SelectedItem as UsuarioEmpleado;
 
 
             /* [1.2]
@@ -376,13 +371,16 @@ namespace FrontEndWPF
                  * Nota: Aquí se toma el IdRol, ya que dicho Id indica el rol que tiene -
                  * el usuario, el cual (por la historia CTE001 y CTE002) es de un usuario -
                  * con rol de administrador, por eso se pide el rol. */
-                MessageBoxResult result = MessageBox.Show("¿Está seguro de eliminar la información del empleado(a)?",
+                
+                    MessageBoxResult result = MessageBox.Show("¿Está seguro de eliminar la información del empleado(a)?",
                     "¡Confirmación!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                
+                
 
                 if (result == MessageBoxResult.Yes)
                 {
                     EmployeeDataGrid.Items.Refresh();
-                    conexionEmpleado.DeleteEmployee(selectedEmpleadoMostrar.Rol!, selectedEmpleadoMostrar.Correo!, selectedEmpleadoMostrar.Cedula!);
+                    conexionEmpleado.DeleteEmployee(selectedEmpleadoMostrar.NombreRol!, selectedEmpleadoMostrar.Correo!, selectedEmpleadoMostrar.Cedula!);
 
                     /* Si todo salio bien en el proceso del método encargado de la BD, entonces -
                      * mostrara el mensaje: "Empleado eliminado exitosamente."*/
@@ -440,8 +438,6 @@ namespace FrontEndWPF
 
             if (selectedEmpleadoMostrar != null)
             {
-                MessageBoxResult result = MessageBox.Show("¿Está seguro de ir a la información de los permisos de autorización del empleado(a)?",
-                    "¡Confirmación!", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 /* Aquí lo que hace es que si el usuario administrador presiona que si, -
                  * entonces hara lo demás para los permisos.
@@ -471,8 +467,7 @@ namespace FrontEndWPF
                  * quiere actualizar los permisos, entonces ahi entraria a la segunda condición que tiene -
                  * la variable: "Permiso2" y realiza todo el procedimiento correspondiente para que sea -
                  * enviado a la BD. */
-                if (result == MessageBoxResult.Yes)
-                {
+           
                     var permisosAutorizacion = new permisosAutorizacion();
                     var entidadP = new PermisosAutorizacion();
 
@@ -542,7 +537,7 @@ namespace FrontEndWPF
                         }
 
 
-                     }
+                     
                  }
             }
 
@@ -554,14 +549,31 @@ namespace FrontEndWPF
 		private void Button_Click_6(object sender, RoutedEventArgs e)
 		{
 			var selectedEmpleado = EmployeeDataGrid.SelectedItem as UsuarioEmpleado;
-			if (selectedEmpleado != null)
-			{
-				MainWindow mainWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
-				if (mainWindow != null)
-				{
-					mainWindow.ChangePageToMetricas(selectedEmpleado.Id);
-				}
+            if (selectedEmpleado != null)
+            {
+                MainWindow mainWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+                if (mainWindow != null)
+                {
+                    mainWindow.ChangePageToMetricas(selectedEmpleado.Id);
+                }
 
+            }
+            else {
+					MessageBox.Show("Por favor, seleccione un empleado antes de proceder.", "¡Advertencia!", MessageBoxButton.OK,
+						MessageBoxImage.Warning);
+			}
+		}
+		private void DataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			if (!e.Handled)
+			{
+				e.Handled = true;
+				var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+				{
+					RoutedEvent = UIElement.MouseWheelEvent,
+					Source = sender
+				};
+				MainScrollViewer.RaiseEvent(eventArg);
 			}
 		}
 	}

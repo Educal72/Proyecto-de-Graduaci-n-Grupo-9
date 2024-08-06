@@ -5,7 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrontEndWPF"
         mc:Ignorable="d"
-        Title="añadirIncidente" Height="750" Width="500" Background="#f4f4f4">
+        Title="añadirIncidente" Height="500" Width="500" Background="#f4f4f4"
+        WindowStyle="None"
+ResizeMode="NoResize"
+AllowsTransparency="True"
+BorderBrush="Black"
+BorderThickness="1">
     <Window.Resources>
         <!-- Estilos -->
         <Style TargetType="TextBox">
@@ -58,16 +63,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
@@ -79,28 +77,32 @@
 
         <!-- Form Fields -->
         <Label Content="Fecha:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-        <DatePicker x:Name="Fecha_TextBox" Grid.Row="2" Grid.Column="1" Width="278" HorizontalAlignment="Left"/>
-        <Button Content="FechaActual" Grid.Row="2" Grid.Column="2" Click="FechaActual_Click" VerticalAlignment="Center" 
-                HorizontalAlignment="Left" Margin="5"/>
+        <DatePicker x:Name="Fecha_TextBox" Grid.Row="2" Grid.Column="1" Width="212" HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="30" Margin="24,9,0,10"/>
+        <Button Content="Actual" Grid.Row="2" Grid.Column="1" Click="FechaActual_Click" VerticalAlignment="Center" 
+                HorizontalAlignment="Left" Margin="241,0,0,0"  Height="30" Width="60"/>
 
         <Label Content="Hora:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="Hora_TextBox" Grid.Row="3" Grid.Column="1" Width="278" HorizontalAlignment="Left"/>
+        <TextBox x:Name="Hora_TextBox" Grid.Row="3" Grid.Column="1" Width="277" HorizontalAlignment="Left" Margin="24,10,0,9"/>
 
         <Label Content="Descripción:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="Descripcion_TextBox" Grid.Row="4" Grid.Column="1" Width="278" HorizontalAlignment="Left"/>
+        <TextBox x:Name="Descripcion_TextBox" Grid.Row="4" Grid.Column="1" Width="277" HorizontalAlignment="Left" Margin="24,10,0,9"/>
 
         <Label Content="Tipo:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="TipoIncidente_TextBox" Grid.Row="5" Grid.Column="1" Width="278" HorizontalAlignment="Left"/>
 
         <Label Content="Usuario:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"/>
-        <ComboBox x:Name="Usuarios_ComboBox" Grid.Row="6" Grid.Column="1" Width="278" Height="30" HorizontalAlignment="Left" 
-                  VerticalContentAlignment="Center" ItemsSource="{Binding NombreUsuarios}"> <!--Lo que hace es buscar el método para mostrar los usuarios registrados en el sistema.-->
+        <ComboBox x:Name="Usuarios_ComboBox" Grid.Row="6" Grid.Column="1" Width="277" Height="30" HorizontalAlignment="Left" FontSize="16" 
+                  VerticalContentAlignment="Center" Margin="24,10,0,9">
+            <!--Lo que hace es buscar el método para mostrar los usuarios registrados en el sistema.-->
         </ComboBox>
-        
+
         <!-- Buttons -->
         <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,20,0,0">
-            <Button Content="Guardar" Click="Guardar_Click" Background="#FF04CC00"/>
-            <Button Content="Cancelar" Click="Cancelar_Click" Background="#FF007ACC"/>
+            <Button Content="Guardar" Click="Guardar_Click" Foreground="#fafafa" Background="#28a745" Height="40" Width="100"/>
+            <Button Content="Cancelar" Click="Cancelar_Click" Foreground="#fafafa" Background="#dc3545"  Height="40" Width="100"/>
         </StackPanel>
+        <ComboBox x:Name="combo" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center" Width="277" Height="30" VerticalContentAlignment="Center" Margin="24,0,0,0"  FontSize="16" >
+            <ComboBoxItem Name="Interno">Interno</ComboBoxItem>
+            <ComboBoxItem Name="Externo">Externo</ComboBoxItem>
+        </ComboBox>
     </Grid>
 </Window>

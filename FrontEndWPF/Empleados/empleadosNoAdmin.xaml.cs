@@ -68,14 +68,29 @@ namespace FrontEndWPF
 
             switch (selectedItem)
             {
-                case "Desvinculaciones":
-                    ContentArea.Content = new Desvinculaciones();
-                    if (a == true)
-                    {
-                        ContentArea.Content = new PantallaOscura();
-                    }
-                    break;
-            }
+				case "Fichajes":
+					ContentArea.Content = new FichajesControl();
+					break;
+				case "Permisos de Tiempo":
+					ContentArea.Content = new PermisoTiempo();
+					break;
+				case "Permisos de Ausencia":
+					ContentArea.Content = new PermisosAusencia();
+					break;
+				case "Incidentes":
+					ContentArea.Content = new Incidentes();
+					break;
+				case "Desvinculaciones":
+					ContentArea.Content = new Desvinculaciones();
+					if (a == true)
+					{
+						ContentArea.Content = new PantallaOscura();
+					}
+					break;
+				case "FAQ":
+					ContentArea.Content = new FAQ();
+					break;
+			}
         }
 
     }

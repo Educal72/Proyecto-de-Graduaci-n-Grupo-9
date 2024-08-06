@@ -60,7 +60,7 @@
         <TextBox x:Name="Temporal" VerticalContentAlignment="Center" VerticalAlignment="Top" 
              Width="382" Background="Black" FontFamily="Roboto" 
              FontSize="16" Foreground="White" 
-             BorderBrush="#FF262626" Height="37" Padding="5,0,0,0" Margin="0,490,0,0" HorizontalAlignment="Center" IsReadOnly="True"/>
+             BorderBrush="#FF262626" Height="37" Padding="5,0,0,0" Margin="0,490,0,0" HorizontalAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
 
         <Label Content="Contraseña Nueva: " HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto Medium" FontSize="16" Height="26" Width="143" RenderTransformOrigin="0.553,1.269" Margin="32,550,0,0"/>
         <PasswordBox x:Name="NuevaContraseña" VerticalContentAlignment="Center" VerticalAlignment="Top" 

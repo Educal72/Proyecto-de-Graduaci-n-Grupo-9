@@ -68,6 +68,7 @@ namespace FrontEndWPF
 					{
 						usuariosEmpleados.Add(new Cliente
 						{
+
 							Nombre = reader["Nombre"].ToString(),
 							Apellidos = reader["Apellidos"].ToString(),
 							CorreoElectronico = reader["CorreoElectronico"].ToString(),
@@ -99,6 +100,10 @@ namespace FrontEndWPF
 				isAsociado = selectedCustomer.Asociado;
 				puntosDisponibles = selectedCustomer.Puntos;
 				DialogResult = true;
+			}
+			else
+			{
+				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
 			}
 		}
 		public class Cliente
@@ -141,9 +146,6 @@ namespace FrontEndWPF
 			if (!string.IsNullOrEmpty(cedulaF.Text) && !clienteCedulaMin.Contains(cedulaF.Text.ToLower()))
 				return false;
 
-			if (!string.IsNullOrEmpty(nombreF.Text) && !clienteNombreMin.Contains(nombreF.Text.ToLower()))
-				return false;
-
 			return true;
 		}
 
@@ -154,7 +156,7 @@ namespace FrontEndWPF
 				customerView.Filter = null;
 
 				cedulaF.Text = "";
-				nombreF.Text = "";
+				
 			}
 		}
 
@@ -198,25 +200,37 @@ namespace FrontEndWPF
 				LoadData();
 			}
 			}
-			
+			else
+			{
+				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+			}
+
 		}
 
 		private void Button_Click_6(object sender, RoutedEventArgs e)
 		{
-			MessageBoxResult result = MessageBox.Show("¿Seguro que desea eliminar a este cliente?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-			if (result == MessageBoxResult.Yes)
+			var selectedItem = CustomerDataGrid.SelectedItem as Cliente;
+			if (selectedItem != null)
 			{
-				var selectedItem = CustomerDataGrid.SelectedItem as Cliente;
-				if (selectedItem != null && selectedItem.Cedula != "0" && selectedItem.Nombre != "Generico")
+				MessageBoxResult result = MessageBox.Show("¿Seguro que desea eliminar a este cliente?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+				if (result == MessageBoxResult.Yes)
 				{
-					clienteViewModel.EliminarCliente(Convert.ToInt32(selectedItem.Cedula));
-					LoadData();
-				}
-				else {
-					MessageBox.Show("El cliente que desea eliminar no es valido", "Error al Eliminar", MessageBoxButton.OK, MessageBoxImage.Warning);
-				}
 
+					if (selectedItem.Cedula != "0" && selectedItem.Nombre != "Generico")
+					{
+						clienteViewModel.EliminarCliente(Convert.ToInt32(selectedItem.Cedula));
+						LoadData();
+					}
+					else
+					{
+						MessageBox.Show("El cliente que desea eliminar es inválido", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+					}
+
+				}
+			}
+			else
+			{
+				MessageBox.Show("Por favor, seleccione un elemento de la lista", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
 			}
 		}
 	}

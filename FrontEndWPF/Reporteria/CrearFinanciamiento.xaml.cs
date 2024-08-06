@@ -18,8 +18,8 @@ namespace FrontEndWPF.Reporteria
     /// <summary>
     /// Interaction logic for CrearFinanciamiento.xaml
     /// </summary>
-    public partial class CrearFinanciamiento : Page
-    {
+    public partial class CrearFinanciamiento : UserControl
+	{
         public CrearFinanciamiento()
         {
             InitializeComponent();

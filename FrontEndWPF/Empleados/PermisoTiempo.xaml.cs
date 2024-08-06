@@ -109,7 +109,8 @@ namespace FrontEndWPF
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             var permisoTiempoCrear = new PermisoTiempoCrear();
-            if (permisoTiempoCrear.ShowDialog() == true)
+			permisoTiempoCrear.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			if (permisoTiempoCrear.ShowDialog() == true)
             {
                 _viewModel = new PermisoDeTiempoViewModel();
                 PermisoTiempoDataGrid.ItemsSource = _viewModel._permisosDeTiempo;
@@ -126,7 +127,8 @@ namespace FrontEndWPF
             {
                 // Abrir la ventana de edición y pasar el permiso seleccionado
                 PermisoTiempoEditar editarVentana = new PermisoTiempoEditar(selectedItem);
-                if (editarVentana.ShowDialog() == true)
+				editarVentana.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+				if (editarVentana.ShowDialog() == true)
                 {
                     _viewModel = new PermisoDeTiempoViewModel();
                     PermisoTiempoDataGrid.ItemsSource = _viewModel._permisosDeTiempo;
