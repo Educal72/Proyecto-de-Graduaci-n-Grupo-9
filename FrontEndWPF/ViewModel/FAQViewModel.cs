@@ -82,8 +82,8 @@ namespace FrontEndWPF.ViewModel
 				{
 					command.Parameters.Add(new SqlParameter("@Pregunta", pregunta));
 					command.Parameters.Add(new SqlParameter("@Respuesta", respuesta));
-					command.Parameters.Add(new SqlParameter("@Documento", documento));
 					command.Parameters.Add(new SqlParameter("@NombreDoc", nombre));
+					command.Parameters.Add(new SqlParameter("@Documento", documento));
 					command.Parameters.Add(new SqlParameter("@Id", id));
 					int rowsAffected = (int)command.ExecuteNonQuery();
 					if (rowsAffected > 0)

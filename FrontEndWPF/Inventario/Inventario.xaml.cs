@@ -55,7 +55,7 @@ namespace FrontEndWPF.Inventario
 
 		public void PopulateInventariosDataGrid()
 		{
-			string query = @"SELECT Id, Nombre, Cantidad, Precio, Activo FROM Inventario";
+			string query = @"SELECT Id, Nombre, Cantidad, Precio, Activo FROM Inventario ORDER BY Activo DESC";
 
 			List<InventarioM> inventarios = new List<InventarioM>();
 
@@ -166,7 +166,7 @@ namespace FrontEndWPF.Inventario
             var selectedValue = InventarioGrid.SelectedValue as InventarioM;
             if (selectedValue == null)
             {
-                MessageBox.Show("Seleccione un Inventario para poder editar.", "Editar Inventario", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Seleccione un un elemento de la lista para poder editar.", "Editar Inventario", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -231,9 +231,6 @@ namespace FrontEndWPF.Inventario
                         decimal.Parse(editarProductoWindow.PrecioTextBox.Text),
                         editarProductoWindow.ActivoCheckBox.IsChecked.GetValueOrDefault()
                     );
-
-                    // Refresca la vista
-                    MessageBox.Show("Producto actualizado exitosamente!");
                     ProductosGrid.Items.Refresh();
                 }
             }

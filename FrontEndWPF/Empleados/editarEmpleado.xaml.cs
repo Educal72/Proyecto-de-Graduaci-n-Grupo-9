@@ -76,12 +76,6 @@ namespace FrontEndWPF
                 return false;
             }
 
-            // Validar Fecha de Contratación:
-            if (!Fecha.SelectedDate.HasValue)
-            {
-                errorMessage = "El campo Fecha de Contratación es obligatorio.";
-                return false;
-            }
 
             // Validar Correo:
             int index = Correo.Text.IndexOf("@");
@@ -110,7 +104,7 @@ namespace FrontEndWPF
             }
 
             // Validar Rol:
-            if (string.IsNullOrWhiteSpace(RolMuestra.Text))
+            if (string.IsNullOrWhiteSpace(Rol.Text))
             {
                 errorMessage = "El campo Rol es obligatorio.";
                 return false;
@@ -134,8 +128,6 @@ namespace FrontEndWPF
                 return;
             }
 
-            DateTime? selectedDate = Fecha.SelectedDate;
-            fechaContratacion_editarEmpleado = selectedDate!.Value;
            
             nombre_editarEmpleado = Nombre.Text;
             apellidos_editarEmpleado = Apellidos.Text;
@@ -147,9 +139,9 @@ namespace FrontEndWPF
             telefono_editarEmpleado = Telefono.Text;
             
             activo_editarEmpleado = (bool)Activo.IsChecked!;
-            rol_editarEmpleado = RolMuestra.Text;
+            rol_editarEmpleado = Rol.Text;
             
-            direccion_editarEmpleado = Direccion_TextBox.Text;
+            direccion_editarEmpleado = DireccionTo.Text;
             DialogResult = true;
         }
 
@@ -165,9 +157,5 @@ namespace FrontEndWPF
 
         /* Este método esta enlazado al botón: "Actual", el cual da la fecha actual en que -
          * se encuentra. */
-        private void FechaActual_Click(object sender, RoutedEventArgs e)
-        {
-            Fecha.SelectedDate = DateTime.Now;
-        }
     }
 }

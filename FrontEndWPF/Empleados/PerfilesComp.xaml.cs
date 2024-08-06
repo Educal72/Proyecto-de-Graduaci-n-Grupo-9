@@ -156,7 +156,11 @@ namespace FrontEndWPF
                     LoadData();
                 }
             }
-        }
+			else
+			{
+				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+			}
+		}
 
 
         /* Método que esta relacionado al botón de: Eliminar.
@@ -169,21 +173,10 @@ namespace FrontEndWPF
 
             if (selectedPerfilCompetencial != null)
             {
-                var eliminarPerfilCompetencial = new eliminarPerfilCompetencial();
-                eliminarPerfilCompetencial.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
-                eliminarPerfilCompetencial.Titulo_TextBox.Text = selectedPerfilCompetencial.Titulo;
-                eliminarPerfilCompetencial.Descripcion_TextBox.Text = selectedPerfilCompetencial.Descripcion;
-                eliminarPerfilCompetencial.Experiencia_TextBox.Text = selectedPerfilCompetencial.Experiencia;
-                eliminarPerfilCompetencial.Requisitos_TextBox.Text = selectedPerfilCompetencial.Requisitos;
-                eliminarPerfilCompetencial.Ubicacion_TextBox.Text = selectedPerfilCompetencial.Ubicacion;
-                eliminarPerfilCompetencial.Salario_TextBox.Text = selectedPerfilCompetencial.Salario.ToString();
-
-                if (eliminarPerfilCompetencial.ShowDialog() == true)
-                {
-                    PerfilesDataGrid.Items.Refresh();
-
-                    var ResultadoPerfilCompetencial = 
+                var result = MessageBox.Show("¿Está seguro de que desea eliminar este perfil?",
+								   "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                if (result == MessageBoxResult.Yes) { 
+                        var ResultadoPerfilCompetencial = 
                         conexionEmpleado.EliminarPerfilCompetencial(selectedPerfilCompetencial.Id);
 
                     if (ResultadoPerfilCompetencial)
@@ -197,17 +190,15 @@ namespace FrontEndWPF
                     }
                     LoadData();
                 }
+				
+                }
+			else
+			{
+				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+			}
 
-            }
+		}
         }
-
-
-
-
-
-
-
-
     }
-}
+
 

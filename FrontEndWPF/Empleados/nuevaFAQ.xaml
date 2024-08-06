@@ -5,43 +5,87 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrontEndWPF"
         mc:Ignorable="d"
-        Title="nuevoFAQ" Height="470" Width="500">
+        Title="Nueva FAQ" Height="425" Width="560"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="White"
+        BorderBrush="Black"
+        BorderThickness="1">
     <Window.Resources>
+        <!-- Estilos -->
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
         <Style TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                                <Setter TargetName="border" Property="Background" Value="#005A9E"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <ControlTemplate x:Key="ValidationTemplate">
-            <DockPanel>
-                <TextBlock Foreground="Red" FontSize="12">!</TextBlock>
-                <AdornedElementPlaceholder/>
-            </DockPanel>
-        </ControlTemplate>
     </Window.Resources>
-    <Grid>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="Titulo" Content="Nueva Pregunta" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Roboto Medium" FontSize="36"/>
-        <Label Content="Pregunta:" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="22" Width="110"/>
-        <TextBox x:Name="Pregunta" HorizontalAlignment="Left" Margin="10,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="465" FontSize="22" FontFamily="Roboto" Height="75"/>
-        <Label Content="Respuesta:" HorizontalAlignment="Left" Margin="10,183,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="22" Width="134"/>
-        <TextBox x:Name="Respuesta" HorizontalAlignment="Left" Margin="10,219,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="465" FontFamily="Roboto" FontSize="22" Height="75"/>
-        <Button Content="Agregar" HorizontalAlignment="Left" Margin="395,389,0,0" VerticalAlignment="Top" Height="25" Width="80" FontFamily="Roboto" Click="Button_Click"/>
-        <Button Content="Cancelar" HorizontalAlignment="Left" Margin="310,389,0,0" VerticalAlignment="Top" Height="25" Width="80" FontFamily="Roboto" Click="Button_Click_1"/>
-        <Button x:Name="Doc" Content="Añadir Documento" HorizontalAlignment="Left" Margin="10,309,0,0" VerticalAlignment="Top" Height="40" Width="465" Click="Button_Click_2"/>
+
+        <!-- Title -->
+        <Label x:Name="Titulo" Content="Nueva Pregunta" Grid.Row="0" Grid.ColumnSpan="2" FontSize="36" FontWeight="Bold" Margin="0,0,0,20" VerticalContentAlignment="Bottom"/>
+
+        <!-- Form Fields -->
+        <Label Content="Pregunta:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Pregunta" Grid.Row="1" Grid.Column="1" Width="375" TextWrapping="Wrap" Height="75" VerticalContentAlignment="Stretch"  HorizontalAlignment="Left"/>
+
+        <Label Content="Respuesta:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Respuesta" Grid.Row="2" Grid.Column="1" Width="375" TextWrapping="Wrap" Height="75" VerticalContentAlignment="Stretch" HorizontalAlignment="Left"/>
+
+        <!-- Buttons -->
+        <Button x:Name="Doc" Content="Añadir Documento" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="74,10,0,10" Width="400" Click="Button_Click_2" Height="47" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button Content="Agregar" Click="Button_Click" Foreground="#fafafa" Background="#28a745" Height="40" Width="100"/>
+            <Button Content="Cancelar" Click="Button_Click_1" Foreground="#fafafa" Background="#dc3545" Height="40" Width="100"/>
+        </StackPanel>
     </Grid>
 </Window>

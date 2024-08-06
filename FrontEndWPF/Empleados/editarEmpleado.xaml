@@ -1,33 +1,58 @@
 ﻿<Window x:Class="FrontEndWPF.editarEmpleado"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FrontEndWPF"
-        mc:Ignorable="d"
-        Title="Editar Empleado" Height="750" Width="620" Background="#f4f4f4">
+        Title="Editar Empleado" Height="675" Width="560"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="White"
+        BorderBrush="Black"
+        BorderThickness="1">
     <Window.Resources>
-        <!-- Estilos comunes -->
-        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+        <!-- Estilos -->
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="18"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
+
         </Style>
 
-        <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="24"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
 
-        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Margin" Value="5"/>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="16"/>
             <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#005A9E"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <!-- Define tus filas aquí -->
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -39,60 +64,56 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <!-- Define tus columnas aquí -->
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <!-- Title -->
-        <Label Content="Editar Empleado" Grid.Row="0" Grid.ColumnSpan="3" FontSize="36" FontWeight="Bold" Margin="0,0,0,20"/>
+        <Label Content="Editar Empleado" Grid.Row="0" Grid.ColumnSpan="3" FontSize="36" FontWeight="Bold" Margin="0,0,0,20" VerticalContentAlignment="Bottom"/>
 
         <!-- Instructions -->
-        <Label Content="Ingrese los datos del empleado." Grid.Row="1" Grid.ColumnSpan="3" FontSize="16" Foreground="#FF5D5D5D" Margin="0,0,0,20"/>
+        <Label Content="Ingrese los nuevos datos del empleado." Grid.Row="1" Grid.ColumnSpan="3" FontSize="16" Foreground="#FF5D5D5D" Margin="0,0,0,20"/>
 
         <!-- Form Fields -->
         <Label Content="Cédula:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="Cedula" Grid.Row="2" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
+        <TextBox x:Name="Cedula" Grid.Row="2" Grid.Column="1" Width="278" VerticalContentAlignment="Stretch"/>
 
         <Label Content="Nombre:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="Nombre" Grid.Row="3" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
+        <TextBox x:Name="Nombre" Grid.Row="3" Grid.Column="1" Width="278" VerticalContentAlignment="Stretch"/>
 
         <Label Content="Apellidos:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="Apellidos" Grid.Row="4" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
+        <TextBox x:Name="Apellidos" Grid.Row="4" Grid.Column="1" Width="278"/>
 
-        <Label Content="Correo:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="Correo" Grid.Row="5" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
+        <Label Content="Correo Electrónico:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="Correo" Grid.Row="5" Grid.Column="1" Width="278"/>
 
         <Label Content="Teléfono:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="Telefono" Grid.Row="6" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
+        <TextBox x:Name="Telefono" Grid.Row="6" Grid.Column="1" Width="278"/>
 
         <Label Content="Puesto:" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="Puesto" Grid.Row="7" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
+        <TextBox x:Name="Puesto" Grid.Row="7" Grid.Column="1" Width="278"/>
 
-        <Label Content="Fecha:" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center"/>
-        <DatePicker x:Name="Fecha" Grid.Row="8" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
-        <Button Content="Actual" Grid.Row="8" Grid.Column="2" Click="FechaActual_Click" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <Label Content="Rol:" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center"/>
+        <ComboBox x:Name="Rol" Grid.Row="8" Grid.Column="1" Width="278" Height="30" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,9,0,10">
+            <ComboBoxItem Content="Admin"/>
+            <ComboBoxItem Content="Cajero"/>
+            <ComboBoxItem Content="Salonero"/>
+            <ComboBoxItem Content="Contador"/>
+        </ComboBox>
 
-        <Label Content="Rol:" Grid.Row="9" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="RolMuestra" Grid.Row="9" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
-
-        <Label Content="Dirección:" Grid.Row="10" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="Direccion_TextBox" Grid.Row="10" Grid.Column="1" Width="418" HorizontalAlignment="Left"/>
-
-        <!-- Activo CheckBox -->
-        <Label Content="Activo:" Grid.Row="11" Grid.Column="0" VerticalAlignment="Center"/>
-        <CheckBox x:Name="Activo" Grid.Row="11" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <Label Content="Dirección:" Grid.Row="9" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="DireccionTo" Grid.Row="9" Grid.Column="1" Width="278"/>
+        
+        <Label Content="Activo:" Grid.Row="10" Grid.Column="0" VerticalAlignment="Center"/>
+        <CheckBox x:Name="Activo" Grid.Row="10" Grid.Column="1" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
 
         <!-- Buttons -->
-        <StackPanel Orientation="Vertical" Grid.Row="12" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,20,0,0">
-            <Button Content="Guardar" Click="Guardar_Click" Background="#FF04CC00" FontFamily="Arial"/>
-            <Button Content="Cancelar" Click="Cancelar_Click" Background="#FF007ACC"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button Content="Guardar" Click="Guardar_Click" Foreground="#fafafa" Background="#28a745" Height="40" Width="100"/>
+            <Button Content="Cancelar" Click="Cancelar_Click" Foreground="#fafafa" Background="#dc3545" Height="40" Width="100"/>
         </StackPanel>
     </Grid>
 </Window>

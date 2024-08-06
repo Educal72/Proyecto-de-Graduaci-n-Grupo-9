@@ -18,8 +18,8 @@ namespace FrontEndWPF.Reporteria
     /// <summary>
     /// Interaction logic for CrearInversion.xaml
     /// </summary>
-    public partial class CrearInversion : Page
-    {
+    public partial class CrearInversion : UserControl
+	{
         public CrearInversion()
         {
             InitializeComponent();

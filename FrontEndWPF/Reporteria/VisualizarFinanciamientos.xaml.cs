@@ -5,8 +5,8 @@ using System.Windows.Controls;
 
 namespace FrontEndWPF.Reporteria
 {
-    public partial class VisualizarFinanciamientos : Page
-    {
+    public partial class VisualizarFinanciamientos : UserControl
+	{
         public VisualizarFinanciamientos()
         {
             InitializeComponent();

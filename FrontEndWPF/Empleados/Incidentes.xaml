@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FrontEndWPF"
              mc:Ignorable="d" 
-             d:DesignHeight="450" Width="1348">
+             d:DesignHeight="450" d:DesignWidth="1000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     <UserControl.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -24,9 +24,47 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#f9f9f9"/>
+            <Setter Property="Foreground" Value="#333"/>
+            <Setter Property="BorderBrush" Value="#ddd"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="FontWeight" Value="Normal"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="FontSize" Value="24"/>
+                        <Setter Property="Background" Value="#f1f1f1"/>
+                        <Setter Property="Foreground" Value="#333"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
-    <Grid Background="Black">
-        <DataGrid x:Name="IncidenteDataGrid" AutoGenerateColumns="False" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*">
+    <Grid Background="Black"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <DataGrid HorizontalScrollBarVisibility="Hidden" x:Name="IncidenteDataGrid" AutoGenerateColumns="False" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*" IsReadOnly="True" IsHitTestVisible="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nombre Completo" Binding="{Binding Usuario}" Width="*"/>
                 <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha}" Width="*"/>
@@ -36,37 +74,15 @@
                 <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="No" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="100" FontFamily="Roboto" FontSize="18" Click="No_Click" Margin="1146,0,0,0"/>
-        <Button Content="Sí" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="100" FontFamily="Roboto" FontSize="18" Click="Si_Click" Margin="1041,0,0,0"/>
-        <Label Content="Marcar Solucionado: " HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="24" Height="45" VerticalContentAlignment="Center" Margin="800,0,0,0"/>
+        <Button Content="No" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" Click="No_Click" Margin="0,0,10,0" HorizontalAlignment="Right" Width="60" Foreground="#fafafa" Background="#dc3545"/>
+        <Button Content="Sí" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" Click="Si_Click" Margin="0,0,75,0" HorizontalAlignment="Right" Width="60" Foreground="#fafafa" Background="#28a745"/>
+        <Label Content="Filtrar:" VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="24" Height="45" VerticalContentAlignment="Center" Margin="95,0,0,0" HorizontalAlignment="Left" Width="85"/>
 
-        <Button Content="Nuevo" HorizontalAlignment="Left"
-                VerticalAlignment="Top" Height="45" Width="145"
+        <Button Content="Añadir" HorizontalAlignment="Left"  Foreground="#fafafa" Background="#28a745"
+                VerticalAlignment="Top" Height="45" Width="80"
                 FontFamily="Roboto" FontSize="18" Click="Button_Nuevo"
                 Margin="10,0,0,0"/>
-        
-        
-        
-        <Label Content="Interno -> " HorizontalAlignment="Left"
-               VerticalAlignment="Top" Foreground="White" 
-               FontFamily="Roboto" FontSize="24" Height="45" 
-               VerticalContentAlignment="Center" Margin="177,0,0,0"/>
-
-        <Button Content="Interno" HorizontalAlignment="Left" 
-                VerticalAlignment="Top" Height="45" Width="100" 
-                FontFamily="Roboto" FontSize="18" Click="Interno_Click" 
-                Margin="303,0,0,0"/>
-
-        
-        
-        <Label Content="Externo -> " HorizontalAlignment="Left"
-               VerticalAlignment="Top" Foreground="White" 
-               FontFamily="Roboto" FontSize="24" Height="45" 
-               VerticalContentAlignment="Center" Margin="444,0,0,0"/>
-
-        <Button Content="Externo" HorizontalAlignment="Left" 
-                VerticalAlignment="Top" Height="45" Width="100" 
-                FontFamily="Roboto" FontSize="18" Click="Externo_Click" 
-                Margin="578,0,0,0"/>
+        <Label Content="Marcar Solucionado: " VerticalAlignment="Top" Foreground="White" FontFamily="Roboto" FontSize="24" Height="45" VerticalContentAlignment="Center" Margin="0,0,140,0" HorizontalAlignment="Right" Width="240"/>
+        <ComboBox x:Name="combo" VerticalAlignment="Top" Height="45" Margin="180,0,0,0" VerticalContentAlignment="Center" FontSize="18" FontFamily="Roboto" SelectionChanged="ComboBox_SelectionChanged" HorizontalAlignment="Left" Width="250"/>
     </Grid>
 </UserControl>

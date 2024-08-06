@@ -18,8 +18,8 @@ namespace FrontEndWPF.Reporteria
     /// <summary>
     /// Interaction logic for CrearInformeAuditoria.xaml
     /// </summary>
-    public partial class CrearInformeAuditoria : Page
-    {
+    public partial class CrearInformeAuditoria : UserControl
+	{
         public CrearInformeAuditoria()
         {
             InitializeComponent();

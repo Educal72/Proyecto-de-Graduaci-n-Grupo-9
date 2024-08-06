@@ -41,17 +41,17 @@ namespace FrontEndWPF
             var caminoAñadir = new EmployeeListControl();
             var caminoDesv = new Desvinculaciones();
 
-            if (si == 4)
-            {
-                caminoAñadir.ProseguirDatoGuardado(true);
-                caminoDesv.ProseguirDatoGuardado(true);
-            }
+            //if (si == 4)
+            //{
+            //    caminoAñadir.ProseguirDatoGuardado(true);
+            //    caminoDesv.ProseguirDatoGuardado(true);
+            //}
 
-            if (no == 1)
-            {
-                caminoAñadir.ProseguirDatoGuardado(false);
-                caminoDesv.ProseguirDatoGuardado(false);
-            }
+            //if (no == 1)
+            //{
+            //    caminoAñadir.ProseguirDatoGuardado(false);
+            //    caminoDesv.ProseguirDatoGuardado(false);
+            //}
 
         }
 
@@ -120,7 +120,7 @@ namespace FrontEndWPF
                         else
                         {
                             No_Prosigue = 1;
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             Console.WriteLine("Planilla no Existe.");
                             return 0;
                         }
@@ -128,7 +128,7 @@ namespace FrontEndWPF
                     catch (Exception ex)
                     {
                         No_Prosigue = 1;
-                        conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                        //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                         Console.WriteLine("Error: " + ex.Message);
                         return 0;
                     }
@@ -164,7 +164,7 @@ namespace FrontEndWPF
                         else
                         {
                             No_Prosigue = 1;
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             MessageBox.Show("El id del usuario no fue encontrado.", "¡Error!", MessageBoxButton.OK, MessageBoxImage.Warning); ;
                             return 0;
                         }
@@ -172,7 +172,7 @@ namespace FrontEndWPF
                     catch (Exception ex)
                     {
                         No_Prosigue = 1;
-                        conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                        //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                         MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
                         "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos, muchas gracias.",
                         "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
@@ -209,7 +209,7 @@ namespace FrontEndWPF
                         else
                         {
                             No_Prosigue = 1;
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             MessageBox.Show("El id del usuario no fue encontrado.", "¡Error!", MessageBoxButton.OK, MessageBoxImage.Warning); ;
                             return 0;
                         }
@@ -217,7 +217,7 @@ namespace FrontEndWPF
                     catch (Exception ex)
                     {
                         No_Prosigue = 1;
-                        conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                        //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                         MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
                         "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos, muchas gracias.",
                         "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
@@ -485,7 +485,7 @@ namespace FrontEndWPF
                         else
                         {
                             No_Prosigue = 1;
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             MessageBox.Show("El rol no fue encontrado.", "¡Error!",
                             MessageBoxButton.OK, MessageBoxImage.Warning);
                             return 0;
@@ -494,7 +494,7 @@ namespace FrontEndWPF
                     catch (Exception ex)
                     {
                         No_Prosigue = 1;
-                        conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                        //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                         MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
                             "\nSi el error persiste, contacte con el soporte, muchas gracias.", "¡Error!: " + ex.Message,
                             MessageBoxButton.OK, MessageBoxImage.Error);
@@ -550,7 +550,7 @@ namespace FrontEndWPF
             {
                 if (connection != null)
                 {
-                    string query = "SELECT Nombre FROM Usuario";
+                    string query = "SELECT Id, Nombre, Apellido FROM Usuario";
                     string NombreUsuarios;
 
                     using (SqlCommand roleCommand = new SqlCommand(query, connection))
@@ -561,7 +561,7 @@ namespace FrontEndWPF
 
                             while (reader.Read())
                             {
-                                NombreUsuarios = reader["Nombre"].ToString()!;
+                                NombreUsuarios = reader["Nombre"].ToString()! + " " + reader["Apellido"].ToString()!;
                                 TodosLosUsuarios.Add(NombreUsuarios);
                             }
 
@@ -587,16 +587,12 @@ namespace FrontEndWPF
             {
                 if (connection != null)
                 {
-                    string query = "SELECT Id FROM Usuario WHERE Nombre = @Nombre AND Apellido = @Apellido";
+                    string query = "SELECT Id FROM Usuario WHERE Cedula = @Cedula";
                     string idUsuario;
-                    var SplitString = SplitStringAtFirstSpace(Usuario);
-                    string Nombre = SplitString.Item1;
-                    string Apellido = SplitString.Item2;
 
                     using (SqlCommand roleCommand = new SqlCommand(query, connection))
                     {
-                        roleCommand.Parameters.AddWithValue("@Nombre", Nombre);
-						roleCommand.Parameters.AddWithValue("@Apellido", Apellido);
+                        roleCommand.Parameters.AddWithValue("@Cedula", Usuario);
 
 						try
                         {
@@ -630,53 +626,7 @@ namespace FrontEndWPF
             }//Fin del using (SqlConnection connection = OpenConnection()).
         }//Fin del método.
 
-		public string getIdUsuario2(string Usuario)
-		{
-			using (SqlConnection connection = conexion.OpenConnection())
-			{
-				if (connection != null)
-				{
-					string query = "SELECT Id FROM Usuario WHERE Nombre = @Nombre";
-					string idUsuario;
-					var SplitString = SplitStringAtFirstSpace(Usuario);
-					string Nombre = SplitString.Item1;
-					string Apellido = SplitString.Item2;
-
-					using (SqlCommand roleCommand = new SqlCommand(query, connection))
-					{
-						roleCommand.Parameters.AddWithValue("@Nombre", Nombre);
-
-						try
-						{
-							object result = roleCommand.ExecuteScalar();
-							if (result != null)
-							{
-								idUsuario = result.ToString()!;
-								return idUsuario;
-							}
-							else
-							{
-								MessageBox.Show("El id del usuario no fue encontrado.", "¡Error!",
-									MessageBoxButton.OK, MessageBoxImage.Error);
-								return "";
-							}
-						}
-						catch (Exception ex)
-						{
-							MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
-								"\nSi el error persiste, contacte con el soporte, muchas gracias.", "¡Error!: " + ex.Message,
-								MessageBoxButton.OK, MessageBoxImage.Error);
-							return "";
-						}//Fin del Try Catch.
-					}//Fin del usign (SqlCommand roleCommand = new SqlCommand(query, connection)).
-				}//Fin del if (connection != null).
-				else
-				{
-					return "";
-
-				}//Fin del else.
-			}//Fin del using (SqlConnection connection = OpenConnection()).
-		}//Fin del método.
+		
 
 		public (string, string) SplitStringAtFirstSpace(string input)
 		{
@@ -804,7 +754,7 @@ namespace FrontEndWPF
                             success = rowsAffected > 0;
 
                             Si_Prosigue = 4;
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                         }
                         catch (Exception ex)
                         {
@@ -813,7 +763,7 @@ namespace FrontEndWPF
                             "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos, muchas gracias.",
                             "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
                             
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             Si_Prosigue = 0;
                             No_Prosigue = 0;
                             return false;
@@ -856,7 +806,7 @@ namespace FrontEndWPF
                             success = rowsAffected > 0;
                             
                             Si_Prosigue = 4;
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                         }
                         catch (Exception ex)
                         {
@@ -865,7 +815,7 @@ namespace FrontEndWPF
                             "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos, muchas gracias.",
                             "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
                             
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             Si_Prosigue = 0;
                             No_Prosigue = 0;
                             return false;
@@ -882,7 +832,7 @@ namespace FrontEndWPF
 
         /* Método que sirve para enviar los datos que se quieren agregar de una solicitud -
          * de desvinculación, esto hacia la base de datos que esta en SQL Server. */
-        public bool AddDesvinculacion(string nombre, string apellido, DateTime fechaInicio, string motivo,
+        public bool AddDesvinculacion(string cedula, DateTime fechaInicio, string motivo,
             string comentarios, DateTime fechaSalida)
         {
             bool success = false;
@@ -892,12 +842,11 @@ namespace FrontEndWPF
             {
                 if (connection != null)
                 {
-                    string query1 = "Exec CreacionSolicitudDesvinculacion @Nombre, @Apellido, @FechaInicio, @Motivo, @Comentarios, @FechaSalida";
+                    string query1 = "Exec CreacionSolicitudDesvinculacion @Cedula, @FechaInicio, @Motivo, @Comentarios, @FechaSalida";
 
                     using (SqlCommand command = new SqlCommand(query1, connection))
                     {
-                        command.Parameters.AddWithValue("@Nombre", nombre);
-                        command.Parameters.AddWithValue("@Apellido", apellido);
+                        command.Parameters.AddWithValue("@Cedula", cedula);
                         command.Parameters.AddWithValue("@FechaInicio", fechaInicio);
                         command.Parameters.AddWithValue("@Motivo", motivo);
                         command.Parameters.AddWithValue("@Comentarios", comentarios);
@@ -909,7 +858,7 @@ namespace FrontEndWPF
                             success = rowsAffected > 0;
                             
                             Si_Prosigue = 4;
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                         }
                         catch (Exception ex)
                         {
@@ -918,7 +867,7 @@ namespace FrontEndWPF
                             "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos para obtener asistencia adicional, muchas gracias.",
                             "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
                             
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             Si_Prosigue = 0;
                             No_Prosigue = 0;
                             return false;
@@ -955,7 +904,7 @@ namespace FrontEndWPF
                             success = rowsAffected > 0;
 
                             Si_Prosigue = 4;
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                         }
                         catch (Exception ex)
                         {
@@ -964,7 +913,7 @@ namespace FrontEndWPF
                             "\nIntentelo de nuevo más tarde, si el problema persiste, entonces contacte al soporte técnico, muchas gracias.", "¡Error!: " + ex.Message,
                             MessageBoxButton.OK, MessageBoxImage.Error);
 
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                           //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             Si_Prosigue = 0;
                             No_Prosigue = 0;
                             return false;
@@ -1003,7 +952,7 @@ namespace FrontEndWPF
                             success = rowsAffected > 0;
 
                             Si_Prosigue = 4;
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                         }
                         catch (Exception ex)
                         {
@@ -1012,7 +961,7 @@ namespace FrontEndWPF
                             "\nIntentelo de nuevo más tarde, si el problema persiste, entonces contacte al soporte técnico, muchas gracias.", "¡Error!: " + ex.Message,
                             MessageBoxButton.OK, MessageBoxImage.Error);
 
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             Si_Prosigue = 0;
                             No_Prosigue = 0;
                             return false;
@@ -1071,9 +1020,7 @@ namespace FrontEndWPF
 
 
         /* Método que actualiza una nueva planilla en la BD.*/
-        public bool ActualizarPlanilla(string nombre, string apellidos, string cedula,
-            string puesto, string correo, DateTime fechaCreacion, decimal salario, string oldCorreo,
-            string oldCedula)
+        public bool ActualizarPlanilla(decimal salario, int IdUsuario, DateTime fecha)
         {
             bool success = false;
 
@@ -1081,19 +1028,13 @@ namespace FrontEndWPF
             {
                 if (connection != null)
                 {
-                    int idplanilla = GetUserIdByEmailCedula(oldCorreo, oldCedula);
-                    string query = "Exec ActualizarControlPlanillas @IdPlanilla, @Nombre, @Apellido, @Cedula, @Puesto, @Correo, @FechaCreacion, @Salario";
+                    string query = "UPDATE Empleado SET FechaContratacion = @Fecha, Salario = @Salario WHERE IdUsuario = @IdUsuario;";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@IdPlanilla", idplanilla);
-                        command.Parameters.AddWithValue("@Nombre", nombre);
-                        command.Parameters.AddWithValue("@Apellido", apellidos);
-                        command.Parameters.AddWithValue("@Cedula", cedula);
-                        command.Parameters.AddWithValue("@Puesto", puesto);
-                        command.Parameters.AddWithValue("@Correo", correo);
-                        command.Parameters.AddWithValue("@FechaCreacion", fechaCreacion);
-                        command.Parameters.AddWithValue("@Salario", salario);
+                        command.Parameters.AddWithValue("@IdUsuario", IdUsuario);
+						command.Parameters.AddWithValue("@Fecha", fecha);
+						command.Parameters.AddWithValue("@Salario", salario);
 
                         try
                         {
@@ -1387,7 +1328,7 @@ namespace FrontEndWPF
                             success = rowsAffected > 0;
                             
                             Si_Prosigue = 4;
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                         }
                         catch (Exception ex)
                         {
@@ -1396,7 +1337,7 @@ namespace FrontEndWPF
                             "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos, muchas gracias.",
                             "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
                             
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             Si_Prosigue = 0;
                             No_Prosigue = 0;
                             return false;
@@ -1444,7 +1385,7 @@ namespace FrontEndWPF
                             success = rowsAffected > 0;
 
                             Si_Prosigue = 4;
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                         }
                         catch (Exception ex)
                         {
@@ -1453,7 +1394,7 @@ namespace FrontEndWPF
                             "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos, muchas gracias.",
                             "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             Si_Prosigue = 0;
                             No_Prosigue = 0;
                             return false;

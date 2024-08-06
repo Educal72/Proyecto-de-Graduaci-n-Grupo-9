@@ -201,6 +201,7 @@ namespace FrontEndWPF
 		{
 			var saloneroAsociado = new saloneroAsociar();
 			saloneroAsociado.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			saloneroAsociado.WindowState = WindowState.Maximized;
 			if (saloneroAsociado.ShowDialog() == true)
 			{
 				string NombreCompleto = saloneroAsociado.NombreCompleto;

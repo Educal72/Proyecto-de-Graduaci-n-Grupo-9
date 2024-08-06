@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FrontEndWPF"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+             d:DesignHeight="450" d:DesignWidth="800" Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     <UserControl.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -24,12 +24,96 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!-- Estilo para el Thumb -->
+        <Style x:Key="CustomThumb" TargetType="Thumb">
+            <Setter Property="Height" Value="Auto"/>
+            <!-- Tamaño original -->
+            <Setter Property="Width" Value="15"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#f9f9f9"/>
+            <Setter Property="Foreground" Value="#333"/>
+            <Setter Property="BorderBrush" Value="#ddd"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="FontWeight" Value="Normal"/>
+                        <Setter Property="FontSize" Value="18"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#f1f1f1"/>
+                        <Setter Property="Foreground" Value="#333"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="FontSize" Value="24"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Estilo para el ScrollBar -->
+        <Style x:Key="CustomScrollBar" TargetType="ScrollBar">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="5,5,5,5"/>
+            <Setter Property="Opacity" Value="0.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid x:Name="GridRoot" Background="Transparent">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Track x:Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
+                                <Track.Thumb>
+                                    <Thumb Style="{StaticResource CustomThumb}"/>
+                                </Track.Thumb>
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.PageUpCommand" Visibility="Collapsed"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.PageDownCommand" Visibility="Collapsed"/>
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
-    <Grid Background="Black" Width="Auto" Height="Auto">
-        <DataGrid x:Name="EmployeeDataGrid" AutoGenerateColumns="False" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*" IsReadOnly="True" IsHitTestVisible="True">
+    <ScrollViewer Name="MainScrollViewer" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer.Resources>
+            <Style TargetType="ScrollBar" BasedOn="{StaticResource CustomScrollBar}"/>
+        </ScrollViewer.Resources>
+        <Grid Background="Black" Width="Auto" Height="Auto">
+            <DataGrid x:Name="EmployeeDataGrid" HorizontalScrollBarVisibility="Hidden" AutoGenerateColumns="False" Margin="0,50,0,0" FontFamily="Roboto" FontSize="18" ColumnWidth="*" IsReadOnly="True" IsHitTestVisible="True" PreviewMouseWheel="DataGrid_PreviewMouseWheel">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Cédula" Binding="{Binding Cedula}" Width="*"/>
-                <DataGridTemplateColumn Header="Nombre Completo" Width="*">
+                    <DataGridTextColumn Header="Cédula" Binding="{Binding Cedula}" Width="*"/>
+                    <DataGridTemplateColumn Header="Nombre Completo" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock>
@@ -43,11 +127,11 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Correo Electrónico" Binding="{Binding Correo}" Width="*"/>
+                <DataGridTextColumn Header="Correo Electrónico" Binding="{Binding Correo}" Width="Auto"/>
                 <DataGridTextColumn Header="Teléfono" Binding="{Binding Telefono}" Width="*"/>
-                <DataGridTextColumn Header="Puesto" Binding="{Binding Puesto}" Width="*"/>
-                <DataGridTextColumn Header="Rol" Binding="{Binding NombreRol}" Width="*"/>
-                <DataGridTemplateColumn Header="Activo" Width="*">
+                    <DataGridTextColumn Header="Puesto" Binding="{Binding Puesto}" Width="*"/>
+                    <DataGridTextColumn Header="Rol" Binding="{Binding NombreRol}" Width="*"/>
+                    <DataGridTemplateColumn Header="Activo" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Activo}" IsEnabled="False" HorizontalAlignment="Center"/>
@@ -56,11 +140,12 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Eliminar" Margin="180,0,0,0" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Left" Width="80" Click="Button_Click_1"/>
-        <Button Content="Editar" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Button_Click_2"/>
-        <Button Content="Añadir" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Button_Click" Margin="10,0,0,0"/>
-        <Button Content="Historial Laboral" Margin="0,0,10,0" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" Click="Button_Click_6" HorizontalAlignment="Right" Width="150"/>
-        <Button Content="Permisos" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" Click="Permisos_Button" HorizontalAlignment="Left"
-        Width="89" Margin="420,0,0,0"/>
+            <Button Content="Eliminar" Margin="180,0,0,0" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Left" Width="80" Click="Button_Click_1" Foreground="#fafafa" Background="#dc3545"/>
+            <Button Content="Editar" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Button_Click_2" Foreground="#343a40" Background="#ffc107"/>
+            <Button Content="Añadir" HorizontalAlignment="Left" VerticalAlignment="Top" Height="45" Width="80" FontFamily="Roboto" FontSize="18" Click="Button_Click" Margin="10,0,0,0" Foreground="#fafafa" Background="#28a745"/>
+            <Button Content="Historial Laboral" Margin="0,0,10,0" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" Click="Button_Click_6" HorizontalAlignment="Right" Width="150" Foreground="#fafafa" Background="#007bff"/>
+            <Button Content="Permisos" VerticalAlignment="Top" Height="45" FontFamily="Roboto" FontSize="18" Click="Permisos_Button" HorizontalAlignment="Right" Foreground="#fafafa" Background="#17a2b8"
+        Width="89" Margin="0,0,165,0"/>
     </Grid>
+        </ScrollViewer>
 </UserControl>

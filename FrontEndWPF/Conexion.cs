@@ -227,7 +227,7 @@ namespace FrontEndWPF
             {
                 if (connection != null)
                 {
-                    string query = "SELECT Id, Codigo, Nombre, Categoria, Precio, Activo FROM Productos";
+                    string query = "SELECT Id, Codigo, Nombre, Categoria, Precio, Activo FROM Productos ORDER BY Activo DESC, Categoria, Codigo;";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         try
@@ -638,7 +638,7 @@ namespace FrontEndWPF
                             {
                                 No_Prosigue = 1;
                                 MessageBox.Show("El rol no fue encontrado.", "¡Error!", MessageBoxButton.OK, MessageBoxImage.Warning);
-                                conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                                //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                                 Si_Prosigue = 0;
                                 No_Prosigue = 0;
                                 return false;
@@ -650,7 +650,7 @@ namespace FrontEndWPF
                             MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
                             "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos, muchas gracias.",
                             "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             Si_Prosigue = 0;
                             No_Prosigue = 0;
                             return false;
@@ -686,7 +686,7 @@ namespace FrontEndWPF
                             MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
                             "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos, muchas gracias.",
                             "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             Si_Prosigue = 0;
                             No_Prosigue = 0;
                             return false;
@@ -717,7 +717,7 @@ namespace FrontEndWPF
                                 No_Prosigue = 1;
                                 MessageBox.Show("La cédula no fue encontrada.", "¡Error!",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
-                                conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                                //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                                 Si_Prosigue = 0;
                                 No_Prosigue = 0;
                                 return false;
@@ -729,7 +729,7 @@ namespace FrontEndWPF
                             MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
                             "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos, muchas gracias.",
                             "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                           // conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             Si_Prosigue = 0;
                             No_Prosigue = 0;
                             return false;
@@ -771,7 +771,7 @@ namespace FrontEndWPF
                             MessageBox.Show("Ocurrio un error interno, intentelo de nuevo " +
                             "\nSi el error persiste, contacte con el soporte o con el departamento de recursos humanos, muchas gracias.",
                             "¡Error!: " + ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
-                            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+                            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
                             Si_Prosigue = 0;
                             No_Prosigue = 0;
                             return false;
@@ -782,7 +782,7 @@ namespace FrontEndWPF
                 }
             }
 
-            conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
+            //conexion_Empleado.ProseguirAñadirEmpleado(Si_Prosigue, No_Prosigue);
             Si_Prosigue = 0;
             No_Prosigue = 0;
             return success;
@@ -1082,7 +1082,7 @@ namespace FrontEndWPF
         }
 
 
-        public bool ActualizarUsuario(string correo, string nombre, string primerApellido, string segundoApellido, string cedula, string telefono, string rol)
+        public bool ActualizarUsuario(string correo, string nombre, string primerApellido, string cedula, string telefono, string rol)
         {
             bool success = false;
 
@@ -1118,14 +1118,13 @@ namespace FrontEndWPF
                     }
 
                     // Actualizar el usuario
-                    string actualizarquery = "UPDATE Usuario SET Nombre = @Nombre, PrimerApellido = @PrimerApellido, SegundoApellido = @SegundoApellido, " +
+                    string actualizarquery = "UPDATE Usuario SET Nombre = @Nombre, Apellido = @Apellido, " +
                                    "Cedula = @Cedula, Telefono = @Telefono, IdRol = @IdRol WHERE Correo = @Correo";
 
                     using (SqlCommand command = new SqlCommand(actualizarquery, connection))
                     {
                         command.Parameters.AddWithValue("@Nombre", nombre);
-                        command.Parameters.AddWithValue("@PrimerApellido", primerApellido);
-                        command.Parameters.AddWithValue("@SegundoApellido", segundoApellido);
+                        command.Parameters.AddWithValue("@Apellido", primerApellido);
                         command.Parameters.AddWithValue("@Cedula", cedula);
                         command.Parameters.AddWithValue("@Telefono", telefono);
                         command.Parameters.AddWithValue("@IdRol", roleId);
@@ -1281,7 +1280,7 @@ namespace FrontEndWPF
             {
                 if (connection != null)
                 {
-                    string query = "SELECT Id, Nombre, Apellido FROM Usuario";
+                    string query = "SELECT Id, Cedula, Nombre, Apellido FROM Usuario";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         try
@@ -1295,8 +1294,9 @@ namespace FrontEndWPF
                                     {
                                         Id = IdEmpleado, // Asegúrate de convertir el ID a entero
                                         Nombre = reader["Nombre"].ToString()!,
-                                        Apellido = reader["Apellido"].ToString()!
-                                    };
+                                        Apellido = reader["Apellido"].ToString()!,
+                                        Cedula = reader["Cedula"].ToString()!
+									};
 
                                     usuarios.Add(usuario);
                                 }

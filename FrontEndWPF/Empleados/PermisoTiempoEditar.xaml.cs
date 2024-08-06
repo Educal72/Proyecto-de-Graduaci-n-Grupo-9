@@ -37,7 +37,7 @@ namespace FrontEndWPF
             // Configura el ComboBox para mostrar el empleado seleccionado
             // Debes asegurarte de que `Usuarios` esté cargado antes de asignar `SelectedValue`
             UsuarioComboBox.ItemsSource = viewModel.Usuarios;
-            UsuarioComboBox.DisplayMemberPath = "Nombre"; // Campo para mostrar en el ComboBox
+            UsuarioComboBox.DisplayMemberPath = "Display"; // Campo para mostrar en el ComboBox
             UsuarioComboBox.SelectedValuePath = "Id"; // Campo que se usará como valor
             UsuarioComboBox.SelectedValue = permisoActual.IdEmpleado;
         }

@@ -18,8 +18,8 @@ namespace FrontEndWPF.Reporteria
     /// <summary>
     /// Interaction logic for CrearNormativa.xaml
     /// </summary>
-    public partial class CrearNormativa : Page
-    {
+    public partial class CrearNormativa : UserControl
+	{
         public CrearNormativa()
         {
             InitializeComponent();

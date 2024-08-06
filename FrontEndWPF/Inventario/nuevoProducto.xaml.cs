@@ -89,7 +89,6 @@ namespace FrontEndWPF.Inventario
 					Activo = activoProducto
 				};
 				productosViewModel.Productos.Add(producto);
-				MessageBox.Show("Producto guardado exitosamente.");
             }
             else
             {

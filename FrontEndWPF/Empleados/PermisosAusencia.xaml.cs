@@ -99,7 +99,8 @@ namespace FrontEndWPF.Empleados
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             var permisoAusenciaCrear = new PermisoAusenciaCrear();
-            if (permisoAusenciaCrear.ShowDialog() == true)
+			permisoAusenciaCrear.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			if (permisoAusenciaCrear.ShowDialog() == true)
             {
                 _viewModel = new PermisoDeAusenciaViewModel();
                 PermisoAusenciaDataGrid.ItemsSource = _viewModel.PermisosDeAusencia;
@@ -116,7 +117,8 @@ namespace FrontEndWPF.Empleados
             {
                 // Abrir la ventana de edición y pasar el permiso seleccionado
                 PermisoAusenciaEditar editarVentana = new PermisoAusenciaEditar(selectedItem);
-                if (editarVentana.ShowDialog() == true)
+				editarVentana.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+				if (editarVentana.ShowDialog() == true)
                 {
                     _viewModel = new PermisoDeAusenciaViewModel();
                     PermisoAusenciaDataGrid.ItemsSource = _viewModel.PermisosDeAusencia;

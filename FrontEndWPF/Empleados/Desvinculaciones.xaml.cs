@@ -47,8 +47,8 @@ namespace FrontEndWPF
         //Constructor vacio:
         public Desvinculaciones()
         {
-            empleadosAdmin.Enviar(false);
-            empleadosNoAdmin.Enviar(false);
+            //empleadosAdmin.Enviar(false);
+            //empleadosNoAdmin.Enviar(false);
             InitializeComponent();
             conexion.OpenConnection();
             LoadDataDesv();
@@ -62,10 +62,10 @@ namespace FrontEndWPF
              * Aqui es para poder saber si el usuario con el rol de empleado -
              * (ya sea cajero, salonero o contador) o administrador tienen los -
              * permisos para poder leer los datos de las desvinculaciones. */
-            permisoLeer = conexionEmpleado.PermisoLeer();
+            //permisoLeer = conexionEmpleado.PermisoLeer();
 
-            if (permisoLeer == 1)
-            {
+            //if (permisoLeer == 1)
+            //{
                 /* Aqui se trae los datos para poder mostrar la desvinculación, -
                  * esto por medio de un procedimiento almacenado llamado: -
                  * LeerSolicitudDesvinculacion */
@@ -107,15 +107,15 @@ namespace FrontEndWPF
                 }
 
                 DesvinculacionesDataGrid.ItemsSource = desvinculacionEmpleados;
-            }
-            else
-            {
-                MessageBox.Show("La acción no está permitida debido a la falta de autorización." +
-                    "\nIntentelo de nuevo más tarde, o puede contactar al soporte técnico si el problema persiste, muchas gracias.", "¡Error!",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-                empleadosAdmin.Enviar(true);
-                empleadosNoAdmin.Enviar(true);
-            }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("La acción no está permitida debido a la falta de autorización." +
+            //        "\nIntentelo de nuevo más tarde, o puede contactar al soporte técnico si el problema persiste, muchas gracias.", "¡Error!",
+            //        MessageBoxButton.OK, MessageBoxImage.Error);
+            //    empleadosAdmin.Enviar(true);
+            //    empleadosNoAdmin.Enviar(true);
+            //}
 
         }
 
@@ -124,19 +124,19 @@ namespace FrontEndWPF
          * la variable: "dato", esto porque el resultado, determinara si se -
          * presenta el MessageBox que contiene el mensaje: "Se agrego o -
          * se elimino la desvinculación" en la pantalla final. */
-        public void ProseguirDatoGuardado(bool dato)
-        {
-            if (dato == true)
-            {
-                SeProsigue = dato;
-            }
+        //public void ProseguirDatoGuardado(bool dato)
+        //{
+        //    if (dato == true)
+        //    {
+        //        SeProsigue = dato;
+        //    }
 
-            if (dato == false)
-            {
-                SeProsigue = false;
-            }
+        //    if (dato == false)
+        //    {
+        //        SeProsigue = false;
+        //    }
 
-        }
+        //}
 
 
         /* Método para añadir una solicitud de desvinculación. */
@@ -147,17 +147,15 @@ namespace FrontEndWPF
              * 
              * Nota: Puede ver la explicación en el comentario con esta -
              * indicación: "[1.1]", el cual se encuentra en esta misma clase. */
-            permisoCrear = conexionEmpleado.PermisoCrear();
-            if (permisoCrear == 1)
-            {
+            //permisoCrear = conexionEmpleado.PermisoCrear();
+            //if (permisoCrear == 1)
+            //{
                 var nuevaDesvinculacion = new añadirDesvinculaciones();
                 nuevaDesvinculacion.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
                 if (nuevaDesvinculacion.ShowDialog() == true)
                 {
-                    string Nombre = nuevaDesvinculacion.nombre_añadirDesvinculaciones!;
-                    string Apellido = nuevaDesvinculacion.apellido_añadirDesvinculaciones!;
-                    
+                string cedula = nuevaDesvinculacion.cedula_añadirDesvinculaciones;
                     DateTime FechaInicio = nuevaDesvinculacion.fechaInicio_añadirDesvinculaciones;
                     string Motivo = nuevaDesvinculacion.motivo_añadirDesvinculaciones!;
                     
@@ -168,23 +166,16 @@ namespace FrontEndWPF
                     /* Si todo salio bien en el proceso del método encargado de la BD, entonces -
                      * mostrara el mensaje: "La solicitud de desvinculación del empleado -
                      * ha sido agregado exitosamente."*/
-                    conexionEmpleado.AddDesvinculacion(Nombre, Apellido, FechaInicio, Motivo, Comentarios, FechaSalida);
-                    if (SeProsigue == true)
-                    {
-                        MessageBox.Show($"La solicitud de desvinculación del empleado: {Nombre + " " + Apellido} ha sido agregado exitosamente." +
-                        "\nAhora pasara por un proceso de revisión y procesamiento en el departamento de recursos humanos ó al supervisor encargado, muchas gracias.",
-                        "¡Confirmación!", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-
+                    conexionEmpleado.AddDesvinculacion(cedula, FechaInicio, Motivo, Comentarios, FechaSalida);
                     LoadDataDesv();
                 }
-            }
-            else
-            {
-                MessageBox.Show("La acción no está permitida debido a la falta de autorización." +
-                    "\nIntentelo de nuevo más tarde, o puede contactar al soporte técnico si el problema persiste, muchas gracias.", "¡Error!",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("La acción no está permitida debido a la falta de autorización." +
+            //        "\nIntentelo de nuevo más tarde, o puede contactar al soporte técnico si el problema persiste, muchas gracias.", "¡Error!",
+            //        MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
 
         }
 
@@ -197,9 +188,9 @@ namespace FrontEndWPF
              * 
              * Nota: Puede ver la explicación en el comentario con esta -
              * indicación: "[1.1]", el cual se encuentra en esta misma clase. */
-            permisoEliminar = conexionEmpleado.PermisoEliminar();
-            if (permisoEliminar == 1)
-            {
+            //permisoEliminar = conexionEmpleado.PermisoEliminar();
+            //if (permisoEliminar == 1)
+            //{
                 EmpleadoDesvinculacion? selectedDesvinculacion = DesvinculacionesDataGrid.SelectedItem as EmpleadoDesvinculacion;
 
                 /* Aquí consiste en que si la persona tiene seleccionado un dato de la tabla de -
@@ -239,13 +230,13 @@ namespace FrontEndWPF
                         LoadDataDesv();
                     }
                 }
-            }
-            else
-            {
-                MessageBox.Show("La acción no está permitida debido a la falta de autorización." +
-                    "\nIntentelo de nuevo más tarde, o puede contactar al soporte técnico si el problema persiste, muchas gracias.", "¡Error!",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("La acción no está permitida debido a la falta de autorización." +
+            //        "\nIntentelo de nuevo más tarde, o puede contactar al soporte técnico si el problema persiste, muchas gracias.", "¡Error!",
+            //        MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
         }
 
 

@@ -75,7 +75,6 @@ namespace FrontEndWPF.Inventario
 			precio = decimal.Parse(Precio.Text);
 			activo = Activo.IsChecked.Value;
 			DialogResult = true;
-            MessageBox.Show("Inventario guardado exitosamente.");
         }
 
 

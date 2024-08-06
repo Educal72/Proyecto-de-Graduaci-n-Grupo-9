@@ -92,8 +92,16 @@ namespace FrontEndWPF
 			Order selectedOrder = OrdersDataGrid.SelectedItem as Order;
 			if (selectedOrder != null)
 			{
-				ordenesViewModel.EliminarOrden(selectedOrder.Id);
-				LoadOrders();
+				MessageBoxResult result = MessageBox.Show("¿Está seguro que desea eliminar esta orden?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+				if (result == MessageBoxResult.Yes)
+				{
+					ordenesViewModel.EliminarOrden(selectedOrder.Id);
+					LoadOrders();
+				}
+			}
+			else
+			{
+				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
 			}
 		}
 
@@ -105,6 +113,10 @@ namespace FrontEndWPF
 			if (parentWindow != null && parentWindow is MainWindow mainWindow && selectedItem != null)
 			{
 				mainWindow.mainFrame.Navigate(new PuntoVenta(selectedItem.Id));
+			}
+			else
+			{
+				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
 			}
 		}
 
@@ -124,6 +136,10 @@ namespace FrontEndWPF
 			if (parentWindow != null && parentWindow is MainWindow mainWindow && selectedOrder != null)
 			{
 				mainWindow.mainFrame.Navigate(new Facturacion(selectedOrder.Id));
+			}
+			else
+			{
+				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
 			}
 		}
 	}

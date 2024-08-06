@@ -1,6 +1,7 @@
 ﻿using FrontEndWPF.Index;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,36 +30,67 @@ namespace FrontEndWPF
         public DateTime fechaInicio_añadirDesvinculaciones { get; set; }
         public string? motivo_añadirDesvinculaciones { get; set; }
         public string? comentarios_añadirDesvinculaciones { get; set; }
-        public DateTime fechaSalida_añadirDesvinculaciones { get; set; }
-
+		public string? cedula_añadirDesvinculaciones { get; set; }
+		public DateTime fechaSalida_añadirDesvinculaciones { get; set; }
+        Conexion conexion  = new Conexion();
 
         //Constructor vacio.
         public añadirDesvinculaciones()
         {
             InitializeComponent();
+            PopulateFiltroComboBox();
         }
 
+		private void PopulateFiltroComboBox()
+		{
+			string query = @"
+            SELECT 
+                Cedula, 
+                Nombre, 
+                Apellido
+            FROM 
+                Usuario"
+			;
 
-        /* Método que se encarga de validar los espacios correspondientes en -
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				try
+				{
+					SqlCommand command = new SqlCommand(query, connection);
+					SqlDataReader reader = command.ExecuteReader();
+
+					while (reader.Read())
+					{
+						string cedula = reader["Cedula"].ToString();
+						string nombre = reader["Nombre"].ToString();
+						string Apellido = reader["Apellido"].ToString();
+
+						// Formatear la opción del ComboBox
+						string displayText = $"{nombre} {Apellido} ({cedula})";
+
+						// Crear un ComboBoxItem con el texto y agregarlo al ComboBox
+						combo.Items.Add(new ComboBoxItem
+						{
+							Content = displayText,
+							Tag = cedula // Usar el Tag para almacenar la cédula asociada
+						});
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: " + ex.Message);
+				}
+			}
+		}
+
+
+		/* Método que se encarga de validar los espacios correspondientes en -
 		 * donde el usuario administrador o empleado agregara los datos de la -
 		 * nueva solicitud de desvinculación en el sistema.*/
-        private bool ValidateInputs(out string errorMessage)
+		private bool ValidateInputs(out string errorMessage)
         {
             errorMessage = string.Empty;
 
-            // Validar Nombre:
-            if (string.IsNullOrWhiteSpace(Nombre_TextBox.Text) && Nombre_TextBox.Text.Length > 3)
-            {
-                errorMessage = "El campo Nombre es obligatorio.";
-                return false;
-            }
-
-            // Validar Apellidos:
-            if (string.IsNullOrWhiteSpace(Apellido_TextBox.Text) && Apellido_TextBox.Text.Length > 6)
-            {
-                errorMessage = "El campo Apellido es obligatorio.";
-                return false;
-            }
 
             // Validar Fecha de inicio:
             if (!FechaInicio_Picker.SelectedDate.HasValue)
@@ -104,10 +136,11 @@ namespace FrontEndWPF
                     + errorMessage, "Alerta", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return;
             }
-
-            nombre_añadirDesvinculaciones = Nombre_TextBox.Text;
-            apellido_añadirDesvinculaciones = Apellido_TextBox.Text;
-            
+            if (combo.SelectedItem is ComboBoxItem selectedItem)
+            {
+                // Recupera el Tag del ítem seleccionado
+                cedula_añadirDesvinculaciones = selectedItem.Tag.ToString();
+			}
             DateTime? selectedDateInicio = FechaInicio_Picker.SelectedDate;
             fechaInicio_añadirDesvinculaciones = selectedDateInicio!.Value;
             

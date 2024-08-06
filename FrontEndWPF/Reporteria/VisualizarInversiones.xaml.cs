@@ -5,8 +5,8 @@ using System.Windows.Controls;
 
 namespace FrontEndWPF.Reporteria
 {
-    public partial class VisualizarInversiones : Page
-    {
+    public partial class VisualizarInversiones : UserControl
+	{
 
         public VisualizarInversiones()
         {

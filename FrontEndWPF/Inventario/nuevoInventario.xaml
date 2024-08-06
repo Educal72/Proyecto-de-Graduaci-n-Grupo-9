@@ -5,9 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrontEndWPF.Inventario"
         mc:Ignorable="d"
-        Title="Nuevo Inventario" Height="550" Width="500" Background="#f4f4f4">
+        Title="Nuevo Inventario" Height="425" Width="500"
+        WindowStyle="None"
+ResizeMode="NoResize"
+AllowsTransparency="True"
+Background="White"
+BorderBrush="Black"
+BorderThickness="1">
 
     <Window.Resources>
+        <!-- Styles -->
         <Style TargetType="Button">
             <Setter Property="Background" Value="#007ACC"/>
             <Setter Property="Foreground" Value="White"/>
@@ -46,6 +53,12 @@
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
+
+        <Style TargetType="CheckBox">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
     </Window.Resources>
 
     <Grid Margin="20">
@@ -65,10 +78,10 @@
         </Grid.ColumnDefinitions>
 
         <!-- Title -->
-        <Label x:Name="Titulo" Content="Inventario" Grid.Row="0" Grid.ColumnSpan="2" FontSize="36" FontWeight="Bold" Margin="0,0,0,20"/>
+        <Label x:Name="Titulo" Content="Nuevo Inventario" Grid.Row="0" Grid.ColumnSpan="2" FontSize="36" FontWeight="Bold" Margin="0,0,0,20"/>
 
         <!-- Instructions -->
-        <Label Content="Ingrese los datos del nuevo item de inventario." Grid.Row="1" Grid.ColumnSpan="2" FontSize="16" Foreground="#FF5D5D5D" Margin="0,0,0,20"/>
+        <Label Content="Ingrese los datos del nuevo ítem de inventario." Grid.Row="1" Grid.ColumnSpan="2" FontSize="16" Foreground="#FF5D5D5D" Margin="0,0,0,20"/>
 
         <!-- Form Fields -->
         <Label Content="Nombre:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
@@ -80,12 +93,13 @@
         <Label Content="Precio:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
         <TextBox x:Name="Precio" Grid.Row="4" Grid.Column="1" Width="278" HorizontalAlignment="Left"/>
 
-        <CheckBox x:Name="Activo" Content="Activo" Grid.Row="5" Grid.ColumnSpan="2" FontSize="24" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="0,20,0,20"/>
+        <Label Content="Estado:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
+        <CheckBox x:Name="Activo" Content="Activo" Grid.Row="5" Grid.Column="1" FontSize="24" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
 
         <!-- Buttons -->
         <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0">
-            <Button Content="Guardar" Click="Guardar_Click" Background="#FF43CC00"/>
-            <Button Content="Cancelar" Click="Cancelar_Click"/>
+            <Button Content="Guardar" Click="Guardar_Click" Foreground="#fafafa" Background="#28a745" Height="40" Width="100"/>
+            <Button Content="Cancelar" Click="Cancelar_Click" Foreground="#fafafa" Background="#dc3545" Height="40" Width="100"/>
         </StackPanel>
     </Grid>
 </Window>

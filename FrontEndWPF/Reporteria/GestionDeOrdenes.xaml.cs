@@ -18,8 +18,8 @@ namespace FrontEndWPF.Reporteria
     /// <summary>
     /// Interaction logic for GestionDeOrdenes.xaml
     /// </summary>
-    public partial class GestionDeOrdenes : Page
-    {
+    public partial class GestionDeOrdenes : UserControl
+	{
         public GestionDeOrdenes()
         {
             InitializeComponent();

@@ -1,7 +1,12 @@
 ﻿<Window x:Class="FrontEndWPF.EditarProductoWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Editar Producto" Height="550" Width="500" Background="#f4f4f4">
+        Title="Editar Producto" Height="475" Width="500" WindowStyle="None"
+ResizeMode="NoResize"
+AllowsTransparency="True"
+Background="White"
+BorderBrush="Black"
+BorderThickness="1">
     <Window.Resources>
         <!-- Estilos -->
         <Style TargetType="TextBox">
@@ -52,7 +57,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -64,7 +69,7 @@
         <Label x:Name="Titulo" Content="Editar Producto" Grid.Row="0" Grid.ColumnSpan="2" FontSize="36" FontWeight="Bold" Margin="0,0,0,20"/>
 
         <!-- Instructions -->
-        <Label Content="Actualice los datos del producto." Grid.Row="1" Grid.ColumnSpan="2" FontSize="16" Foreground="#FF5D5D5D" Margin="0,0,0,20"/>
+        <Label Content="Actualice los datos del producto." Grid.Row="1" Grid.ColumnSpan="2" FontSize="16" Foreground="#FF5D5D5D" />
 
         <!-- Form Fields -->
         <Label Content="Código:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
@@ -79,12 +84,13 @@
         <Label Content="Precio:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
         <TextBox x:Name="PrecioTextBox" Grid.Row="5" Grid.Column="1" Width="278" HorizontalAlignment="Left"/>
 
-        <CheckBox x:Name="ActivoCheckBox" Content="Activo" Grid.Row="6" Grid.ColumnSpan="2" FontSize="24" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="0,20,0,20"/>
+        <Label Content="Estado:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"/>
+        <CheckBox x:Name="ActivoCheckBox" Content="Activo" Grid.Row="6" Grid.Column="1" FontSize="24" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
 
         <!-- Buttons -->
         <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0">
-            <Button Content="Aceptar" Click="AceptarButton_Click" Background="#FF04CC00"/>
-            <Button Content="Cancelar" Click="CancelarButton_Click" Background="#FF007ACC"/>
+            <Button Content="Aceptar" Click="AceptarButton_Click" Foreground="#fafafa" Background="#28a745" Height="40" Width="100"/>
+            <Button Content="Cancelar" Click="CancelarButton_Click" Foreground="#fafafa" Background="#dc3545" Height="40" Width="100"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -1,4 +1,4 @@
-﻿<Page x:Class="FrontEndWPF.Reporteria.InformeAuditoria"
+﻿<UserControl x:Class="FrontEndWPF.Reporteria.InformeAuditoria"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,10 +6,67 @@
       xmlns:local="clr-namespace:FrontEndWPF.Reporteria"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="InformeAuditoria">
+      >
+    <UserControl.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#f9f9f9"/>
+            <Setter Property="Foreground" Value="#333"/>
+            <Setter Property="BorderBrush" Value="#ddd"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="FontWeight" Value="Normal"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="FontSize" Value="24"/>
+                        <Setter Property="Background" Value="#f1f1f1"/>
+                        <Setter Property="Foreground" Value="#333"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
 
     <Grid>
-        <DataGrid x:Name="auditoriaDataGrid" AutoGenerateColumns="False" Margin="10,87,10,10">
+        <DataGrid HorizontalScrollBarVisibility="Hidden" ColumnWidth="*" x:Name="auditoriaDataGrid" AutoGenerateColumns="False" Margin="0,87,0,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Código Auditoria" Binding="{Binding CodigoAuditoria}"/>
                 <DataGridTextColumn Header="Descripción" Binding="{Binding Descripcion}"/>
@@ -25,7 +82,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Label Content="Informes de Auditoria " HorizontalAlignment="Left" Margin="297,12,0,0" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Width="190" Background="#FF18A20C" FontSize="18">
+        <Label Content="Informes de Auditoria" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Background="#FF18A20C" FontSize="18" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
             <Label.BorderBrush>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -45,4 +102,4 @@
         </TextBox>
         <CheckBox Content="Solo ver En progreso" HorizontalAlignment="Left" Margin="231,57,0,0" VerticalAlignment="Top" Foreground="#FFF1E5E5"/>
     </Grid>
-</Page>
+</UserControl>

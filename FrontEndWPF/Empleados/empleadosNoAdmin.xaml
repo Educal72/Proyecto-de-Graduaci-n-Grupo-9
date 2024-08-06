@@ -69,11 +69,15 @@
                         </Setter>
                     </Style>
                 </ListBox.Resources>
-                <ListBoxItem Content="Desvinculaciones" 
-                             FontFamily="Roboto" FontSize="22" 
-                             HorizontalContentAlignment="Center"
-                             Padding="4,10,4,10" BorderBrush="White" 
-                             Margin="10,10,10,10"/>
+                
+                <ListBoxItem x:Name="FichajesItem" Content="Fichajes" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="PermisosdeTiempo" Content="Permisos de Tiempo" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="PermisosdeAusencia" Content="Permisos de Ausencia" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="Incidentes" Content="Incidentes" FontFamily="Roboto" 
+             FontSize="22" HorizontalContentAlignment="Center" 
+             Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="Desvinculaciones" Content="Desvinculaciones" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
+                <ListBoxItem x:Name="FAQ" Content="FAQ" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
             </ListBox>
 
             <ContentControl x:Name="ContentArea" Grid.Column="1" Margin="300,0,0,0"/>

@@ -25,8 +25,12 @@ namespace FrontEndWPF.Modelos
             public DateTime FechaCreacion { get; set; }             //Fecha cuando ingreso el empleado al sistema y el negocio.
 			public string? Puesto { get; set; }                     //Posición del empleado (o puesto).
             public string? Direccion { get; set; }                  //Dirección del empleado.
-            public bool Activo { get; set; }                        //Si el empleado sigue trabajando o no.
-        }
+            public bool Activo { get; set; }
+			public string? Display
+			{
+				get { return $"{Nombre} {Apellido} ({Cedula})"; }
+			}
+		}
 
 
         /* Entidades que almacenan los datos de las -
@@ -77,11 +81,12 @@ namespace FrontEndWPF.Modelos
          * planillas. */
         public class ControlPlanilla
         {
+            public int IdUsuario { get; set;}
             public string? Nombre { get; set; }                     //Nombre del empleado para la planilla.
             public string? Apellidos { get; set; }                  //Apellido del empleado para la planilla.
             public string? Cedula { get; set; }                     //Cédula del empleado para la planilla.
             public string? Puesto { get; set; }                     //Puesto del empleado para la planilla.
-            public string? Correo { get; set; }                     //Correo del empleado para la planilla.
+            public string? Telefono { get; set; }                     //Correo del empleado para la planilla.
             public DateTime FechaCreacion { get; set; }             //Fecha en donde se creo la planilla.
             public decimal Salario { get; set; }                    //Salario del empleado para la planilla.
         }
@@ -92,7 +97,8 @@ namespace FrontEndWPF.Modelos
         public class Incidente
         {
             public int? Id { get; set; }
-            public string? Usuario { get; set; }
+			public int? IdUsuario { get; set; }
+			public string? Usuario { get; set; }
 			public string? Apellido { get; set; }
 			public string? Nombre { get; set; } //Nombre del usuario (empleado) que tendra ese incidente.
             public DateTime Fecha { get; set; }                     //Fecha en que ocurrió el incidente.

@@ -49,11 +49,95 @@
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Width" Value="176"/>
             <Setter Property="Height" Value="100"/>
+            <Setter Property="Background" Value="#28a745"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontFamily" Value="Roboto"/>
         </Style>
         <Style TargetType="DataGridCell">
             <Setter Property="FontSize" Value="32"/>
         </Style>
+        <!-- Estilo para el Thumb -->
+        <Style x:Key="CustomThumb" TargetType="Thumb">
+            <Setter Property="Height" Value="Auto"/>
+            <!-- Tamaño original -->
+            <Setter Property="Width" Value="15"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Border CornerRadius="5" Background="{TemplateBinding Background}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#f9f9f9"/>
+            <Setter Property="Foreground" Value="#333"/>
+            <Setter Property="BorderBrush" Value="#ddd"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="FontWeight" Value="Normal"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="FontSize" Value="24"/>
+                        <Setter Property="Background" Value="#f1f1f1"/>
+                        <Setter Property="Foreground" Value="#333"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="BorderBrush" Value="#ddd"/>
+                        <Setter Property="BorderThickness" Value="0 0 1 0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
+        <!-- Estilo para el ScrollBar -->
+        <Style x:Key="CustomScrollBar" TargetType="ScrollBar">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="5,5,5,5"/>
+            <Setter Property="Opacity" Value="0.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid x:Name="GridRoot" Background="Transparent">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Track x:Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
+                                <Track.Thumb>
+                                    <Thumb Style="{StaticResource CustomThumb}"/>
+                                </Track.Thumb>
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.PageUpCommand" Visibility="Collapsed"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.PageDownCommand" Visibility="Collapsed"/>
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid Width="Auto" Height="Auto" VerticalAlignment="Stretch" Background="White" Margin="0,0,0,0">
         <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727" d:IsLocked="True"/>
@@ -63,21 +147,19 @@
         <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Background="#FFABD904" Click="Button_Click" VerticalAlignment="Top" Margin="0,106,10,0" HorizontalAlignment="Right" Width="90"/>
         <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Ordenes" Background="#FFABD904" Click="Button_Click_6" VerticalAlignment="Top" Margin="0,106,105,0" HorizontalAlignment="Right" Width="190"/>
         <Grid HorizontalAlignment="Left" Margin="572,205,0,0" Width="Auto">
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                
-                <RowDefinition Height="*"/>
-                
-                <RowDefinition Height="*"/>
-                
-                <RowDefinition Height="*"/>
-                
-                <RowDefinition Height="*"/>
-                
-            </Grid.RowDefinitions>
 
-            
+                <RowDefinition Height="*"/>
+
+                <RowDefinition Height="*"/>
+
+                <RowDefinition Height="*"/>
+
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
             <Button Content="+" FontSize="72" FontFamily="Roboto Medium" Click="Button_Click_1" Foreground="Black" Grid.Row="0" Width="143" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
             <Button FontSize="72" Content="-" FontFamily="Roboto Medium" Click="Button_Click_2" Grid.Row="1" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
             <Button Content="✖" FontFamily="Roboto Medium" FontSize="36" Foreground="Black" Click="Button_Click_3" Grid.Row="2" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
@@ -92,7 +174,7 @@
         </Grid>
         <Grid HorizontalAlignment="Left" Margin="0,190,0,0" Height="Auto" VerticalAlignment="Stretch">
             <TextBox x:Name="buscar" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="557" Height="45" FontFamily="Roboto" FontSize="36" PreviewKeyDown="ProductIdTextBox_PreviewKeyDown" Margin="10,10,0,0"/>
-            <DataGrid x:Name="carrito" AutoGenerateColumns="false" HorizontalAlignment="Left" Width="557" Height="Auto" VerticalAlignment="Top" Margin="10,60,0,0" HorizontalScrollBarVisibility="Hidden">
+            <DataGrid x:Name="carrito" IsReadOnly="True" IsHitTestVisible="True" AutoGenerateColumns="false" HorizontalAlignment="Left" Width="557" Height="Auto" VerticalAlignment="Top" Margin="10,60,0,0" HorizontalScrollBarVisibility="Hidden">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Cantidad" Binding="{Binding Cantidad}" IsReadOnly="False" Width="70"/>
                     <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" IsReadOnly="False" Width="360"/>
@@ -115,31 +197,37 @@
             </Grid.ColumnDefinitions>
 
            
-            <Label Content="Productos" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Width="180"/>
+            <Label Content="Productos" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Width="Auto"/>
 
             
             <Label Content="Categorias" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Width="192"/>
 
 
-            <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <WrapPanel x:Name="ProductWrapPanel" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+            <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                <ScrollViewer.Resources>
+                        <Style TargetType="ScrollBar" BasedOn="{StaticResource CustomScrollBar}"/>
+                    </ScrollViewer.Resources>
+                    <WrapPanel x:Name="ProductWrapPanel" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
             </ScrollViewer>
 
 
-            <ListBox x:Name="CategoryListBox" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="Auto" Height="Auto" Grid.Row="1" Grid.Column="1">
+            <ListBox x:Name="CategoryListBox" ScrollViewer.VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="Auto" Height="Auto" Grid.Row="1" Grid.Column="1" >
+                
                 <ListBox.BorderBrush>
                     <SolidColorBrush Color="#FFABADB3" Opacity="0"/>
+                    
                 </ListBox.BorderBrush>
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
                         <Setter Property="VerticalContentAlignment" Value="Top"/>
+                        
                     </Style>
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <ListBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                            <Button Content="{Binding}" Click="CategoryButton_Click" Style="{StaticResource CustomButtonStyle}"/>
+                            <Button Content="{Binding}" Click="CategoryButton_Click" Style="{StaticResource CustomButtonStyle}" Background="#ffc107" FontSize="20" FontWeight="Bold" Foreground="#343a40" FontFamily="Roboto"/>
                         </ListBoxItem>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

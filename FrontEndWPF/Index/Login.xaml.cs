@@ -35,7 +35,8 @@ namespace FrontEndWPF
 		 * ubicados en los métodos de la clase Conexión.
 		 */
 		Conexion conexion = new Conexion();
-        InicioSesionViewModel inicioSesionViewModel = new InicioSesionViewModel();
+		ConexionEmpleado conexionEmpleado = new ConexionEmpleado();
+		InicioSesionViewModel inicioSesionViewModel = new InicioSesionViewModel();
         SesionUsuario sesionUsuario = new SesionUsuario();
 
 		/*
@@ -115,7 +116,6 @@ namespace FrontEndWPF
                         conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
                         SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
                         SesionUsuario.Instance.nombre = con["Nombre"].ToString()!;
-                        var conexionEmpleado = new ConexionEmpleado();
                         SesionUsuario.Instance.id = Convert.ToInt32(con["Id"]);
 						//Envia el nombre del usuario a la clase de conexion empleado.
 						conexionEmpleado.NombreUsuario(SesionUsuario.Instance.nombre = con["Nombre"].ToString()!);
@@ -163,7 +163,8 @@ namespace FrontEndWPF
 
                     conexion.AddUser(Nombre, Apellidos, Cedula, Telefono,
                         Correo, Contraseña, Rol, Fecha, Puesto, Salario, Direccion);
-                    var con = conexion.SelectUser(Correo, conexion.HashPassword(Contraseña));
+					
+					var con = conexion.SelectUser(Correo, conexion.HashPassword(Contraseña));
                     if (con != null)
                     {
                          
@@ -172,7 +173,8 @@ namespace FrontEndWPF
                         conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
                         SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
                         SesionUsuario.Instance.nombre = con["Nombre"].ToString()!;
-                        NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
+						inicioSesionViewModel.CrearRegistroInicio(Convert.ToInt32(con["Id"]), DateTime.Today, DateTime.Now);
+						NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
                     }
                 }
             }

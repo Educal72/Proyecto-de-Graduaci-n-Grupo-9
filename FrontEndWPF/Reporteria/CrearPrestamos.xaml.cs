@@ -18,8 +18,8 @@ namespace FrontEndWPF.Reporteria
     /// <summary>
     /// Interaction logic for CrearPrestamos.xaml
     /// </summary>
-    public partial class CrearPrestamos : Page
-    {
+    public partial class CrearPrestamos : UserControl
+	{
         public CrearPrestamos()
         {
             InitializeComponent();

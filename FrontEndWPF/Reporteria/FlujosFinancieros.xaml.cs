@@ -18,8 +18,8 @@ namespace FrontEndWPF.Reporteria
     /// <summary>
     /// Interaction logic for FlujosFinancieros.xaml
     /// </summary>
-    public partial class FlujosFinancieros : Page
-    {
+    public partial class FlujosFinancieros : UserControl
+	{
         public FlujosFinancieros()
         {
             InitializeComponent();

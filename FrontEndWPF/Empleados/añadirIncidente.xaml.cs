@@ -1,6 +1,7 @@
 ﻿using FrontEndWPF.Index;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace FrontEndWPF
     /// </summary>
     public partial class añadirIncidente : Window
     {        
+        Conexion conexion = new Conexion();
         public DateTime fecha_añadirIncidente { get; set; }
         public string? hora_añadirIncidente { get; set; }
         public string? descripcion_añadirIncidente { get; set; }
@@ -37,18 +39,59 @@ namespace FrontEndWPF
         public añadirIncidente()
         {
             InitializeComponent();
-            
+            PopulateFiltroComboBox();
             /* Estos dos comandos lo que hacen es ayudar al ComboBox a encontrar -
              * los usuarios que están registrados en el sistema, para asi, mostrarlos -
              * en pantalla.*/
             DataContext = this;
-            NombreUsuarios.AddRange(ConexionEmpleado.Usuarios());
+            
         }
 
+		private void PopulateFiltroComboBox()
+		{
+			string query = @"
+            SELECT 
+                Cedula, 
+                Nombre, 
+                Apellido
+            FROM 
+                Usuario"
+			;
 
-        /* Método que sirve para poder hacer las validaciones -
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				try
+				{
+					SqlCommand command = new SqlCommand(query, connection);
+					SqlDataReader reader = command.ExecuteReader();
+
+					while (reader.Read())
+					{
+						string cedula = reader["Cedula"].ToString();
+						string nombre = reader["Nombre"].ToString();
+						string Apellido = reader["Apellido"].ToString();
+
+						// Formatear la opción del ComboBox
+						string displayText = $"{nombre} {Apellido} ({cedula})";
+
+						// Crear un ComboBoxItem con el texto y agregarlo al ComboBox
+						Usuarios_ComboBox.Items.Add(new ComboBoxItem
+						{
+							Content = displayText,
+							Tag = cedula // Usar el Tag para almacenar la cédula asociada
+						});
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: " + ex.Message);
+				}
+			}
+		}
+
+		/* Método que sirve para poder hacer las validaciones -
          * de los campos que estan en: añadirIncidente.xaml.*/
-        private bool ValidateInputs(out string errorMessage)
+		private bool ValidateInputs(out string errorMessage)
         {
             errorMessage = string.Empty;
 
@@ -74,7 +117,7 @@ namespace FrontEndWPF
             }
 
             // Validar Tipo
-            if (string.IsNullOrWhiteSpace(TipoIncidente_TextBox.Text) && TipoIncidente_TextBox.Text.Length > 7)
+            if (string.IsNullOrWhiteSpace(combo.Text))
             {
                 errorMessage = "El campo tipo es obligatorio.";
                 return false;
@@ -107,8 +150,11 @@ namespace FrontEndWPF
             fecha_añadirIncidente = selectedDate.Value;
             hora_añadirIncidente = Hora_TextBox.Text;
             descripcion_añadirIncidente = Descripcion_TextBox.Text;
-            tipo_añadirIncidente = TipoIncidente_TextBox.Text;                        
-            Usuario_añadirIncidente = Usuarios_ComboBox.Text;
+            tipo_añadirIncidente = combo.Text;
+			if (Usuarios_ComboBox.SelectedItem is ComboBoxItem selectedItem)
+			{
+				Usuario_añadirIncidente = selectedItem.Tag.ToString();
+			}
             MessageBox.Show("Incidente registrado exitosamente.", "¡Aviso!", 
                 MessageBoxButton.OK, MessageBoxImage.Information);
             DialogResult = true;
@@ -135,6 +181,6 @@ namespace FrontEndWPF
 
         /* Método relacionado al ComboBox, este se encarga de poder guardar -
          * los usuarios que estan registrados en el sistema.*/
-        public List<string> NombreUsuarios { get; } = new List<string>();
+       
     }
 }

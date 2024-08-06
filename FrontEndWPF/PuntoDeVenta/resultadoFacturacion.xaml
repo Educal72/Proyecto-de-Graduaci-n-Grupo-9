@@ -53,8 +53,8 @@
                 <SolidColorBrush Color="#FFABADB3" Opacity="0"/>
             </TextBox.BorderBrush>
         </TextBox>
-        <Button Content="Imprimir" HorizontalAlignment="Left" Margin="250,63,0,0" Grid.Row="3" VerticalAlignment="Top" Height="60" Width="115" FontFamily="Roboto" FontSize="24" Click="Button_Click_1"/>
-        <Button Content="Cerrar" HorizontalAlignment="Left" Margin="130,63,0,0" Grid.Row="3" VerticalAlignment="Top" Height="60" Width="115" Click="Button_Click" FontSize="24" FontFamily="Roboto"/>
+        <Button Content="Imprimir" HorizontalAlignment="Left" Margin="250,63,0,0" Grid.Row="3" VerticalAlignment="Top" Height="60" Width="115" FontFamily="Roboto" FontSize="24" Click="Button_Click_1" Foreground="#fafafa" Background="#28a745"/>
+        <Button Content="Cerrar" HorizontalAlignment="Left" Margin="130,63,0,0" Grid.Row="3" VerticalAlignment="Top" Height="60" Width="115" Click="Button_Click" FontSize="24" FontFamily="Roboto" Foreground="#fafafa" Background="#dc3545"/>
         <Rectangle Height="4" Margin="0,58,-5,0" Stroke="Black" VerticalAlignment="Top" Fill="Black"/>
         <Rectangle HorizontalAlignment="Center" Height="5" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Width="520" Fill="Black" Margin="0,63,0,0" Grid.RowSpan="2"/>
         <Rectangle HorizontalAlignment="Center" Height="5" Grid.Row="3" Stroke="Black" VerticalAlignment="Top" Width="520" Fill="Black"/>
