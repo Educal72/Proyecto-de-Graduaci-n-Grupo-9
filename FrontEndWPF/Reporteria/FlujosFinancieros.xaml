@@ -171,9 +171,9 @@
 
     <Grid>
         <!-- Dropdown para seleccionar método -->
-        <ComboBox Name="PrestamosComboBox" 
+        <!--<ComboBox Name="PrestamosComboBox" 
                   Width="125" 
-                  Margin="105,20,0,0" 
+                  Margin="81,26,0,0" 
                   VerticalAlignment="Top" 
                   HorizontalAlignment="Left"
                   IsEditable="True"
@@ -181,11 +181,11 @@
             Style="{StaticResource PlaceholderComboBoxStyle}"
             SelectionChanged="PrestamosComboBox_SelectionChanged" Height="32">
             <ComboBoxItem Content="GetAllPrestamos"/>
-        </ComboBox>
+        </ComboBox>-->
 
-        <ComboBox Name="InversionesComboBox" 
+        <!--<ComboBox Name="InversionesComboBox" 
                   Width="125" 
-                  Margin="312,20,0,0" 
+                  Margin="312,26,0,0" 
                   VerticalAlignment="Top" 
                   HorizontalAlignment="Left"
                   IsEditable="True"
@@ -193,11 +193,11 @@
             Style="{StaticResource PlaceholderComboBoxStyle}"
             SelectionChanged="InversionesComboBox_SelectionChanged" RenderTransformOrigin="0.12,0.159" Height="32">
             <ComboBoxItem Content="GetAllInversiones"/>
-        </ComboBox>
+        </ComboBox>-->
 
-        <ComboBox Name="FinanciamientosComboBox" 
+        <!--<ComboBox Name="FinanciamientosComboBox" 
                   Width="143" 
-                  Margin="509,20,0,0" 
+                  Margin="509,26,0,0" 
                   VerticalAlignment="Top" 
                   HorizontalAlignment="Left"
                   IsEditable="True"
@@ -205,11 +205,11 @@
             Style="{StaticResource PlaceholderComboBoxStyle}"
             SelectionChanged="FinanciamientosComboBox_SelectionChanged" RenderTransformOrigin="0.5,-0.114" Height="32">
             <ComboBoxItem Content="GetAllFinanciamientos"/>
-        </ComboBox>
+        </ComboBox>-->
 
         <ComboBox Name="NombreEmpresaComboBox" 
                   Width="143" 
-                  Margin="509,57,0,0" 
+                  Margin="509,63,0,0" 
                   VerticalAlignment="Top" 
                   HorizontalAlignment="Left"
                   IsEditable="True"
@@ -220,7 +220,7 @@
 
         <ComboBox Name="FinancieraComboBox" 
                   Width="125" 
-                  Margin="312,57,0,0" 
+                  Margin="312,63,0,0" 
                   VerticalAlignment="Top" 
                   HorizontalAlignment="Left"
                   IsEditable="True"
@@ -230,7 +230,7 @@
         </ComboBox>
         <ComboBox Name="PrestamoEmpleadoComboBox" 
                   Width="125" 
-                  Margin="105,57,0,0" 
+                  Margin="81,63,0,0" 
                   VerticalAlignment="Top" 
                   HorizontalAlignment="Left"
                   IsEditable="True"
@@ -245,11 +245,41 @@
        FontSize="16" 
        FontWeight="Bold"
        Foreground="White"
-       Margin="10,17,0,0"/>
+       Margin="10,24,0,0"/>
 
         <Wpf:WebView2 Name="webView" Source="{Binding PDFSource}" Margin="0,100,0,0"/>
-        <Button Content="Limpiar Filtros" Margin="0,20,10,0" VerticalAlignment="Top" Height="38" Foreground="#343a40" Background="#ffc107"
+        <Button Content="Limpiar Filtros" Margin="0,46,10,0" VerticalAlignment="Top" Height="38" Foreground="#343a40" Background="#ffc107"
             FontFamily="Roboto" FontSize="16" Click="Limpiar_Click" HorizontalAlignment="Right" Width="111"/>
+        <Button Content="Ver todos" Margin="0,33,594,0" Foreground="#fafafa" Background="#17a2b8"
+            VerticalAlignment="Top" Height="25"
+            FontFamily="Roboto" FontSize="12" Click="verPrestamos" HorizontalAlignment="Right" Width="125"/>
+        <Button Content="Ver todos" Margin="0,33,363,0" Foreground="#fafafa" Background="#17a2b8"
+            VerticalAlignment="Top" Height="27"
+            FontFamily="Roboto" FontSize="12" Click="verInversiones" HorizontalAlignment="Right" Width="125"/>
+        <Button Content="Ver todos" Margin="0,33,148,0" Foreground="#fafafa" Background="#17a2b8"
+            VerticalAlignment="Top" Height="27"
+            FontFamily="Roboto" FontSize="12" Click="verFinanciamientos" HorizontalAlignment="Right" Width="143"/>
+        <Label Content="Préstamos" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top" 
+            FontSize="20" 
+            FontWeight="Bold"
+            Foreground="Green"
+            Margin="76,-9,0,0"/>
+        <Label Content="Inversiones" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top" 
+            FontSize="20" 
+            FontWeight="Bold"
+            Foreground="#ffc107"
+            Margin="312,-9,0,0"/>
+        <Label Content="Financiamientos" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top" 
+            FontSize="20" 
+            FontWeight="Bold"
+            Foreground="Red"
+            Margin="509,-9,0,0"/>
     </Grid>
 
 </UserControl>

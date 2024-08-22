@@ -431,50 +431,50 @@ namespace FrontEndWPF.Reporteria
 
 
 
-        private void PrestamosComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            FlujosFinancierosViewModel flujosFinancierosViewModel = new FlujosFinancierosViewModel();
-            var selectedMethod = ((ComboBoxItem)PrestamosComboBox.SelectedItem).Content.ToString();
+        //private void PrestamosComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    FlujosFinancierosViewModel flujosFinancierosViewModel = new FlujosFinancierosViewModel();
+        //    var selectedMethod = ((ComboBoxItem)PrestamosComboBox.SelectedItem).Content.ToString();
 
-            switch (selectedMethod)
-            {
-                case "GetAllPrestamos":
-                    // Llama al método para obtener todos los préstamos y actualiza el WebView2
-                    prestamos = flujosFinancierosViewModel.GetAllPrestamos();
-                    GenerarPDF();
-                    break;
-            }
-        }
+        //    switch (selectedMethod)
+        //    {
+        //        case "GetAllPrestamos":
+        //            // Llama al método para obtener todos los préstamos y actualiza el WebView2
+        //            prestamos = flujosFinancierosViewModel.GetAllPrestamos();
+        //            GenerarPDF();
+        //            break;
+        //    }
+        //}
 
-        private void InversionesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            FlujosFinancierosViewModel flujosFinancierosViewModel = new FlujosFinancierosViewModel();
-            var selectedMethod = ((ComboBoxItem)InversionesComboBox.SelectedItem).Content.ToString();
+        //private void InversionesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    FlujosFinancierosViewModel flujosFinancierosViewModel = new FlujosFinancierosViewModel();
+        //    var selectedMethod = ((ComboBoxItem)InversionesComboBox.SelectedItem).Content.ToString();
 
-            switch (selectedMethod)
-            {
-                case "GetAllInversiones":
-                    // Llama al método para obtener todos los préstamos y actualiza el WebView2
-                    inversiones = flujosFinancierosViewModel.GetAllInversiones();
-                    GenerarPDFALLInversiones();
-                    break;
-            }
-        }
+        //    switch (selectedMethod)
+        //    {
+        //        case "GetAllInversiones":
+        //            // Llama al método para obtener todos los préstamos y actualiza el WebView2
+        //            inversiones = flujosFinancierosViewModel.GetAllInversiones();
+        //            GenerarPDFALLInversiones();
+        //            break;
+        //    }
+        //}
 
-        private void FinanciamientosComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            FlujosFinancierosViewModel flujosFinancierosViewModel = new FlujosFinancierosViewModel();
-            var selectedMethod = ((ComboBoxItem)FinanciamientosComboBox.SelectedItem).Content.ToString();
+        //private void FinanciamientosComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    FlujosFinancierosViewModel flujosFinancierosViewModel = new FlujosFinancierosViewModel();
+        //    var selectedMethod = ((ComboBoxItem)FinanciamientosComboBox.SelectedItem).Content.ToString();
 
-            switch (selectedMethod)
-            {
-                case "GetAllFinanciamientos":
-                    // Llama al método para obtener todos los préstamos y actualiza el WebView2
-                    financiamientos = flujosFinancierosViewModel.GetAllFinanciamientos();
-                    GenerarPDFALLFinanciamientos();
-                    break;
-            }
-        }
+        //    switch (selectedMethod)
+        //    {
+        //        case "GetAllFinanciamientos":
+        //            // Llama al método para obtener todos los préstamos y actualiza el WebView2
+        //            financiamientos = flujosFinancierosViewModel.GetAllFinanciamientos();
+        //            GenerarPDFALLFinanciamientos();
+        //            break;
+        //    }
+        //}
 
         private void Limpiar_Click(object sender, RoutedEventArgs e)
         {
@@ -530,6 +530,37 @@ namespace FrontEndWPF.Reporteria
                     MessageBox.Show("El ID seleccionado no es válido.");
                 }
             }
+        }
+
+        private void verPrestamos(object sender, RoutedEventArgs e)
+        {
+            FlujosFinancierosViewModel flujosFinancierosViewModel = new FlujosFinancierosViewModel();
+            //var selectedMethod = ((ComboBoxItem)PrestamosComboBox.SelectedItem).Content.ToString();
+
+            // Llama al método para obtener todos los préstamos y actualiza el WebView2
+            prestamos = flujosFinancierosViewModel.GetAllPrestamos();
+            GenerarPDF();
+
+        }
+
+        private void verInversiones(object sender, RoutedEventArgs e)
+        {
+            FlujosFinancierosViewModel flujosFinancierosViewModel = new FlujosFinancierosViewModel();
+            //var selectedMethod = ((ComboBoxItem)PrestamosComboBox.SelectedItem).Content.ToString();
+
+            // Llama al método para obtener todos los préstamos y actualiza el WebView2
+            inversiones = flujosFinancierosViewModel.GetAllInversiones();
+            GenerarPDFALLInversiones();
+        }
+
+        private void verFinanciamientos(object sender, RoutedEventArgs e)
+        {
+            FlujosFinancierosViewModel flujosFinancierosViewModel = new FlujosFinancierosViewModel();
+            //var selectedMethod = ((ComboBoxItem)PrestamosComboBox.SelectedItem).Content.ToString();
+
+            // Llama al método para obtener todos los préstamos y actualiza el WebView2
+            financiamientos = flujosFinancierosViewModel.GetAllFinanciamientos();
+            GenerarPDFALLFinanciamientos();
         }
     }
 }
