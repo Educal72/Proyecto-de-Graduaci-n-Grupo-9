@@ -15,13 +15,30 @@ namespace FrontEndWPF.Empleados
     {
         private PermisoDeAusenciaViewModel viewModel;
         private List<UsuarioEmpleado> usuarios; // Lista de usuarios
+        Conexion conexion = new Conexion();
         public PermisoAusenciaCrear()
         {
             InitializeComponent();
             viewModel = new PermisoDeAusenciaViewModel();
             DataContext = viewModel; // Enlaza el ViewModel con el DataContext
             CargarUsuarios(); // Cargar los usuarios al inicializar la ventana
-        }
+			if (SesionUsuario.Instance.rol == "Salonero")
+			{
+
+				object IdEmpleado = conexion.getIdEmpleadoFromIdUsuario(SesionUsuario.Instance.id);
+
+				foreach (UsuarioEmpleado item in UsuarioComboBox.Items)
+				{
+					if (item.Id != null && item.Id.Equals(IdEmpleado))
+					{
+						UsuarioComboBox.SelectedItem = item;
+						break;
+					}
+
+				}
+				UsuarioComboBox.IsEnabled = false;
+			}
+		}
         private void CargarUsuarios()
         {
             // Llama al método dropdownUsuarios del ViewModel para obtener la lista de usuarios

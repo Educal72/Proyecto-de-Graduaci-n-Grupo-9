@@ -21,7 +21,6 @@
     <PackageReference Include="MahApps.Metro" Version="2.4.10" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2651.64" />
     <PackageReference Include="Pdfium.Net.SDK" Version="4.91.2704" />
-    <PackageReference Include="PdfiumViewer" Version="2.13.0" />
     <PackageReference Include="PdfPig" Version="0.1.8" />
     <PackageReference Include="PdfSharp" Version="6.1.1" />
     <PackageReference Include="RawInput.Sharp" Version="0.1.3" />
@@ -44,7 +43,16 @@
     <Compile Update="Empleados\editarEmpleado.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Empleados\InicidentesEmpleado.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Empleados\nuevaFAQ.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Empleados\DesvinculacionesEmpleado.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Empleados\PermisoAusenciaEmpleado.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Index\Impuesto.xaml.cs">
@@ -80,6 +88,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Empleados\DesvinculacionesEmpleado.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

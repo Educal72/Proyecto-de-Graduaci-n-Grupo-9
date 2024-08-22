@@ -6,6 +6,48 @@
       mc:Ignorable="d" 
       Title="Inventario" Background="Black" Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top">
     <Page.Resources>
+        <Style x:Key="BootstrapToggleButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Background" Value="#6c757d"/>
+            <!-- Default background color -->
+            <Setter Property="BorderBrush" Value="#6c757d"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="5,3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="border"
+                    CornerRadius="5"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- Checked state -->
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#007bff"/>
+                                <!-- Bootstrap primary color -->
+                                <Setter TargetName="border" Property="BorderBrush" Value="#007bff"/>
+                            </Trigger>
+                            <!-- Mouse over state -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#5a6268"/>
+                                <!-- Bootstrap hover color -->
+                                <Setter TargetName="border" Property="BorderBrush" Value="#5a6268"/>
+                            </Trigger>
+                            <!-- Disabled state -->
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#c0c0c0"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#c0c0c0"/>
+                                <Setter Property="Foreground" Value="#6c757d"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -61,6 +103,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
         <!-- Estilo para el Thumb -->
         <Style x:Key="CustomThumb" TargetType="Thumb">
             <Setter Property="Height" Value="Auto"/>
@@ -108,9 +151,10 @@
     <Grid Width="Auto" Height="Auto" VerticalAlignment="Center" Background="Black" HorizontalAlignment="Stretch" >
         <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727" HorizontalAlignment="Stretch"/>
         <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
-        <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" Margin="0,58,13,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" RenderTransformOrigin="0.5,1.289" HorizontalAlignment="Right" Width="280"/>
-        <Button VerticalAlignment="Top" Margin="0,102,13,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Salir" Background="#FFABD904" Click="Button_Click" HorizontalAlignment="Right" Width="90"/>
-        <Label x:Name="user" Content="Usuario: Admin" Margin="0,14,16,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" RenderTransformOrigin="0.514,0.567" HorizontalAlignment="Right" Width="Auto"/>
+        <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" Margin="0,58,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" RenderTransformOrigin="0.5,1.289" HorizontalAlignment="Right" Width="280"/>
+        <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Fichaje" Background="#FFABD904" Click="Fichaje_Click" VerticalAlignment="Top" Margin="0,102,105,0" HorizontalAlignment="Right" Width="100"/>
+        <Button VerticalAlignment="Top" Margin="0,102,10,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Background="#FFABD904" Click="Button_Click" HorizontalAlignment="Right" Width="90"/>
+        <Label x:Name="user" Content="Usuario: Admin" Margin="0,14,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" RenderTransformOrigin="0.514,0.567" HorizontalAlignment="Right" Width="443" HorizontalContentAlignment="Right"/>
         <Grid Margin="10,195,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -124,10 +168,11 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            
-            
+
+
 
             <Label Content="Inventario" 
                            Margin="0,0,0,0" 
@@ -140,7 +185,7 @@
                            VerticalContentAlignment="Center"
                        Grid.Row="0" Grid.Column="0"
                        />
-                <Button Content="Añadir" 
+            <Button Content="Añadir" 
                             Margin="0,0,10,0" 
                             VerticalAlignment="Top" 
                             HorizontalAlignment="Right"
@@ -151,7 +196,7 @@
                             Click="Button_Click_3"
                             Grid.Row="0" Grid.Column="1"
                             />
-                <Button Content="Editar" 
+            <Button Content="Editar" 
                             Margin="0,0,10,0" 
                             VerticalAlignment="Top" 
                             Height="75" 
@@ -161,7 +206,7 @@
                             FontSize="24" 
                             Grid.Row="0" Grid.Column="2"
                             Click="Button_Click_4"/>
-                <Button Content="Eliminar" 
+            <Button Content="Eliminar" 
                             Margin="0,0,10,0" 
                             VerticalAlignment="Top" 
                             Height="75" 
@@ -171,8 +216,8 @@
                             FontFamily="Roboto" 
                             Click="Button_Click_1"  Foreground="#fafafa" Background="#dc3545"
                             Grid.Row="0" Grid.Column="3"/>
-                
-                <Label Content="Productos" 
+
+            <Label Content="Productos" 
                            VerticalAlignment="Top" 
                            FontFamily="Roboto" 
                            FontWeight="Bold" 
@@ -181,7 +226,7 @@
                            Margin="0,0,0,0" 
                            Height="75"  Grid.Row="0" Grid.Column="4"
                            VerticalContentAlignment="Center"/>
-                <Button Content="Añadir" 
+            <Button Content="Añadir" 
                             Margin="0,0,10,0" 
                             VerticalAlignment="Top" 
                             Height="75" 
@@ -189,7 +234,7 @@
                             FontFamily="Roboto" 
                             FontSize="24" Grid.Row="0" Grid.Column="5"
                             Click="Button_Click_5" HorizontalAlignment="Right"/>
-                <Button Content="Editar" 
+            <Button Content="Editar" 
                             Margin="0,0,10,0" 
                             VerticalAlignment="Top" 
                             Height="75" 
@@ -197,56 +242,58 @@
                             FontFamily="Roboto" Foreground="#343a40" Background="#ffc107"
                             FontSize="24" Grid.Row="0" Grid.Column="6"
                             Click="Button_Click_6" HorizontalAlignment="Right"/>
-                <Button Content="Eliminar" 
-                            Margin="0,0,0,0" 
-                            VerticalAlignment="Top" 
+            <Button Content="Inactivo" 
+                            VerticalAlignment="Center" 
                             Height="75" 
                             Width="115" 
                             FontSize="24" Foreground="#fafafa" Background="#dc3545"
-                            FontFamily="Roboto" Grid.Row="0" Grid.Column="7"
-                            Click="Button_Click_2" HorizontalAlignment="Right"/>
+                            FontFamily="Roboto" Grid.Column="7"
+                            Click="Button_Click_2" HorizontalAlignment="Center"/>
 
-                <DataGrid x:Name="InventarioGrid" HorizontalScrollBarVisibility="Hidden"  VerticalScrollBarVisibility="Auto"
+            <DataGrid x:Name="InventarioGrid" HorizontalScrollBarVisibility="Hidden"  VerticalScrollBarVisibility="Auto"
                           FontFamily="Roboto" 
                           FontSize="18" 
                           ColumnWidth="*" IsReadOnly="True" IsHitTestVisible="True"
-                          Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Margin="0,5,10,10" VerticalAlignment="Stretch" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
-                        <DataGridTextColumn Header="Categoría" Binding="{Binding Cantidad}" Width="*"/>
-                        <DataGridTextColumn Header="Precio" Binding="{Binding Precio}" Width="*"/>
-                        <DataGridTemplateColumn Header="Activo" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox IsChecked="{Binding Activo}" IsEnabled="False" HorizontalAlignment="Center"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                          Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Margin="0,0,10,10" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
+                    <DataGridTextColumn Header="Categoría" Binding="{Binding Cantidad}" Width="*"/>
+                    <DataGridTextColumn Header="Precio" Binding="{Binding Precio}" Width="*"/>
+                    <DataGridTemplateColumn Header="Activo" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Activo}" IsEnabled="False" HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
 
             <DataGrid x:Name="ProductosGrid" 
                           FontFamily="Roboto" 
                           FontSize="18"  
                           ColumnWidth="*" IsReadOnly="True" IsHitTestVisible="True"
-                          Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="4" Margin="5,5,0,10" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Hidden" AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto">
+                          Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="4" Margin="5,0,0,10" HorizontalScrollBarVisibility="Hidden" AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto">
 
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Código" Binding="{Binding Codigo}" Width="*"/>
-                        <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="Auto"/>
-                        <DataGridTextColumn Header="Categoría" Binding="{Binding Categoria}" Width="*"/>
-                        <DataGridTextColumn Header="Precio" Binding="{Binding Precio}" Width="*"/>
-                        <DataGridTemplateColumn Header="Activo" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox IsChecked="{Binding Activo}" IsEnabled="False" HorizontalAlignment="Center"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-          
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Código" Binding="{Binding Codigo}" Width="*"/>
+                    <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="Auto"/>
+                    <DataGridTextColumn Header="Categoría" Binding="{Binding Categoria}" Width="*"/>
+                    <DataGridTextColumn Header="Precio" Binding="{Binding Precio}" Width="*"/>
+                    <DataGridTemplateColumn Header="Activo" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Activo}" IsEnabled="False" HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Label Content="Código: " VerticalAlignment="Center" Grid.Row="1" Grid.Column="4"  Foreground="White" FontSize="20" FontFamily="Roboto" Height="50" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,42,0" HorizontalAlignment="Right" Width="83" />
+            <TextBox x:Name="codigo" Margin="83,10,10,10" Grid.Row="1" Grid.Column="5"  Foreground="Black" FontSize="18" FontFamily="Roboto" Padding="5,5,5,5" Grid.ColumnSpan="2" VerticalContentAlignment="Center"/>
+            <Button Grid.Column="7" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Height="30" Width="115" FontFamily="Roboto" FontSize="18"  Foreground="#fafafa" Background="#007bff" Content="Buscar" Click="Button_Click_7"/>
+            <Button Grid.Column="4" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Height="30" Width="200" FontFamily="Roboto" FontSize="18"  Foreground="#fafafa" Background="#17a2b8" Content="Limpiar Busqueda" Click="Button_Click_8" IsCancel="True" Margin="16,0,0,0"/>
+
         </Grid>
-
     </Grid>
 </Page>

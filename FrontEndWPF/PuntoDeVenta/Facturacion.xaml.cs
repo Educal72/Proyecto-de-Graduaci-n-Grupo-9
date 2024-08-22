@@ -23,6 +23,7 @@ using FrontEndWPF.Services;
 using System.Globalization;
 using FrontEndWPF.ViewModel;
 using System.Text.RegularExpressions;
+using FrontEndWPF.Index;
 
 namespace FrontEndWPF
 {
@@ -37,6 +38,8 @@ namespace FrontEndWPF
 		List<carritoItem> carritoItems = new List<carritoItem>();
 		OrdenesViewModel Orden = new OrdenesViewModel();
 		FacturaViewModel Factura = new FacturaViewModel();
+		FichajesViewModel fichajesViewModel = new FichajesViewModel();
+		ClienteViewModel clienteViewModel = new ClienteViewModel();
 		private decimal puntosDisponibles = 0;
 		private bool isAsociado = false;
 
@@ -192,7 +195,7 @@ namespace FrontEndWPF
 				puntosDisponibles = clienteAsociado.puntosDisponibles;
 				isAsociado = clienteAsociado.isAsociado;
 				descuento.Text = "0";
-				puntos.Content = "Usar Puntos";
+				puntos.Content = "Puntos";
 				
 			}
 		}
@@ -222,9 +225,16 @@ namespace FrontEndWPF
 
 				var orden = Orden.GetOrdenById(idOrden);
 				int resultadoCrear = Factura.CrearFactura(idOrden, Convert.ToDecimal(pagado.Text), Convert.ToInt32(Fiva), Convert.ToInt32(Fservicio), orden.Creacion, DateTime.Now, cajero, IdUsuario, IdCliente, Convert.ToDecimal(descuento.Text), puntosGanados, metodoPago, tipoVenta, Total);
+				
                 if (resultadoCrear != 0)
                 {
 					Factura.TerminarOrden(idOrden);
+					if (isAsociado && descuento.Text != "" || descuento.Text != "0") 
+					{
+						puntosGanados = Redondear(Total * 0.01m);
+						clienteViewModel.PuntosCliente(IdCliente, puntosGanados, Convert.ToDecimal(descuento.Text));
+					}
+					
                 }
                 resultadoFacturacion resultado = new resultadoFacturacion(isAsociado, total.Text, pagado.Text, carritoItems, Convert.ToDecimal(pagado.Text), Convert.ToInt32(Fiva), Convert.ToInt32(Fservicio), orden.Creacion, cajero, Convert.ToDecimal(descuento.Text), puntosGanados, metodoPago, tipoVenta, Total, Subtotal, cliente.Text, resultadoCrear, salonero.Text, Convert.ToDecimal(servicio.Text), impuestosGenerados);
 				resultado.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -277,21 +287,23 @@ namespace FrontEndWPF
 			}
 			else
 			{
-				if (puntos.Content.ToString() == "Usar Puntos")
+				if (puntos.Content.ToString() == "Puntos" && puntosDisponibles != 0)
 				{
 					descuento.Text = puntosDisponibles.ToString();
 					Total = Total - puntosDisponibles;
-					puntosGanados = (decimal)System.Math.Round(Total * 0.01m, 2);
+					puntosGanados = Math.Round(Total * 0.01m, 2);
 					total.Text = Total.ToString();
-					puntos.Content = "No Usar Puntos";
+					puntos.Content = "X";
 				}
-				else if (puntos.Content.ToString() == "No Usar Puntos")
+				else if (puntos.Content.ToString() == "X")
 				{
 					descuento.Text = "0";
 					Total = Total + puntosDisponibles;
-					puntosGanados = (decimal)System.Math.Round(Total * 0.01m, 2);
+					puntosGanados = 0;
 					total.Text = Total.ToString();
-					puntos.Content = "Usar Puntos";
+					puntos.Content = "Puntos";
+				} else if (puntosDisponibles == 0) {
+					MessageBox.Show("El cliente no tiene puntos disponibles.", "Sin Puntos", MessageBoxButton.OK, MessageBoxImage.Information);
 				}
 
 			}
@@ -322,5 +334,11 @@ namespace FrontEndWPF
 			return !regex.IsMatch(text);
 		}
 
-	}
+		private void Fichaje_Click(object sender, RoutedEventArgs e)
+		{
+			CodigoBarras barcodeWindow = new CodigoBarras(fichajesViewModel);
+			barcodeWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			barcodeWindow.ShowDialog(); // Abre la ventana emergente y espera su cierre
+		}
+    }
 }

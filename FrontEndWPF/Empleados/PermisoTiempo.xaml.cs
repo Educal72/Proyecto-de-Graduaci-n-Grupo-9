@@ -33,7 +33,7 @@ namespace FrontEndWPF
         }
         private void Button_Click(object sender, RoutedEventArgs e)
 		{
-            var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeTiempo;
+            var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeAusencia;
             if (selectedItem != null)
             {
                 if (_viewModel.UpdateEstadoPermisoDeTiempo(selectedItem.IdEmpleado, "No aprobado"))
@@ -55,7 +55,7 @@ namespace FrontEndWPF
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-            var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeTiempo;
+            var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeAusencia;
             if (selectedItem != null)
             {
                 if (_viewModel.UpdateEstadoPermisoDeTiempo(selectedItem.IdEmpleado, "Aprobado"))
@@ -77,7 +77,7 @@ namespace FrontEndWPF
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeTiempo;
+            var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeAusencia;
 
             if (selectedItem != null)
             {
@@ -87,7 +87,7 @@ namespace FrontEndWPF
                 if (result == MessageBoxResult.Yes)
                 {
                     // Intentar eliminar el registro de la base de datos
-                    if (_viewModel.EliminarPermisoDeTiempo(selectedItem.IdEmpleado))
+                    if (_viewModel.EliminarPermisoDeTiempo(selectedItem.Id))
                     {
                         // Eliminar el registro de la colección si la eliminación en la base de datos fue exitosa
                         _viewModel.PermisosDeTiempo.Remove(selectedItem);
@@ -121,7 +121,7 @@ namespace FrontEndWPF
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
             // Obtener el permiso seleccionado en el DataGrid
-            var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeTiempo;
+            var selectedItem = PermisoTiempoDataGrid.SelectedItem as PermisoDeAusencia;
 
             if (selectedItem != null)
             {

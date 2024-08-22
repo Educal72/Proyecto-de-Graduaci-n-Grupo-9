@@ -24,6 +24,7 @@ namespace FrontEndWPF
 	/// </summary>
 	public partial class FichajesControl : UserControl
 	{
+
 		Conexion conexion = new Conexion();
 		private StringBuilder barcode = new StringBuilder();
 		FichajesViewModel fichajesViewModel = new FichajesViewModel();

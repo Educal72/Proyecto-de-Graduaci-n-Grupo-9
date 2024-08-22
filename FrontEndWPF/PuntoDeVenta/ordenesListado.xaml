@@ -120,5 +120,6 @@
                     Margin="0,10,0,0" Click="Button_Click_2"/>
             </StackPanel>
         </Grid>
+        <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Fichaje" Background="#FFABD904" Click="Fichaje_Click" VerticalAlignment="Top" Margin="0,103,105,0" HorizontalAlignment="Right" Width="100"/>
     </Grid>
 </Page>

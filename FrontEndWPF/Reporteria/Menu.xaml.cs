@@ -1,4 +1,6 @@
 ﻿using FrontEndWPF.Empleados;
+using FrontEndWPF.Index;
+using FrontEndWPF.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +35,7 @@ namespace FrontEndWPF.Reporteria
 			timer.Tick += Timer_Tick;
 			timer.Start();
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
+			user.Content = "Usuario: " + SesionUsuario.Instance.nombre;
 		}
 
 		private void Timer_Tick(object sender, EventArgs e)
@@ -79,5 +82,12 @@ namespace FrontEndWPF.Reporteria
             NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
         }
 
+		private void Fichaje_Click(object sender, RoutedEventArgs e)
+		{
+			FichajesViewModel fichajesViewModel = new FichajesViewModel();
+			CodigoBarras barcodeWindow = new CodigoBarras(fichajesViewModel);
+			barcodeWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			barcodeWindow.ShowDialog(); // Abre la ventana emergente y espera su cierre
+		}
     }
 }

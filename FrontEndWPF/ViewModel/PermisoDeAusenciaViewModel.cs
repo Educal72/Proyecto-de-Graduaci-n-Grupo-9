@@ -52,7 +52,8 @@ namespace FrontEndWPF.ViewModel
             {
                 PermisoDeAusencia permiso = new PermisoDeAusencia
                 {
-                    IdEmpleado = (int)permisoDict["IdEmpleado"],
+                    Id = (int)permisoDict["Id"],
+					IdEmpleado = (int)permisoDict["IdEmpleado"],
                     NombreCompleto = GetUserByEmpleadoId((int)permisoDict["IdEmpleado"]),
                     FechaInicio = (DateTime)permisoDict["FechaInicio"],
                     FechaFin = (DateTime)permisoDict["FechaFin"],

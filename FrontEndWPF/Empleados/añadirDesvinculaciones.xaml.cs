@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static FrontEndWPF.Modelos.UserModel;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FrontEndWPF
@@ -39,7 +40,23 @@ namespace FrontEndWPF
         {
             InitializeComponent();
             PopulateFiltroComboBox();
-        }
+			if (SesionUsuario.Instance.rol == "Salonero")
+			{
+
+				string IdEmpleado = conexion.getCedulaFromUserId(SesionUsuario.Instance.id).ToString();
+
+				foreach (ComboBoxItem item in combo.Items)
+				{
+					if (item.Tag != null && item.Tag.Equals(IdEmpleado))
+					{
+						combo.SelectedItem = item;
+						break;
+					}
+
+				}
+				combo.IsEnabled = false;
+			}
+		}
 
 		private void PopulateFiltroComboBox()
 		{

@@ -30,8 +30,8 @@ namespace FrontEndWPF
 		{
 			InitializeComponent();
 			WindowState = WindowState.Maximized;
-			Uri iconUri = new Uri(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/icono.ico", UriKind.RelativeOrAbsolute);
-			this.Icon = BitmapFrame.Create(iconUri);
+			//Uri iconUri = new Uri(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/icono.ico", UriKind.RelativeOrAbsolute);
+			//this.Icon = BitmapFrame.Create(iconUri);
 			Login Pagina2 = new Login();
 			mainFrame.Navigate(Pagina2);
 

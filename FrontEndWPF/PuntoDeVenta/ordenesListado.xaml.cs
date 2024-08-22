@@ -11,6 +11,7 @@ using System.Windows.Navigation;
 using System.Windows.Threading;
 using FrontEndWPF;
 using static FrontEndWPF.PuntoVenta;
+using FrontEndWPF.Index;
 
 namespace FrontEndWPF
 {
@@ -22,7 +23,7 @@ namespace FrontEndWPF
 	{
 		private DispatcherTimer timer;
 		public ObservableCollection<Order> Orders { get; set; }
-
+		FichajesViewModel fichajesViewModel = new FichajesViewModel();
 		OrdenesViewModel ordenesViewModel = new OrdenesViewModel();
 		public ordenesListado()
 		{
@@ -142,7 +143,14 @@ namespace FrontEndWPF
 				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
 			}
 		}
-	}
+
+		private void Fichaje_Click(object sender, RoutedEventArgs e)
+		{
+			CodigoBarras barcodeWindow = new CodigoBarras(fichajesViewModel);
+			barcodeWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			barcodeWindow.ShowDialog(); // Abre la ventana emergente y espera su cierre
+		}
+    }
 
 	public class ProductosOrden
 	{

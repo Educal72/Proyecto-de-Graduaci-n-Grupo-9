@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
+using static FrontEndWPF.Modelos.InventarioModel;
 
 namespace FrontEndWPF
 {
@@ -67,12 +69,7 @@ namespace FrontEndWPF
             bool eliminado = conexion.EliminarProducto(id);
             if (eliminado)
             {
-                var producto = Productos.FirstOrDefault(p => p.Id == id);
-                if (producto != null)
-                {
-                    Productos.Remove(producto);
-                }
-                OnPropertyChanged(nameof(Productos));
+                LoadProductosData();
             }
             return eliminado;
         }
@@ -101,7 +98,53 @@ namespace FrontEndWPF
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
+
+		public ObservableCollection<Producto> GetProductoEspecifico(int Codigo)
+		{
+            
+			var productos = new List<Producto>();
+
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				if (connection != null)
+				{
+					string query = "SELECT Id, Codigo, Nombre, Categoria, Precio, Activo FROM Productos WHERE Codigo = @Codigo;";
+					using (SqlCommand command = new SqlCommand(query, connection))
+					{
+						try
+						{
+							command.Parameters.AddWithValue("@Codigo", Codigo);
+							using (SqlDataReader reader = command.ExecuteReader())
+							{
+                                Productos.Clear();
+								while (reader.Read())
+								{
+									Producto producto = new Producto()
+									{
+										Id = Convert.ToInt32(reader["Id"]),
+										Codigo = Convert.ToInt32(reader["Codigo"]),
+										Nombre = reader["Nombre"].ToString(),
+										Categoria = reader["Categoria"].ToString(),
+										Precio = Convert.ToDecimal(reader["Precio"]),
+										Activo = Convert.ToBoolean(reader["Activo"])
+									};
+									Productos.Add(producto);
+								}
+							}
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine("Error executing query: " + ex.Message);
+						}
+					}
+
+					conexion.CloseConnection(connection);
+				}
+			}
+
+			return Productos;
+		}
+	}
 
     public class Producto
     {

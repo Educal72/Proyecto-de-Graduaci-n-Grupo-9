@@ -13,8 +13,8 @@ namespace FrontEndWPF.ViewModel
 {
     public class PermisoDeTiempoViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<PermisoDeTiempo> _permisosDeTiempo;
-        public ObservableCollection<PermisoDeTiempo> PermisosDeTiempo
+        public ObservableCollection<PermisoDeAusencia> _permisosDeTiempo;
+        public ObservableCollection<PermisoDeAusencia> PermisosDeTiempo
         {
             get { return _permisosDeTiempo; }
             set
@@ -38,7 +38,7 @@ namespace FrontEndWPF.ViewModel
 
         public PermisoDeTiempoViewModel()
         {
-            _permisosDeTiempo = new ObservableCollection<PermisoDeTiempo>();
+            _permisosDeTiempo = new ObservableCollection<PermisoDeAusencia>();
             _usuarios = new ObservableCollection<UserModel.UsuarioEmpleado>(); // Inicialización de la colección de usuarios
             LoadPermisosDeTiempo();
             LoadUsuarios(); // Cargar usuarios al inicializar el ViewModel
@@ -52,9 +52,10 @@ namespace FrontEndWPF.ViewModel
 
             foreach (var permisoDict in permisosList)
             {
-                PermisoDeTiempo permiso = new PermisoDeTiempo
+                PermisoDeAusencia permiso = new PermisoDeAusencia
                 {
-                    IdEmpleado = (int)permisoDict["IdEmpleado"],
+                    Id = (int)permisoDict["Id"],
+					IdEmpleado = (int)permisoDict["IdEmpleado"],
                     NombreCompleto = GetUserByEmpleadoId((int)permisoDict["IdEmpleado"]),
                     FechaInicio = (DateTime)permisoDict["FechaInicio"],
                     FechaFin = (DateTime)permisoDict["FechaFin"],
@@ -107,7 +108,7 @@ namespace FrontEndWPF.ViewModel
 
                 if (creado)
                 {
-                    PermisoDeTiempo nuevoPermiso = new PermisoDeTiempo
+                    PermisoDeAusencia nuevoPermiso = new PermisoDeAusencia
                     {
                         IdEmpleado = idEmpleado,
                         FechaInicio = fechaInicio,

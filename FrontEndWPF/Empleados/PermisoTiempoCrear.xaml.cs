@@ -11,6 +11,7 @@ namespace FrontEndWPF
     public partial class PermisoTiempoCrear : Window
     {
         private PermisoDeTiempoViewModel viewModel;
+        Conexion conexion = new Conexion();
         private List<UsuarioEmpleado> usuarios; // Lista de usuarios
 
         public PermisoTiempoCrear()
@@ -19,6 +20,22 @@ namespace FrontEndWPF
             viewModel = new PermisoDeTiempoViewModel();
             DataContext = viewModel; // Enlaza el ViewModel con el DataContext
             CargarUsuarios(); // Cargar los usuarios al inicializar la ventana
+            if (SesionUsuario.Instance.rol == "Salonero")
+            {
+
+                object IdEmpleado = conexion.getIdEmpleadoFromIdUsuario(SesionUsuario.Instance.id);
+
+				foreach (UsuarioEmpleado item in UsuarioComboBox.Items)
+                {
+                    if (item.Id != null && item.Id.Equals(IdEmpleado))
+                    {
+                        UsuarioComboBox.SelectedItem = item;
+                        break;
+                    }
+
+                }
+                UsuarioComboBox.IsEnabled = false;
+            }
         }
 
         private void CargarUsuarios()

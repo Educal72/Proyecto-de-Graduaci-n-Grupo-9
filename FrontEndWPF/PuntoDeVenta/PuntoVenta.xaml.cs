@@ -1,5 +1,7 @@
-﻿using FrontEndWPF.Reporteria;
+﻿using FrontEndWPF.Index;
+using FrontEndWPF.Reporteria;
 using FrontEndWPF.ViewModel;
+using PdfSharp.Drawing.BarCodes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,8 +31,8 @@ namespace FrontEndWPF
     public partial class PuntoVenta : UserControl
     {
 		private DispatcherTimer timer;
-
-
+		public FichajesViewModel fichajesViewModel = new FichajesViewModel();
+		private StringBuilder barcode = new StringBuilder();
 		ProductosViewModel productos = new ProductosViewModel();
 		OrdenesViewModel ordenes = new OrdenesViewModel();
 		int ordenId = 0;
@@ -50,6 +52,7 @@ namespace FrontEndWPF
 			buscar.Focus();
 			ordenId = orden;
 			LoadOrden(ordenId);
+			user.Content = "Usuario: " + SesionUsuario.Instance.nombre;
 		}
 
 		public async void LoadOrden(int ordenId) {
@@ -358,5 +361,14 @@ namespace FrontEndWPF
 				mainWindow.mainFrame.Navigate(new ordenesListado());
 			}
 		}
+
+		private void Fichaje_Click(object sender, RoutedEventArgs e)
+		{
+
+			CodigoBarras barcodeWindow = new CodigoBarras(fichajesViewModel);
+			barcodeWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			barcodeWindow.ShowDialog(); // Abre la ventana emergente y espera su cierre
+		}
+
 	}
 }

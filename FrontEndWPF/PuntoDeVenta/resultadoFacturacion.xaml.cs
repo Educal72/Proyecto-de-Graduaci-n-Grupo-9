@@ -44,8 +44,9 @@ namespace FrontEndWPF
 			pagado.Text = cantidadPagada;
 			total.Text = cantidadPagar;
 			vuelto.Text = (double.Parse(cantidadPagada) - double.Parse(cantidadPagar)).ToString();
-			if (isAsociado) {
-				puntos.Text = (double.Parse(cantidadPagar) * 0.01).ToString();
+			if (isAsociado && Descuento == 0.00m) {
+				decimal puntosGanados = (Convert.ToDecimal(cantidadPagar) * 0.01m);
+				puntos.Text = Redondear(puntosGanados).ToString("F2");
 			} else {
 				puntos.Text = "0";
 			}
@@ -67,8 +68,12 @@ namespace FrontEndWPF
 			salonero = Salonero;
 			servicioD = ServicioD;
 			impuestosGenerados = ImpuestosGenerados;
+			GenerarFactura();
 		}
-
+		static decimal Redondear(decimal value)
+		{
+			return (value % 5 == 0) ? value : (value + (5 - value % 5));
+		}
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			this.Close();
@@ -120,6 +125,44 @@ namespace FrontEndWPF
 			{
 				mainWindow.ChangePageToPuntoVenta();
 			}
+		}
+
+		private void GenerarFactura()
+		{
+			List<DetalleFactura> detalleFacturas = new List<DetalleFactura>();
+			foreach (var item in carritoItems)
+			{
+				var PrecioIMP = (decimal)System.Math.Round(item.Precio - (item.Precio * 0.13m));
+				var detalle = new DetalleFactura()
+				{
+					Producto = item.Nombre,
+					Cantidad = item.Cantidad,
+					PrecioUnitario = PrecioIMP
+				};
+				detalleFacturas.Add(detalle);
+			}
+
+			var factura = new FacturaDoc
+			{
+				NumeroFactura = facturaId.ToString(),
+				Recepcionista = cajero,
+				Cliente = cliente,
+				Fecha = fechacreacion,
+				Detalles = detalleFacturas,
+				SubTotal = subtotal,
+				Impuesto = impuestosGenerados,
+				Total = totalPagar,
+				Pagado = cantidadpagada,
+				Cambio = Convert.ToDecimal(vuelto.Text),
+				Puntos = puntosganados,
+				Tipo = tipo,
+				MetodoPago = metodopago,
+				Salonero = salonero,
+				Servicio = servicioD
+			};
+
+			var ventana = new Factura(factura);
+			ventana.ImprimirFactura(factura);
 		}
 
 		private void PrintHelloWorldAndOpenCashDrawer(string printerName)

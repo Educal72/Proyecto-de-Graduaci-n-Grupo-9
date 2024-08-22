@@ -30,7 +30,7 @@ namespace FrontEndWPF
 		public MenuPrincipal()
         {
             InitializeComponent();
-			user.Content = "Usuario: "+userRole;
+			user.Content = "Usuario: " + SesionUsuario.Instance.nombre;
 			timer = new DispatcherTimer();
 			timer.Interval = TimeSpan.FromSeconds(1);
 			timer.Tick += Timer_Tick;

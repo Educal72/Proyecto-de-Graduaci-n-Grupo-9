@@ -1,4 +1,6 @@
 ﻿using FrontEndWPF.Empleados;
+using FrontEndWPF.Index;
+using FrontEndWPF.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -37,6 +39,7 @@ namespace FrontEndWPF
 			timer.Tick += Timer_Tick;
 			timer.Start();
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
+			user.Content = "Usuario: " + SesionUsuario.Instance.nombre;
 			switch (SesionUsuario.Instance.rol)
 			{
 				case "Admin":
@@ -51,17 +54,6 @@ namespace FrontEndWPF
 					ControldePlanillas.Visibility = Visibility.Visible;
 					break;
 				case "Cajero":
-					ListadodeEmpleados.Visibility = Visibility.Hidden;
-					FichajesItem.Visibility = Visibility.Visible;
-					PermisosdeTiempo.Visibility = Visibility.Visible;
-					PermisosdeAusencia.Visibility = Visibility.Visible;
-					Incidentes.Visibility = Visibility.Visible;
-					PerfilesCompetenciales.Visibility = Visibility.Hidden;
-					Desvinculaciones.Visibility = Visibility.Visible;
-					FAQ.Visibility = Visibility.Visible;
-					ControldePlanillas.Visibility = Visibility.Hidden;
-					break;
-				case "Salonero":
 					ListadodeEmpleados.Visibility = Visibility.Hidden;
 					FichajesItem.Visibility = Visibility.Visible;
 					PermisosdeTiempo.Visibility = Visibility.Visible;
@@ -162,7 +154,7 @@ namespace FrontEndWPF
 			public DateTime Fecha { get; set; }  // Fecha en que ocurrió el incidente
 			public string Descripcion { get; set; }  // Descripción del incidente
 			public string Tipo { get; set; }  // Tipo de incidente (por ejemplo, "Entre Empleados", "Con Cliente")
-			public bool Estado { get; set; }
+			public string Estado { get; set; }
 		}
 		public class FAQS
 		{
@@ -218,5 +210,13 @@ namespace FrontEndWPF
 		{
 
         }
+
+		private void Fichaje_Click(object sender, RoutedEventArgs e)
+		{
+			FichajesViewModel fichajesViewModel = new FichajesViewModel();
+			CodigoBarras barcodeWindow = new CodigoBarras(fichajesViewModel);
+			barcodeWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			barcodeWindow.ShowDialog(); // Abre la ventana emergente y espera su cierre
+		}
     }
 }
