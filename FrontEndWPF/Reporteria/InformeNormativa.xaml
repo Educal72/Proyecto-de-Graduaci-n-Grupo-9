@@ -67,22 +67,25 @@
 
     <Grid>
 
-        <DataGrid HorizontalScrollBarVisibility="Hidden" x:Name="normativaDataGrid" AutoGenerateColumns="False" Margin="0,90,0,0" ColumnWidth="*">
+        <DataGrid HorizontalScrollBarVisibility="Hidden"
+                  x:Name="normativaDataGrid" 
+                  AutoGenerateColumns="False" 
+                  Margin="0,90,0,0" ColumnWidth="*">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Nombre Normativa" Binding="{Binding NombreNormativa}"/>
-                <DataGridTextColumn Header="Código Normativa" Binding="{Binding CodigoNormativa}"/>
-                <DataGridTextColumn Header="Descripción" Binding="{Binding Descripcion}"/>
-                <DataGridTextColumn Header="Fecha de Aplicación" Binding="{Binding FechaAplicacion}"/>
-                <DataGridTextColumn Header="Estado" Binding="{Binding Estado}"/>
-                <DataGridTemplateColumn Header="Descargar Normativa">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Descargar" Click="DescargarNormativa_Click"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Impuestos" Binding="{Binding Impuestos}" x:Name="ImpuestosDataGridTextColumn"/>
+                <DataGridTextColumn Header="Ingresos" Binding="{Binding Ingresos}" x:Name="IngresosDataGridTextColumn"/>
+                <DataGridTextColumn Header="Gastos" Binding="{Binding Gastos}" x:Name="GastosDataGridTextColumn"/>
+                
+                
+                <!--Estos son para mostrar o cambiar algo en especifico-->
+                <DataGridTextColumn Header="Retenciones"  Binding="{Binding Retenciones}" x:Name="RetencionesDataGridTextColumn"/>
+                <DataGridTextColumn Header="Estado financiero" Binding="{Binding EstadoFinanciero}" x:Name="EstadoFinancieroDataGridTextColumn"/>
+                <DataGridTextColumn Header="Datos de empleado" Binding="{Binding DatosEmpleado}"  x:Name="DatosEmpleadoDataGridTextColumn"/>
             </DataGrid.Columns>
         </DataGrid>
+        
+
         <Label Content="Informes de Normativas" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Background="#FF18A20C" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <Label.BorderBrush>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -91,7 +94,7 @@
                 </LinearGradientBrush>
             </Label.BorderBrush>
         </Label>
-        <TextBox HorizontalAlignment="Left" Margin="10,56,0,0" TextWrapping="Wrap" Text="Buscar..." VerticalAlignment="Top" Width="216" Height="16" RenderTransformOrigin="0.5,0.5">
+        <TextBox HorizontalAlignment="Left" Margin="10,56,0,0" TextWrapping="Wrap" Text="Buscar..." VerticalAlignment="Top" Width="142" Height="18" RenderTransformOrigin="0.5,0.5">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -101,6 +104,23 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <CheckBox Content="Solo ver Activos" HorizontalAlignment="Left" Margin="231,57,0,0" VerticalAlignment="Top" Foreground="#FFF1E5E5"/>
+
+        <Button HorizontalAlignment="Left" Margin="187,54,0,0" Content="Generar nuevo informe" 
+                VerticalAlignment="Top" Width="136" Height="20" RenderTransformOrigin="0.5,0.5" 
+                Foreground="#fafafa" Background="#28a745" Click="Generar_Informe_Click"/>
+
+        <Button HorizontalAlignment="Left" Margin="339,54,0,0" Content="Cambiar informe" 
+                VerticalAlignment="Top" Width="136" Height="20" RenderTransformOrigin="0.5,0.5" 
+                Foreground="#343a40" Background="#ffc107" Click="Cambiar_Informe_Click"/>
+
+        <Button HorizontalAlignment="Left" Margin="495,54,0,0" Content="Descartar informe" 
+                VerticalAlignment="Top" Width="136" Height="20" RenderTransformOrigin="0.5,0.5" 
+                Foreground="#fafafa" Background="#dc3545" Click="Descartar_Informe_Click"/>
+
+
+        <Button HorizontalAlignment="Left" Margin="646,54,0,0" Content="Descargar informe" 
+                VerticalAlignment="Top" Width="136" Height="20" RenderTransformOrigin="0.5,0.5" 
+                Foreground="Black" Background="DarkGray" Click="DescargarNormativa_Click"/>
+
     </Grid>
 </UserControl>
