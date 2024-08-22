@@ -209,34 +209,34 @@
 
         <ComboBox Name="NombreEmpresaComboBox" 
                   Width="143" 
-                  Margin="509,63,0,0" 
+                  Margin="509,62,0,0" 
                   VerticalAlignment="Top" 
                   HorizontalAlignment="Left"
                   IsEditable="True"
                   Text="Empresa" 
             Style="{StaticResource PlaceholderComboBoxStyle}"
-            SelectionChanged="NombreEmpresaComboBox_SelectionChanged" RenderTransformOrigin="0.5,-0.114" Height="32">
+            SelectionChanged="NombreEmpresaComboBox_SelectionChanged" RenderTransformOrigin="0.5,-0.114" Height="38">
         </ComboBox>
 
         <ComboBox Name="FinancieraComboBox" 
                   Width="125" 
-                  Margin="312,63,0,0" 
+                  Margin="312,62,0,0" 
                   VerticalAlignment="Top" 
                   HorizontalAlignment="Left"
                   IsEditable="True"
                   Text="Financiera" 
             Style="{StaticResource PlaceholderComboBoxStyle}"
-            SelectionChanged="FinancieraComboBox_SelectionChanged" RenderTransformOrigin="0.5,-0.114" Height="32">
+            SelectionChanged="FinancieraComboBox_SelectionChanged" RenderTransformOrigin="0.5,-0.114" Height="38">
         </ComboBox>
         <ComboBox Name="PrestamoEmpleadoComboBox" 
                   Width="125" 
-                  Margin="81,63,0,0" 
+                  Margin="94,61,0,0" 
                   VerticalAlignment="Top" 
                   HorizontalAlignment="Left"
                   IsEditable="True"
                   Text="Empleado" 
             Style="{StaticResource PlaceholderComboBoxStyle}"
-            SelectionChanged="PrestamoEmpleadoComboBox_SelectionChanged" RenderTransformOrigin="0.5,-0.114" Height="32">
+            SelectionChanged="PrestamoEmpleadoComboBox_SelectionChanged" RenderTransformOrigin="0.5,-0.114" Height="38">
         </ComboBox>
 
         <Label Content="Filtros:" 
@@ -245,41 +245,41 @@
        FontSize="16" 
        FontWeight="Bold"
        Foreground="White"
-       Margin="10,24,0,0"/>
+       Margin="0,21,0,0" RenderTransformOrigin="0.386,0.405"/>
 
         <Wpf:WebView2 Name="webView" Source="{Binding PDFSource}" Margin="0,100,0,0"/>
-        <Button Content="Limpiar Filtros" Margin="0,46,10,0" VerticalAlignment="Top" Height="38" Foreground="#343a40" Background="#ffc107"
+        <Button Content="Limpiar Filtros" Margin="0,57,10,0" VerticalAlignment="Top" Height="38" Foreground="#343a40" Background="#ffc107"
             FontFamily="Roboto" FontSize="16" Click="Limpiar_Click" HorizontalAlignment="Right" Width="111"/>
-        <Button Content="Ver todos" Margin="0,33,594,0" Foreground="#fafafa" Background="#17a2b8"
-            VerticalAlignment="Top" Height="25"
-            FontFamily="Roboto" FontSize="12" Click="verPrestamos" HorizontalAlignment="Right" Width="125"/>
-        <Button Content="Ver todos" Margin="0,33,363,0" Foreground="#fafafa" Background="#17a2b8"
-            VerticalAlignment="Top" Height="27"
-            FontFamily="Roboto" FontSize="12" Click="verInversiones" HorizontalAlignment="Right" Width="125"/>
-        <Button Content="Ver todos" Margin="0,33,148,0" Foreground="#fafafa" Background="#17a2b8"
-            VerticalAlignment="Top" Height="27"
-            FontFamily="Roboto" FontSize="12" Click="verFinanciamientos" HorizontalAlignment="Right" Width="143"/>
+        <Button Content="Ver todos" Margin="94,24,0,0" Foreground="#fafafa" Background="#17a2b8"
+            VerticalAlignment="Top" Height="32"
+            FontFamily="Roboto" FontSize="12" Click="verPrestamos" HorizontalAlignment="Left" Width="125"/>
+        <Button Content="Ver todos" Margin="312,25,0,0" Foreground="#fafafa" Background="#17a2b8"
+            VerticalAlignment="Top" Height="31"
+            FontFamily="Roboto" FontSize="12" Click="verInversiones" HorizontalAlignment="Left" Width="125"/>
+        <Button Content="Ver todos" Margin="509,25,0,0" Foreground="#fafafa" Background="#17a2b8"
+            VerticalAlignment="Top" Height="31"
+            FontFamily="Roboto" FontSize="12" Click="verFinanciamientos" HorizontalAlignment="Left" Width="143"/>
         <Label Content="Préstamos" 
             HorizontalAlignment="Left" 
             VerticalAlignment="Top" 
             FontSize="20" 
             FontWeight="Bold"
             Foreground="Green"
-            Margin="76,-9,0,0"/>
+            Margin="89,-13,0,0"/>
         <Label Content="Inversiones" 
             HorizontalAlignment="Left" 
             VerticalAlignment="Top" 
             FontSize="20" 
             FontWeight="Bold"
             Foreground="#ffc107"
-            Margin="312,-9,0,0"/>
+            Margin="305,-13,0,0"/>
         <Label Content="Financiamientos" 
             HorizontalAlignment="Left" 
             VerticalAlignment="Top" 
             FontSize="20" 
             FontWeight="Bold"
             Foreground="Red"
-            Margin="509,-9,0,0"/>
+            Margin="499,-13,0,0"/>
     </Grid>
 
 </UserControl>
