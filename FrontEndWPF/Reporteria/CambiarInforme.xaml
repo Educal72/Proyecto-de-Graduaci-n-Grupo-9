@@ -1,0 +1,140 @@
+﻿<Window x:Class="FrontEndWPF.Reporteria.CambiarInforme"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FrontEndWPF.Reporteria"
+        mc:Ignorable="d" Title="CambiarInforme"  Height="541" Width="560" WindowStyle="None"
+        ResizeMode="NoResize" AllowsTransparency="True" Background="White" BorderBrush="Black" BorderThickness="1">
+    <Window.Resources>
+        <!-- Estilos -->
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#005A9E"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Title -->
+        <Label Content="          Cambiar Informe" Grid.Row="0" Grid.ColumnSpan="3" FontSize="36" FontWeight="Bold" Margin="0,0,0,20" VerticalContentAlignment="Bottom"/>
+        <Label Content="¿Cual información desea cambiar o agregar?" Grid.Row="1" Grid.ColumnSpan="3" FontSize="16" Foreground="#FF5D5D5D" Margin="0,0,0,20"/>
+
+        
+        
+        <!-- Form Fields -->
+        <Label Content="Impuestos:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+        <ComboBox x:Name="Impuestos" Grid.Row="2" Grid.Column="1" Width="278" Height="30" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,9,0,10">
+            <ComboBoxItem Content="Total"/>
+            <ComboBoxItem Content="Mostrar"/>
+            <ComboBoxItem Content="No mostrar"/>
+        </ComboBox>
+
+        
+        
+        <Label Content="Ingresos:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+        <ComboBox x:Name="Ingresos" Grid.Row="3" Grid.Column="1" Width="278" Height="30" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,9,0,10">
+            <ComboBoxItem Content="Total"/>
+            <ComboBoxItem Content="Mostrar"/>
+            <ComboBoxItem Content="No mostrar"/>
+        </ComboBox>
+
+        
+        
+        <Label Content="Gastos:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
+        <ComboBox x:Name="Gastos" Grid.Row="4" Grid.Column="1" Width="278" Height="30" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,9,0,10">
+            <ComboBoxItem Content="Total"/>
+            <ComboBoxItem Content="Mostrar"/>
+            <ComboBoxItem Content="No mostrar"/>
+        </ComboBox>
+
+        
+        
+        <Label Content="Retenciones:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
+        <ComboBox x:Name="Retenciones" Grid.Row="5" Grid.Column="1" Width="278" Height="30" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,9,0,10">
+            <ComboBoxItem Content="Total"/>
+            <ComboBoxItem Content="Mostrar"/>
+            <ComboBoxItem Content="No mostrar"/>
+        </ComboBox>
+
+
+
+        <Label Content="Estado Financiero:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"/>
+        <ComboBox x:Name="Estado_Financiero" Grid.Row="6" Grid.Column="1" Width="278" Height="30" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,9,0,10">
+            <ComboBoxItem Content="Total"/>
+            <ComboBoxItem Content="Mostrar"/>
+            <ComboBoxItem Content="No mostrar"/>
+        </ComboBox>
+
+
+        
+        <Label Content="Datos Empleado:" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center"/>
+        <ComboBox x:Name="Datos_Empleado" Grid.Row="7" Grid.Column="1" Width="278" Height="30" HorizontalAlignment="Center" VerticalContentAlignment="Center" Margin="0,9,0,10">
+            <ComboBoxItem Content="Total"/>
+            <ComboBoxItem Content="Mostrar"/>
+            <ComboBoxItem Content="No mostrar"/>
+        </ComboBox>
+        
+        
+        
+        <!-- Buttons -->
+        <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button Content="Guardar" Click="Guardar_Click" Foreground="#fafafa" Background="#28a745" Height="40" Width="100"/>
+            <Button Content="Cancelar" Click="Cancelar_Click" Foreground="#fafafa" Background="#dc3545" Height="40" Width="100"/>
+        </StackPanel>
+    </Grid>
+</Window>

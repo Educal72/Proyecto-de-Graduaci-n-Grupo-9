@@ -186,7 +186,7 @@ namespace FrontEndWPF.ViewModel
 
 
 
-		private void AddPageNumbers(PdfDocument pdfDoc)
+		public void AddPageNumbers(PdfDocument pdfDoc)
         {
             int numberOfPages = pdfDoc.GetNumberOfPages();
             PdfFont font = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
