@@ -41,7 +41,6 @@ namespace FrontEndWPF.Reporteria
         private List<Modelos.Inversion> inversiones = new List<Modelos.Inversion>();
         private List<Modelos.Financiamiento> financiamientos = new List<Modelos.Financiamiento>();
 
-        Prestamo mostrarDatos;
         private Conexion conexion = new Conexion();
         Document document;
         FlujosFinancierosViewModel flujosFinancierosViewModel = new FlujosFinancierosViewModel();
@@ -58,6 +57,8 @@ namespace FrontEndWPF.Reporteria
             InitializeComponent();
             viewModel = new FlujosFinancierosViewModel();
             LoadNombresEmpresa();
+            LoadFinanciera();
+            LoadNombreUsuario();
             prestamos =
             flujosFinancierosViewModel.GetAllPrestamos();
             FileRead();
@@ -78,6 +79,22 @@ namespace FrontEndWPF.Reporteria
         {
             List<string> nombresEmpresa = viewModel.GetAllNombresEmpresa();
             NombreEmpresaComboBox.ItemsSource = nombresEmpresa;
+        }
+
+        private void LoadFinanciera()
+        {
+            List<string> nombresFinanciera = viewModel.GetAllNombresFinancieras();
+            FinancieraComboBox.ItemsSource = nombresFinanciera;
+        }
+
+        private void LoadNombreUsuario()
+        {
+            List<int> idEmpleados = viewModel.GetAllIdEmpleados();
+
+            // Convertir la lista de enteros a una lista de cadenas
+            List<string> idEmpleadosString = idEmpleados.ConvertAll(id => id.ToString());
+
+            PrestamoEmpleadoComboBox.ItemsSource = idEmpleadosString;
         }
 
         public void GenerarPDF()
@@ -475,6 +492,43 @@ namespace FrontEndWPF.Reporteria
                 // Aquí puedes manejar la selección, por ejemplo, cargar financiamientos relacionados
                 financiamientos = flujosFinancierosViewModel.GetFinanciamientosByNombreEmpresa(selectedEmpresa);
                 GenerarPDFALLFinanciamientos();
+            }
+        }
+
+        private void FinancieraComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //FlujosFinancierosViewModel flujosFinancierosViewModel = new FlujosFinancierosViewModel();
+            //var selectedEmpresa = ((ComboBoxItem)NombreEmpresaComboBox.SelectedItem).Content.ToString();
+            string selectedFinanciera = FinancieraComboBox.SelectedItem as string;
+
+            if (selectedFinanciera != null)
+            {
+                // Aquí puedes manejar la selección, por ejemplo, cargar financiamientos relacionados
+                inversiones = flujosFinancierosViewModel.GetInversionesByFinanciera(selectedFinanciera);
+                GenerarPDFALLInversiones();
+            }
+        }
+
+        private void PrestamoEmpleadoComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Obtener el Id del empleado seleccionado
+            if (PrestamoEmpleadoComboBox.SelectedItem != null)
+            {
+                string selectedIdString = PrestamoEmpleadoComboBox.SelectedItem as string;
+                int selectedId;
+
+                // Intenta convertir el string a int
+                if (int.TryParse(selectedIdString, out selectedId))
+                {
+                    // Llama al método para obtener los préstamos por Id
+                    var prestamos = flujosFinancierosViewModel.GetPrestamosByIdUsuario(selectedId);
+                    GenerarPDF();  
+                }
+                else
+                {
+                    // Maneja el caso en que la conversión falle
+                    MessageBox.Show("El ID seleccionado no es válido.");
+                }
             }
         }
     }

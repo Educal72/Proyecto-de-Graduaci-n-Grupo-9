@@ -80,29 +80,6 @@ namespace FrontEndWPF.ViewModel
             return inversiones;
         }
 
-        public double GetPendienteFromPrestamo(int id)
-        {
-            Conexion conexion = new Conexion();
-            double Pendiente = 0;
-            using (SqlConnection connection = conexion.OpenConnection())
-            {
-                string query = @"SELECT Pendiente FROM Prestamos WHERE Id = @Id";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.Add(new SqlParameter("@Id", id));
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            Pendiente = Convert.ToDouble(reader["Pendiente"]);
-                            return Pendiente;
-                        }
-                    }
-                }
-            }
-            return Pendiente;
-        }
-
         public List<Prestamos> GetAllPrestamos()
         {
             Conexion conexion = new Conexion();
@@ -205,6 +182,41 @@ namespace FrontEndWPF.ViewModel
                 }
                 return financiamientos;
             }
+
+
+        public List<Prestamos> GetPrestamosByIdUsuario(int id)
+        {
+            Conexion conexion = new Conexion();
+            List<Prestamos> prestamos = new List<Prestamos>();
+
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                string query = "SELECT * FROM Prestamos WHERE Id = @Id";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@Id", id));
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Prestamos prestamo = new Prestamos
+                            {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                MontoTotal = Convert.ToDecimal(reader["MontoTotal"]),
+                                Pendiente = Convert.ToDecimal(reader["Pendiente"]),
+                                Interes = Convert.ToDecimal(reader["Interes"]),
+                                Estado = reader["Estado"].ToString(),
+                                Descripcion = reader["Descripcion"].ToString(),
+                                FechaCreacion = Convert.ToDateTime(reader["FechaCreacion"])
+                            };
+                            prestamos.Add(prestamo);
+                        }
+                    }
+                }
+            }
+            return prestamos;
+        }
+
         public List<string> GetAllNombresEmpresa()
         {
             Conexion conexion = new Conexion();
@@ -227,5 +239,53 @@ namespace FrontEndWPF.ViewModel
 
             return nombresEmpresa;
         }
+
+        public List<string> GetAllNombresFinancieras()
+        {
+            Conexion conexion = new Conexion();
+            List<string> nombresFinancieras = new List<string>();
+
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                string query = "SELECT DISTINCT Financiera FROM Inversiones";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            nombresFinancieras.Add(reader["Financiera"].ToString());
+                        }
+                    }
+                }
+            }
+
+            return nombresFinancieras;
+        }
+
+        public List<int> GetAllIdEmpleados()
+        {
+            Conexion conexion = new Conexion();
+            List<int> idEmpleados = new List<int>();
+
+            using (SqlConnection connection = conexion.OpenConnection())
+            {
+                string query = "SELECT DISTINCT IdEmpleado FROM Prestamos";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            idEmpleados.Add(Convert.ToInt32(reader["IdEmpleado"]));
+                        }
+                    }
+                }
+            }
+
+            return idEmpleados;
+        }
+
+
     }
 }

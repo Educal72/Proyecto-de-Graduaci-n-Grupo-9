@@ -39,4 +39,18 @@ namespace FrontEndWPF.Modelos
         public decimal? Cancelado { get; set; }   // Mapea a [Cancelado] DECIMAL(10,2), NULL
         public decimal? Interes { get; set; }     // Mapea a [Interes] DECIMAL(5,2), NULL
     }
+
+    public class Prestamo
+    {
+        public int Id { get; set; }
+        public int IdUsuario { get; set; }
+        public string? NombreUsuario { get; set; }
+        public decimal MontoTotal { get; set; }
+        public decimal MontoPendiente { get; set; }
+        public decimal InteresesMoratorios { get; set; }
+        public string Estado { get; set; }
+        public string Descripcion { get; set; }
+        public DateTime FechaCreacion { get; set; }
+    }
+
 }
