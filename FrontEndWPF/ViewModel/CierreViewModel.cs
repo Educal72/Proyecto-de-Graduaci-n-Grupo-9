@@ -199,6 +199,7 @@ namespace FrontEndWPF.ViewModel
 					}
 				}
 				TotalFinal = TotalFinal - Egresos + Ingresos;
+				FondosCierre = FondosCierre + PagadoEfectivo;
 				Cierre cierre = new Cierre
 				{
 					Id = Id,
