@@ -59,7 +59,14 @@
         <Image Height="245" VerticalAlignment="Top" Width="246" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" OpacityMask="Black" HorizontalAlignment="Center"/>
         <Grid Background="Black" VerticalAlignment="Center" Height="Auto" Margin="0,0,-584,0"/>
         <Button x:Name="Opcion1" Content="¿Olvidaste tu contraseña?" Margin="0,450,32,0" VerticalAlignment="Top" Height="31" Background="#FF171717" FontFamily="Roboto" FontSize="16" Foreground="White" BorderBrush="White" HorizontalAlignment="Right" Width="191" Click="Button_Click"/>
-       
+        <Button Content="Cerrar Aplicación" 
+                VerticalAlignment="Top" 
+                Height="38" 
+                Width="212" 
+                FontSize="16" Foreground="#fafafa" Background="#dc3545"
+                FontFamily="Roboto"
+                Click="Button_Click_2" HorizontalAlignment="Center" Margin="0,617,0,0"/>
+
 
     </Grid>
 
