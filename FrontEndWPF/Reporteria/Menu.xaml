@@ -33,7 +33,7 @@
         <Label x:Name="user" Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="270" RenderTransformOrigin="0.514,0.567" HorizontalContentAlignment="Right"/>
         <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Fichaje" Background="#FFABD904" Click="Fichaje_Click" VerticalAlignment="Top" Margin="0,103,105,0" HorizontalAlignment="Right" Width="100"/>
         <Button
-                 Width="90" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,103,10,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Salir" Background="#FFABD904" Click="Button_Click"/>
+                 Width="90" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,103,10,0" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Background="#FFABD904" Click="Button_Click"/>
 
         <Grid Margin="0,189,0,0" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>

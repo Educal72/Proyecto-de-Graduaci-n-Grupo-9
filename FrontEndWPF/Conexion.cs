@@ -28,8 +28,8 @@ namespace FrontEndWPF
 		static int Si_Prosigue = 0;
 		static int No_Prosigue = 0;
 
-		public Conexion()
-		{
+        public Conexion()
+        {
 			if (!File.Exists(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/db_config.txt"))
 			{
 				return;

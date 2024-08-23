@@ -18,6 +18,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.IO.Ports;
 using FrontEndWPF.Index;
 using FrontEndWPF.ViewModel;
+using System.Data.SqlClient;
 //using Microsoft.PointOfService;
 
 namespace FrontEndWPF
@@ -59,14 +60,14 @@ namespace FrontEndWPF
 		{
 			InitializeComponent();
 			conexion.OpenConnection();
-			if (conexion.HasEntries() || !File.Exists(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/db_config.txt"))
+			if (conexion.HasEntries())
 			{
 				Opcion1.Content = "¿Olvidaste tu contraseña?";
 			}
 			else
 			{
-				sesionUsuario.InsertarRoles();
-				sesionUsuario.CrearUsuarioGenerico();
+				//sesionUsuario.InsertarRoles();
+				//sesionUsuario.CrearUsuarioGenerico();
 				Opcion1.Content = "Crear Usuario Admin";
 			}
 		}
@@ -115,7 +116,8 @@ namespace FrontEndWPF
 						SesionUsuario.Instance.correo = con["Correo"].ToString()!;
 						conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
 						SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
-						SesionUsuario.Instance.nombre = con["Nombre"].ToString()!;
+						var NombreCompleto = con["Nombre"].ToString() + " " + con["Apellido"].ToString();
+						SesionUsuario.Instance.nombre = NombreCompleto;
 						SesionUsuario.Instance.id = Convert.ToInt32(con["Id"]);
 						//Envia el nombre del usuario a la clase de conexion empleado.
 						conexionEmpleado.NombreUsuario(SesionUsuario.Instance.nombre = con["Nombre"].ToString()!);
@@ -177,7 +179,7 @@ namespace FrontEndWPF
 						SesionUsuario.Instance.id = Convert.ToInt32(con["Id"]);
 						conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
 						SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
-						SesionUsuario.Instance.nombre = con["Nombre"].ToString()!;
+						SesionUsuario.Instance.nombre = con["Nombre"].ToString()! + con["Apellido"].ToString()!;
 						inicioSesionViewModel.CrearRegistroInicio(Convert.ToInt32(con["Id"]), DateTime.Today, DateTime.Now);
 						NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
 					}
@@ -262,9 +264,33 @@ namespace FrontEndWPF
 			RawPrinterHelper.SendStringToPrinter(printerName, openDrawerCommand);
 
 
+
+        }
+
+		public void OnTestConnectionClick(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				using (SqlConnection connection = conexion.OpenConnection())
+				{
+					MessageBox.Show("La conexión a la base de datos se estableció con éxito.");
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Error al conectar a la base de datos: {ex.Message}");
+			}
 		}
 
+		private void Button_Click_2(object sender, RoutedEventArgs e)
+		{
+			MessageBoxResult result = MessageBox.Show("¿Está seguro que desea salir de la aplicación?", "Confirmar Salida", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+			if (result == MessageBoxResult.Yes)
+			{
 
-
+				MainWindow mainWindow = new MainWindow();
+				mainWindow.ExitApplication();
+			}
+        }
 	}
 }

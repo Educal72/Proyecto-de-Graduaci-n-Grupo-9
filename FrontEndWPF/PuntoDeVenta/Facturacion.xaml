@@ -145,7 +145,7 @@
             <Button Content="Asociar Cliente" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,0,482,0" VerticalAlignment="Center" Height="95" FontFamily="Roboto" FontSize="36" Click="Button_Click_2" Width="465"/>
             <Button Content="Procesar" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,10,10,10" FontFamily="Roboto" FontSize="36" Background="#FFABD904" Click="Button_Click_4"/>
         </Grid>
-
+        <Viewbox></Viewbox>
         <Button
             HorizontalAlignment="Right" Width="90" VerticalAlignment="Top" Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Background="#FFABD904" Click="Button_Click" Margin="0,103,10,0"/>
         <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Fichaje" Background="#FFABD904" Click="Fichaje_Click" VerticalAlignment="Top" Margin="0,103,105,0" HorizontalAlignment="Right" Width="100"/>

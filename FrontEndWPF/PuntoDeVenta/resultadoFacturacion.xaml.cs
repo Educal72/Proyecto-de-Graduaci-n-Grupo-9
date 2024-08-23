@@ -164,20 +164,5 @@ namespace FrontEndWPF
 			var ventana = new Factura(factura);
 			ventana.ImprimirFactura(factura);
 		}
-
-		private void PrintHelloWorldAndOpenCashDrawer(string printerName)
-		{
-			// ESC/POS command to print "Hello World"
-			string printHelloWorldCommand = "\n";
-			// ESC/POS command to open the cash drawer
-			string openDrawerCommand = "\x1B\x70\x01\x32\x32";
-
-			// Send print command
-			RawPrinterHelper.SendStringToPrinter(printerName, printHelloWorldCommand);
-
-			// Send open drawer command
-			RawPrinterHelper.SendStringToPrinter(printerName, openDrawerCommand);
-
-		}
 	}
 }

@@ -1,8 +1,10 @@
 ﻿using FrontEndWPF.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
@@ -27,6 +29,8 @@ namespace FrontEndWPF
     {
 		private DispatcherTimer timer;
 		string userRole = SesionUsuario.Instance.rol;
+		CierreViewModel cierreViewModel = new CierreViewModel();
+		Conexion conexion = new Conexion();
 		public MenuPrincipal()
         {
             InitializeComponent();
@@ -81,33 +85,85 @@ namespace FrontEndWPF
 			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 		}
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            InicioSesionViewModel inicioSesionViewModel = new InicioSesionViewModel();
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (ExisteCierreAbierto())
+			{
+				MessageBoxResult result = MessageBox.Show("Todavia existe una caja abierta. ¿Desea salir sin cerrar esta caja?", "Confirmar Salida", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+				if (result == MessageBoxResult.Yes)
+				{
+					InicioSesionViewModel inicioSesionViewModel = new InicioSesionViewModel();
 
-            //// Obtener el IdUsuario del usuario actual
-            int idUsuario = SesionUsuario.Instance.id;
-			int resultado = inicioSesionViewModel.ExisteInicioSesion(idUsuario);
-			//// Actualizar la última desconexión
-			if (resultado == 0)
-            {
-                MessageBox.Show("Error al actualizar la última desconexión", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            } else {
-				
-				inicioSesionViewModel.UltimaDesconexion(resultado);
+					//// Obtener el IdUsuario del usuario actual
+					int idUsuario = SesionUsuario.Instance.id;
+					int resultado = inicioSesionViewModel.ExisteInicioSesion(idUsuario);
+					//// Actualizar la última desconexión
+					if (resultado == 0)
+					{
+						MessageBox.Show("Error al actualizar la última desconexión", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+					}
+					else
+					{
+
+						inicioSesionViewModel.UltimaDesconexion(resultado);
+					}
+
+					// Redireccionar a la vista de Login
+					NavigationService.Navigate(new Uri("Index/Login.xaml", UriKind.Relative));
+				}
 			}
+			else
+			{
+				InicioSesionViewModel inicioSesionViewModel = new InicioSesionViewModel();
 
-            // Redireccionar a la vista de Login
-            NavigationService.Navigate(new Uri("Index/Login.xaml", UriKind.Relative));
-        }
+				//// Obtener el IdUsuario del usuario actual
+				int idUsuario = SesionUsuario.Instance.id;
+				int resultado = inicioSesionViewModel.ExisteInicioSesion(idUsuario);
+				//// Actualizar la última desconexión
+				if (resultado == 0)
+				{
+					MessageBox.Show("Error al actualizar la última desconexión", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+				else
+				{
+
+					inicioSesionViewModel.UltimaDesconexion(resultado);
+				}
+
+				// Redireccionar a la vista de Login
+				NavigationService.Navigate(new Uri("Index/Login.xaml", UriKind.Relative));
+			}
+			
+		}
 
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			Window parentWindow = Window.GetWindow(this);
-			if (parentWindow != null && parentWindow is MainWindow mainWindow)
-			{
-				mainWindow.mainFrame.Navigate(new PuntoVenta(0));
+
+			if (!cierreViewModel.ExisteCierreAbierto()) {
+				MessageBoxResult result = MessageBox.Show("No hay ninguna caja abierta. ¿Desea abrir esta caja?", "Confirmar Apertura de Caja", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+				if (result == MessageBoxResult.Yes)
+				{
+					var nuevoItem = new nuevoCierreVentana();
+					nuevoItem.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+					if (nuevoItem.ShowDialog() == true)
+					{
+						decimal itemPrice = nuevoItem.Precio;
+						var CajaId = cierreViewModel.CrearCierre(itemPrice, SesionUsuario.Instance.id);
+						SaveConfigToFile(CajaId);
+					}
+					Window parentWindow = Window.GetWindow(this);
+					if (parentWindow != null && parentWindow is MainWindow mainWindow)
+					{
+						mainWindow.mainFrame.Navigate(new PuntoVenta(0));
+					}
+				}
+			} else {
+				Window parentWindow = Window.GetWindow(this);
+				if (parentWindow != null && parentWindow is MainWindow mainWindow)
+				{
+					mainWindow.mainFrame.Navigate(new PuntoVenta(0));
+				}
 			}
 		}
 
@@ -154,6 +210,47 @@ namespace FrontEndWPF
 		private void Button_Click_6(object sender, RoutedEventArgs e)
 		{
 			NavigationService.Navigate(new Uri("Inventario/Inventario.xaml", UriKind.Relative));
+		}
+		private void SaveConfigToFile(int cajaId)
+		{
+			string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+			string appFolder = System.IO.Path.Combine(appDataPath, "YourAppName");
+			if (!Directory.Exists(appFolder))
+			{
+				Directory.CreateDirectory(appFolder);
+			}
+			string filePath = System.IO.Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, "caja.txt");
+			string content = $"Id: {cajaId}";
+			File.WriteAllText(filePath, content);
+		}
+
+		public bool ExisteCierreAbierto()
+		{
+			bool hasEntries = false;
+
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				if (connection != null)
+				{
+					string query = "SELECT COUNT(*) FROM CierreCaja WHERE Estado = 'Abierta'";
+					using (SqlCommand command = new SqlCommand(query, connection))
+					{
+						try
+						{
+							int count = (int)command.ExecuteScalar();
+							hasEntries = count > 0;
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine("Error executing query: " + ex.Message);
+						}
+					}
+
+					conexion.CloseConnection(connection);
+				}
+			}
+
+			return hasEntries;
 		}
 	}
 }

@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrontEndWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="Auto" Width="Auto" Background="Black">
+        Title="MainWindow" Height="Auto" Width="Auto" Background="Black"
+        WindowStyle="None" 
+        WindowState="Maximized" 
+        ResizeMode="NoResize">
 
     <Frame x:Name="mainFrame" NavigationUIVisibility="Hidden" Width="Auto" Height="Auto" Margin="0,0,0,4"/>
 </Window>

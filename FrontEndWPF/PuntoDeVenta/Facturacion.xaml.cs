@@ -216,7 +216,7 @@ namespace FrontEndWPF
 
 		private void Button_Click_4(object sender, RoutedEventArgs e)
 		{
-			if (!double.TryParse(pagado.Text, out double result) || Convert.ToDecimal(pagado.Text.ToString()) < Total)
+			if (!double.TryParse(pagado.Text, out double result) || Convert.ToDecimal(pagado.Text.ToString()) < Total || !double.TryParse(servicio.Text, out double result2))
 			{
 				MessageBox.Show("Por favor, introduzca una cantidad pagada valida.", "Error de validación", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
@@ -224,7 +224,7 @@ namespace FrontEndWPF
 			{
 
 				var orden = Orden.GetOrdenById(idOrden);
-				int resultadoCrear = Factura.CrearFactura(idOrden, Convert.ToDecimal(pagado.Text), Convert.ToInt32(Fiva), Convert.ToInt32(Fservicio), orden.Creacion, DateTime.Now, cajero, IdUsuario, IdCliente, Convert.ToDecimal(descuento.Text), puntosGanados, metodoPago, tipoVenta, Total);
+				int resultadoCrear = Factura.CrearFactura(idOrden, Convert.ToDecimal(pagado.Text), impuestosGenerados, Convert.ToDecimal(servicio.Text), orden.Creacion, DateTime.Now, cajero, IdUsuario, IdCliente, Convert.ToDecimal(descuento.Text), puntosGanados, metodoPago, tipoVenta, Total);
 				
                 if (resultadoCrear != 0)
                 {

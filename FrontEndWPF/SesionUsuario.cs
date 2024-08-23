@@ -16,7 +16,9 @@ namespace FrontEndWPF
         public string rol { get; set; }
         public string nombre { get; set; }
         public int id { get; set; }
-        Conexion conexion = new Conexion();
+		public int IdCaja { get; set; }
+
+		Conexion conexion = new Conexion();
         public SesionUsuario()
         {
         }
