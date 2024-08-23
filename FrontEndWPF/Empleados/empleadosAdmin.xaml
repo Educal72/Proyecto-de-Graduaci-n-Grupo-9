@@ -29,8 +29,8 @@
     <Grid Width="Auto" Height="Auto" VerticalAlignment="Stretch" Background="Black">
         <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727"/>
         <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
-        <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="280" RenderTransformOrigin="0.5,1.289"/>
-        <Label x:Name="user" Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="270" RenderTransformOrigin="0.514,0.567" HorizontalContentAlignment="Right"/>
+        <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" RenderTransformOrigin="0.5,1.289"/>
+        <Label x:Name="user" Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" RenderTransformOrigin="0.514,0.567" HorizontalContentAlignment="Right"/>
 
         <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Volver" Background="#FFABD904" Click="Button_Click" VerticalAlignment="Top" Margin="0,103,10,0" HorizontalAlignment="Right" Width="90"/>
         <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Fichaje" Background="#FFABD904" Click="Fichaje_Click" VerticalAlignment="Top" Margin="0,103,105,0" HorizontalAlignment="Right" Width="100"/>

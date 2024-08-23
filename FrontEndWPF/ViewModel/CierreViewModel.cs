@@ -311,6 +311,23 @@ namespace FrontEndWPF.ViewModel
 				}
 			}
 		}
+
+		public void VentaEfectivo(decimal dinero)
+		{
+			FileRead();
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				string query = "UPDATE CierreCaja SET FondosCierre = FondosCierre + @Venta WHERE Id = @Id";
+
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+				command.Parameters.AddWithValue("@Id", CajaId);
+				command.Parameters.AddWithValue("@Venta", dinero);
+				command.ExecuteNonQuery();
+				}
+			}
+		}
+
 		public void FileRead()
 		{
 			if (!File.Exists(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/caja.txt"))

@@ -179,7 +179,7 @@ namespace FrontEndWPF
 						SesionUsuario.Instance.id = Convert.ToInt32(con["Id"]);
 						conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
 						SesionUsuario.Instance.rol = conexion.getRoleName(Convert.ToInt32(con["IdRol"]));
-						SesionUsuario.Instance.nombre = con["Nombre"].ToString()! + con["Apellido"].ToString()!;
+						SesionUsuario.Instance.nombre = con["Nombre"].ToString() + " " + con["Apellido"].ToString()!;
 						inicioSesionViewModel.CrearRegistroInicio(Convert.ToInt32(con["Id"]), DateTime.Today, DateTime.Now);
 						NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
 					}

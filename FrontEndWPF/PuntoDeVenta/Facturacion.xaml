@@ -69,8 +69,8 @@
     <Grid Width="Auto" Height="Auto" VerticalAlignment="Stretch" Background="White">
         <Rectangle Height="190" Stroke="Black" VerticalAlignment="Top" Fill="#FF272727" d:IsLocked="True"/>
         <Image HorizontalAlignment="Left" Height="190" VerticalAlignment="Top" Width="190" Source="/323715758_861857158399502_6847062045596271805_n-removebg-preview.png" Margin="10,0,0,0"/>
-        <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="280" RenderTransformOrigin="0.5,1.289"/>
-        <Label x:Name="user" Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" Width="175" RenderTransformOrigin="0.514,0.567"/>
+        <Label x:Name="fecha" Content="yyyy-MM-dd hh:mm:ss tt" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" RenderTransformOrigin="0.5,1.289"/>
+        <Label x:Name="user" Content="Usuario: Admin" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto Medium" Foreground="White" RenderTransformOrigin="0.514,0.567"/>
         <Grid Margin="0,214,10,0" Height="Auto" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -141,8 +141,8 @@
                 </StackPanel>
             </GroupBox>
 
-            <Button Content="Asociar Salonero" Grid.Row="9" Grid.Column="2" Margin="62,0,10,0" VerticalAlignment="Center" Height="95" FontFamily="Roboto" FontSize="36" Click="Button_Click_3"/>
-            <Button Content="Asociar Cliente" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,0,482,0" VerticalAlignment="Center" Height="95" FontFamily="Roboto" FontSize="36" Click="Button_Click_2" Width="465"/>
+            <Button Content="Asociar Salonero" Grid.Row="9" Grid.Column="2" Margin="62,0,10,0" VerticalAlignment="Center" FontFamily="Roboto" FontSize="36" Click="Button_Click_3"/>
+            <Button Content="Asociar Cliente" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,0,482,0" VerticalAlignment="Center" FontFamily="Roboto" FontSize="36" Click="Button_Click_2" Width="465"/>
             <Button Content="Procesar" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,10,10,10" FontFamily="Roboto" FontSize="36" Background="#FFABD904" Click="Button_Click_4"/>
         </Grid>
         <Viewbox></Viewbox>

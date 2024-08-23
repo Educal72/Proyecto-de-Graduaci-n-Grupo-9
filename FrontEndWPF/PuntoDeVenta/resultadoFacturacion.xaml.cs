@@ -1,5 +1,6 @@
 ﻿using FrontEndWPF.Index;
 using FrontEndWPF.PuntoDeVenta;
+using FrontEndWPF.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,6 +25,7 @@ namespace FrontEndWPF
 	public partial class resultadoFacturacion : Window
 	{
 		List<Facturacion.carritoItem> carritoItems;
+		CierreViewModel cierreViewModel = new CierreViewModel();
 		decimal cantidadpagada;
 		int impuestos;
 		int servicio;
@@ -75,6 +77,10 @@ namespace FrontEndWPF
 			servicioD = ServicioD;
 			impuestosGenerados = ImpuestosGenerados;
 			GenerarFactura();
+			if (tipo == "Efectivo") { 
+				cierreViewModel.VentaEfectivo(totalPagar);
+			}
+			
 		}
 		static decimal Redondear(decimal value)
 		{

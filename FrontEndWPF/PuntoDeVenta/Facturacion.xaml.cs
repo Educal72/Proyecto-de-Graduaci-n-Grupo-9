@@ -59,7 +59,8 @@ namespace FrontEndWPF
 		{
 			this.idOrden = idOrden;
 			InitializeComponent();
-            timer = new DispatcherTimer();
+			user.Content = "Usuario: " + SesionUsuario.Instance.nombre;
+			timer = new DispatcherTimer();
 			timer.Interval = TimeSpan.FromSeconds(1);
 			timer.Tick += Timer_Tick;
 			timer.Start();
