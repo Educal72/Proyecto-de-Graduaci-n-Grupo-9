@@ -13,11 +13,9 @@ using Rectangle = iText.Kernel.Geom.Rectangle;
 using Canvas = iText.Layout.Canvas;
 using Paragraph = iText.Layout.Element.Paragraph;
 using System.Data.SqlClient;
-
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Media.Imaging;
-using PdfiumViewer;
 using System.Windows.Media;
 using PdfSharp.Pdf.IO;
 using PdfSharp.Drawing;

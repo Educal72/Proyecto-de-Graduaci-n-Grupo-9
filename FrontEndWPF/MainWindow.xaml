@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrontEndWPF"
+        Icon="./323715758_861857158399502_6847062045596271805_n-removebg-preview.png"
         mc:Ignorable="d"
         Title="MainWindow" Height="Auto" Width="Auto" Background="Black"
         WindowStyle="None" 
