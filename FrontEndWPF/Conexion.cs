@@ -13,6 +13,7 @@ using System.Reflection.Metadata.Ecma335;
 using FrontEndWPF.Index;
 using FrontEndWPF.Modelos;
 using static FrontEndWPF.Modelos.UserModel;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace FrontEndWPF
 {
@@ -270,41 +271,41 @@ namespace FrontEndWPF
 		{
 			var permisos = new List<Dictionary<string, object>>();
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				if (connection != null)
-				{
-					string query = "SELECT IdEmpleado, FechaInicio, FechaFin, Motivo, Estado FROM PermisosDeTiempo";
-					using (SqlCommand command = new SqlCommand(query, connection))
-					{
-						try
-						{
-							using (SqlDataReader reader = command.ExecuteReader())
-							{
-								while (reader.Read())
-								{
-									var permiso = new Dictionary<string, object>();
-									for (int i = 0; i < reader.FieldCount; i++)
-									{
-										string fieldName = reader.GetName(i);
-										if (!reader.IsDBNull(i))
-										{
-											permiso[fieldName] = reader.GetValue(i);
-										}
-										else
-										{
-											permiso[fieldName] = null;
-										}
-									}
-									permisos.Add(permiso);
-								}
-							}
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine("Error executing query: " + ex.Message);
-						}
-					}
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT Id, IdEmpleado, FechaInicio, FechaFin, Motivo, Estado FROM PermisosDeTiempo";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var permiso = new Dictionary<string, object>();
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        string fieldName = reader.GetName(i);
+                                        if (!reader.IsDBNull(i))
+                                        {
+                                            permiso[fieldName] = reader.GetValue(i);
+                                        }
+                                        else
+                                        {
+                                            permiso[fieldName] = null;
+                                        }
+                                    }
+                                    permisos.Add(permiso);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
 
 					CloseConnection(connection);
 				}
@@ -317,41 +318,41 @@ namespace FrontEndWPF
 		{
 			var permisos = new List<Dictionary<string, object>>();
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				if (connection != null)
-				{
-					string query = "SELECT IdEmpleado, FechaInicio, FechaFin, Motivo, Estado FROM PermisosDeAusencia";
-					using (SqlCommand command = new SqlCommand(query, connection))
-					{
-						try
-						{
-							using (SqlDataReader reader = command.ExecuteReader())
-							{
-								while (reader.Read())
-								{
-									var permiso = new Dictionary<string, object>();
-									for (int i = 0; i < reader.FieldCount; i++)
-									{
-										string fieldName = reader.GetName(i);
-										if (!reader.IsDBNull(i))
-										{
-											permiso[fieldName] = reader.GetValue(i);
-										}
-										else
-										{
-											permiso[fieldName] = null;
-										}
-									}
-									permisos.Add(permiso);
-								}
-							}
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine("Error executing query: " + ex.Message);
-						}
-					}
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "SELECT Id, IdEmpleado, FechaInicio, FechaFin, Motivo, Estado FROM PermisosDeAusencia";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        try
+                        {
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var permiso = new Dictionary<string, object>();
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        string fieldName = reader.GetName(i);
+                                        if (!reader.IsDBNull(i))
+                                        {
+                                            permiso[fieldName] = reader.GetValue(i);
+                                        }
+                                        else
+                                        {
+                                            permiso[fieldName] = null;
+                                        }
+                                    }
+                                    permisos.Add(permiso);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error executing query: " + ex.Message);
+                        }
+                    }
 
 					CloseConnection(connection);
 				}
@@ -510,14 +511,15 @@ namespace FrontEndWPF
 		{
 			bool eliminado = false;
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				if (connection != null)
-				{
-					string query = "DELETE FROM Productos WHERE Id = @Id";
-					using (SqlCommand command = new SqlCommand(query, connection))
-					{
-						command.Parameters.AddWithValue("@Id", id);
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+
+					string query = "UPDATE Productos SET Activo = 0 WHERE Id = @Id";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", id);
 
 						try
 						{
@@ -1215,14 +1217,14 @@ namespace FrontEndWPF
 		{
 			bool success = false;
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				if (connection != null)
-				{
-					string query = "DELETE FROM PermisosDeTiempo WHERE IdEmpleado = @IdEmpleado";
-					using (SqlCommand command = new SqlCommand(query, connection))
-					{
-						command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "DELETE FROM PermisosDeTiempo WHERE Id = @Id";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", idEmpleado);
 
 						try
 						{
@@ -1246,14 +1248,14 @@ namespace FrontEndWPF
 		{
 			bool success = false;
 
-			using (SqlConnection connection = OpenConnection())
-			{
-				if (connection != null)
-				{
-					string query = "DELETE FROM PermisosDeAusencia WHERE IdEmpleado = @IdEmpleado";
-					using (SqlCommand command = new SqlCommand(query, connection))
-					{
-						command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+            using (SqlConnection connection = OpenConnection())
+            {
+                if (connection != null)
+                {
+                    string query = "DELETE FROM PermisosDeAusencia WHERE Id = @IdEmpleado";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
 
 						try
 						{
@@ -1923,8 +1925,9 @@ namespace FrontEndWPF
 				}
 			}
 
-			return success;
-		}
+            return success;
+        }
+
 		public List<Dictionary<string, object>> GetPermisosDeTiempoEspecifico(int Id)
 		{
 			var permisos = new List<Dictionary<string, object>>();
@@ -2017,6 +2020,54 @@ namespace FrontEndWPF
 					CloseConnection(connection);
 				}
 			}
+
+			return permisos;
+		}
+		public int getCedulaFromUserId(int Id)
+		{
+
+			using (SqlConnection connection = OpenConnection())
+			{
+				if (connection != null)
+				{
+					// Find the role name
+					string roleQuery = "SELECT Cedula FROM Usuario WHERE Id = @IdUsuario";
+					int IdUsuario;
+
+					using (SqlCommand roleCommand = new SqlCommand(roleQuery, connection))
+					{
+						roleCommand.Parameters.AddWithValue("@IdUsuario", Id);
+						try
+						{
+							object result = roleCommand.ExecuteScalar();
+							if (result != null)
+							{
+								IdUsuario = Convert.ToInt32(result);
+								return IdUsuario;
+							}
+							else
+							{
+								Console.WriteLine("Empelado no encontrado.");
+								return 0;
+							}
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine("Error: " + ex.Message);
+							return 0;
+						}
+					}
+				}
+				else
+				{
+					return 0;
+
+				}
+			}
+		}
+	}
+}
+           
 
 			return permisos;
 		}

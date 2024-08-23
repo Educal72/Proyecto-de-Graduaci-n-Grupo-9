@@ -119,16 +119,21 @@ namespace FrontEndWPF
 						SesionUsuario.Instance.id = Convert.ToInt32(con["Id"]);
 						//Envia el nombre del usuario a la clase de conexion empleado.
 						conexionEmpleado.NombreUsuario(SesionUsuario.Instance.nombre = con["Nombre"].ToString()!);
-						inicioSesionViewModel.CrearRegistroInicio(Convert.ToInt32(con["Id"]), DateTime.Today, DateTime.Now);
+                        inicioSesionViewModel.CrearRegistroInicio(Convert.ToInt32(con["Id"]), DateTime.Today, DateTime.Now);
+                    }
+                    if (SesionUsuario.Instance.rol == "Salonero") {
+                        NavigationService.Navigate(new Uri("Empleados/empleadosNoAdmin.xaml", UriKind.Relative));
+                    } else {
+						NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
 					}
-					NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
-				}
-				else
-				{
-					MessageBox.Show("Usuario o Contraseña Incorrecta", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-				}
-			}
-		}
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Usuario o Contraseña Incorrecta", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
 
 		/*
          * Método que esta asociado al botón: ¿Olvidaste tu contraseña?
