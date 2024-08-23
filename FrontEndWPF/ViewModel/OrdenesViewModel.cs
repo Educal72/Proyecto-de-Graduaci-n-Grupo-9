@@ -99,10 +99,11 @@ namespace FrontEndWPF.ViewModel
 
 			using (SqlConnection connection = conexion.OpenConnection())
 			{
-				using (var command = new SqlCommand("SELECT Id, FechaHoraCreacion, Estado FROM Orden WHERE Estado != @Estado AND Estado != @Estado2", connection))
+				using (var command = new SqlCommand("SELECT Id, FechaHoraCreacion, Estado FROM Orden WHERE Estado != @Estado AND Estado != @Estado2 AND Estado != @Estado3", connection))
 				{
 					command.Parameters.Add(new SqlParameter("@Estado", "Eliminada"));
 					command.Parameters.Add(new SqlParameter("@Estado2", "Facturada"));
+					command.Parameters.Add(new SqlParameter("@Estado3", "Anulada"));
 					using (var reader = command.ExecuteReader())
 					{
 						while (reader.Read())

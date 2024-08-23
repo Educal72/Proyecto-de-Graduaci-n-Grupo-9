@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static ClosedXML.Excel.XLPredefinedFormat;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FrontEndWPF.Index
@@ -32,7 +34,19 @@ namespace FrontEndWPF.Index
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			SaveConfigToFile(Convert.ToInt32(iva.Text), Convert.ToInt32(servicio.Text));
+			if (!int.TryParse(iva.Text, out int result))
+			{
+				MessageBox.Show("Por favor, introduzca un porcentaje IVA válido Ej. 13.", "Error de validación", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+			else if (!int.TryParse(servicio.Text, out int result2))
+			{
+				MessageBox.Show("Por favor, introduzca un porcentaje de Servicio válido Ej. 10.", "Error de validación", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+			else
+			{
+				SaveConfigToFile(Convert.ToInt32(iva.Text), Convert.ToInt32(servicio.Text));
+			}
+			
 		}
 
 		private void SaveConfigToFile(int IVA, int servicio)

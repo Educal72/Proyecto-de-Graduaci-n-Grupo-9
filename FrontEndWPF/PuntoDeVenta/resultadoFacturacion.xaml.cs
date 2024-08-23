@@ -1,6 +1,8 @@
-﻿using FrontEndWPF.PuntoDeVenta;
+﻿using FrontEndWPF.Index;
+using FrontEndWPF.PuntoDeVenta;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,9 +40,13 @@ namespace FrontEndWPF
 		string salonero;
 		decimal servicioD;
 		decimal impuestosGenerados;
+		decimal Fiva;
+		decimal Fservicio;
+
 		public resultadoFacturacion(bool isAsociado, string cantidadPagar, string cantidadPagada, List<Facturacion.carritoItem> carrito, decimal CantidadPagada, int Impuestos, int Servicio, DateTime FechaCreacion, string Cajero, decimal Descuento, decimal PuntosGanados, string MetodoPago, string TipoVenta, decimal Total, decimal Subtotal, string Cliente, int Factura, string Salonero, decimal ServicioD, decimal ImpuestosGenerados)
 		{
 			InitializeComponent();
+			FileRead();
 			pagado.Text = cantidadPagada;
 			total.Text = cantidadPagar;
 			vuelto.Text = (double.Parse(cantidadPagada) - double.Parse(cantidadPagar)).ToString();
@@ -132,7 +138,7 @@ namespace FrontEndWPF
 			List<DetalleFactura> detalleFacturas = new List<DetalleFactura>();
 			foreach (var item in carritoItems)
 			{
-				var PrecioIMP = (decimal)System.Math.Round(item.Precio - (item.Precio * 0.13m));
+				var PrecioIMP = (decimal)System.Math.Round(item.Precio - (item.Precio * (Fiva/100)));
 				var detalle = new DetalleFactura()
 				{
 					Producto = item.Nombre,
@@ -164,5 +170,42 @@ namespace FrontEndWPF
 			var ventana = new Factura(factura);
 			ventana.ImprimirFactura(factura);
 		}
+
+		public void FileRead()
+		{
+			if (!File.Exists(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/imp_config.txt"))
+			{
+				return;
+			}
+			try
+			{
+				// Leer todas las líneas del archivo
+				string[] lines = File.ReadAllLines(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/imp_config.txt");
+
+				// Parsear el contenido del archivo
+				foreach (string line in lines)
+				{
+					string[] parts = line.Split(new[] { ": " }, StringSplitOptions.None);
+					if (parts.Length == 2)
+					{
+						switch (parts[0])
+						{
+							case "IVA":
+								Fiva = Convert.ToDecimal(parts[1]);
+								break;
+							case "Servicio":
+								Fservicio = Convert.ToDecimal(parts[1]);
+								break;
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Error al leer la configuración del archivo: {ex.Message}");
+			}
+		}
+
+
 	}
 }
