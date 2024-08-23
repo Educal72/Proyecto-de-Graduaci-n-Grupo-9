@@ -29,6 +29,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using Cell = iText.Layout.Element.Cell;
 using FrontEndWPF.Modelos;
 using static FrontEndWPF.Reporteria.VisualizarPrestamos;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace FrontEndWPF.Reporteria
 {
@@ -90,9 +91,14 @@ namespace FrontEndWPF.Reporteria
         private void LoadNombreUsuario()
         {
             List<int> idEmpleados = viewModel.GetAllIdEmpleados();
+            List<string> idEmpleadosString = new List<string>();
 
+			foreach (var id in idEmpleados) {
+                idEmpleadosString.Add(GetUserByEmpleadoId(id));
+            }
             // Convertir la lista de enteros a una lista de cadenas
-            List<string> idEmpleadosString = idEmpleados.ConvertAll(id => id.ToString());
+            //List<string> idEmpleadosString = idEmpleados.ConvertAll(id => id.ToString());
+
 
             PrestamoEmpleadoComboBox.ItemsSource = idEmpleadosString;
         }
@@ -148,7 +154,7 @@ namespace FrontEndWPF.Reporteria
                 document.Add(headerTable);
 
                 // Encabezados de la tabla
-                var table = new iText.Layout.Element.Table(7); // 4 columnas
+                var table = new iText.Layout.Element.Table(6); // 4 columnas
                 table.AddHeaderCell(new Cell().Add(new iText.Layout.Element.Paragraph("Monto Total").SetFont(boldFont)));
                 table.AddHeaderCell(new Cell().Add(new iText.Layout.Element.Paragraph("Pendiente").SetFont(boldFont)));
                 table.AddHeaderCell(new Cell().Add(new iText.Layout.Element.Paragraph("Interes").SetFont(boldFont)));
@@ -176,7 +182,39 @@ namespace FrontEndWPF.Reporteria
             //MessageBox.Show($"El informe se ha generado y guardado en: {archivoPdf}", "Informe Generado", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        public void GenerarPDFALLInversiones()
+		public string GetUserByEmpleadoId(int id)
+		{
+			Conexion conexion = new Conexion();
+			string NombreCompleto = "";
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				string query = @"SELECT 
+    Usuario.Cedula, 
+    Usuario.Nombre, 
+    Usuario.Apellido
+FROM 
+    Usuario
+JOIN 
+    Empleado ON Usuario.Id = Empleado.IdUsuario
+WHERE 
+    Empleado.Id = @IdEmpleado";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.Add(new SqlParameter("@IdEmpleado", id));
+					using (var reader = command.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							NombreCompleto = reader["Nombre"].ToString() + " " + reader["Apellido"].ToString() + " ("+ reader["Cedula"].ToString()+")";
+							return NombreCompleto;
+						}
+					}
+				}
+			}
+			return NombreCompleto;
+		}
+
+		public void GenerarPDFALLInversiones()
         {
             // Ruta base para guardar el archivo PDF
             string rutaBase = Path.GetTempPath();

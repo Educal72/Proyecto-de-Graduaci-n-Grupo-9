@@ -6,10 +6,10 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <PackageIcon>323715758_861857158399502_6847062045596271805_n-removebg-preview.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="323715758_861857158399502_6847062045596271805_n-removebg-preview.png" />
     <None Remove="Reporteria\reportes.jpg" />
   </ItemGroup>
 
@@ -80,6 +80,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="323715758_861857158399502_6847062045596271805_n-removebg-preview.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

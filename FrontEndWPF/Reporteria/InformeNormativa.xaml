@@ -76,15 +76,15 @@
                 <DataGridTextColumn Header="Impuestos" Binding="{Binding Impuestos}" x:Name="ImpuestosDataGridTextColumn"/>
                 <DataGridTextColumn Header="Ingresos" Binding="{Binding Ingresos}" x:Name="IngresosDataGridTextColumn"/>
                 <DataGridTextColumn Header="Gastos" Binding="{Binding Gastos}" x:Name="GastosDataGridTextColumn"/>
-                
-                
+
+
                 <!--Estos son para mostrar o cambiar algo en especifico-->
                 <DataGridTextColumn Header="Retenciones"  Binding="{Binding Retenciones}" x:Name="RetencionesDataGridTextColumn"/>
                 <DataGridTextColumn Header="Estado financiero" Binding="{Binding EstadoFinanciero}" x:Name="EstadoFinancieroDataGridTextColumn"/>
                 <DataGridTextColumn Header="Datos de empleado" Binding="{Binding DatosEmpleado}"  x:Name="DatosEmpleadoDataGridTextColumn"/>
             </DataGrid.Columns>
         </DataGrid>
-        
+
 
         <Label Content="Informes de Normativas" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Background="#FF18A20C" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <Label.BorderBrush>
@@ -109,16 +109,16 @@
                 VerticalAlignment="Top" Width="136" Height="20" RenderTransformOrigin="0.5,0.5" 
                 Foreground="#fafafa" Background="#28a745" Click="Generar_Informe_Click"/>
 
-        <Button HorizontalAlignment="Left" Margin="339,54,0,0" Content="Cambiar informe" 
+        <Button x:Name="cambiarButton"  HorizontalAlignment="Left" Margin="328,54,0,0" Content="Cambiar informe" 
                 VerticalAlignment="Top" Width="136" Height="20" RenderTransformOrigin="0.5,0.5" 
                 Foreground="#343a40" Background="#ffc107" Click="Cambiar_Informe_Click"/>
 
-        <Button HorizontalAlignment="Left" Margin="495,54,0,0" Content="Descartar informe" 
+        <Button HorizontalAlignment="Left" Margin="469,54,0,0" Content="Descartar informe" 
                 VerticalAlignment="Top" Width="136" Height="20" RenderTransformOrigin="0.5,0.5" 
                 Foreground="#fafafa" Background="#dc3545" Click="Descartar_Informe_Click"/>
 
 
-        <Button HorizontalAlignment="Left" Margin="646,54,0,0" Content="Descargar informe" 
+        <Button HorizontalAlignment="Left" Margin="610,54,0,0" Content="Descargar informe" 
                 VerticalAlignment="Top" Width="136" Height="20" RenderTransformOrigin="0.5,0.5" 
                 Foreground="Black" Background="DarkGray" Click="DescargarNormativa_Click"/>
 

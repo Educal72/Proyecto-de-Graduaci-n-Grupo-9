@@ -64,12 +64,8 @@
                     </Style>
                 </ListBox.Resources>
                 <ListBoxItem x:Name="IniciosSesion" Content="Inicios de Sesión" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,15,10,10"/>
-                <ListBoxItem x:Name="GestionOrdenes" Content="Gestión de Ordenes" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
                 <ListBoxItem x:Name="FlujosFinancieros" Content="Flujos Financieros" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
                 <ListBoxItem x:Name="Prestamos" Content="Préstamos" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-                <ListBoxItem x:Name="Financiamientos" Content="Financiamientos" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-                <ListBoxItem x:Name="Inversiones" Content="Inversiones" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
-                <ListBoxItem x:Name="Auditorias" Content="Auditorías" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
                 <ListBoxItem x:Name="Normativa" Content="Normativa" FontFamily="Roboto" FontSize="22" HorizontalContentAlignment="Center" Padding="4,10,4,10" BorderBrush="White" Margin="10,10,10,10"/>
             </ListBox>
             <ContentControl x:Name="ContentArea" Grid.Column="1" Height="Auto" Width="Auto" Margin="0,10,0,0"/>

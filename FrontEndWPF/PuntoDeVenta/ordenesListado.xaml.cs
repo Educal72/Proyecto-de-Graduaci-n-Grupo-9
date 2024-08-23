@@ -142,6 +142,24 @@ namespace FrontEndWPF
 				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
 			}
 		}
+
+		private void Anular(object sender, RoutedEventArgs e)
+		{
+			Order selectedOrder = OrdersDataGrid.SelectedItem as Order;
+			if (selectedOrder != null)
+			{
+				MessageBoxResult result = MessageBox.Show("¿Está seguro que desea anular esta orden?", "Confirmar Anulación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+				if (result == MessageBoxResult.Yes)
+				{
+					ordenesViewModel.AnularOrden(selectedOrder.Id);
+					LoadOrders();
+				}
+			}
+			else
+			{
+				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+			}
+		}
 	}
 
 	public class ProductosOrden

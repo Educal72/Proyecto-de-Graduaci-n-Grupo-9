@@ -74,6 +74,7 @@ namespace FrontEndWPF.Reporteria
             ImpuestosDataGridTextColumn.Visibility = Visibility.Collapsed;
             IngresosDataGridTextColumn.Visibility = Visibility.Collapsed;
             GastosDataGridTextColumn.Visibility = Visibility.Collapsed;
+            cambiarButton.Visibility = Visibility.Collapsed;
 
             RetencionesDataGridTextColumn.Visibility = Visibility.Collapsed;
             EstadoFinancieroDataGridTextColumn.Visibility = Visibility.Collapsed;
@@ -137,45 +138,88 @@ namespace FrontEndWPF.Reporteria
                     DatosEmpleado = listas.DatosEmpleado!;
                 }
             }
+List<InfoAuditoria> entidadAuditoria = new List<InfoAuditoria>();
 
+			string query = @"
+    SELECT SUM(Total) AS SumaTotalUltimoMes
+    FROM Factura
+    ";
 
-            string query = @"
-                SELECT 
-                    FACT.Impuestos,
-	                FACT.Total,
-                    PRE.MontoTotal,
-	                INV.MontoInvertido
-                FROM
-	                Factura FACT INNER JOIN Prestamos PRE
-	                ON FACT.Id = PRE.Id INNER JOIN Inversiones INV
-                    ON PRE.Id = INV.Id;";
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				try
+				{
+					SqlCommand command = new SqlCommand(query, connection);
+					SqlDataReader reader = command.ExecuteReader();
 
-            List<InfoAuditoria> entidadAuditoria = new List<InfoAuditoria>();
-            using (SqlConnection connection = conexion.OpenConnection())
-            {
-                try
-                {
-                    SqlCommand command = new SqlCommand(query, connection);
-                    SqlDataReader reader = command.ExecuteReader();
+					if (reader.Read())
+					{
+						// Manejo de posibles valores nulos
+						if (reader["SumaTotalUltimoMes"] != DBNull.Value)
+						{
+							Ingresos = reader["SumaTotalUltimoMes"].ToString();
+						}
+						else
+						{
+							Ingresos = "0";
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: " + ex.Message);
+				}
+			}
+			string query2 = @"
+    SELECT SUM(MontoTotal) AS SumaMontoTotalUltimoMes
+    FROM Prestamos
+    ;";
 
-                    while (reader.Read())
-                    {
-                        entidadAuditoria.Add(new InfoAuditoria
+			// Query para sumar Impuestos del último mes en la tabla Factura
+			string query3 = @"
+    SELECT SUM(Impuestos) AS SumaTotalImpuestosUltimoMes
+    FROM Factura
+    ;";
+
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				try
+				{
+					// Ejecutar query2
+					SqlCommand command2 = new SqlCommand(query2, connection);
+					SqlDataReader reader2 = command2.ExecuteReader();
+					if (reader2.Read())
+					{
+						// Manejo de posibles valores nulos
+						Gastos = reader2["SumaMontoTotalUltimoMes"] != DBNull.Value ? reader2["SumaMontoTotalUltimoMes"].ToString() : "0";
+					}
+					reader2.Close(); // Asegurarse de cerrar el reader antes de ejecutar otro comando
+
+					// Ejecutar query3
+					SqlCommand command3 = new SqlCommand(query3, connection);
+					SqlDataReader reader3 = command3.ExecuteReader();
+					if (reader3.Read())
+					{
+						// Manejo de posibles valores nulos
+						Impuestos = reader3["SumaTotalImpuestosUltimoMes"] != DBNull.Value ? reader3["SumaTotalImpuestosUltimoMes"].ToString() : "0";
+					}
+					reader3.Close();
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: " + ex.Message);
+				}
+			}
+
+			EstadoFinanciero = (Convert.ToDecimal(Ingresos) - Convert.ToDecimal(Gastos)).ToString();
+
+			entidadAuditoria.Add(new InfoAuditoria
                         {
                             Impuestos = Convert.ToString(Impuestos),
                             Ingresos = Convert.ToString(Ingresos),
                             Gastos = Convert.ToString(Gastos),
-                            Retenciones = Convert.ToString(Retenciones),
                             EstadoFinanciero = Convert.ToString(EstadoFinanciero),
-                            DatosEmpleado = Convert.ToString(DatosEmpleado)
                         });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
-            }
 
             normativaDataGrid.ItemsSource = entidadAuditoria;
             entidadAuditorias = entidadAuditoria.FindAll(itemLista => itemLista.Impuestos != null);
@@ -788,7 +832,7 @@ namespace FrontEndWPF.Reporteria
                 document.Add(table);
 
                 // Añadir números de página
-                Pagina.AddPageNumbers(pdf);
+                //Pagina.AddPageNumbers(pdf);
             }
             entidadAuditorias.Clear();
             MessageBox.Show($"El informe se ha generado y guardado en: {archivoPdf}", "Informe de Normativa - Generado", MessageBoxButton.OK, MessageBoxImage.Information);

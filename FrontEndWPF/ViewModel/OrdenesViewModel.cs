@@ -269,5 +269,20 @@ namespace FrontEndWPF.ViewModel
 
 			return resultado;
 		}
+
+		public void AnularOrden(int id)
+		{
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				string query = "UPDATE Orden SET Estado = @Estado WHERE Id = @Id";
+
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.AddWithValue("@Estado", "Anulada");
+					command.Parameters.AddWithValue("@Id", id);
+					command.ExecuteNonQuery();
+				}
+			}
+		}
 	}
 }

@@ -70,6 +70,7 @@ namespace FrontEndWPF.ViewModel
                 InicioSesion sesion = new InicioSesion
                 {
                     IdUsuario = (int)sesionDict["IdUsuario"],
+                    Nombre = GetUserById((int)sesionDict["IdUsuario"]),
                     FechaIngreso = (DateTime)sesionDict["FechaIngreso"],
                     FechaInicioSesion = (DateTime)sesionDict["FechaInicioSesion"],
                     UltimaDesconexion = sesionDict["UltimaDesconexion"] != null ? (DateTime)sesionDict["UltimaDesconexion"] : (DateTime?)null
@@ -89,6 +90,7 @@ namespace FrontEndWPF.ViewModel
                 InicioSesion registro = new InicioSesion
                 {
                     IdUsuario = (int)registroDict["IdUsuario"],
+                    Nombre = GetUserById((int)registroDict["IdUsuario"]),
                     FechaIngreso = (DateTime)registroDict["FechaIngreso"],
                     FechaInicioSesion = (DateTime)registroDict["FechaInicioSesion"],
                     UltimaDesconexion = registroDict.ContainsKey("UltimaDesconexion")
@@ -160,7 +162,7 @@ namespace FrontEndWPF.ViewModel
 
 				// Encabezados de la tabla
 				var table = new Table(4); // 4 columnas
-				table.AddHeaderCell(new Cell().Add(new Paragraph("Id Usuario").SetFont(boldFont)));
+				table.AddHeaderCell(new Cell().Add(new Paragraph("Usuario").SetFont(boldFont)));
 				table.AddHeaderCell(new Cell().Add(new Paragraph("Fecha de Ingreso").SetFont(boldFont)));
 				table.AddHeaderCell(new Cell().Add(new Paragraph("Fecha de Inicio de Sesión").SetFont(boldFont)));
 				table.AddHeaderCell(new Cell().Add(new Paragraph("Última Fecha de Desconexión").SetFont(boldFont)));
@@ -168,17 +170,17 @@ namespace FrontEndWPF.ViewModel
 				// Datos de la tabla
 				foreach (var sesion in _inicioSesiones)
 				{
-					table.AddCell(new Cell().Add(new Paragraph(sesion.IdUsuario.ToString()).SetFont(normalFont)));
+					table.AddCell(new Cell().Add(new Paragraph(sesion.Nombre.ToString()).SetFont(normalFont)));
 					table.AddCell(new Cell().Add(new Paragraph(sesion.FechaIngreso.ToString("yyyy-MM-dd")).SetFont(normalFont)));
 					table.AddCell(new Cell().Add(new Paragraph(sesion.FechaInicioSesion.ToString("yyyy-MM-dd")).SetFont(normalFont)));
 					table.AddCell(new Cell().Add(new Paragraph(sesion.UltimaDesconexion.HasValue ?
-						sesion.UltimaDesconexion.Value.ToString("yyyy-MM-dd") : "N/A").SetFont(normalFont)));
+					sesion.UltimaDesconexion.Value.ToString("yyyy-MM-dd") : "N/A").SetFont(normalFont)));
 				}
 
 				document.Add(table);
 
 				// Añadir números de página
-				AddPageNumbers(pdf);
+				//AddPageNumbers(pdf);
 			}
 
 			MessageBox.Show($"El informe se ha generado y guardado en: {archivoPdf}", "Informe Generado", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -186,29 +188,29 @@ namespace FrontEndWPF.ViewModel
 
 
 
-		public void AddPageNumbers(PdfDocument pdfDoc)
-        {
-            int numberOfPages = pdfDoc.GetNumberOfPages();
-            PdfFont font = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
+		//public void AddPageNumbers(iText.Kernel.Pdf.PdfDocument pdfDoc)
+		//{
+		//	int numberOfPages = pdfDoc.GetNumberOfPages();
+		//	PdfFont font = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
 
-            for (int i = 1; i <= numberOfPages; i++)
-            {
-                PdfPage page = pdfDoc.GetPage(i);
-                Rectangle pageSize = page.GetPageSize();
-                PdfCanvas pdfCanvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdfDoc);
+		//	for (int i = 1; i <= numberOfPages; i++)
+		//	{
+		//		iText.Kernel.Pdf.PdfPage page = pdfDoc.GetPage(i);
+		//		Rectangle pageSize = page.GetPageSize();
+		//		PdfCanvas pdfCanvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdfDoc);
 
-                // Crear el Canvas para el PdfCanvas y la página
-                Canvas canvas = new Canvas(pdfCanvas, pageSize); // Nota: El constructor solo necesita PdfCanvas y Rectangle
+		//		// Crear el Canvas para el PdfCanvas y la página
+		//		iText.Layout.Canvas canvas = new Canvas(pdfCanvas, pageSize); // Nota: El constructor solo necesita PdfCanvas y Rectangle
 
-                // Especificar el nombre completo para evitar el conflicto de nombres
-                canvas.ShowTextAligned(new Paragraph($"Página {i}").SetFont(font).SetFontSize(12),
-                    pageSize.GetWidth() - 50, 20, i, iText.Layout.Properties.TextAlignment.RIGHT, iText.Layout.Properties.VerticalAlignment.BOTTOM, 0);
-            }
-        }
+		//		// Especificar el nombre completo para evitar el conflicto de nombres
+		//		canvas.ShowTextAligned(new Paragraph($"Página {i}").SetFont(font).SetFontSize(12),
+		//			pageSize.GetWidth() - 50, 20, i, iText.Layout.Properties.TextAlignment.RIGHT, iText.Layout.Properties.VerticalAlignment.BOTTOM, 0);
+		//	}
+		//}
 
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
@@ -288,6 +290,36 @@ namespace FrontEndWPF.ViewModel
 
 				}
 			}
+
+		}
+		public string GetUserById(int id)
+		{
+			Conexion conexion = new Conexion();
+			string NombreCompleto = "";
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				string query = @"SELECT 
+    Cedula,
+    Nombre, 
+    Apellido
+FROM 
+    Usuario
+WHERE 
+    Id = @Id";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.Add(new SqlParameter("@Id", id));
+					using (var reader = command.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							NombreCompleto = reader["Nombre"].ToString() + " " + reader["Apellido"].ToString() + " ("+ reader["Cedula"].ToString() + ")";
+							return NombreCompleto;
+						}
+					}
+				}
+			}
+			return NombreCompleto;
 		}
 	}
 }

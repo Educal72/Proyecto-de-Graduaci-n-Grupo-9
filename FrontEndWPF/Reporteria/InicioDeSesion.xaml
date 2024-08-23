@@ -69,7 +69,7 @@
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <DataGrid HorizontalScrollBarVisibility="Hidden" x:Name="dataGrid" ColumnWidth="*" AutoGenerateColumns="False" Margin="0,65,0,0" ItemsSource="{Binding InicioSesiones}" SelectionChanged="dataGrid_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID Usuario" Binding="{Binding IdUsuario}"/>
+                <DataGridTextColumn Header="ID Usuario" Binding="{Binding Nombre}"/>
                 <DataGridTextColumn Header="Fecha de Ingreso" Binding="{Binding FechaIngreso}"/>
                 <DataGridTextColumn Header="Fecha de Inicio de Sesión" Binding="{Binding FechaInicioSesion}"/>
                 <DataGridTextColumn Header="Última Fecha de Desconexión" Binding="{Binding UltimaDesconexion}"/>

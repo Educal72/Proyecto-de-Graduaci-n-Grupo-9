@@ -117,7 +117,9 @@
                 <Button Content="Eliminar" Height="50" Width="200" FontFamily="Roboto" FontSize="24"
                     Margin="0,10,0,0" Click="Button_Click_1"/>
                 <Button Content="Ver" Height="75" Width="200" FontFamily="Roboto" FontSize="24"
-                    Margin="0,10,0,0" Click="Button_Click_2"/>
+                    Margin="0,10,0,0" Click="Button_Click_2" />
+                <Button Content="Anular" Height="75" Width="200" FontFamily="Roboto" FontSize="24"
+                    Margin="0,10,0,0" Click="Anular"/>
             </StackPanel>
         </Grid>
     </Grid>
