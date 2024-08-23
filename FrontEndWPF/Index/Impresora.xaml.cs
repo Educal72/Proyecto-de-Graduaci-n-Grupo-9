@@ -23,7 +23,7 @@ namespace FrontEndWPF.Index
 	{
 		private string NombreImpresora;
 		private string DescargarComo;
-		private string CodigoDeControl;
+		private string CodigoDeControl="";
 		private decimal BalanceInicial;
 
 		public Impresora()

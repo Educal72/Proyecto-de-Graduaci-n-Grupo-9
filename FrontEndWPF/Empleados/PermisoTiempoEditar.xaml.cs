@@ -11,9 +11,9 @@ namespace FrontEndWPF
     public partial class PermisoTiempoEditar : Window
     {
         private PermisoDeTiempoViewModel viewModel;
-        private PermisoDeTiempo permisoActual; // Permiso actual que se está editando
+        private PermisoDeAusencia permisoActual; // Permiso actual que se está editando
 
-        public PermisoTiempoEditar(PermisoDeTiempo permiso)
+        public PermisoTiempoEditar(PermisoDeAusencia permiso)
         {
             InitializeComponent();
             viewModel = new PermisoDeTiempoViewModel();

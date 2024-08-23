@@ -1,9 +1,15 @@
-﻿using FrontEndWPF.Reporteria;
+﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
+using FrontEndWPF.Index;
+using FrontEndWPF.PuntoDeVenta;
+using FrontEndWPF.Reporteria;
 using FrontEndWPF.ViewModel;
+using PdfSharp.Drawing.BarCodes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,6 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static ClosedXML.Excel.XLPredefinedFormat;
 using static FrontEndWPF.Facturacion;
 using static FrontEndWPF.PuntoVenta;
 using static FrontEndWPF.ViewModel.OrdenesViewModel;
@@ -23,26 +30,33 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FrontEndWPF
 {
-    /// <summary>
-    /// Lógica de interacción para PuntoVenta.xaml
-    /// </summary>
-    public partial class PuntoVenta : UserControl
-    {
+	/// <summary>
+	/// Lógica de interacción para PuntoVenta.xaml
+	/// </summary>
+	public partial class PuntoVenta : UserControl
+	{
 		private DispatcherTimer timer;
-
-
+		public FichajesViewModel fichajesViewModel = new FichajesViewModel();
+		private StringBuilder barcode = new StringBuilder();
 		ProductosViewModel productos = new ProductosViewModel();
 		OrdenesViewModel ordenes = new OrdenesViewModel();
+		CierreViewModel cierreViewModel = new CierreViewModel();
+		string nombreImpresora;
+		string codigoControl;
+		string descargarComo;
+		string codigoDeControl;
+		decimal balanceInicial;
+
 		int ordenId = 0;
 		public PuntoVenta(int orden)
-        {
+		{
 			InitializeComponent();
 			productos.LoadProductosDataActivo();
 			timer = new DispatcherTimer();
 			timer.Interval = TimeSpan.FromSeconds(1);
 			timer.Tick += Timer_Tick;
 			timer.Start();
-			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
+			fecha.Content = System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 			foreach (var category in productos.Productos.Select(p => p.Categoria).Distinct())
 			{
 				CategoryListBox.Items.Add(category);
@@ -50,9 +64,11 @@ namespace FrontEndWPF
 			buscar.Focus();
 			ordenId = orden;
 			LoadOrden(ordenId);
+			user.Content = "Usuario: " + SesionUsuario.Instance.nombre;
 		}
 
-		public async void LoadOrden(int ordenId) {
+		public async void LoadOrden(int ordenId)
+		{
 			if (ordenId != 0)
 			{
 
@@ -73,10 +89,10 @@ namespace FrontEndWPF
 				}
 			}
 		}
-		
+
 		private void Timer_Tick(object sender, EventArgs e)
 		{
-			fecha.Content = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
+			fecha.Content = System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 		}
 
 		private void ProductIdTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -104,21 +120,22 @@ namespace FrontEndWPF
 						buscar.Text = "";
 						carrito.Items.Refresh();
 					}
-					else { 
+					else
+					{
 
 						var cartItem = new carritoItem
-					{
-						Id = product.Id,
-						Nombre = product.Nombre,
-						Precio = product.Precio,
-						Cantidad = 1
-					};
+						{
+							Id = product.Id,
+							Nombre = product.Nombre,
+							Precio = product.Precio,
+							Cantidad = 1
+						};
 
-					carrito.Items.Add(cartItem);
-					buscar.Text = "";
-					carrito.Items.Refresh();
+						carrito.Items.Add(cartItem);
+						buscar.Text = "";
+						carrito.Items.Refresh();
 					}
-					
+
 				}
 				else
 				{
@@ -141,7 +158,7 @@ namespace FrontEndWPF
 				var button = new Button
 				{
 					Content = product.Nombre,
-					Style = (Style)FindResource("ProductButtonStyle")
+					Style = (System.Windows.Style)FindResource("ProductButtonStyle")
 				};
 				button.Click += ProductButton_Click;
 				ProductWrapPanel.Children.Add(button);
@@ -177,7 +194,7 @@ namespace FrontEndWPF
 			}
 		}
 
-		
+
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			Window parentWindow = Window.GetWindow(this);
@@ -186,7 +203,7 @@ namespace FrontEndWPF
 				mainWindow.mainFrame.Navigate(new MenuPrincipal());
 			}
 		}
-		
+
 
 		public class Product
 		{
@@ -205,7 +222,7 @@ namespace FrontEndWPF
 
 		public class nuevaOrden
 		{
-			public DateTime FechaCreacion { get; set; }
+			public System.DateTime FechaCreacion { get; set; }
 			public string Estado { get; set; }
 		}
 
@@ -232,7 +249,7 @@ namespace FrontEndWPF
 				selectedItem.Cantidad -= 1;
 
 
-				if (selectedItem.Cantidad<= 0)
+				if (selectedItem.Cantidad <= 0)
 				{
 					carrito.Items.Remove(selectedItem);
 				}
@@ -250,12 +267,12 @@ namespace FrontEndWPF
 		private void Button_Click_3(object sender, RoutedEventArgs e)
 		{
 			var selectedItem = carrito.SelectedItem as carritoItem;
-			
-				if (selectedItem != null)
-				{
-					carrito.Items.Remove(selectedItem);
 
-				}
+			if (selectedItem != null)
+			{
+				carrito.Items.Remove(selectedItem);
+
+			}
 			else
 			{
 				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -271,28 +288,34 @@ namespace FrontEndWPF
 				string itemName = nuevoItem.Nombre;
 				decimal itemPrice = nuevoItem.Precio;
 				carritoItem existingProduct = carrito.Items.OfType<carritoItem>().FirstOrDefault(p => p.Nombre == itemName);
-				if (existingProduct != null ) {
+				if (existingProduct != null)
+				{
 					existingProduct.Cantidad += 1;
 					carrito.Items.Refresh();
-				} else { 
-				int idProducto = ordenes.InsertarProductoUnico(itemName, "Historial", itemPrice, false);
-				carrito.Items.Add(new carritoItem { Id=idProducto ,Nombre = itemName, Precio = itemPrice, Cantidad = 1 });
 				}
-				
-				
-				
+				else
+				{
+					int idProducto = ordenes.InsertarProductoUnico(itemName, "Historial", itemPrice, false);
+					carrito.Items.Add(new carritoItem { Id = idProducto, Nombre = itemName, Precio = itemPrice, Cantidad = 1 });
+				}
+
+
+
 			}
 		}
 
 		private async void Button_Click_5(object sender, RoutedEventArgs e)
 		{
 			Window parentWindow = Window.GetWindow(this);
-            if (carrito.Items.Count == 0)
-            {
+			if (carrito.Items.Count == 0)
+			{
 				MessageBox.Show("¡La orden esta vacia!", "Orden Invalida", MessageBoxButton.OK, MessageBoxImage.Error);
-            }else {
+			}
+			else
+			{
 
-				if (ordenId != 0 ) {
+				if (ordenId != 0)
+				{
 					ordenes.EliminarProductoOrden(ordenId);
 					var productosOrden = new List<ProductoOrden>();
 					var carritoItems = carrito.Items.OfType<carritoItem>().ToList();
@@ -314,12 +337,14 @@ namespace FrontEndWPF
 						mainWindow.mainFrame.Navigate(new ordenesListado());
 					}
 
-				} else {
+				}
+				else
+				{
 					OrdenesViewModel ordenesViewModel = new OrdenesViewModel();
 
 					var nuevaOrden = new OrdenesViewModel.Orden
 					{
-						Creacion = DateTime.Now,
+						Creacion = System.DateTime.Now,
 						Estado = "Activa"
 					};
 
@@ -347,7 +372,7 @@ namespace FrontEndWPF
 				}
 
 			}
-            
+
 		}
 
 		private void Button_Click_6(object sender, RoutedEventArgs e)
@@ -356,6 +381,87 @@ namespace FrontEndWPF
 			if (parentWindow != null && parentWindow is MainWindow mainWindow)
 			{
 				mainWindow.mainFrame.Navigate(new ordenesListado());
+			}
+		}
+
+		private void Fichaje_Click(object sender, RoutedEventArgs e)
+		{
+
+			CodigoBarras barcodeWindow = new CodigoBarras(fichajesViewModel);
+			barcodeWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			barcodeWindow.ShowDialog(); // Abre la ventana emergente y espera su cierre
+		}
+
+		private void Gabinete_Click(object sender, RoutedEventArgs e)
+		{
+			FileReadImpresora();
+			Gabinete nuevoItem = new Gabinete();
+			nuevoItem.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			if (nuevoItem.ShowDialog() == true)
+			{
+				var tipo = nuevoItem.tipo;
+				MessageBox.Show("La operación de " + tipo + " fue un exito", tipo + " Exitoso", MessageBoxButton.OK, MessageBoxImage.Information);
+				string openDrawerCommand = "\x1B\x70\x01\x32\x32";
+				RawPrinterHelper.SendStringToPrinter(nombreImpresora, openDrawerCommand);
+			}
+		}
+
+		private void PrintDirect(byte[] command, string printerName)
+		{
+			// Create a connection to the printer
+			using (var printServer = new LocalPrintServer())
+			using (var printQueue = printServer.GetPrintQueue(printerName))
+			using (var printJob = printQueue.AddJob("Open Cash Drawer"))
+			{
+				using (var writer = new BinaryWriter(printJob.JobStream))
+				{
+					writer.Write(command);
+				}
+			}
+
+		}
+		private void Cierre_Click(object sender, RoutedEventArgs e)
+		{
+			cierreViewModel.TerminarCierre();
+		}
+		public void FileReadImpresora()
+		{
+			if (!File.Exists(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/impresora_config.txt"))
+			{
+				return;
+			}
+			try
+			{
+				// Leer todas las líneas del archivo
+				string[] lines = File.ReadAllLines(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/impresora_config.txt");
+
+				// Parsear el contenido del archivo
+				foreach (string line in lines)
+				{
+					string[] parts = line.Split(new[] { ": " }, StringSplitOptions.None);
+					if (parts.Length == 2)
+					{
+						switch (parts[0])
+						{
+							case "NombreImpresora":
+								nombreImpresora = parts[1];
+								break;
+							case "DescargarComo":
+								descargarComo = parts[1];
+								break;
+							case "CodigoDeControl":
+								codigoDeControl = parts[1];
+								break;
+							case "BalanceInicial":
+								balanceInicial = Convert.ToDecimal(parts[1]);
+								break;
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Error al leer la configuración del archivo: {ex.Message}");
 			}
 		}
 	}

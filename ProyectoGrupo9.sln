@@ -5,7 +5,7 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontEnd", "ProyectoGrupo9\FrontEnd.csproj", "{F1FEB7E1-B89E-4723-9102-5B915D0D58BA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontEndWPF", "FrontEndWPF\FrontEndWPF.csproj", "{E68A2E8E-0085-493C-ADFF-FC839DF1526D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Molino POS", "FrontEndWPF\Molino POS.csproj", "{E68A2E8E-0085-493C-ADFF-FC839DF1526D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

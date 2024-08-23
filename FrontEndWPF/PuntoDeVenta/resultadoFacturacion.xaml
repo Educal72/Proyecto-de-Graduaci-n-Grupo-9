@@ -5,7 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrontEndWPF"
         mc:Ignorable="d"
-        Title="resultadoFacturacion" Height="360" Width="520">
+        Title="resultadoFacturacion" Height="330" Width="520" WindowStyle="None"
+ResizeMode="NoResize"
+AllowsTransparency="True"
+Background="White"
+BorderBrush="Black"
+BorderThickness="1">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">

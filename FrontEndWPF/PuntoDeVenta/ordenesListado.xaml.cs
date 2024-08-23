@@ -11,6 +11,9 @@ using System.Windows.Navigation;
 using System.Windows.Threading;
 using FrontEndWPF;
 using static FrontEndWPF.PuntoVenta;
+using FrontEndWPF.Index;
+using System.Data.SqlClient;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace FrontEndWPF
 {
@@ -18,12 +21,13 @@ namespace FrontEndWPF
 	/// <summary>
 	/// Lógica de interacción para ordenesListadoxaml.xaml
 	/// </summary>
-	public partial class ordenesListado : Page
+	public partial class ordenesListado : System.Windows.Controls.Page
 	{
 		private DispatcherTimer timer;
 		public ObservableCollection<Order> Orders { get; set; }
-
+		FichajesViewModel fichajesViewModel = new FichajesViewModel();
 		OrdenesViewModel ordenesViewModel = new OrdenesViewModel();
+		Conexion conexion = new Conexion();
 		public ordenesListado()
 		{
 			InitializeComponent();
@@ -143,24 +147,51 @@ namespace FrontEndWPF
 			}
 		}
 
-		private void Anular(object sender, RoutedEventArgs e)
+		private void Fichaje_Click(object sender, RoutedEventArgs e)
 		{
-			Order selectedOrder = OrdersDataGrid.SelectedItem as Order;
-			if (selectedOrder != null)
+			CodigoBarras barcodeWindow = new CodigoBarras(fichajesViewModel);
+			barcodeWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			barcodeWindow.ShowDialog(); // Abre la ventana emergente y espera su cierre
+		}
+		public bool AnularOrden(int facturaId)
+		{
+			using (SqlConnection connection = conexion.OpenConnection())
 			{
-				MessageBoxResult result = MessageBox.Show("¿Está seguro que desea anular esta orden?", "Confirmar Anulación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-				if (result == MessageBoxResult.Yes)
+				string query = @"
+            UPDATE Orden
+            SET Estado = @Estado
+            FROM Orden
+            INNER JOIN Factura ON Orden.Id = Factura.IdOrden
+            WHERE Factura.Id = @FacturaId";
+
+				using (SqlCommand command = new SqlCommand(query, connection))
 				{
-					ordenesViewModel.AnularOrden(selectedOrder.Id);
-					LoadOrders();
+					command.Parameters.AddWithValue("@Estado", "Anulada");
+					command.Parameters.AddWithValue("@FacturaId", facturaId);
+					int rowsAffected = command.ExecuteNonQuery();
+					return rowsAffected > 0;
 				}
 			}
-			else
+		}
+
+		private void Button_Click_6(object sender, RoutedEventArgs e)
+		{
+			if (!int.TryParse(buscar.Text, out int result))
 			{
-				MessageBox.Show("Por favor, seleccione un elemento de la lista.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+				MessageBox.Show("Por favor, introduzca un número de factura válido.", "Error de validación", MessageBoxButton.OK, MessageBoxImage.Error);
+			}else
+			{
+				bool resultAnular = AnularOrden(Convert.ToInt32(buscar.Text));
+				if (resultAnular)
+				{
+					MessageBox.Show("Factura encontrada y anulada exitosamente.", "Factura Anulada", MessageBoxButton.OK, MessageBoxImage.Information);
+				}
+				else {
+					MessageBox.Show("El N° de Factura proporcionado no coincide con ninguna factura en el sistema.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+				}
 			}
 		}
-	}
+    }
 
 	public class ProductosOrden
 	{

@@ -75,5 +75,38 @@ namespace FrontEndWPF.ViewModel
 				}
 			}
 		}
+
+		public void PuntosCliente(int cedula, decimal puntos, decimal puntosUsados)
+		{
+			decimal result;
+			decimal nuevosPuntos;
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				string query2 = "SELECT Puntos FROM Cliente WHERE Cedula = @Cedula";
+
+				using (SqlCommand command2 = new SqlCommand(query2, connection))
+				{
+					command2.Parameters.Add(new SqlParameter("@Cedula", cedula));
+					result = (decimal)command2.ExecuteScalar();
+				}
+			}
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				string query = "UPDATE Cliente SET Puntos = @Puntos WHERE Cedula = @Cedula";
+				if (puntosUsados != 0) {
+					nuevosPuntos = 0.00m;
+				} else
+				{
+					nuevosPuntos = result + puntos;
+				}
+				 
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.Add(new SqlParameter("@Cedula", cedula));
+					command.Parameters.Add(new SqlParameter("@Puntos", nuevosPuntos));
+					command.ExecuteNonQuery();
+				}
+			}
+		}
 	}
 }

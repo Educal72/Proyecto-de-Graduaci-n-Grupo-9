@@ -64,7 +64,7 @@ namespace FrontEndWPF
 			}
 
             // Validar Cedula:
-            if (!int.TryParse(Cedula.Text, out _) && Cedula.Text.Length > 5)
+            if (!int.TryParse(Cedula.Text, out _))
 			{
 				errorMessage = "El campo Cedula es obligatorio y debe ser válido (sin guiones).";
 				return false;
@@ -78,7 +78,7 @@ namespace FrontEndWPF
 			}
 
             // Validar Puesto:
-            if (string.IsNullOrWhiteSpace(Puesto.Text) || Puesto.Text.Length < 3)
+            if (string.IsNullOrWhiteSpace(Puesto.Text))
 			{
 				errorMessage = "El campo Puesto es obligatorio.";
 				return false;
@@ -118,7 +118,7 @@ namespace FrontEndWPF
 			}
 
             // Validar Teléfono:
-            if (!int.TryParse(Telefono.Text, out _) && Telefono.Text.Length > 8)
+            if (!int.TryParse(Telefono.Text, out _))
 			{
 				errorMessage = "El campo Telefono es obligatorio y debe ser válido.";
 				return false;

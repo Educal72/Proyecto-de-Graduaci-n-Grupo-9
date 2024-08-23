@@ -13,7 +13,7 @@ namespace FrontEndWPF.ViewModel
     class FacturaViewModel
     {
 		Conexion conexion = new Conexion();
-		public int CrearFactura(int IdOrden, decimal CantidadPagada, int Impuestos, int Servicio, DateTime FechaCreacion, DateTime FechaCierre, string Cajero, int IdEmpleado, int IdCliente, decimal Descuento, decimal PuntosGanados, string MetodoPago, string TipoVenta, decimal Total)
+		public int CrearFactura(int IdOrden, decimal CantidadPagada, decimal Impuestos, decimal Servicio, DateTime FechaCreacion, DateTime FechaCierre, string Cajero, int IdEmpleado, int IdCliente, decimal Descuento, decimal PuntosGanados, string MetodoPago, string TipoVenta, decimal Total)
 		{
 			using (SqlConnection connection = conexion.OpenConnection())
 			{

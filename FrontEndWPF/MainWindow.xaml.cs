@@ -30,8 +30,8 @@ namespace FrontEndWPF
 		{
 			InitializeComponent();
 			WindowState = WindowState.Maximized;
-			Uri iconUri = new Uri(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/icono.ico", UriKind.RelativeOrAbsolute);
-			this.Icon = BitmapFrame.Create(iconUri);
+			//Uri iconUri = new Uri(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/icono.ico", UriKind.RelativeOrAbsolute);
+			//this.Icon = BitmapFrame.Create(iconUri);
 			Login Pagina2 = new Login();
 			mainFrame.Navigate(Pagina2);
 
@@ -51,6 +51,24 @@ namespace FrontEndWPF
 			mainFrame.Navigate(empleadosAdmin);
 		}
 
-		
+		private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			// If closing is not allowed, cancel the event
+			if (!_canClose)
+			{
+				e.Cancel = true;
+			}
+		}
+
+		private bool _canClose = false;
+
+		// Method to allow closing the application
+		public void ExitApplication()
+		{
+			_canClose = true;
+			Application.Current.Shutdown();
+		}
+
+
 	}
 }

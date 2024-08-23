@@ -12,6 +12,8 @@ using static FrontEndWPF.empleadosAdmin;
 using static FrontEndWPF.Modelos.UserModel;
 using static FrontEndWPF.Modelos.InventarioModel;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using FrontEndWPF.Index;
+using FrontEndWPF.ViewModel;
 
 
 namespace FrontEndWPF.Inventario
@@ -39,7 +41,8 @@ namespace FrontEndWPF.Inventario
             ProductosGrid.ItemsSource = productosViewModel.Productos;
             PopulateInventariosDataGrid();
             PopulateProductosDataGrid();
-        }
+			user.Content = "Usuario: " + SesionUsuario.Instance.nombre;
+		}
 
 
 		private void Timer_Tick(object sender, EventArgs e)
@@ -129,18 +132,18 @@ namespace FrontEndWPF.Inventario
                 return; // Salir del método si no hay ningún producto seleccionado
             }
 
-            MessageBoxResult result = MessageBox.Show("¿Está seguro que desea eliminar este producto?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            MessageBoxResult result = MessageBox.Show("¿Está seguro que desea desactivar este producto?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
                 bool eliminado = productosViewModel.EliminarProducto(selectedValue.Id);
                 if (eliminado)
                 {
-                    MessageBox.Show("Producto eliminado exitosamente!");
+                    MessageBox.Show("Producto desactivado exitosamente!");
                     ProductosGrid.Items.Refresh();
                 }
                 else
                 {
-                    MessageBox.Show("Error al eliminar el producto.");
+                    MessageBox.Show("Error al desactivar el producto.");
                 }
             }
         }
@@ -239,5 +242,37 @@ namespace FrontEndWPF.Inventario
                 MessageBox.Show("Seleccione un producto para editar.", "Editar Producto", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-    }
+
+		private void Fichaje_Click(object sender, RoutedEventArgs e)
+		{
+			FichajesViewModel fichajesViewModel = new FichajesViewModel();
+			CodigoBarras barcodeWindow = new CodigoBarras(fichajesViewModel);
+			barcodeWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			barcodeWindow.ShowDialog(); // Abre la ventana emergente y espera su cierre
+		}
+
+		private void ToggleButton_Checked(object sender, RoutedEventArgs e)
+		{
+
+        }
+
+        private void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(codigo.Text, out int result)) {
+                productosViewModel.GetProductoEspecifico(Convert.ToInt32(codigo.Text));
+                ProductosGrid.ItemsSource = productosViewModel.Productos; } 
+            else {
+                MessageBox.Show("Número de Código no válido.", "Error", MessageBoxButton.OK,MessageBoxImage.Error );
+            } 
+
+		}
+
+		private void Button_Click_8(object sender, RoutedEventArgs e)
+		{
+			productosViewModel = new ProductosViewModel();
+            productosViewModel.LoadProductosData();
+            PopulateProductosDataGrid();
+			ProductosGrid.Items.Refresh();
+		}
+	}
 }

@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using FrontEndWPF.Index;
+using FrontEndWPF.ViewModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using System.Windows.Threading;
@@ -30,7 +32,15 @@ namespace FrontEndWPF
                 }
             }
             loginUser.Content = "Usuario: "+ userName + " Rol: "+ userRol;
-
+            if (SesionUsuario.Instance.rol == "Admin")
+            {
+                comboRol.Visibility = Visibility.Visible;
+                rolTxt.Visibility = Visibility.Visible;
+            }
+            else {
+				comboRol.Visibility = Visibility.Collapsed;
+				rolTxt.Visibility = Visibility.Collapsed;
+			}
             // Establecer el DataContext con el ViewModel
             DataContext = new PerfilViewModel();
 
@@ -48,7 +58,14 @@ namespace FrontEndWPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.GoBack();
+            if (SesionUsuario.Instance.rol == "Salonero")
+            {
+				NavigationService.Navigate(new Uri("Empleados/empleadosNoAdmin.xaml", UriKind.Relative));
+			}
+            else { 
+                NavigationService.GoBack();
+            }
+            
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -94,9 +111,21 @@ namespace FrontEndWPF
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("Index/MenuPrincipal.xaml", UriKind.Relative));
-        }
+			if (SesionUsuario.Instance.rol == "Salonero")
+			{
+				NavigationService.Navigate(new Uri("Empleados/empleadosNoAdmin.xaml", UriKind.Relative));
+			}
+			else
+			{
+				NavigationService.GoBack();
+			}
+		}
 
-		
-	}
+		private void Button_Click_5(object sender, RoutedEventArgs e)
+		{
+            CambiarContrasenaVentana cambiarContrasenaVentana = new CambiarContrasenaVentana();
+			cambiarContrasenaVentana.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			cambiarContrasenaVentana.ShowDialog(); // Abre la ventana emergente y espera su cierre
+		}
+    }
 }

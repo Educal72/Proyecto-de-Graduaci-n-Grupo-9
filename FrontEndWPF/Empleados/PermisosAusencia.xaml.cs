@@ -77,7 +77,7 @@ namespace FrontEndWPF.Empleados
                 if (result == MessageBoxResult.Yes)
                 {
                     // Intentar eliminar el registro de la base de datos
-                    if (_viewModel.EliminarPermisoDeAusencia(selectedItem.IdEmpleado))
+                    if (_viewModel.EliminarPermisoDeAusencia(selectedItem.Id))
                     {
                         // Eliminar el registro de la colección si la eliminación en la base de datos fue exitosa
                         _viewModel.PermisosDeAusencia.Remove(selectedItem);

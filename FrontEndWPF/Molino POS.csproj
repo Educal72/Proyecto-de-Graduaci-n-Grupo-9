@@ -21,7 +21,6 @@
     <PackageReference Include="MahApps.Metro" Version="2.4.10" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2651.64" />
     <PackageReference Include="Pdfium.Net.SDK" Version="4.91.2704" />
-    <PackageReference Include="PdfiumViewer" Version="2.13.0" />
     <PackageReference Include="PdfPig" Version="0.1.8" />
     <PackageReference Include="PdfSharp" Version="6.1.1" />
     <PackageReference Include="RawInput.Sharp" Version="0.1.3" />
@@ -44,7 +43,16 @@
     <Compile Update="Empleados\editarEmpleado.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Empleados\InicidentesEmpleado.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Empleados\nuevaFAQ.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Empleados\DesvinculacionesEmpleado.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Empleados\PermisoAusenciaEmpleado.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Index\Impuesto.xaml.cs">
@@ -59,6 +67,9 @@
     <Compile Update="Index\BaseDeDatosPrimera.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Index\nuevoCierreVentana.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Inventario\nuevoProducto.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -66,6 +77,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Update="PuntoDeVenta\verCliente.xaml.cs">
       <SubType>Code</SubType>
@@ -83,10 +99,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="323715758_861857158399502_6847062045596271805_n-removebg-preview.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Empleados\DesvinculacionesEmpleado.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>
