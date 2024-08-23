@@ -66,8 +66,8 @@ namespace FrontEndWPF
 			}
 			else
 			{
-				//sesionUsuario.InsertarRoles();
-				//sesionUsuario.CrearUsuarioGenerico();
+				sesionUsuario.InsertarRoles();
+				sesionUsuario.CrearUsuarioGenerico();
 				Opcion1.Content = "Crear Usuario Admin";
 			}
 		}
