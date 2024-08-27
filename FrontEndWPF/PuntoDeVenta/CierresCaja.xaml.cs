@@ -165,7 +165,7 @@ namespace FrontEndWPF.PuntoDeVenta
 				DrawLeftRightText("Ingresos Gabinete", cierre.Ingresos.ToString(), 12, boldTypeface);
 				DrawLeftRightText("Total IVA 13%", cierre.TotalIVA.ToString(), 12, boldTypeface);
 				DrawLeftRightText("Total Servicio 10%", cierre.TotalServicios.ToString(), 12, boldTypeface);
-				DrawLeftRightText("Anuladas", "-"+cierre.Anulado.ToString(), 12, boldTypeface);
+				DrawLeftRightText("Anuladas", "-" + cierre.Anulado.ToString(), 12, boldTypeface);
 				DrawLeftRightText("Fondos Cierre", cierre.FondosCierre.ToString(), 12, boldTypeface);
 				DrawLeftRightText("Total Ganado", cierre.TotalFinal.ToString(), 12, boldTypeface);
 				DrawCenteredTextBold("----------------------------------------------------", 12, true);

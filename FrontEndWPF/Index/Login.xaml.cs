@@ -40,6 +40,7 @@ namespace FrontEndWPF
 		InicioSesionViewModel inicioSesionViewModel = new InicioSesionViewModel();
 		SesionUsuario sesionUsuario = new SesionUsuario();
 
+
 		/*
 		 * Instancia para poder enviar el correo y la contraseña -
 		 * temporal a la clase llamada: CambioContraseña.
@@ -59,16 +60,23 @@ namespace FrontEndWPF
 		public Login()
 		{
 			InitializeComponent();
-			conexion.OpenConnection();
-			if (conexion.HasEntries())
+			if (conexion.TestDatabaseConnection())
 			{
-				Opcion1.Content = "¿Olvidaste tu contraseña?";
+				conexion.OpenConnection();
+				if (conexion.HasEntries())
+				{
+					Opcion1.Content = "¿Olvidaste tu contraseña?";
+				}
+				else
+				{
+					sesionUsuario.InsertarRoles();
+					sesionUsuario.CrearUsuarioGenerico();
+					Opcion1.Content = "Crear Usuario Admin";
+				}
 			}
 			else
 			{
-				sesionUsuario.InsertarRoles();
-				sesionUsuario.CrearUsuarioGenerico();
-				Opcion1.Content = "Crear Usuario Admin";
+				MessageBox.Show("Sin conexión a base de datos, favor revisar archivo 'db_config.txt'.", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 

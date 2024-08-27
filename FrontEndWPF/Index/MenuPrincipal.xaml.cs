@@ -151,12 +151,13 @@ namespace FrontEndWPF
 						decimal itemPrice = nuevoItem.Precio;
 						var CajaId = cierreViewModel.CrearCierre(itemPrice, SesionUsuario.Instance.id);
 						SaveConfigToFile(CajaId);
-					}
-					Window parentWindow = Window.GetWindow(this);
+						Window parentWindow = Window.GetWindow(this);
 					if (parentWindow != null && parentWindow is MainWindow mainWindow)
 					{
 						mainWindow.mainFrame.Navigate(new PuntoVenta(0));
 					}
+					}
+					
 				}
 			} else {
 				Window parentWindow = Window.GetWindow(this);

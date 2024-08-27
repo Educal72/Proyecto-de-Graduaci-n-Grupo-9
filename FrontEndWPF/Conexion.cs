@@ -2065,5 +2065,32 @@ namespace FrontEndWPF
 				}
 			}
 		}
+
+		public bool TestDatabaseConnection()
+		{
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(connectionString))
+				{
+					connection.Open();
+
+					string query = "SELECT 1";
+					using (SqlCommand command = new SqlCommand(query, connection))
+					{
+						command.ExecuteScalar();
+					}
+					return true;
+				}
+			}
+			catch (SqlException ex)
+			{
+				return false;
+			}
+			catch (Exception ex)
+			{
+				return false;
+			}
+		}
 	}
+
 }

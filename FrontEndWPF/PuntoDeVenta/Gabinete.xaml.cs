@@ -31,13 +31,32 @@ namespace FrontEndWPF.PuntoDeVenta
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
+			decimal dinero = Convert.ToDecimal(cantidadItem.Text);
 			if (!decimal.TryParse(cantidadItem.Text, out decimal result))
 			{
 				MessageBox.Show("Por favor, introduzca un cantidad valida.", "Error de validación", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+			else if (tipoComboBox.Text == "Egreso" && !cierreViewModel.CheckEgreso(dinero))
+			{
+				var resultMessage = MessageBox.Show("¡Puede que este intentado sacar más dinero del disponible en caja! ¿Desea continuar igualmente?", "Advertencia Egreso", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+				if (resultMessage == MessageBoxResult.Yes)
+				{
+					if (tipoComboBox.Text == "Egreso")
+					{
+						tipo = tipoComboBox.Text;
+						cierreViewModel.Gabinete(tipoComboBox.Text, dinero);
+						DialogResult = true;
+					}
+					else if (tipoComboBox.Text == "Ingreso")
+					{
+						tipo = tipoComboBox.Text;
+						cierreViewModel.Gabinete(tipoComboBox.Text, dinero);
+						DialogResult = true;
+					}
+				}
+			}
 			else
 			{
-				decimal dinero = Convert.ToDecimal(cantidadItem.Text);
 				if (tipoComboBox.Text == "Egreso" && cierreViewModel.CheckEgreso(dinero))
 				{
 					tipo = tipoComboBox.Text;
@@ -50,10 +69,6 @@ namespace FrontEndWPF.PuntoDeVenta
 					cierreViewModel.Gabinete(tipoComboBox.Text, dinero);
 					DialogResult = true;
 				}
-				else if(tipoComboBox.Text == "Egreso" && !cierreViewModel.CheckEgreso(dinero)) {
-					MessageBox.Show("¡Intenta retirar más del dinero disponible!", "Operación Invalida", MessageBoxButton.OK, MessageBoxImage.Error);
-				}
-				
 			}
         }
 

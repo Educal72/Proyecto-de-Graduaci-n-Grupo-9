@@ -1,2 +1,3 @@
 IVA: 0
 Servicio: 10
+Tipo Cambio: 531,00

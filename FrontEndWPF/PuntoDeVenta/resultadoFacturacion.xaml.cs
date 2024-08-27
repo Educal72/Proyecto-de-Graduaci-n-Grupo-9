@@ -44,7 +44,7 @@ namespace FrontEndWPF
 		decimal impuestosGenerados;
 		decimal Fiva;
 		decimal Fservicio;
-
+		decimal Fcambio;
 		public resultadoFacturacion(bool isAsociado, string cantidadPagar, string cantidadPagada, List<Facturacion.carritoItem> carrito, decimal CantidadPagada, int Impuestos, int Servicio, DateTime FechaCreacion, string Cajero, decimal Descuento, decimal PuntosGanados, string MetodoPago, string TipoVenta, decimal Total, decimal Subtotal, string Cliente, int Factura, string Salonero, decimal ServicioD, decimal ImpuestosGenerados)
 		{
 			InitializeComponent();
@@ -77,7 +77,7 @@ namespace FrontEndWPF
 			servicioD = ServicioD;
 			impuestosGenerados = ImpuestosGenerados;
 			GenerarFactura();
-			if (tipo == "Efectivo") { 
+			if (metodopago == "Efectivo") { 
 				cierreViewModel.VentaEfectivo(totalPagar);
 			}
 			
@@ -201,6 +201,9 @@ namespace FrontEndWPF
 								break;
 							case "Servicio":
 								Fservicio = Convert.ToDecimal(parts[1]);
+								break;
+							case "Tipo Cambio":
+								Fcambio = Convert.ToDecimal(parts[1]);
 								break;
 						}
 					}

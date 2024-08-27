@@ -3,7 +3,6 @@ using FrontEndWPF.Index;
 using FrontEndWPF.PuntoDeVenta;
 using FrontEndWPF.Reporteria;
 using FrontEndWPF.ViewModel;
-using PdfSharp.Drawing.BarCodes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -422,7 +421,23 @@ namespace FrontEndWPF
 		}
 		private void Cierre_Click(object sender, RoutedEventArgs e)
 		{
-			cierreViewModel.TerminarCierre();
+			MessageBoxResult result = MessageBox.Show("¿Está seguro que desea hacer el cierre de caja?", "Confirmar Cierre", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+			if (result == MessageBoxResult.Yes)
+			{
+				if (cierreViewModel.TerminarCierre())
+				{
+					MessageBox.Show("El cierre se realizó correctamente.", "Cierre de Caja", MessageBoxButton.OK, MessageBoxImage.Information);
+					Window parentWindow = Window.GetWindow(this);
+					if (parentWindow != null && parentWindow is MainWindow mainWindow)
+					{
+						mainWindow.mainFrame.Navigate(new MenuPrincipal());
+					}
+				}
+				else
+				{
+					MessageBox.Show("Error durante el cierre.", "Cierre de Caja", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+			}
 		}
 		public void FileReadImpresora()
 		{

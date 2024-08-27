@@ -88,7 +88,7 @@ namespace FrontEndWPF.ViewModel
 
 			using (SqlConnection connection = conexion.OpenConnection())
 			{
-				string query = "INSERT INTO CierreCaja (IdUsuario, FechaApertura, FondosApertura, Estado, FondosCierre, Ingresos, Egresos) OUTPUT Inserted.Id VALUES (@IdUsuario, @FechaApertura, @FondosApertura, @Estado, @FondosCierre,@Ingresos,@Egresos)";
+				string query = "INSERT INTO CierreCaja (IdUsuario, FechaApertura, FondosApertura, Estado, FondosCierre, Ingresos, Egresos, PagadoEfectivo, PagadoTarjeta, TotalFinal, TotalIVA, TotalServicios, TotalRestaurante, TotalPedidosYa, TotalUberEats, Anulado, TotalLlevar) OUTPUT Inserted.Id VALUES (@IdUsuario, @FechaApertura, @FondosApertura, @Estado, @FondosCierre,@Ingresos,@Egresos,0,0,0,0,0,0,0,0,0,0)";
 
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
@@ -105,12 +105,46 @@ namespace FrontEndWPF.ViewModel
 			}
 		}
 
-		public void TerminarCierre()
+		public bool ActualizarCierre(Cierre cierre)
 		{
 			FileRead();
 			using (SqlConnection connection = conexion.OpenConnection())
 			{
-				string query = @"SELECT 
+				string query = "UPDATE CierreCaja SET PagadoEfectivo = @PagadoEfectivo, PagadoTarjeta = @PagadoTarjeta, TotalFinal = @TotalFinal, TotalIVA = @TotalIVA, TotalServicios = @TotalServicios, TotalRestaurante = @TotalRestaurante, TotalPedidosYa = @TotalPedidosYa, TotalUberEats = @TotalUberEats, Anulado = @Anulado, TotalLlevar = @TotalLlevar, Cierre = @Cierre WHERE Id = @Id";
+
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.AddWithValue("@PagadoEfectivo", cierre.PagadoEfectivo);
+					command.Parameters.AddWithValue("@PagadoTarjeta", cierre.PagadoTarjeta);
+					command.Parameters.AddWithValue("@TotalFinal", cierre.TotalFinal);
+					command.Parameters.AddWithValue("@TotalIVA", cierre.TotalIVA);
+					command.Parameters.AddWithValue("@TotalServicios", cierre.TotalServicios);
+					command.Parameters.AddWithValue("@TotalRestaurante",cierre.TotalRestaurante);
+					command.Parameters.AddWithValue("@TotalPedidosYa", cierre.TotalPedidosYa);
+					command.Parameters.AddWithValue("@TotalUberEats", cierre.TotalUberEats);
+					command.Parameters.AddWithValue("@Anulado", cierre.Anulado);
+					command.Parameters.AddWithValue("@TotalLlevar", cierre.TotalLlevar);
+					command.Parameters.AddWithValue("@Cierre", DateTime.Now);
+					command.Parameters.AddWithValue("@Id", CajaId);
+					int newOrderId = (int)command.ExecuteNonQuery();
+					if (newOrderId > 0) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+		}
+
+		public bool TerminarCierre()
+		{
+			try
+			{
+
+				FileRead();
+				using (SqlConnection connection = conexion.OpenConnection())
+				{
+					string query = @"SELECT 
 					SUM(CASE WHEN MetodoPago = 'Efectivo' THEN Total ELSE 0 END) AS SumaEfectivo,
 					SUM(CASE WHEN MetodoPago = 'Tarjeta' THEN Total ELSE 0 END) AS SumaTarjeta,
 					SUM(Impuestos) AS SumaImpuestos,
@@ -125,30 +159,30 @@ namespace FrontEndWPF.ViewModel
 						WHERE FechaCreacion > @FechaCreacion
 						AND Orden.Estado = 'Facturada';";
 
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					command.Parameters.AddWithValue("@FechaCreacion", GetFechaActualCierre());
-					using (SqlDataReader reader = command.ExecuteReader())
+					using (SqlCommand command = new SqlCommand(query, connection))
 					{
-						while (reader.Read())
+						command.Parameters.AddWithValue("@FechaCreacion", GetFechaActualCierre());
+						using (SqlDataReader reader = command.ExecuteReader())
 						{
-							PagadoEfectivo = (decimal)reader["SumaEfectivo"];
-							PagadoTarjeta = (decimal)reader["SumaTarjeta"];
-							TotalFinal = (decimal)reader["Total"];
-							TotalIVA = (decimal)reader["SumaImpuestos"];
-							TotalServicios = (decimal)reader["SumaServicio"];
-							TotalRestaurante = (decimal)reader["SumaRestaurante"];
-							TotalParaLlevar = (decimal)reader["SumaParaLlevar"];
-							TotalPedidosYa = (decimal)reader["SumaPedidosYa"];
-							TotalUberEats = (decimal)reader["SumaUberEats"];
+							while (reader.Read())
+							{
+								PagadoEfectivo = reader["SumaEfectivo"] == DBNull.Value ? 0m : (decimal)reader["SumaEfectivo"];
+								PagadoTarjeta = reader["SumaTarjeta"] == DBNull.Value ? 0m : (decimal)reader["SumaTarjeta"];
+								TotalFinal = reader["Total"] == DBNull.Value ? 0m : (decimal)reader["Total"];
+								TotalIVA = reader["SumaImpuestos"] == DBNull.Value ? 0m : (decimal)reader["SumaImpuestos"];
+								TotalServicios = reader["SumaServicio"] == DBNull.Value ? 0m : (decimal)reader["SumaServicio"];
+								TotalRestaurante = reader["SumaRestaurante"] == DBNull.Value ? 0m : (decimal)reader["SumaRestaurante"];
+								TotalParaLlevar = reader["SumaParaLlevar"] == DBNull.Value ? 0m : (decimal)reader["SumaParaLlevar"];
+								TotalPedidosYa = reader["SumaPedidosYa"] == DBNull.Value ? 0m : (decimal)reader["SumaPedidosYa"];
+								TotalUberEats = reader["SumaUberEats"] == DBNull.Value ? 0m : (decimal)reader["SumaUberEats"];
+							}
 						}
 					}
 				}
-			}
 
-			using (SqlConnection connection = conexion.OpenConnection())
-			{
-				string query2 = @"SELECT 
+				using (SqlConnection connection = conexion.OpenConnection())
+				{
+					string query2 = @"SELECT 
 								Id,
 								IdUsuario,
 								FechaApertura,
@@ -159,25 +193,25 @@ namespace FrontEndWPF.ViewModel
 								FondosCierre
 								FROM CierreCaja WHERE Id = @Id;";
 
-				using (SqlCommand command2 = new SqlCommand(query2, connection))
-				{
-					command2.Parameters.AddWithValue("@Id", CajaId);
-					using (SqlDataReader reader2 = command2.ExecuteReader())
+					using (SqlCommand command2 = new SqlCommand(query2, connection))
 					{
-						while (reader2.Read())
+						command2.Parameters.AddWithValue("@Id", CajaId);
+						using (SqlDataReader reader2 = command2.ExecuteReader())
 						{
-							Id = (int)reader2["Id"];
-							IdUsuario = (int)reader2["IdUsuario"];
-							FechaApertura = (DateTime)reader2["FechaApertura"];
-							FondosApertura = (decimal)reader2["FondosApertura"];
-							Egresos = (decimal)reader2["Egresos"];
-							Ingresos = (decimal)reader2["Ingresos"];
-							FondosCierre = (decimal)reader2["FondosCierre"];
+							while (reader2.Read())
+							{
+								Id = (int)reader2["Id"];
+								IdUsuario = (int)reader2["IdUsuario"];
+								FechaApertura = (DateTime)reader2["FechaApertura"];
+								FondosApertura = (decimal)reader2["FondosApertura"];
+								Egresos = (decimal)reader2["Egresos"];
+								Ingresos = (decimal)reader2["Ingresos"];
+								FondosCierre = (decimal)reader2["FondosCierre"];
+							}
 						}
 					}
-				}
 
-				string query3 = @"SELECT 
+					string query3 = @"SELECT 
 				SUM(Factura.Total) AS SumaAnuladas
 					FROM 
 				Factura
@@ -186,50 +220,61 @@ namespace FrontEndWPF.ViewModel
 					WHERE 
 				Orden.Estado = 'Anulada';";
 
-				using (SqlCommand command3 = new SqlCommand(query3, connection))
-				{
-					using (SqlDataReader reader3 = command3.ExecuteReader())
+					using (SqlCommand command3 = new SqlCommand(query3, connection))
 					{
-						while (reader3.Read())
+						using (SqlDataReader reader3 = command3.ExecuteReader())
 						{
-							decimal sumaAnulada = reader3["SumaAnuladas"] != DBNull.Value
-	? (decimal)reader3["SumaAnuladas"]
-	: 0;
+							while (reader3.Read())
+							{
+								decimal sumaAnulada = reader3["SumaAnuladas"] != DBNull.Value
+		? (decimal)reader3["SumaAnuladas"]
+		: 0;
+							}
 						}
 					}
+					TotalFinal = TotalFinal - Egresos + Ingresos;
+					Cierre cierre = new Cierre
+					{
+						Id = Id,
+						IdUsuario = IdUsuario,
+						NombreUsuario = GetUserById(),
+						FechaApertura = FechaApertura,
+						CierreFecha = DateTime.Now,
+						FondosApertura = FondosApertura,
+						PagadoEfectivo = PagadoEfectivo,
+						PagadoTarjeta = PagadoTarjeta,
+						Ingresos = Ingresos,
+						Egresos = Egresos,
+						TotalFinal = TotalFinal,
+						TotalIVA = TotalIVA,
+						TotalServicios = TotalServicios,
+						TotalRestaurante = TotalRestaurante,
+						TotalLlevar = TotalParaLlevar,
+						TotalPedidosYa = TotalPedidosYa,
+						TotalUberEats = TotalUberEats,
+						Anulado = Anulado,
+						FondosCierre = FondosCierre,
+						Estado = "Cerrada"
+					};
+					CierresCaja cierresCaja = new CierresCaja(cierre);
+					if (ActualizarCierre(cierre)) {
+						CerrarCiere();
+						return true;
+					} else {
+						return false;
+					} 
+					
+					
 				}
-				TotalFinal = TotalFinal - Egresos + Ingresos;
-				FondosCierre = FondosCierre + PagadoEfectivo;
-				Cierre cierre = new Cierre
-				{
-					Id = Id,
-					IdUsuario = IdUsuario,
-					NombreUsuario = GetUserById(),
-					FechaApertura = FechaApertura,
-					CierreFecha = DateTime.Now,
-					FondosApertura = FondosApertura,
-					PagadoEfectivo = PagadoEfectivo,
-					PagadoTarjeta = PagadoTarjeta,
-					Ingresos = Ingresos,
-					Egresos = Egresos,
-					TotalFinal = TotalFinal,
-					TotalIVA = TotalIVA,
-					TotalServicios = TotalServicios,
-					TotalRestaurante = TotalRestaurante,
-					TotalLlevar = TotalParaLlevar,
-					TotalPedidosYa = TotalPedidosYa,
-					TotalUberEats = TotalUberEats,
-					Anulado = Anulado,
-					FondosCierre = FondosCierre,
-					Estado = "Cerrada"
-				};
-				CierresCaja cierresCaja = new CierresCaja(cierre);
-				CerrarCiere();
+			}
+			catch (Exception ex) {
+				return false;
 			}
 		}
 
 		public void CerrarCiere()
 		{
+			FileRead();
 			using (SqlConnection connection = conexion.OpenConnection())
 			{
 				string query = "UPDATE CierreCaja SET Estado = @Estado WHERE Id = @Id";

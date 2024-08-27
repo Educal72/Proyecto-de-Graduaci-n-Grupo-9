@@ -12,12 +12,29 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <!-- Adding DropShadowEffect -->
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10"
+           ShadowDepth="5"
+           Color="Black"
+           Opacity="0.5"/>
+                            </Border.Effect>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
+                            <!-- Trigger to slightly darken the button on mouse-over -->
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                                <!-- Apply a semi-transparent black overlay to darken the colors -->
+                                <Setter TargetName="border" Property="Background">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{Binding Background.Color, RelativeSource={RelativeSource TemplatedParent}}" Opacity="0.8"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="border" Property="BorderBrush">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{Binding BorderBrush.Color, RelativeSource={RelativeSource TemplatedParent}}" Opacity="0.8"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -114,10 +131,11 @@
             <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Top">
                 <Button Content="Facturar" Height="100" Width="200" FontFamily="Roboto" FontSize="24"
                     Background="#FFABD904" Click="Button_Click_4"/>
+                <Button Content="Ver" Height="75" Width="200" FontFamily="Roboto" FontSize="24" Background="#ffc107"
+    Margin="0,10,0,0" Click="Button_Click_2"/>
                 <Button Content="Eliminar" Height="50" Width="200" FontFamily="Roboto" FontSize="24"
-                    Margin="0,10,0,0" Click="Button_Click_1"/>
-                <Button Content="Ver" Height="75" Width="200" FontFamily="Roboto" FontSize="24"
-                    Margin="0,10,0,0" Click="Button_Click_2"/>
+                    Margin="0,10,0,0" Click="Button_Click_1" Foreground="#fafafa" Background="#dc3545"/>
+                
 
                 <TextBlock TextAlignment="Center" FontFamily="Roboto Medium" FontSize="20" Padding="0,25,0,10">
 <Run Text="Anulación de"/>
@@ -126,7 +144,7 @@
                 </TextBlock>
                 <TextBox x:Name="buscar" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Height="45" FontFamily="Roboto" FontSize="36"/>
                 <Button Content="Buscar Factura" Height="45" Width="200" FontFamily="Roboto" FontSize="24"
-    Margin="0,10,0,0" Click="Button_Click_6"/>
+    Margin="0,10,0,0" Click="Button_Click_6" Foreground="#fafafa" Background="#007bff"/>
             </StackPanel>
         </Grid>
         <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Fichaje" Background="#FFABD904" Click="Fichaje_Click" VerticalAlignment="Top" Margin="0,103,105,0" HorizontalAlignment="Right" Width="100"/>

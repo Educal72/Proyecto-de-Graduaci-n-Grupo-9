@@ -30,6 +30,7 @@ namespace FrontEndWPF.PuntoDeVenta
 		private string Fcorreo;
 		private string Fdireccion;
 		private string Fiva;
+		public decimal Fcambio;
 		private string Fservicio;
 		private string NombreImpresora;
 		private string DescargarComo;
@@ -319,6 +320,9 @@ namespace FrontEndWPF.PuntoDeVenta
 								break;
 							case "Servicio":
 								Fservicio = parts[1];
+								break;
+							case "Tipo Cambio":
+								Fcambio = Convert.ToDecimal(parts[1]);
 								break;
 						}
 					}

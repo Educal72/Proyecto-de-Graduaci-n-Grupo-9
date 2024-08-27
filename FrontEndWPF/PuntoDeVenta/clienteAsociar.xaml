@@ -12,12 +12,29 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <!-- Adding DropShadowEffect -->
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10"
+           ShadowDepth="5"
+           Color="Black"
+           Opacity="0.5"/>
+                            </Border.Effect>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
+                            <!-- Trigger to slightly darken the button on mouse-over -->
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                                <!-- Apply a semi-transparent black overlay to darken the colors -->
+                                <Setter TargetName="border" Property="Background">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{Binding Background.Color, RelativeSource={RelativeSource TemplatedParent}}" Opacity="0.8"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="border" Property="BorderBrush">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{Binding BorderBrush.Color, RelativeSource={RelativeSource TemplatedParent}}" Opacity="0.8"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -100,7 +117,7 @@
                 <Button Grid.Column="0" Grid.Row="0" Content="Limpiar" Margin="535,195,0,0" VerticalAlignment="Top" Height="55" FontFamily="Roboto" FontSize="36" Click="Button_Click_2" HorizontalContentAlignment="Center" Width="130" HorizontalAlignment="Left"/>
                 <Button Grid.Column="2" Grid.Row="3" Content="Ver" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="100" Width="200" FontFamily="Roboto" FontSize="36" Click="Button_Click_4" Margin="5,0,10,5"/>
                 <Button Grid.Column="2" Grid.Row="2" Content="Nuevo" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="100" Width="200" FontFamily="Roboto" FontSize="36" Click="Button_Click_3" Margin="5,0,10,5"/>
-                <Button Grid.Column="2" Grid.Row="4" Content="Eliminar" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="100" Width="200" FontFamily="Roboto" FontSize="36" Click="Button_Click_6" Margin="5,0,10,5"/>
+                <Button Grid.Column="2" Grid.Row="4" Content="Eliminar" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="100" Width="200" FontFamily="Roboto" FontSize="36" Click="Button_Click_6" Margin="5,0,10,5" />
             </Grid>
 
 

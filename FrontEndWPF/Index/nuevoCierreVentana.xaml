@@ -1,7 +1,7 @@
 ﻿<Window x:Class="FrontEndWPF.nuevoCierreVentana"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Nuevo Item" Height="280" Width="450"
+        Title="Nuevo Item" Height="350" Width="525"
         WindowStyle="None"
         ResizeMode="NoResize"
         AllowsTransparency="True"
@@ -58,6 +58,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -69,8 +70,10 @@
         <Label Content="Ingrese la cantidad en el gabinete para abrir la caja." Grid.Row="1" Grid.ColumnSpan="4" FontSize="16" Foreground="#FF5D5D5D" Margin="0,0,0,20" HorizontalAlignment="Left"/>
         <Label Content="Cantidad:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
         <TextBox x:Name="precioItem" Grid.Row="2" Grid.Column="1" Width="278"/>
+        <Label Content="Tipo de Cambio:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="cambioItem" Grid.Row="3" Grid.Column="1" Width="278"/>
         <!-- Buttons -->
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,20,0,0" HorizontalAlignment="Right">
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,20,0,0" HorizontalAlignment="Right">
             <Button Content="Agregar" Click="Button_Click" Foreground="#fafafa" Background="#28a745" Height="40" Width="100"/>
             <Button Content="Cancelar" Click="Button_Click_1" Foreground="#fafafa" Background="#dc3545" Height="40" Width="100"/>
         </StackPanel>

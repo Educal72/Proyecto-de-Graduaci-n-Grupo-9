@@ -26,6 +26,7 @@ namespace FrontEndWPF.Index
 	{
 		private string Fservicio;
 		private string Fiva;
+		private decimal Fcambio;
 		public Impuesto()
 		{
 			InitializeComponent();
@@ -42,14 +43,18 @@ namespace FrontEndWPF.Index
 			{
 				MessageBox.Show("Por favor, introduzca un porcentaje de Servicio válido Ej. 10.", "Error de validación", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+			else if (!decimal.TryParse(tipoCambio.Text, out decimal result3))
+			{
+				MessageBox.Show("Por favor, introduzca un tipo de cambio válido Ej. 10.", "Error de validación", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
 			else
 			{
-				SaveConfigToFile(Convert.ToInt32(iva.Text), Convert.ToInt32(servicio.Text));
+				SaveConfigToFile(Convert.ToInt32(iva.Text), Convert.ToInt32(servicio.Text), Convert.ToDecimal(tipoCambio.Text));
 			}
 			
 		}
 
-		private void SaveConfigToFile(int IVA, int servicio)
+		private void SaveConfigToFile(int IVA, int servicio, decimal tipoCambio)
 		{
 			string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
@@ -64,7 +69,8 @@ namespace FrontEndWPF.Index
 			string filePath = System.IO.Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, "imp_config.txt");
 
 			string content = $"IVA: {IVA}\n" +
-							 $"Servicio: {servicio}\n";
+							 $"Servicio: {servicio}\n" +
+							 $"Tipo Cambio: {tipoCambio}\n";
 			try
 			{
 				File.WriteAllText(filePath, content);
@@ -101,11 +107,15 @@ namespace FrontEndWPF.Index
 							case "Servicio":
 								Fservicio = parts[1];
 								break;
+							case "Tipo Cambio":
+								Fcambio = Convert.ToDecimal(parts[1]);
+								break;
 						}
 					}
 				}
 				iva.Text = Fiva;
 				servicio.Text = Fservicio;
+				tipoCambio.Text = Fcambio.ToString();
 			}
 			catch (Exception ex)
 			{

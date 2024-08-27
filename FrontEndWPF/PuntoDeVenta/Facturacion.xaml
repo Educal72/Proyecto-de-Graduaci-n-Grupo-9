@@ -12,12 +12,29 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <!-- Adding DropShadowEffect -->
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10"
+           ShadowDepth="5"
+           Color="Black"
+           Opacity="0.5"/>
+                            </Border.Effect>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
+                            <!-- Trigger to slightly darken the button on mouse-over -->
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                                <!-- Apply a semi-transparent black overlay to darken the colors -->
+                                <Setter TargetName="border" Property="Background">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{Binding Background.Color, RelativeSource={RelativeSource TemplatedParent}}" Opacity="0.8"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="border" Property="BorderBrush">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{Binding BorderBrush.Color, RelativeSource={RelativeSource TemplatedParent}}" Opacity="0.8"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -101,17 +118,21 @@
             <TextBox  Grid.Column="1" x:Name="servicio" Margin="130,0,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" FontSize="18" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="275" TextChanged="servicio_TextChanged" PreviewTextInput="NumericTextBox_PreviewTextInput"/>
             <Label Grid.Column="1" Grid.Row="1" Content="Descuento: ₡ " VerticalAlignment="Center" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Left" Width="130" Height="30" Margin="0,0,0,5"/>
             <TextBox Grid.Column="1" Grid.Row="1" x:Name="descuento" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" FontSize="18" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center" Margin="130,0,0,5" HorizontalAlignment="Left" Width="150"/>
-            <Button Grid.Column="1" Grid.Row="1" x:Name="puntos" Content="Puntos" VerticalAlignment="Center" Width="120" Height="30" FontFamily="Roboto" FontSize="18" RenderTransformOrigin="0.517,0.579" Click="Button_Click_5" Margin="285,0,0,5" HorizontalAlignment="Left"/>
+            <Button Grid.Column="1" Grid.Row="1" x:Name="puntos" Content="Puntos" VerticalAlignment="Center" Width="120" Height="30" FontFamily="Roboto" FontSize="18" RenderTransformOrigin="0.517,0.579" Click="Button_Click_5" Margin="285,0,0,5" HorizontalAlignment="Left" Foreground="#343a40" Background="#ffc107"/>
             <Label Grid.Column="1" Grid.Row="2" x:Name="impuestoT" Content="Impuesto: 13%" VerticalAlignment="Center" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Left" Width="130" Height="30" Margin="0,0,0,5"/>
             <TextBox Grid.Column="1" Grid.Row="2" x:Name="impuesto" Margin="130,0,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" FontSize="18" FontFamily="Roboto" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="275" IsEnabled="False"/>
             <Label Grid.Column="1" Grid.Row="3" Content="Subtotal: ₡ " VerticalAlignment="Center" FontFamily="Roboto" FontSize="24" HorizontalAlignment="Left" Width="130" Height="35" Margin="0,0,0,5"/>
             <TextBox Grid.Column="1" Grid.Row="3" x:Name="subtotal" Margin="130,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" FontSize="18" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="275"/>
-            <Label Grid.Column="2" Height="65" Grid.RowSpan="2" Grid.Row="2"  Content="Total: ₡ " FontFamily="Roboto" FontSize="48" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="175" Margin="-1,0,0,5"/>
+            <Label x:Name="totalLabel" Grid.Column="2" Height="65" Grid.RowSpan="2" Grid.Row="2"  Content="Total: ₡ " FontFamily="Roboto" FontSize="48" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="175" Margin="-1,0,0,5"/>
             <TextBox Grid.Column="2" Height="65" Grid.RowSpan="2" Grid.Row="2"  x:Name="total" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="24" FontFamily="Roboto" IsEnabled="False" VerticalContentAlignment="Center" Margin="172,2,0,5" HorizontalAlignment="Left" Width="348"/>
             <Grid Grid.Column="1" Grid.ColumnSpan="2" Height="68" Margin="10,0,10,0" Grid.Row="6" VerticalAlignment="Center">
-                <Label Content="Cantidad Pagada: ₡ " VerticalAlignment="Center" FontFamily="Roboto" FontSize="36" HorizontalAlignment="Left" Width="330"/>
-                <TextBox x:Name="pagado" Margin="330,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="56" FontFamily="Roboto" FontSize="48" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="410"/>
-                <Button Content="Pago Exacto" VerticalAlignment="Center" Height="56" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.517,0.579" Click="Button_Click_1" HorizontalAlignment="Left" Width="190" Margin="745,0,0,0"/>
+                <Label Content="Cantidad Pagada:" VerticalAlignment="Center" FontFamily="Roboto" FontSize="36" HorizontalAlignment="Left"/>
+                <TextBox x:Name="pagado" Margin="350,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="56" FontFamily="Roboto" FontSize="48" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="390"/>
+                <Button Content="Pago Exacto" VerticalAlignment="Center" Height="56" FontFamily="Roboto" FontSize="24" RenderTransformOrigin="0.517,0.579" Click="Button_Click_1" HorizontalAlignment="Left" Width="190" Margin="745,0,0,0" Foreground="#fafafa" Background="#28a745"/>
+                <ComboBox x:Name="tipoCambio" HorizontalAlignment="Left" Margin="293,0,0,0" VerticalAlignment="Center" Width="57" Height="56" FontSize="34" FontFamily="Roboto" SelectedIndex="0" VerticalContentAlignment="Center" SelectionChanged="ComboBox_SelectionChanged">
+                    <ComboBoxItem Content="₡"/>
+                    <ComboBoxItem Content="$"/>
+                </ComboBox>
             </Grid>
             <Label Grid.Column="2" Grid.Row="0" Content="Cliente Asociado:" VerticalAlignment="Center" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Left" Width="165" Height="30" Margin="0,0,0,5"/>
             <TextBox Grid.Column="2" Grid.Row="0" x:Name="cliente" Margin="165,0,0,5" TextWrapping="Wrap" VerticalAlignment="Center" Height="30" FontSize="18" FontFamily="Roboto" IsEnabled="False" Text="Génerico N/A" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="354"/>
@@ -141,8 +162,8 @@
                 </StackPanel>
             </GroupBox>
 
-            <Button Content="Asociar Salonero" Grid.Row="9" Grid.Column="2" Margin="62,0,10,0" VerticalAlignment="Center" FontFamily="Roboto" FontSize="36" Click="Button_Click_3"/>
-            <Button Content="Asociar Cliente" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,0,482,0" VerticalAlignment="Center" FontFamily="Roboto" FontSize="36" Click="Button_Click_2" Width="465"/>
+            <Button Content="Asociar Salonero" Grid.Row="9" Grid.Column="2" Margin="62,0,10,0" VerticalAlignment="Center" FontFamily="Roboto" FontSize="36" Click="Button_Click_3" Width="Auto" />
+            <Button Content="Asociar Cliente" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,0,482,0" VerticalAlignment="Center" FontFamily="Roboto" FontSize="36" Click="Button_Click_2" Width="Auto" />
             <Button Content="Procesar" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,10,10,10" FontFamily="Roboto" FontSize="36" Background="#FFABD904" Click="Button_Click_4"/>
         </Grid>
         <Viewbox></Viewbox>
