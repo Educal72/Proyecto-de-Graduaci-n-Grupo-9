@@ -182,17 +182,46 @@ namespace FrontEndWPF
 				MessageBox.Show("Por favor, introduzca un número de factura válido.", "Error de validación", MessageBoxButton.OK, MessageBoxImage.Error);
 			}else
 			{
-				bool resultAnular = AnularOrden(Convert.ToInt32(buscar.Text));
-				if (resultAnular)
+				bool resultCheck = FacturaExists(Convert.ToInt32(buscar.Text));
+				if (resultCheck)
 				{
-					MessageBox.Show("Factura encontrada y anulada exitosamente.", "Factura Anulada", MessageBoxButton.OK, MessageBoxImage.Information);
+					MessageBoxResult message = MessageBox.Show("¿Factura encontrada. ¿Seguro que desea eliminarla?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+					if (message == MessageBoxResult.Yes)
+					{
+						bool resultAnular = AnularOrden(Convert.ToInt32(buscar.Text));
+						MessageBox.Show("Factura anulada exitosamente.", "Factura Anulada", MessageBoxButton.OK, MessageBoxImage.Information);
+					}
 				}
-				else {
+				else
+				{
 					MessageBox.Show("El N° de Factura proporcionado no coincide con ninguna factura en el sistema.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
 				}
 			}
 		}
-    }
+		public bool FacturaExists(int facturaId)
+		{
+			using (SqlConnection connection = conexion.OpenConnection())
+			{
+				string query = @"
+            SELECT CASE 
+                    WHEN EXISTS (
+                        SELECT 1 
+                        FROM Factura 
+                        WHERE Id = @FacturaId
+                    ) 
+                    THEN 1 
+                    ELSE 0 
+                   END";
+
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					command.Parameters.AddWithValue("@FacturaId", facturaId);
+					int exists = (int)command.ExecuteScalar();
+					return exists == 1;
+				}
+			}
+		}
+	}
 
 	public class ProductosOrden
 	{

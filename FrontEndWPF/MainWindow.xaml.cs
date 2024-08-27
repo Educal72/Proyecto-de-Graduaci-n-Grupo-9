@@ -16,7 +16,8 @@ using System.Windows.Interop;
 using System.Threading;
 using System.Collections.Concurrent;
 using System.Net;
-
+using System.Net.Http;
+using Molino_POS;
 
 namespace FrontEndWPF
 {
@@ -30,11 +31,10 @@ namespace FrontEndWPF
 		{
 			InitializeComponent();
 			WindowState = WindowState.Maximized;
-			//Uri iconUri = new Uri(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/icono.ico", UriKind.RelativeOrAbsolute);
-			//this.Icon = BitmapFrame.Create(iconUri);
+			Uri iconUri = new Uri(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/icono.ico", UriKind.RelativeOrAbsolute);
+			this.Icon = BitmapFrame.Create(iconUri);
 			Login Pagina2 = new Login();
 			mainFrame.Navigate(Pagina2);
-
 		}
 
 		
@@ -69,6 +69,6 @@ namespace FrontEndWPF
 			Application.Current.Shutdown();
 		}
 
-
+		
 	}
 }

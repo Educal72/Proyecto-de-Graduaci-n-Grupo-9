@@ -24,6 +24,9 @@ using System.Globalization;
 using FrontEndWPF.ViewModel;
 using System.Text.RegularExpressions;
 using FrontEndWPF.Index;
+using Molino_POS;
+using DocumentFormat.OpenXml.Vml;
+
 
 namespace FrontEndWPF
 {
@@ -45,6 +48,7 @@ namespace FrontEndWPF
 
 		private int IdUsuario;
 		private int IdCliente;
+		public decimal Fcambio;
 		int idOrden { get; set; }
 		private string Fservicio;
 		private string Fiva;
@@ -106,6 +110,9 @@ namespace FrontEndWPF
 							case "Servicio":
 								Fservicio = parts[1];
 								break;
+							case "Tipo Cambio":
+								Fcambio = Convert.ToDecimal(parts[1]);
+								break;
 						}
 					}
 				}
@@ -160,6 +167,11 @@ namespace FrontEndWPF
 		{
 			return (value % 5 == 0) ? value : (value + (5 - value % 5));
 		}
+		static decimal RedondearDolar(decimal value)
+		{
+			// Multiply by 10 to shift decimal places, round up to the nearest integer, then divide back
+			return Math.Ceiling(value * 10) / 10;
+		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
@@ -179,7 +191,7 @@ namespace FrontEndWPF
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			pagado.Text = Total.ToString();
+			pagado.Text = total.Text;
 		}
 
 		private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -217,7 +229,7 @@ namespace FrontEndWPF
 
 		private void Button_Click_4(object sender, RoutedEventArgs e)
 		{
-			if (!double.TryParse(pagado.Text, out double result) || Convert.ToDecimal(pagado.Text.ToString()) < Total || !double.TryParse(servicio.Text, out double result2))
+			if (!double.TryParse(pagado.Text, out double result) || Convert.ToDecimal(pagado.Text.ToString()) < Convert.ToDecimal(total.Text) || !double.TryParse(servicio.Text, out double result2))
 			{
 				MessageBox.Show("Por favor, introduzca una cantidad pagada valida.", "Error de validación", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
@@ -225,7 +237,15 @@ namespace FrontEndWPF
 			{
 
 				var orden = Orden.GetOrdenById(idOrden);
-				int resultadoCrear = Factura.CrearFactura(idOrden, Convert.ToDecimal(pagado.Text), impuestosGenerados, Convert.ToDecimal(servicio.Text), orden.Creacion, DateTime.Now, cajero, IdUsuario, IdCliente, Convert.ToDecimal(descuento.Text), puntosGanados, metodoPago, tipoVenta, Total);
+				string pagadoConvertido = pagado.Text;
+				decimal TotalConvertido = Convert.ToDecimal(total.Text);
+				if (tipoCambio.SelectedIndex == 1) {
+					var conversion = Redondear(Convert.ToDecimal(pagado.Text) * Fcambio);
+					pagadoConvertido = conversion.ToString();
+					var conversionTotal = Convert.ToDecimal(total.Text) * Fcambio;
+					TotalConvertido = Redondear(conversionTotal);
+				}
+				int resultadoCrear = Factura.CrearFactura(idOrden, Convert.ToDecimal(pagadoConvertido), impuestosGenerados, Convert.ToDecimal(servicio.Text), orden.Creacion, DateTime.Now, cajero, IdUsuario, IdCliente, Convert.ToDecimal(descuento.Text), puntosGanados, metodoPago, tipoVenta, TotalConvertido);
 				
                 if (resultadoCrear != 0)
                 {
@@ -237,7 +257,7 @@ namespace FrontEndWPF
 					}
 					
                 }
-                resultadoFacturacion resultado = new resultadoFacturacion(isAsociado, total.Text, pagado.Text, carritoItems, Convert.ToDecimal(pagado.Text), Convert.ToInt32(Fiva), Convert.ToInt32(Fservicio), orden.Creacion, cajero, Convert.ToDecimal(descuento.Text), puntosGanados, metodoPago, tipoVenta, Total, Subtotal, cliente.Text, resultadoCrear, salonero.Text, Convert.ToDecimal(servicio.Text), impuestosGenerados);
+                resultadoFacturacion resultado = new resultadoFacturacion(isAsociado, TotalConvertido.ToString(), pagadoConvertido, carritoItems, Convert.ToDecimal(pagadoConvertido), Convert.ToInt32(Fiva), Convert.ToInt32(Fservicio), orden.Creacion, cajero, Convert.ToDecimal(descuento.Text), puntosGanados, metodoPago, tipoVenta, TotalConvertido, Subtotal, cliente.Text, resultadoCrear, salonero.Text, Convert.ToDecimal(servicio.Text), impuestosGenerados);
 				resultado.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 				resultado.Show();
 
@@ -341,5 +361,19 @@ namespace FrontEndWPF
 			barcodeWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 			barcodeWindow.ShowDialog(); // Abre la ventana emergente y espera su cierre
 		}
-    }
+
+		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (tipoCambio.SelectedIndex == 0) {
+				totalLabel.Content = "Total: ₡";
+				decimal decimalTotal = Total;
+				total.Text = Redondear(Math.Round(decimalTotal, 2)).ToString();
+			}
+			else if (tipoCambio.SelectedIndex == 1){
+				totalLabel.Content = "Total: $";
+				decimal decimalTotal = Total / Fcambio;
+				total.Text = RedondearDolar(decimalTotal).ToString();
+			}
+		}
+	}
 }

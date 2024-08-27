@@ -14,36 +14,34 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <!-- Adding DropShadowEffect -->
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10"
+                                          ShadowDepth="5"
+                                          Color="Black"
+                                          Opacity="0.5"/>
+                            </Border.Effect>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
+                            <!-- Trigger to slightly darken the button on mouse-over -->
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
+                                <!-- Apply a semi-transparent black overlay to darken the colors -->
+                                <Setter TargetName="border" Property="Background">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{Binding Background.Color, RelativeSource={RelativeSource TemplatedParent}}" Opacity="0.8"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="border" Property="BorderBrush">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{Binding BorderBrush.Color, RelativeSource={RelativeSource TemplatedParent}}" Opacity="0.8"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
-        <Style x:Key="CustomButtonStyle" TargetType="Button">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="DarkBlue"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="200"/>
         </Style>
         <Style x:Key="ProductButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Margin" Value="5"/>
@@ -61,6 +59,12 @@
                         BorderBrush="{TemplateBinding BorderBrush}" 
                         BorderThickness="0"
                         CornerRadius="10">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10"
+              ShadowDepth="5"
+              Color="Black"
+              Opacity="0.5"/>
+                            </Border.Effect>
                             <TextBlock Text="{TemplateBinding Content}" 
                                TextWrapping="Wrap"
                                TextTrimming="CharacterEllipsis"
@@ -187,17 +191,23 @@
                 <RowDefinition Height="*"/>
 
             </Grid.RowDefinitions>
-            <Button Content="+" FontSize="72" FontFamily="Roboto Medium" Click="Button_Click_1" Foreground="Black" Grid.Row="0" Width="143" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
-            <Button FontSize="72" Content="-" FontFamily="Roboto Medium" Click="Button_Click_2" Grid.Row="1" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
-            <Button Content="✖" FontFamily="Roboto Medium" FontSize="36" Foreground="Black" Click="Button_Click_3" Grid.Row="2" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
-            <Button Grid.Row="3" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10" Click="Button_Click_4">
-                <TextBlock TextAlignment="Center" FontFamily="Roboto Medium" FontSize="20">
+            <Button Content="+" FontSize="72" FontFamily="Roboto Medium" Click="Button_Click_1" Foreground="Black" Grid.Row="0" Width="Auto" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
+            <Button FontSize="72" Content="-" FontFamily="Roboto Medium" Click="Button_Click_2" Grid.Row="1" Width="Auto" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
+            <Button Content="✖" FontFamily="Roboto Medium" FontSize="36" Foreground="Black" Click="Button_Click_3" Height="Auto" Grid.Row="2" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
+            <Button Grid.Row="3" Width="Auto" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10" Click="Button_Click_4">
+                <TextBlock TextAlignment="Center" FontFamily="Roboto Medium" FontSize="20" Padding="10,0,10,0">
         <Run Text="Producto"/>
         <LineBreak/>
-        <Run Text="Unico"/>
+        <Run Text="Único"/>
                 </TextBlock>
             </Button>
-            <Button Content="Orden Lista" FontFamily="Roboto Medium" FontSize="24" Background="#FFABD904" Click="Button_Click_5" Grid.Row="4" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
+            <Button FontFamily="Roboto Medium" FontSize="24" Background="#FFABD904" Click="Button_Click_5" Grid.Row="4" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,10">
+                <TextBlock TextAlignment="Center" FontFamily="Roboto Medium" FontSize="20" Padding="10,0,10,0">
+<Run Text="Orden"/>
+<LineBreak/>
+<Run Text="Lista"/>
+                </TextBlock>
+            </Button>
         </Grid>
         <Grid HorizontalAlignment="Left" Margin="0,190,0,0" Height="Auto" VerticalAlignment="Stretch">
             <TextBox x:Name="buscar" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="557" Height="45" FontFamily="Roboto" FontSize="36" PreviewKeyDown="ProductIdTextBox_PreviewKeyDown" Margin="10,10,0,0"/>
@@ -209,59 +219,69 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Grid Height="Auto" VerticalAlignment="Stretch" Background="White" Margin="715,205,10,0">
+        <Grid Height="Auto" Background="White" Margin="690,205,10,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <!-- Fila para los Labels -->
                 <RowDefinition Height="*"/>
-                <!-- Fila para el contenido (ListBox y WrapPanel) -->
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                
                 <ColumnDefinition Width="Auto"/>
-                
             </Grid.ColumnDefinitions>
 
-           
-            <Label Content="Productos" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Width="Auto"/>
 
-            
-            <Label Content="Categorias" VerticalAlignment="Top" Height="55" FontFamily="Roboto Black" FontSize="36" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Width="192"/>
+            <Label Content="Productos" VerticalAlignment="Top" FontFamily="Roboto Black" FontSize="36" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Width="Auto"/>
 
 
-            <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Margin="10,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <Label Content="Categorias" VerticalAlignment="Top" FontFamily="Roboto Black" FontSize="36" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Width="Auto"/>
+
+
+            <ScrollViewer Grid.Row="1" Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Auto" >
                 <ScrollViewer.Resources>
-                        <Style TargetType="ScrollBar" BasedOn="{StaticResource CustomScrollBar}"/>
-                    </ScrollViewer.Resources>
-                    <WrapPanel x:Name="ProductWrapPanel" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                    <Style TargetType="ScrollBar" BasedOn="{StaticResource CustomScrollBar}"/>
+                </ScrollViewer.Resources>
+                <WrapPanel x:Name="ProductWrapPanel" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
             </ScrollViewer>
 
 
-            <ListBox x:Name="CategoryListBox" ScrollViewer.VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="Auto" Height="Auto" Grid.Row="1" Grid.Column="1" >
-                
+            <ListBox x:Name="CategoryListBox" 
+         ScrollViewer.VerticalScrollBarVisibility="Hidden" 
+         VerticalAlignment="Stretch" 
+         HorizontalAlignment="Stretch" 
+         Grid.Row="1" Grid.Column="1">
                 <ListBox.BorderBrush>
                     <SolidColorBrush Color="#FFABADB3" Opacity="0"/>
-                    
                 </ListBox.BorderBrush>
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                        <Setter Property="VerticalContentAlignment" Value="Top"/>
-                        
+                        <!-- Disable hover effects by not including any triggers for IsMouseOver -->
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Padding" Value="0,5,0,5"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="0"/>
                     </Style>
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <ListBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                            <Button Content="{Binding}" Click="CategoryButton_Click" Style="{StaticResource CustomButtonStyle}" Background="#ffc107" FontSize="20" FontWeight="Bold" Foreground="#343a40" FontFamily="Roboto"/>
-                        </ListBoxItem>
+                        <Button Content="{Binding}" 
+                    Click="CategoryButton_Click"
+                    Height="150"
+                    Width="165"
+                    Background="#ffc107" 
+                    FontSize="20" 
+                    FontWeight="Bold" 
+                    Foreground="#343a40" 
+                    FontFamily="Roboto" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+
         </Grid>
         <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Fichaje" Background="#FFABD904" Click="Fichaje_Click" VerticalAlignment="Top" Margin="0,103,220,0" HorizontalAlignment="Right" Width="100"/>
         <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Gabinete" Background="#FFABD904" Click="Gabinete_Click" VerticalAlignment="Top" Margin="0,103,325,0" HorizontalAlignment="Right" Width="100"/>
         <Button Height="66" FontSize="24" FontFamily="Roboto Medium" Foreground="Black" Content="Cierre" Background="#FFABD904" Click="Cierre_Click" VerticalAlignment="Top" Margin="0,103,430,0" HorizontalAlignment="Right" Width="100"/>
+        <Viewbox></Viewbox>
     </Grid>
 </UserControl>
