@@ -56,14 +56,11 @@ namespace FrontEndWPF.Reporteria
                 case "Gestión de Ordenes":
 					ContentArea.Content = new GestionDeOrdenes();
                     break;
-                case "Flujos Financieros":
-					ContentArea.Content = new FlujosFinancieros();
+                case "Cierres de Caja":
+					ContentArea.Content = new VisualizarCierres();
                     break;
                 case "Préstamos":
 					ContentArea.Content = new VisualizarPrestamos();
-                    break;
-                case "Financiamientos":
-					ContentArea.Content = new VisualizarFinanciamientos();
                     break;
                 case "Inversiones":
 					ContentArea.Content = new VisualizarInversiones();

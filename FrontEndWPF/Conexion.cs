@@ -463,8 +463,8 @@ namespace FrontEndWPF
 				if (connection != null)
 				{
 					string query = "SELECT IdUsuario, FechaIngreso, FechaInicioSesion, UltimaDesconexion " +
-								   "FROM InicioSesion " +
-								   "WHERE FechaInicioSesion = @FechaInicioSesion";
+			   "FROM InicioSesion " +
+			   "WHERE CAST(FechaInicioSesion AS DATE) = @FechaInicioSesion";
 
 					using (SqlCommand command = new SqlCommand(query, connection))
 					{

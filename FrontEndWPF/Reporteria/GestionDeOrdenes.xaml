@@ -65,35 +65,10 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <DataGrid HorizontalScrollBarVisibility="Hidden" ColumnWidth="*" x:Name="dataGrid1" AutoGenerateColumns="False" Margin="0,83,0,0" ItemsSource="{Binding Ordenes}" SelectionChanged="dataGrid1_SelectionChanged">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="# de Orden" Binding="{Binding NumeroOrden}"/>
-                <DataGridTextColumn Header="Productos Incluidos" Binding="{Binding ProductosIncluidos}"/>
-                <DataGridTextColumn Header="Fecha de Orden" Binding="{Binding FechaOrden}"/>
-                <DataGridTextColumn Header="Monto" Binding="{Binding Monto}"/>
-                <DataGridTextColumn Header="Estado" Binding="{Binding Estado}"/>
-                <DataGridTextColumn Header="Nombre del Cajero" Binding="{Binding NombreCajero}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Popup x:Name="informePopup" Placement="Center" IsOpen="False">
-            <Border BorderBrush="Gray" BorderThickness="1" Background="White" CornerRadius="5">
-                <StackPanel Margin="20">
-                    <TextBlock Text="Seleccionar Fecha:" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                    <DatePicker x:Name="fechaInformeDatePicker" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
-                    <Button Content="Generar Informe" Click="GenerarInforme_Click" HorizontalAlignment="Center"/>
-                    <Button Content="Cerrar" Click="CerrarInformePopup_Click" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                </StackPanel>
-            </Border>
-        </Popup>
-        <Label Content="Informes &quot;Gestión de Ordenes&quot;" VerticalAlignment="Top" Foreground="#FFF3F3F3" Height="36" Background="#FF18A20C" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-            <Label.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black"/>
-                    <GradientStop Color="#FFA28888" Offset="1"/>
-                </LinearGradientBrush>
-            </Label.BorderBrush>
-        </Label>
-        <TextBox HorizontalAlignment="Left" Margin="10,56,0,0" TextWrapping="Wrap" Text="Buscar..." VerticalAlignment="Top" Width="216" Height="16" RenderTransformOrigin="0.5,0.5">
+        <DataGrid Margin="0,40,0,0" x:Name="ordenesdataGrid"/>
+
+        
+        <TextBox HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Buscar..." VerticalAlignment="Top" Width="216" Height="16" RenderTransformOrigin="0.5,0.5">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -103,6 +78,6 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <Button Content="Generar Informe" Click="GenerarInforme_Click" HorizontalAlignment="Left" Margin="231,54,0,0" VerticalAlignment="Top" Height="18" Width="98"/>
+        <Button Content="Generar Informe" Click="GenerarInforme_Click" HorizontalAlignment="Left" Margin="237,8,0,0" VerticalAlignment="Top" Height="18" Width="98"/>
     </Grid>
 </UserControl>
