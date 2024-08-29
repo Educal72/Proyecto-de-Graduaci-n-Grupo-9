@@ -1,14 +1,12 @@
-﻿<!-- InicioDeSesion.xaml -->
-<UserControl x:Class="FrontEndWPF.Reporteria.InicioDeSesion"
+﻿<UserControl x:Class="FrontEndWPF.Reporteria.VisualizarCierres"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:FrontEndWPF.ViewModel"
+      xmlns:local="clr-namespace:FrontEndWPF.Reporteria"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
+      >
     <UserControl.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -18,9 +16,9 @@
                             <!-- Adding DropShadowEffect -->
                             <Border.Effect>
                                 <DropShadowEffect BlurRadius="10"
-           ShadowDepth="5"
-           Color="Black"
-           Opacity="0.5"/>
+   ShadowDepth="5"
+   Color="Black"
+   Opacity="0.5"/>
                             </Border.Effect>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
@@ -83,47 +81,33 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <DataGrid HorizontalScrollBarVisibility="Hidden" x:Name="dataGrid" ColumnWidth="*" AutoGenerateColumns="False" Margin="0,40,0,0" ItemsSource="{Binding InicioSesiones}">
+
+    <Grid>
+
+        <DataGrid HorizontalScrollBarVisibility="Hidden"
+                  x:Name="cierresDataGrid" 
+                  AutoGenerateColumns="False" 
+                  Margin="0,40,0,0" ColumnWidth="*">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID Usuario" Binding="{Binding Nombre}"/>
-                <DataGridTextColumn Header="Fecha de Ingreso" Binding="{Binding FechaIngreso}"/>
-                <DataGridTextColumn Header="Fecha de Inicio de Sesión" Binding="{Binding FechaInicioSesion}"/>
-                <DataGridTextColumn Header="Última Fecha de Desconexión" Binding="{Binding UltimaDesconexion}"/>
+                <DataGridTextColumn Header="Usuario" Binding="{Binding NombreUsuario}"/>
+                <DataGridTextColumn Header="Apertura" Binding="{Binding FechaApertura}"/>
+                <DataGridTextColumn Header="Cierre" Binding="{Binding CierreFecha}"/>
+                <DataGridTextColumn Header="Fondos Apertura"  Binding="{Binding FondosApertura}"/>
+                <DataGridTextColumn Header="Fondos Cierre" Binding="{Binding FondosCierre}"/>
+                <DataGridTextColumn Header="Efectivo" Binding="{Binding PagadoEfectivo}"/>
+                <DataGridTextColumn Header="Tarjeta" Binding="{Binding PagadoTarjeta}"/>
+                <DataGridTextColumn Header="Egresos" Binding="{Binding Egresos}"/>
+                <DataGridTextColumn Header="Ingresos" Binding="{Binding Ingresos}"/>
+                <DataGridTextColumn Header="Anulado" Binding="{Binding Anulado}"/>
+                <DataGridTextColumn Header="Total Final" Binding="{Binding TotalFinal}"/>
             </DataGrid.Columns>
         </DataGrid>
-
-        <!-- Botón "Generar Informe" -->
-        <!-- Modal para generar informe -->
-        <Popup x:Name="informePopup" Placement="Center" IsOpen="False">
-            <Border BorderBrush="Gray" BorderThickness="1" Background="White" CornerRadius="5">
-                <StackPanel Margin="20">
-                    <TextBlock Text="Seleccionar Fecha:" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                    <DatePicker x:Name="fechaInformeDatePicker" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
-                    <Button Content="Generar Informe" Click="GenerarInforme_Click" HorizontalAlignment="Center"/>
-                    <Button Content="Cerrar" Click="CerrarInformePopup_Click" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                </StackPanel>
-            </Border>
-        </Popup>
-
-        <!-- Modal para mostrar los detalles del registro seleccionado -->
-        <Popup x:Name="modalPopup" Placement="Center" IsOpen="False">
-            <Border BorderBrush="Gray" BorderThickness="1" Background="White" CornerRadius="5">
-                <StackPanel Margin="20">
-                    <!-- Aquí se mostrarán los detalles del registro seleccionado -->
-                    <!-- Por ejemplo, TextBoxes para los campos -->
-                    <TextBox x:Name="txtIdUsuario" Text="{Binding SelectedItem.IdUsuario, ElementName=dataGrid}"/>
-                    <TextBox x:Name="txtFechaIngreso" Text="{Binding SelectedItem.FechaIngreso, ElementName=dataGrid}"/>
-                    <TextBox x:Name="txtFechaInicioSesion" Text="{Binding SelectedItem.FechaInicioSesion, ElementName=dataGrid}"/>
-                    <TextBox x:Name="txtUltimaDesconexion" Text="{Binding SelectedItem.UltimaDesconexion, ElementName=dataGrid}"/>
-                    <!-- Botón para actualizar -->
-                    <Button Content="Actualizar" Click="Actualizar_Click"/>
-                </StackPanel>
-            </Border>
-        </Popup>
-        <Button Content="Generar Informe" Click="GenerarInforme_Click" Margin="0,10,10,0" VerticalAlignment="Top" Height="25" Foreground="#fafafa" Background="#28a745" FontFamily="Roboto" FontSize="18" RenderTransformOrigin="0.242,0.56" HorizontalAlignment="Right" Width="160"/>
-        <Button Content="Buscar" Click="ActualizarInforme_Click" HorizontalAlignment="Left" Margin="165,10,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="18" Height="25" Width="100" Foreground="#fafafa" Background="#007bff"/>
-        <DatePicker x:Name="fechaInforme" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="25" Width="150"/>
-
+        <Button Margin="0,10,10,0" Content="Imprimir" 
+                VerticalAlignment="Top" Height="25" RenderTransformOrigin="0.5,0.5" 
+                Foreground="#fafafa" Background="#28a745" Click="Generar_Informe_Click" FontFamily="Roboto" FontSize="18" HorizontalAlignment="Right" Width="120"/>
+        <DatePicker x:Name="from" HorizontalAlignment="Left" Margin="9,10,0,0" VerticalAlignment="Top" Width="150" Height="25"/>
+        <DatePicker x:Name="where" HorizontalAlignment="Left" Margin="164,10,0,0" VerticalAlignment="Top" Width="150" Height="25"/>
+        <Button Content="Buscar" HorizontalAlignment="Left" Margin="319,10,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="18" Height="25" Width="100" Foreground="#fafafa" Background="#007bff" Click="Button_Click_1"/>
+        <Button Content="Mostrar Todos" HorizontalAlignment="Left" Margin="424,10,0,0" VerticalAlignment="Top" FontFamily="Roboto" FontSize="18" Height="25" Width="140" Foreground="#fafafa" Background="#17a2b8" Click="Button_Click"/>
     </Grid>
 </UserControl>

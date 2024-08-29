@@ -56,7 +56,7 @@ namespace FrontEndWPF.ViewModel
         {
             _inicioSesiones = new ObservableCollection<InicioSesion>();
             _registros = new ObservableCollection<InicioSesion>();
-            LoadInicioSesiones();
+            
         }
 
         private void LoadInicioSesiones()
@@ -101,10 +101,10 @@ namespace FrontEndWPF.ViewModel
             }
         }
 
-		public void GenerarPDF()
+		public void GenerarPDF(List<InicioSesion> inicioSesions)
 		{
 			// Ruta base para guardar el archivo PDF
-			string rutaBase = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+			string rutaBase = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 			string nombreArchivoBase = "InformeInicioSesion";
 			string extensionArchivo = ".pdf";
 
@@ -143,7 +143,7 @@ namespace FrontEndWPF.ViewModel
 					.Add(new Paragraph("Empresa: El Molino").SetFont(normalFont).SetFontSize(12))
 					.Add(new Paragraph($"Fecha de Impresión: {DateTime.Now:yyyy-MM-dd}").SetFont(normalFont).SetFontSize(12))
 					.Add(new Paragraph($"Hora de Impresión: {DateTime.Now:hh:mm:ss tt}").SetFont(normalFont).SetFontSize(12))
-					.Add(new Paragraph($"Total de Registros: {_inicioSesiones.Count}").SetFont(normalFont).SetFontSize(12))
+					.Add(new Paragraph($"Total de Registros: {inicioSesions.Count}").SetFont(normalFont).SetFontSize(12))
 					.Add(new Paragraph("\n")); // Espacio
 				textCell.SetBorder(Border.NO_BORDER);
 				textCell.SetPadding(0);
@@ -168,7 +168,7 @@ namespace FrontEndWPF.ViewModel
 				table.AddHeaderCell(new Cell().Add(new Paragraph("Última Fecha de Desconexión").SetFont(boldFont)));
 
 				// Datos de la tabla
-				foreach (var sesion in _inicioSesiones)
+				foreach (var sesion in inicioSesions)
 				{
 					table.AddCell(new Cell().Add(new Paragraph(sesion.Nombre.ToString()).SetFont(normalFont)));
 					table.AddCell(new Cell().Add(new Paragraph(sesion.FechaIngreso.ToString("yyyy-MM-dd")).SetFont(normalFont)));

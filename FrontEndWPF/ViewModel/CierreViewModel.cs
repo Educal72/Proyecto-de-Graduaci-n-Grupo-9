@@ -237,7 +237,7 @@ namespace FrontEndWPF.ViewModel
 					{
 						Id = Id,
 						IdUsuario = IdUsuario,
-						NombreUsuario = GetUserById(),
+						NombreUsuario = GetUserById(IdUsuario),
 						FechaApertura = FechaApertura,
 						CierreFecha = DateTime.Now,
 						FondosApertura = FondosApertura,
@@ -397,9 +397,9 @@ namespace FrontEndWPF.ViewModel
 				}
 		}
 
-		private string GetUserById()
+		public string GetUserById(int id)
 		{
-			string displayText = SesionUsuario.Instance.id.ToString();
+			string displayText = id.ToString();
 			string query = @"
             SELECT 
                 Nombre, 
@@ -413,7 +413,7 @@ WHERE Id = @Id"
 			{
 					SqlCommand command = new SqlCommand(query, connection);
 
-				command.Parameters.AddWithValue("@Id", SesionUsuario.Instance.id);
+				command.Parameters.AddWithValue("@Id", id);
 				SqlDataReader reader = command.ExecuteReader();
 					while (reader.Read())
 					{
