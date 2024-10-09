@@ -1,4 +1,4 @@
-Server: localhost
+Server: EXTREME-PC\SQLEXPRESS
 Puerto: 80
 Nombre: ProyectoBD_Molino
 Usuario: Admin

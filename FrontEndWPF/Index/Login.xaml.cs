@@ -69,8 +69,6 @@ namespace FrontEndWPF
 				}
 				else
 				{
-					sesionUsuario.InsertarRoles();
-					sesionUsuario.CrearUsuarioGenerico();
 					Opcion1.Content = "Crear Usuario Admin";
 				}
 			}
@@ -175,7 +173,8 @@ namespace FrontEndWPF
 					string Telefono = nuevoEmpleado.telefono_añadirEmpleado;
 					string Direccion = nuevoEmpleado.direccion_añadirEmpleado;
 					string Rol = nuevoEmpleado.rol_añadirEmpleado;
-
+					sesionUsuario.InsertarRoles();
+					sesionUsuario.CrearUsuarioGenerico();
 					conexion.AddUser(Nombre, Apellidos, Cedula, Telefono,
 						Correo, Contraseña, Rol, Fecha, Puesto, Salario, Direccion);
 
