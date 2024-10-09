@@ -32,12 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Microsoft.PointOfService">
-      <HintPath>C:\Program Files (x86)\Microsoft Point Of Service\SDK\Microsoft.PointOfService.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="323715758_861857158399502_6847062045596271805_n-removebg-preview.png" />
     <Resource Include="Reporteria\reportes.jpg" />
   </ItemGroup>
